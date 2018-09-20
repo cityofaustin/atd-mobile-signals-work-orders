@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import Script from "react-load-script";
 
-import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
@@ -15,7 +14,7 @@ class App extends Component {
     window.app_id = "5b633d68c04cc40730078ac3";
     window.distribution_key = "dist_2";
 
-    // config variables for date request
+    // config variables for data request
     this.sceneKey = "scene_709";
     this.viewKey = "view_1877";
 

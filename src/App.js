@@ -8,22 +8,55 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
-    window.app_id = "5b633d68c04cc40730078ac3";
-    let app_id = "5b633d68c04cc40730078ac3";
-    let distribution_key = "dist_2";
 
-    console.log(app_id);
+    // These are config variables that knack.js expects to find on the global
+    // window element
+    let app_id, distribution_key;
+    window.app_id = "5b633d68c04cc40730078ac3";
+    window.distribution_key = "dist_2";
+
+    // config variables for date request
+    this.sceneKey = "scene_709";
+    this.viewKey = "view_1877";
+
+    this.state = {
+      scriptLoaded: null,
+      scriptError: null,
+      knackUserToken: null,
+      knackData: {},
+      knackDataLoaded: null
+    };
   }
-  componentDidMount() {
-    axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
-      const persons = res.data;
-      console.log(persons);
-    });
+
+  requestKnackViewData(sceneKey, viewKey) {
+    axios
+      .get(
+        `https://api.knack.com/v1/pages/${sceneKey}/views/${viewKey}/records`,
+        {
+          headers: {
+            "X-Knack-Application-Id": "5b633d68c04cc40730078ac3",
+            "X-Knack-REST-API-KEY": "knack",
+            Authorization: this.state.knackUserToken,
+            "content-type": "application/json"
+          }
+        }
+      )
+      .then(res => {
+        console.log(res);
+        this.setState({
+          // Throw the knack records into the React App state
+          knackDataLoaded: true,
+          knackData: res.data.records,
+          // We might as well keep track of pagination values
+          knackCurrentPage: res.data.current_page,
+          knackTotalPages: res.data.total_pages,
+          knackTotalRecords: res.data.total_records
+        });
+      });
   }
 
   handleScriptCreate() {
     this.setState({ scriptLoaded: false });
-    console.log("handleScriptCreate");
   }
 
   handleScriptError() {
@@ -34,33 +67,46 @@ class App extends Component {
     this.setState({ scriptLoaded: true });
 
     let KnackApp = window.Knack;
-    console.log("Knack", KnackApp);
 
-    let userToken = KnackApp.getUserToken();
-    debugger;
-    console.log("User Token", userToken);
+    // TODO: This has to be delayed bc we have to wait for the Knack JS app to
+    // initialize in the browser, make a new request, and then finish. It appears
+    // this happens with websocket so maybe we can watch for a process to finish?
     setTimeout(() => {
-      console.log("User Token", KnackApp.getUserToken());
-    }, 5000);
+      this.setState({ knackUserToken: KnackApp.getUserToken() });
+      this.requestKnackViewData(this.sceneKey, this.viewKey);
+    }, 2000);
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Welcome to React-Knack</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
         <Script
-          url="https://loader.knack.com/5b633d68c04cc40730078ac3/dist_2/knack.js"
+          url={`https://loader.knack.com/${window.app_id}/dist_2/knack.js`}
           onCreate={this.handleScriptCreate.bind(this)}
           onError={this.handleScriptError.bind(this)}
           onLoad={this.handleScriptLoad.bind(this)}
         />
-        <div id="knack-dist_2">Loading...</div>
+        {!this.state.scriptLoaded && <h2>'Loading Knack.js...'</h2>}
+        {this.state.scriptLoaded &&
+          !this.state.knackDataLoaded && (
+            <small style={{ color: "green", display: "block" }}>
+              ✅ Base App Loaded. <br />
+              {this.state.knackUserToken && (
+                <span>👤 User Token Active. Requesting Data...</span>
+              )}
+              <br />
+            </small>
+          )}
+
+        {this.state.knackDataLoaded && (
+          <div>
+            <h3>Data 🎉</h3>
+            <code>{JSON.stringify(this.state.knackData)}</code>
+          </div>
+        )}
       </div>
     );
   }

@@ -1,8 +1,10 @@
 # React Knack
 
-This repo is a proof-of-concept (POC) to demonstrate creating a mobile-first, reactive UI using React.js. The app will connect with Knack via their REST API.
+This repo is a proof-of-concept (POC) to demonstrate creating a mobile-first, reactive UI using React.js. The app will connect with Knack via their [REST API](https://www.knack.com/developer-documentation/#using-the-api).
 
 Initial notes on the project can be found [here](https://gist.github.com/mateoclarke/8a16b1a212d390c00b01b7fdc33c2b94).
+
+Documentation on the current Knack frontend for Markings Work Orders: https://github.com/cityofaustin/data-tracker-guides/blob/master/signs_markings/work_order_management.md#managing-work-orders
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

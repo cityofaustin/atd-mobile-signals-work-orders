@@ -67,9 +67,13 @@ class App extends Component {
 
     let KnackApp = window.Knack;
 
-    // TODO: This has to be delayed bc we have to wait for the Knack JS app to
+    // **TODO**
+    // This request has to be delayed bc we have to wait for the Knack JS app to
     // initialize in the browser, make a new request, and then finish. It appears
     // this happens with websocket so maybe we can watch for a process to finish?
+    //
+    // This library might work better than react-load-script:
+    // https://github.com/leozdgao/react-async-script-loader#readme
     setTimeout(() => {
       this.setState({ knackUserToken: KnackApp.getUserToken() });
       this.requestKnackViewData(this.sceneKey, this.viewKey);

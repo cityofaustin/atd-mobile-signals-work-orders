@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Script from "react-load-script";
+import { Router, Redirect } from "@reach/router";
+
+import Login from "./Login";
+import Data from "./Data";
 
 import "./App.css";
 
@@ -19,15 +22,18 @@ class App extends Component {
     this.viewKey = "view_1877";
 
     this.state = {
-      scriptLoaded: null,
-      scriptError: null,
       knackUserToken: null,
       knackData: {},
       knackDataLoaded: null
     };
   }
 
-  requestKnackViewData(sceneKey, viewKey) {
+  setKnackUserToken = token => {
+    this.setState({ knackUserToken: token });
+  };
+
+  requestKnackViewData = (sceneKey, viewKey) => {
+    debugger;
     axios
       .get(
         `https://api.knack.com/v1/pages/${sceneKey}/views/${viewKey}/records`,
@@ -52,33 +58,7 @@ class App extends Component {
           knackTotalRecords: res.data.total_records
         });
       });
-  }
-
-  handleScriptCreate() {
-    this.setState({ scriptLoaded: false });
-  }
-
-  handleScriptError() {
-    this.setState({ scriptError: true });
-  }
-
-  handleScriptLoad() {
-    this.setState({ scriptLoaded: true });
-
-    let KnackApp = window.Knack;
-
-    // **TODO**
-    // This request has to be delayed bc we have to wait for the Knack JS app to
-    // initialize in the browser, make a new request, and then finish. It appears
-    // this happens with websocket so maybe we can watch for a process to finish?
-    //
-    // This library might work better than react-load-script:
-    // https://github.com/leozdgao/react-async-script-loader#readme
-    setTimeout(() => {
-      this.setState({ knackUserToken: KnackApp.getUserToken() });
-      this.requestKnackViewData(this.sceneKey, this.viewKey);
-    }, 2000);
-  }
+  };
 
   render() {
     return (
@@ -86,30 +66,20 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Welcome to React-Knack</h1>
         </header>
-        <Script
-          url={`https://loader.knack.com/${window.app_id}/dist_2/knack.js`}
-          onCreate={this.handleScriptCreate.bind(this)}
-          onError={this.handleScriptError.bind(this)}
-          onLoad={this.handleScriptLoad.bind(this)}
-        />
-        {!this.state.scriptLoaded && <h2>'Loading Knack.js...'</h2>}
-        {this.state.scriptLoaded &&
-          !this.state.knackDataLoaded && (
-            <small style={{ color: "green", display: "block" }}>
-              ✅ Base App Loaded. <br />
-              {this.state.knackUserToken && (
-                <span>👤 User Token Active. Requesting Data...</span>
-              )}
-              <br />
-            </small>
-          )}
 
-        {this.state.knackDataLoaded && (
-          <div>
-            <h3>Data 🎉</h3>
-            <code>{JSON.stringify(this.state.knackData)}</code>
-          </div>
-        )}
+        <Router>
+          <Login path="/login" />
+          <Data
+            path="/data"
+            requestKnackViewData={this.requestKnackViewData.bind(this)}
+            setKnackUserToken={this.setKnackUserToken}
+            knackUserToken={this.state.knackUserToken}
+            knackData={this.state.knackData}
+            knackDataLoaded={this.state.knackDataLoaded}
+            sceneKey={this.sceneKey}
+            viewKey={this.viewKey}
+          />
+        </Router>
       </div>
     );
   }

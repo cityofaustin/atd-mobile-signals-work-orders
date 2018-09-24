@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Router, Redirect } from "@reach/router";
+import { Router, Redirect, navigate } from "@reach/router";
 
 import Login from "./Login";
+import Home from "./Home";
 import Data from "./Data";
 
 import "./App.css";
@@ -22,6 +23,7 @@ class App extends Component {
     this.viewKey = "view_1877";
 
     this.state = {
+      appId: window.app_id,
       knackUserToken: null,
       knackData: {},
       knackDataLoaded: null
@@ -32,8 +34,7 @@ class App extends Component {
     this.setState({ knackUserToken: token });
   };
 
-  requestKnackViewData = (sceneKey, viewKey) => {
-    debugger;
+  requestKnackViewData = async (sceneKey, viewKey) => {
     axios
       .get(
         `https://api.knack.com/v1/pages/${sceneKey}/views/${viewKey}/records`,
@@ -61,6 +62,9 @@ class App extends Component {
   };
 
   render() {
+    // If we're not authenticated, go back to the login page
+    !this.state.knackUserToken && navigate("/login");
+
     return (
       <div className="App">
         <header className="App-header">
@@ -68,7 +72,13 @@ class App extends Component {
         </header>
 
         <Router>
-          <Login path="/login" />
+          <Login
+            path="/login"
+            setKnackUserToken={this.setKnackUserToken}
+            knackUserToken={this.state.knackUserToken}
+            appId={this.state.appId}
+          />
+          <Home path="/" knackUserToken={this.state.knackUserToken} />
           <Data
             path="/data"
             requestKnackViewData={this.requestKnackViewData.bind(this)}

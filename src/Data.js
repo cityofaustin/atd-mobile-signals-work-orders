@@ -28,7 +28,7 @@ class Data extends Component {
           <span>👤 User Token Active. Requesting Data...</span>
         )}
 
-        {hasDataBeenRequested && requestKnackViewData(sceneKey, viewKey)}
+        {hasDataBeenRequested && requestKnackViewData("scene_709", "view_1877")}
 
         {knackDataLoaded && (
           <div>

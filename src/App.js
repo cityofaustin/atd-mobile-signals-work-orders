@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Router, Redirect, navigate } from "@reach/router";
+import { Router, navigate } from "@reach/router";
 
 import Login from "./Login";
 import Home from "./Home";
@@ -18,10 +18,6 @@ class App extends Component {
     window.app_id = "5b633d68c04cc40730078ac3";
     window.distribution_key = "dist_2";
 
-    // config variables for data request
-    this.sceneKey = "scene_709";
-    this.viewKey = "view_1877";
-
     this.state = {
       appId: window.app_id,
       knackUserToken: null,
@@ -34,7 +30,7 @@ class App extends Component {
     this.setState({ knackUserToken: token });
   };
 
-  requestKnackViewData = async (sceneKey, viewKey) => {
+  requestKnackViewData = (sceneKey, viewKey) => {
     axios
       .get(
         `https://api.knack.com/v1/pages/${sceneKey}/views/${viewKey}/records`,
@@ -67,10 +63,6 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React-Knack</h1>
-        </header>
-
         <Router>
           <Login
             path="/login"
@@ -78,10 +70,14 @@ class App extends Component {
             knackUserToken={this.state.knackUserToken}
             appId={this.state.appId}
           />
-          <Home path="/" knackUserToken={this.state.knackUserToken} />
+          <Home
+            path="/"
+            knackData={this.state.knackData}
+            requestKnackViewData={this.requestKnackViewData}
+          />
           <Data
             path="/data"
-            requestKnackViewData={this.requestKnackViewData.bind(this)}
+            requestKnackViewData={this.requestKnackViewData}
             setKnackUserToken={this.setKnackUserToken}
             knackUserToken={this.state.knackUserToken}
             knackData={this.state.knackData}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Router, navigate } from "@reach/router";
+import Cookies from "js-cookie";
 
 import Login from "./Login";
 import Home from "./Home";
@@ -20,7 +21,7 @@ class App extends Component {
 
     this.state = {
       appId: window.app_id,
-      knackUserToken: null,
+      knackUserToken: Cookies.get("knackUserToken"),
       knackData: {},
       knackDataLoaded: null
     };
@@ -28,6 +29,9 @@ class App extends Component {
 
   setKnackUserToken = token => {
     this.setState({ knackUserToken: token });
+    // set a cookie to expire in 48 hrs according to Knack documentation:
+    // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
+    Cookies.set("knackUserToken", token, { expires: 2 });
   };
 
   requestKnackViewData = (sceneKey, viewKey) => {

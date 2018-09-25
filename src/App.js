@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 
-// Add bootstrap v4 for styling, layouts, CSS utilites
+// Add bootstrap v4 for styling, layouts, CSS utilites, etc
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./Login";

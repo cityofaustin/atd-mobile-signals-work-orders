@@ -3,11 +3,21 @@ import axios from "axios";
 import { Router, navigate } from "@reach/router";
 import Cookies from "js-cookie";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
+
+// Add bootstrap v4 for styling, layouts, CSS utilites
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 import Login from "./Login";
 import Home from "./Home";
 import Data from "./Data";
 
 import "./App.css";
+
+// Load Font Awesome v5 SVG / JS version
+// https://github.com/FortAwesome/react-fontawesome
+library.add(faStroopwafel);
 
 class App extends Component {
   constructor(props) {
@@ -66,7 +76,7 @@ class App extends Component {
     !this.state.knackUserToken && navigate("/login");
 
     return (
-      <div className="App">
+      <div className="container">
         <Router>
           <Login
             path="/login"

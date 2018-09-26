@@ -1,12 +1,24 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Router, Redirect, navigate } from "@reach/router";
+import { Router, navigate } from "@reach/router";
+import Cookies from "js-cookie";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
+
+// Add bootstrap v4 for styling, layouts, CSS utilites, etc
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./Login";
 import Home from "./Home";
 import Data from "./Data";
+import MarkingsDetail from "./MarkingsDetail";
 
 import "./App.css";
+
+// Load Font Awesome v5 SVG / JS version
+// https://github.com/FortAwesome/react-fontawesome
+library.add(faStroopwafel);
 
 class App extends Component {
   constructor(props) {
@@ -18,13 +30,9 @@ class App extends Component {
     window.app_id = "5b633d68c04cc40730078ac3";
     window.distribution_key = "dist_2";
 
-    // config variables for data request
-    this.sceneKey = "scene_709";
-    this.viewKey = "view_1877";
-
     this.state = {
       appId: window.app_id,
-      knackUserToken: null,
+      knackUserToken: Cookies.get("knackUserToken"),
       knackData: {},
       knackDataLoaded: null
     };
@@ -32,9 +40,12 @@ class App extends Component {
 
   setKnackUserToken = token => {
     this.setState({ knackUserToken: token });
+    // set a cookie to expire in 48 hrs according to Knack documentation:
+    // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
+    Cookies.set("knackUserToken", token, { expires: 2 });
   };
 
-  requestKnackViewData = async (sceneKey, viewKey) => {
+  requestKnackViewData = (sceneKey, viewKey) => {
     axios
       .get(
         `https://api.knack.com/v1/pages/${sceneKey}/views/${viewKey}/records`,
@@ -66,11 +77,7 @@ class App extends Component {
     !this.state.knackUserToken && navigate("/login");
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React-Knack</h1>
-        </header>
-
+      <div className="container">
         <Router>
           <Login
             path="/login"
@@ -78,10 +85,20 @@ class App extends Component {
             knackUserToken={this.state.knackUserToken}
             appId={this.state.appId}
           />
-          <Home path="/" knackUserToken={this.state.knackUserToken} />
+          <Home
+            path="/"
+            knackData={this.state.knackData}
+            requestKnackViewData={this.requestKnackViewData}
+          />
+          <MarkingsDetail
+            path="/markings/:markingId"
+            knackData={this.state.knackData}
+            requestKnackViewData={this.requestKnackViewData}
+            knackUserToken={this.state.knackUserToken}
+          />
           <Data
             path="/data"
-            requestKnackViewData={this.requestKnackViewData.bind(this)}
+            requestKnackViewData={this.requestKnackViewData}
             setKnackUserToken={this.setKnackUserToken}
             knackUserToken={this.state.knackUserToken}
             knackData={this.state.knackData}

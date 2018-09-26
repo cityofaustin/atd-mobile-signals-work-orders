@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 
-class MarkingsDetail extends Component {
+class JobDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      markingDetailData: []
+      requesterDetails: []
     };
   }
   componentDidMount() {
     axios
       .get(
-        // TODO: figure out which of these calls I need and consolidate
-        `https://us-api.knack.com/v1/scenes/scene_713/views/view_1885/records/${
-          this.props.markingId
-        }`,
+        `https://us-api.knack.com/v1/scenes/scene_713/views/view_1885/records`,
         {
           headers: {
             "X-Knack-Application-Id": "5b633d68c04cc40730078ac3",
@@ -26,18 +25,19 @@ class MarkingsDetail extends Component {
       )
       .then(res => {
         console.log(res);
-        this.setState({ markingDetailData: res.data });
+        this.setState({ requesterDetails: res.data.records });
       });
   }
-
   render() {
     return (
       <div>
-        <h1>{this.state.markingDetailData.field_2287}</h1>
-        <code>{JSON.stringify(this.state.markingDetailData)}</code>
+        <h1>
+          <FontAwesomeIcon icon={faClipboard} />
+          Job Details
+        </h1>
       </div>
     );
   }
 }
 
-export default MarkingsDetail;
+export default JobDetail;

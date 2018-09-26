@@ -12,6 +12,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Login from "./Login";
 import Home from "./Home";
 import Data from "./Data";
+import MarkingsDetail from "./MarkingsDetail";
 
 import "./App.css";
 
@@ -88,6 +89,12 @@ class App extends Component {
             path="/"
             knackData={this.state.knackData}
             requestKnackViewData={this.requestKnackViewData}
+          />
+          <MarkingsDetail
+            path="/markings/:markingId"
+            knackData={this.state.knackData}
+            requestKnackViewData={this.requestKnackViewData}
+            knackUserToken={this.state.knackUserToken}
           />
           <Data
             path="/data"

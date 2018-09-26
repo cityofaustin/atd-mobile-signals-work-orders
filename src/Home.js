@@ -67,15 +67,14 @@ class Home extends Component {
         <ul className="list-group">
           {isMarkingsDataLoaded &&
             markingsData.map(item => (
-              <li
-                className="list-group-item d-flex row"
-                key={item.id}
-                style={{
-                  backgroundColor: statusMap[item.field_2181].backgroundColor,
-                  color: statusMap[item.field_2181].textColor
-                }}
-              >
-                <Link to={`/markings/${item.id}`}>
+              <Link to={`/markings/${item.id}`} key={item.id}>
+                <li
+                  className="list-group-item d-flex row"
+                  style={{
+                    backgroundColor: statusMap[item.field_2181].backgroundColor,
+                    color: statusMap[item.field_2181].textColor
+                  }}
+                >
                   {/* Location */}
                   <div className="col-12">
                     <FontAwesomeIcon icon={faMapMarkerAlt} />
@@ -93,8 +92,8 @@ class Home extends Component {
                   <div className="col-6">
                     <span>{item.field_2148}</span>
                   </div>
-                </Link>
-              </li>
+                </li>
+              </Link>
             ))}
         </ul>
       </div>

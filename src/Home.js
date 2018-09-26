@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faRoad,
@@ -75,22 +75,25 @@ class Home extends Component {
                   color: statusMap[item.field_2181].textColor
                 }}
               >
-                {/* Location */}
-                <div className="col-12">
-                  <FontAwesomeIcon icon={faMapMarkerAlt} />
-                  <span>{item.field_2287}</span>
-                </div>
-                {/* Status */}
-                <div className="col-6">
-                  <FontAwesomeIcon
-                    icon={item.field_2181 && statusMap[item.field_2181].icon}
-                  />
-                  <span> {item.field_2181}</span>
-                </div>
-                {/* Created Date */}
-                <div className="col-6">
-                  <span>{item.field_2148}</span>
-                </div>
+                <Link to={`/markings/${item.id}`}>
+                  {/* Location */}
+                  <div className="col-12">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />
+                    <span>{item.field_2287}</span>
+                    {console.log(item)}
+                  </div>
+                  {/* Status */}
+                  <div className="col-6">
+                    <FontAwesomeIcon
+                      icon={item.field_2181 && statusMap[item.field_2181].icon}
+                    />
+                    <span> {item.field_2181}</span>
+                  </div>
+                  {/* Created Date */}
+                  <div className="col-6">
+                    <span>{item.field_2148}</span>
+                  </div>
+                </Link>
               </li>
             ))}
         </ul>

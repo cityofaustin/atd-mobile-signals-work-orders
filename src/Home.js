@@ -34,7 +34,7 @@ class Home extends Component {
           <FontAwesomeIcon icon={faHome} /> Home
         </h1>
 
-        <ul className="list-group">
+        <ul className="list-group-flush list-group">
           {mainPages.map(page => (
             <li className="list-group-item">
               <Link to={page.link}>

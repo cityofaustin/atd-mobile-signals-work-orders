@@ -13,6 +13,10 @@ import Login from "./Login";
 import Home from "./Home";
 import Data from "./Data";
 import MarkingsDetail from "./MarkingsDetail";
+import MyWorkOrders from "./MyWorkOrders";
+import AllIssuedJobs from "./AllIssuedJobs";
+import NewWorkOrder from "./NewWorkOrder";
+import JobDetail from "./JobDetail";
 
 import "./App.css";
 
@@ -85,15 +89,26 @@ class App extends Component {
             knackUserToken={this.state.knackUserToken}
             appId={this.state.appId}
           />
-          <Home
-            path="/"
-            knackData={this.state.knackData}
-            requestKnackViewData={this.requestKnackViewData}
+          <Home path="/" knackUserToken={this.state.knackUserToken} />
+
+          <JobDetail
+            path="/jobs/:jobId"
+            knackUserToken={this.state.knackUserToken}
+          />
+          <MyWorkOrders
+            path="/my-work-orders"
+            knackUserToken={this.state.knackUserToken}
+          />
+          <AllIssuedJobs
+            path="/all-issued-jobs"
+            knackUserToken={this.state.knackUserToken}
+          />
+          <NewWorkOrder
+            path="/new-work-order"
+            knackUserToken={this.state.knackUserToken}
           />
           <MarkingsDetail
             path="/markings/:markingId"
-            knackData={this.state.knackData}
-            requestKnackViewData={this.requestKnackViewData}
             knackUserToken={this.state.knackUserToken}
           />
           <Data

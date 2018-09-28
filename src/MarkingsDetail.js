@@ -226,7 +226,16 @@ class MarkingsDetail extends Component {
                 <ul className="list-group list-group-flush">
                   {this.state.attachmentsData.map(comment => (
                     <li className="list-group-item d-flex row">
-                      <div className="col-12">{comment.field_2403}</div>
+                      <div className="col-4">{comment.field_2403}</div>
+                      <div className="col-4">{comment.field_2407}</div>
+                      <div
+                        className="col-4"
+                        dangerouslySetInnerHTML={{ __html: comment.field_2406 }}
+                      />
+                      <div
+                        className="col-12"
+                        dangerouslySetInnerHTML={{ __html: comment.field_2405 }}
+                      />
                     </li>
                   ))}
                 </ul>

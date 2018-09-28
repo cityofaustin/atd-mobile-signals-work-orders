@@ -1,7 +1,21 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWrench } from "@fortawesome/free-solid-svg-icons";
+import { faComments } from "@fortawesome/free-regular-svg-icons";
+import {
+  faWrench,
+  faInfoCircle,
+  faClipboard,
+  faPaperclip
+} from "@fortawesome/free-solid-svg-icons";
+
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemTitle,
+  AccordionItemBody
+} from "react-accessible-accordion";
+import "react-accessible-accordion/dist/fancy-example.css";
 
 const fields = [
   { "Street Segment ID": "field_2591" },
@@ -25,26 +39,9 @@ class MarkingsDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      markingDetailData: [],
-      open: false
+      markingDetailData: []
     };
   }
-
-  toggleCollaspingPanel = () => {
-    this.setState({ open: !this.state.open });
-  };
-
-  renderCollapsingClass() {
-    let klass = "";
-
-    if (this.state.open) {
-      klass = "collapse show";
-    } else {
-      klass = "collapse";
-    }
-    return klass;
-  }
-
   componentDidMount() {
     axios
       .get(
@@ -73,43 +70,56 @@ class MarkingsDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.markingDetailData.field_2287}
         </h1>
-        <div className="accordion" id="accordionExample">
-          <div className="card">
-            <div className="card-header" id="headingOne">
-              <h5 className="mb-0">
-                <button
-                  className="btn btn-link"
-                  type="button"
-                  data-toggle="collapse"
-                  data-target="#collapseOne"
-                  aria-expanded="true"
-                  aria-controls="collapseOne"
-                  onClick={this.toggleCollaspingPanel}
-                >
-                  Marking Details
-                </button>
-              </h5>
-            </div>
-
-            <div
-              id="collapseOne"
-              className={this.renderCollapsingClass()}
-              aria-labelledby="headingOne"
-              data-parent="#accordionExample"
-            >
-              <div class="card-body">
-                {fields.map(field => (
-                  <dl>
-                    <dt>{Object.keys(field)[0]}</dt>
-                    <dd>
-                      {this.state.markingDetailData[Object.values(field)[0]]}
-                    </dd>
-                  </dl>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        <Accordion>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3>
+                <FontAwesomeIcon icon={faInfoCircle} /> Marking Details
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              {fields.map(field => (
+                <dl>
+                  <dt>{Object.keys(field)[0]}</dt>
+                  <dd>
+                    {this.state.markingDetailData[Object.values(field)[0]]}
+                  </dd>
+                </dl>
+              ))}
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3>
+                <FontAwesomeIcon icon={faComments} /> Comments
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <p>Body content</p>
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3>
+                {" "}
+                <FontAwesomeIcon icon={faClipboard} /> Jobs
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <p>Body content</p>
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3>
+                <FontAwesomeIcon icon={faPaperclip} /> Attachments
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <p>Body content</p>
+            </AccordionItemBody>
+          </AccordionItem>
+        </Accordion>
       </div>
     );
   }

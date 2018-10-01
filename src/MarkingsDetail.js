@@ -132,7 +132,7 @@ class MarkingsDetail extends Component {
             </AccordionItemTitle>
             <AccordionItemBody>
               {detailsFields.map(field => (
-                <dl>
+                <dl key={Object.values(field)[0]}>
                   <dt>{Object.keys(field)[0]}</dt>
                   <dd>
                     {this.state.markingDetailData[Object.values(field)[0]]}
@@ -152,8 +152,8 @@ class MarkingsDetail extends Component {
               {this.state.commentsData.length === 0 && <p>No data</p>}
               {this.state.commentsData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.commentsData.map(comment => (
-                    <li className="list-group-item d-flex row">
+                  {this.state.commentsData.map((comment, i) => (
+                    <li className="list-group-item d-flex row" key={i}>
                       <div className="col-12">{comment.field_2192}</div>
                       <div className="col-6">{comment.field_2193}</div>
                       <div
@@ -188,8 +188,8 @@ class MarkingsDetail extends Component {
               {this.state.jobsData.length === 0 && <p>No data</p>}
               {this.state.jobsData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.jobsData.map(comment => (
-                    <li className="list-group-item d-flex row">
+                  {this.state.jobsData.map((comment, i) => (
+                    <li className="list-group-item d-flex row" key={i}>
                       <div className="col-12">{comment.field_2173}</div>
                       <div className="col-6">{comment.field_2190}</div>
                       <div
@@ -224,8 +224,8 @@ class MarkingsDetail extends Component {
               {this.state.attachmentsData.length === 0 && <p>No data</p>}
               {this.state.attachmentsData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.attachmentsData.map(comment => (
-                    <li className="list-group-item d-flex row">
+                  {this.state.attachmentsData.map((comment, i) => (
+                    <li className="list-group-item d-flex row" key={i}>
                       <div className="col-4">{comment.field_2403}</div>
                       <div className="col-4">{comment.field_2407}</div>
                       <div

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 * {
   margin: 0;
   padding: 0;
@@ -17,3 +18,18 @@
 body {
   box-sizing: inherit;
 }
+=======
+.atd-spinner {
+  animation: spinner 1s infinite;
+  margin: auto;
+  display: block;
+}
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+>>>>>>> a74c96183bf864bcfe9ca95a5551567272ce447a

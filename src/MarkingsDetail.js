@@ -57,6 +57,9 @@ class MarkingsDetail extends Component {
 
   componentDidMount() {
     this.requestMarkingDetailsData();
+    this.requestCommentsData();
+    this.requestJobsData();
+    this.requestAttachmentsData();
   }
 
   requestMarkingDetailsData = () => {
@@ -141,7 +144,7 @@ class MarkingsDetail extends Component {
               ))}
             </AccordionItemBody>
           </AccordionItem>
-          <AccordionItem onClick={this.requestCommentsData}>
+          <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
                 <FontAwesomeIcon icon={faComments} /> Comments
@@ -177,7 +180,7 @@ class MarkingsDetail extends Component {
               )}
             </AccordionItemBody>
           </AccordionItem>
-          <AccordionItem onClick={this.requestJobsData}>
+          <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
                 <FontAwesomeIcon icon={faClipboard} /> Jobs
@@ -213,7 +216,7 @@ class MarkingsDetail extends Component {
               )}
             </AccordionItemBody>
           </AccordionItem>
-          <AccordionItem onClick={this.requestAttachmentsData}>
+          <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
                 <FontAwesomeIcon icon={faPaperclip} /> Attachments

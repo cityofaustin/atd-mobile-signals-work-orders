@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import axios from "axios";
+import { formStyles, pageStyles, buttonStyles, inputStyles, labelStyles } from './styles/Login.css';
+import {
+  faEnvelope,
+  faKey
+} from "@fortawesome/free-solid-svg-icons";
 
 class Login extends Component {
   constructor(props) {
@@ -16,25 +21,15 @@ class Login extends Component {
 
   knackRemoteLogin = e => {
     e.preventDefault();
-    axios
-      .post(
-        `https://api.knack.com/v1/applications/${this.props.appId}/session`,
-        {
-          email: this.state.email,
-          password: this.state.password,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      )
-      .then(res => {
-        console.log(res);
-        this.props.setKnackUserToken(res.data.session.user.token);
-      })
+    const { email, password } = this.state;
+    const headers = { "Content-type": "application/json" };
+    axios.post(
+      `https://api.knack.com/v1/applications/${this.props.appId}/session`,
+      { email, password, headers }
+    )
+      .then(res => this.props.setKnackUserToken(res.data.session.user.token))
       .then(this.setState({ isLoggedIn: true }))
-
       .catch(error => {
-        console.log(error);
         this.setState({ loginError: true });
       });
   };
@@ -47,29 +42,29 @@ class Login extends Component {
     this.props.knackUserToken && navigate("/");
 
     return (
-      <div>
-        {this.state.loginError && (
-          <p style={{ color: "red" }}>Email or password incorrect.</p>
-        )}
-        <form onSubmit={this.knackRemoteLogin}>
-          <label htmlFor="email">Email</label>
+      <div className={pageStyles}>
+        <p style={{ color: "red" }}>{this.state.loginError ? 'Email or password incorrect.' : ''}</p>
+        <h1>Login</h1>
+        <form className={formStyles} onSubmit={this.knackRemoteLogin}>
+          <label className={labelStyles} htmlFor="email">Email</label>
           <input
+            className={inputStyles}
             onChange={this.handleChange}
             id="email"
             name="email"
             type="text"
             placeholder="Email"
           />
-          <br />
-          <label htmlFor="password">Password</label>
+          <label className={labelStyles} htmlFor="password">Password</label>
           <input
+            className={inputStyles}
             onChange={this.handleChange}
             id="password"
             name="password"
             type="text"
             placeholder="Password"
           />
-          <button type="submit">Login</button>
+          <button className={buttonStyles} type="submit">Login</button>
         </form>
       </div>
     );

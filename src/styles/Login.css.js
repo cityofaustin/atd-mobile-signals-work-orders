@@ -23,6 +23,9 @@ export const buttonStyles = css`
   border: none;
   border-radius: 2px;
   color: #fff;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const labelStyles = css`

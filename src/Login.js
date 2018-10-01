@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import axios from "axios";
-import { formStyles, pageStyles, buttonStyles, inputStyles, labelStyles } from './styles/Login';
+import { formStyles, pageStyles, buttonStyles, inputStyles, labelStyles } from './styles/Login.css';
 import {
   faEnvelope,
   faKey
@@ -43,9 +43,7 @@ class Login extends Component {
 
     return (
       <div className={pageStyles}>
-        {this.state.loginError && (
-          <p style={{ color: "red" }}>Email or password incorrect.</p>
-        )}
+        <p style={{ color: "red" }}>{this.state.loginError ? 'Email or password incorrect.' : ''}</p>
         <h1>Login</h1>
         <form className={formStyles} onSubmit={this.knackRemoteLogin}>
           <label className={labelStyles} htmlFor="email">Email</label>

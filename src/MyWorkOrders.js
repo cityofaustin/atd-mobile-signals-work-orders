@@ -53,7 +53,7 @@ class MyWorkOrders extends Component {
         <h1>
           <FontAwesomeIcon icon={faStreetView} /> My Work Orders
         </h1>
-        <ul className="list-group">
+        <ul className="list-group list-group-flush">
           {isMyJobsDataLoaded &&
             myWorkOrdersData.map(item => (
               <Link to={`/markings/${item.id}`} key={item.id}>

@@ -35,8 +35,8 @@ class Home extends Component {
         </h1>
 
         <ul className="list-group-flush list-group">
-          {mainPages.map(page => (
-            <li className="list-group-item">
+          {mainPages.map((page, i) => (
+            <li className="list-group-item" key={i}>
               <Link to={page.link}>
                 <h3>
                   <FontAwesomeIcon icon={page.icon} /> {page.title}

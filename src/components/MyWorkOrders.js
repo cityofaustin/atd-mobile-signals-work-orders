@@ -7,7 +7,7 @@ import {
   faStreetView
 } from "@fortawesome/free-solid-svg-icons";
 
-import statusMap from "./constants/statuses";
+import statusMap from "../constants/statuses";
 
 const fields = {
   modified: "field_2150",

@@ -7,7 +7,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 
 // Add bootstrap v4 for styling, layouts, CSS utilites, etc
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./Login";
 import Home from "./Home";
@@ -18,7 +18,7 @@ import AllIssuedJobs from "./AllIssuedJobs";
 import NewWorkOrder from "./NewWorkOrder";
 import JobDetail from "./JobDetail";
 
-import "./App.css";
+import "../styles/App.css";
 
 // Load Font Awesome v5 SVG / JS version
 // https://github.com/FortAwesome/react-fontawesome

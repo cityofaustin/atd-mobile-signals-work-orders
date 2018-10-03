@@ -7,7 +7,7 @@ import {
   buttonStyles,
   inputStyles,
   labelStyles
-} from "./styles/Login.css";
+} from "../styles/Login.css";
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 
 class Login extends Component {

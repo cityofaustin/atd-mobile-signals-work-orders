@@ -33,6 +33,10 @@ export const buttonStyles = css`
   }
 `;
 
+export const errorMessageStyles = css`
+  height: 20px;
+  color: red;
+`;
 export const labelStyles = css`
   margin-top: .5rem;
 `;

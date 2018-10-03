@@ -43,7 +43,7 @@ class Login extends Component {
 
     return (
       <div className={pageStyles}>
-        <p style={{ color: "red" }}>{this.state.loginError ? 'Email or password incorrect.' : ''}</p>
+        <p style={{ color: "red", height: "20px" }}>{this.state.loginError ? 'Email or password incorrect.' : ''}</p>
         <h1>Login</h1>
         <form className={formStyles} onSubmit={this.knackRemoteLogin}>
           <label className={labelStyles} htmlFor="email">Email</label>

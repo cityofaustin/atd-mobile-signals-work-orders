@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import statusMap from "../constants/statuses";
+import api from "../queries/api";
 
 const fields = {
   modified: "field_2150",
@@ -23,18 +24,9 @@ class MyWorkOrders extends Component {
     };
   }
   componentDidMount() {
-    axios
-      .get(
-        `https://us-api.knack.com/v1/scenes/scene_776/views/view_2037/records`,
-        {
-          headers: {
-            "X-Knack-Application-Id": "5b633d68c04cc40730078ac3",
-            "X-Knack-REST-API-KEY": "knack",
-            Authorization: this.props.knackUserToken,
-            "content-type": "application/json"
-          }
-        }
-      )
+    api
+      .workOrder()
+      .getAll()
       .then(res => {
         console.log(res);
         this.setState({ myWorkOrdersData: res.data.records });

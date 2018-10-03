@@ -81,7 +81,7 @@ class App extends Component {
     !this.state.knackUserToken && navigate("/login");
 
     return (
-      <div>
+      <div className="container">
         <Router>
           <Login
             path="/login"

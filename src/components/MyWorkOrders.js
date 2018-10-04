@@ -7,14 +7,12 @@ import {
   faStreetView
 } from "@fortawesome/free-solid-svg-icons";
 
-import statusMap from "../constants/statuses";
 import api from "../queries/api";
+import { workOrderFields } from "../queries/fields";
+import { signalsWorkOrderStatuses } from "../constants/statuses";
 
-const fields = {
-  modified: "field_2150",
-  status: "field_2181",
-  location: "field_2287"
-};
+const fields = workOrderFields;
+const statuses = signalsWorkOrderStatuses;
 
 class MyWorkOrders extends Component {
   constructor(props) {
@@ -25,7 +23,7 @@ class MyWorkOrders extends Component {
   }
   componentDidMount() {
     api
-      .workOrder()
+      .myWorkOrders()
       .getAll()
       .then(res => {
         console.log(res);
@@ -48,13 +46,13 @@ class MyWorkOrders extends Component {
         <ul className="list-group list-group-flush">
           {isMyJobsDataLoaded &&
             myWorkOrdersData.map(item => (
-              <Link to={`/markings/${item.id}`} key={item.id}>
+              <Link to={`/work-order/${item.id}`} key={item.id}>
                 <li
                   className="list-group-item d-flex row"
                   style={{
                     backgroundColor:
-                      statusMap[item[fields.status]].backgroundColor,
-                    color: statusMap[item[fields.status]].textColor
+                      statuses[item[fields.status]].backgroundColor,
+                    color: statuses[item[fields.status]].textColor
                   }}
                 >
                   {/* Location */}
@@ -67,7 +65,7 @@ class MyWorkOrders extends Component {
                     <FontAwesomeIcon
                       icon={
                         item[fields.status] &&
-                        statusMap[item[fields.status]].icon
+                        statuses[item[fields.status]].icon
                       }
                     />
                     <span> {item[fields.status]}</span>

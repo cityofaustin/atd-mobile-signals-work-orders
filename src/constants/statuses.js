@@ -4,10 +4,19 @@ import {
   faCheckCircle,
   faTimes,
   faTruck,
-  faExclamationTriangle
+  faExclamationTriangle,
+  faBullhorn
 } from "@fortawesome/free-solid-svg-icons";
 
-const statusMap = {
+export const signalsWorkOrderStatuses = {
+  Assigned: {
+    icon: faBullhorn,
+    backgroundColor: "#377eb8",
+    textColor: "white"
+  }
+};
+
+export const statusMap = {
   "ON HOLD": {
     icon: faClock,
     backgroundColor: "#aeaeae",
@@ -39,5 +48,3 @@ const statusMap = {
     textColor: "black"
   }
 };
-
-export default statusMap;

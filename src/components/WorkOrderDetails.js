@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments } from "@fortawesome/free-regular-svg-icons";
+import { faComments, faClock } from "@fortawesome/free-regular-svg-icons";
 import {
   faWrench,
   faInfoCircle,
-  faClipboard,
+  faEdit,
+  faCamera,
   faPaperclip,
+  faBarcode,
   faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -18,103 +20,67 @@ import {
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
 
-const detailsFields = [
-  { "Street Segment ID": "field_2591" },
-  { Status: "field_2181" },
-  { "Work Groups": "field_2203" },
-  { Area: "field_2164" },
-  { School: "field_2171" },
-  { "Needs Coordination": "field_2204" },
-  { Instructions: "field_2169" },
-  { ID: "field_2160" },
-  { "Work Type": "field_2292" },
-  { Requester: "field_2162" },
-  { "Requester Work Order ID": "field_2400" },
-  { "Created By": "field_2146" },
-  { "Created Date": "field_2148" },
-  { "Modified Date": "field_2150" },
-  { "Modified By": "field_2149" }
-];
+import api from "../queries/api";
+import {
+  workOrderFields,
+  workOrdersDetailsFields,
+  workOrderHeaderFields
+} from "../queries/fields";
+import { signalsWorkOrderStatuses } from "../constants/statuses";
 
-class MarkingsDetail extends Component {
+class WorkOrderDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      markingDetailData: false,
-      commentsData: false,
-      jobsData: false,
-      attachmentsData: false
-    };
-    this.requestOptions = {
-      headers: {
-        "X-Knack-Application-Id": "5b633d68c04cc40730078ac3",
-        "X-Knack-REST-API-KEY": "knack",
-        Authorization: this.props.knackUserToken,
-        "content-type": "application/json"
-      }
+      titleData: false,
+      detailsData: false,
+      timeLogData: false,
+      inventoryData: false,
+      imagesData: false
     };
   }
 
   componentDidMount() {
-    this.requestMarkingDetailsData();
-    this.requestCommentsData();
-    this.requestJobsData();
-    this.requestAttachmentsData();
+    this.requestTitle();
+    this.requestDetails();
+    this.requestTimeLogs();
+    this.test();
   }
 
-  requestMarkingDetailsData = () => {
-    axios
-      .get(
-        `https://us-api.knack.com/v1/scenes/scene_713/views/view_1885/records/${
-          this.props.markingId
-        }`,
-        this.requestOptions
-      )
+  requestTitle = () => {
+    api
+      .workOrder()
+      .getTitle(this.props.workOrderId)
+      .then(res => {
+        this.setState({ titleData: res.data });
+      });
+  };
+
+  requestDetails = () => {
+    api
+      .workOrder()
+      .getDetails(this.props.workOrderId)
+      .then(res => {
+        this.setState({ detailsData: res.data });
+      });
+  };
+
+  requestTimeLogs = () => {
+    api
+      .workOrder()
+      .getTimeLogs(this.props.workOrderId)
       .then(res => {
         console.log(res);
-        this.setState({ markingDetailData: res.data });
+        this.setState({ timeLogData: res.data });
       });
   };
 
-  requestCommentsData = () => {
-    axios
-      .get(
-        `https://us-api.knack.com/v1/scenes/scene_713/views/view_1953/records?view-work-orders-marking-details_id=/${
-          this.props.markingId
-        }`,
-        this.requestOptions
-      )
+  test = () => {
+    api
+      .workOrder()
+      .test(this.props.workOrderId)
       .then(res => {
-        console.log("commentsData", res);
-        this.setState({ commentsData: res.data.records });
-      });
-  };
-
-  requestJobsData = () => {
-    axios
-      .get(
-        `https://us-api.knack.com/v1/scenes/scene_713/views/view_2158/records?view-work-orders-marking-details_id=${
-          this.props.markingId
-        }`,
-        this.requestOptions
-      )
-      .then(res => {
-        console.log("jobsData", res);
-        this.setState({ jobsData: res.data.records });
-      });
-  };
-
-  requestAttachmentsData = () => {
-    axios
-      .get(
-        `https://us-api.knack.com/v1/scenes/scene_713/views/view_1975/records?view-work-orders-marking-details_id=${
-          this.props.markingId
-        }`,
-        this.requestOptions
-      )
-      .then(res => {
-        console.log("attachmentsData", res);
-        this.setState({ attachmentsData: res.data.records });
+        console.log("test", res);
       });
   };
 
@@ -123,23 +89,25 @@ class MarkingsDetail extends Component {
       <div>
         <h1>
           <FontAwesomeIcon icon={faWrench} />{" "}
-          {this.state.markingDetailData.field_2287}
+          {this.state.titleData[workOrderHeaderFields.title]}
         </h1>
         <Accordion>
           <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Marking Details
+                <FontAwesomeIcon icon={faInfoCircle} /> Work Order Details
                 <div className="accordion__arrow" role="presentation" />
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              {detailsFields.map(field => (
+              {workOrdersDetailsFields.map(field => (
                 <dl key={Object.values(field)[0]}>
                   <dt>{Object.keys(field)[0]}</dt>
-                  <dd>
-                    {this.state.markingDetailData[Object.values(field)[0]]}
-                  </dd>
+                  <dd
+                    dangerouslySetInnerHTML={{
+                      __html: this.state.detailsData[Object.values(field)[0]]
+                    }}
+                  />
                 </dl>
               ))}
             </AccordionItemBody>
@@ -147,29 +115,27 @@ class MarkingsDetail extends Component {
           <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faComments} /> Comments
+                <FontAwesomeIcon icon={faClock} /> Time Logs
                 <div className="accordion__arrow" role="presentation" />
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              {this.state.commentsData.length === 0 && <p>No data</p>}
-              {this.state.commentsData.length > 0 && (
+              {this.state.timeLogData.length === 0 && <p>No data</p>}
+              {this.state.timeLogData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.commentsData.map((comment, i) => (
+                  {this.state.timeLogData.map((comment, i) => (
                     <li className="list-group-item d-flex row" key={i}>
-                      <div className="col-12">{comment.field_2192}</div>
+                      <div className="col-12">{comment.field_1753}</div>
                       <div className="col-6">{comment.field_2193}</div>
                       <div
                         className="col-6"
                         dangerouslySetInnerHTML={{ __html: comment.field_2194 }}
-                      >
-                        {}
-                      </div>
+                      />
                     </li>
                   ))}
                 </ul>
               )}
-              {!this.state.commentsData && (
+              {!this.state.timeLogData && (
                 <div>
                   <FontAwesomeIcon
                     icon={faSpinner}
@@ -183,15 +149,15 @@ class MarkingsDetail extends Component {
           <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faClipboard} /> Jobs
+                <FontAwesomeIcon icon={faBarcode} /> Inventory
                 <div className="accordion__arrow" role="presentation" />
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              {this.state.jobsData.length === 0 && <p>No data</p>}
-              {this.state.jobsData.length > 0 && (
+              {this.state.inventoryData.length === 0 && <p>No data</p>}
+              {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.jobsData.map((comment, i) => (
+                  {this.state.inventoryData.map((comment, i) => (
                     <li className="list-group-item d-flex row" key={i}>
                       <div className="col-12">{comment.field_2173}</div>
                       <div className="col-6">{comment.field_2190}</div>
@@ -205,7 +171,7 @@ class MarkingsDetail extends Component {
                   ))}
                 </ul>
               )}
-              {!this.state.jobsData && (
+              {!this.state.inventoryData && (
                 <div>
                   <FontAwesomeIcon
                     icon={faSpinner}
@@ -219,15 +185,15 @@ class MarkingsDetail extends Component {
           <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faPaperclip} /> Attachments
+                <FontAwesomeIcon icon={faCamera} /> Images
                 <div className="accordion__arrow" role="presentation" />
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              {this.state.attachmentsData.length === 0 && <p>No data</p>}
-              {this.state.attachmentsData.length > 0 && (
+              {this.state.imagesData.length === 0 && <p>No data</p>}
+              {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.attachmentsData.map((comment, i) => (
+                  {this.state.imagesData.map((comment, i) => (
                     <li className="list-group-item d-flex row" key={i}>
                       <div className="col-4">{comment.field_2403}</div>
                       <div className="col-4">{comment.field_2407}</div>
@@ -243,7 +209,7 @@ class MarkingsDetail extends Component {
                   ))}
                 </ul>
               )}
-              {!this.state.attachmentsData && (
+              {!this.state.imagesData && (
                 <div>
                   <FontAwesomeIcon
                     icon={faSpinner}
@@ -260,4 +226,4 @@ class MarkingsDetail extends Component {
   }
 }
 
-export default MarkingsDetail;
+export default WorkOrderDetail;

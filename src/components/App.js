@@ -12,7 +12,7 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Login from "./Login";
 import Home from "./Home";
 import Data from "./Data";
-import MarkingsDetail from "./MarkingsDetail";
+import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
 import AllIssuedJobs from "./AllIssuedJobs";
 import NewWorkOrder from "./NewWorkOrder";
@@ -107,8 +107,8 @@ class App extends Component {
             path="/new-work-order"
             knackUserToken={this.state.knackUserToken}
           />
-          <MarkingsDetail
-            path="/markings/:markingId"
+          <WorkOrderDetails
+            path="/work-orders/:workOrderId"
             knackUserToken={this.state.knackUserToken}
           />
           <Data

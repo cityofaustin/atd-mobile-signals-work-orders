@@ -29,3 +29,10 @@ export const workOrderTimeLogFields = {
   WORKSITE_LEAVE: "field_1438",
   WORKSITE_SHOP_RETURN: "field_1425"
 };
+
+export const workOrderInventoryFields = {
+  INVENTORY_ITEM: "field_513",
+  STATUS: "field_1416",
+  QUANTITY: "field_524",
+  CONDITION: "field_1071"
+};

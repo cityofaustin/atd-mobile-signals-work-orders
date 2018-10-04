@@ -25,7 +25,8 @@ import {
   workOrderFields,
   workOrdersDetailsFields,
   workOrderHeaderFields,
-  workOrderTimeLogFields
+  workOrderTimeLogFields,
+  workOrderInventoryFields
 } from "../queries/fields";
 import { signalsWorkOrderStatuses } from "../constants/statuses";
 
@@ -39,12 +40,23 @@ class WorkOrderDetail extends Component {
       inventoryData: false,
       imagesData: false
     };
+
+    // Split the Details fields into two so we can display them side by side and
+    // save some screen real estate
+    this.halfDetails = Math.ceil(workOrdersDetailsFields.length / 2);
+    this.detailsFirstHalf = workOrdersDetailsFields.slice(0, this.halfDetails);
+    this.detailsSecondHalf = workOrdersDetailsFields.slice(
+      this.halfDetails,
+      -1
+    );
   }
 
   componentDidMount() {
     this.requestTitle();
     this.requestDetails();
     this.requestTimeLogs();
+    this.requestInventory();
+    // this.test();
   }
 
   requestTitle = () => {
@@ -70,8 +82,17 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getTimeLogs(this.props.workOrderId)
       .then(res => {
-        console.log(res);
         this.setState({ timeLogData: res.data.records });
+      });
+  };
+
+  requestInventory = () => {
+    api
+      .workOrder()
+      .getInventory(this.props.workOrderId)
+      .then(res => {
+        console.log("inventory", res.data.records);
+        this.setState({ inventoryData: res.data.records });
       });
   };
 
@@ -80,7 +101,7 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .test(this.props.workOrderId)
       .then(res => {
-        console.log("test", res);
+        console.log("test", res.data.records);
       });
   };
 
@@ -100,16 +121,36 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              {workOrdersDetailsFields.map(field => (
-                <dl key={Object.values(field)[0]}>
-                  <dt>{Object.keys(field)[0]}</dt>
-                  <dd
-                    dangerouslySetInnerHTML={{
-                      __html: this.state.detailsData[Object.values(field)[0]]
-                    }}
-                  />
-                </dl>
-              ))}
+              <div className="row">
+                <div className="col-6">
+                  {this.detailsFirstHalf.map(field => (
+                    <dl key={Object.values(field)[0]}>
+                      <dt>{Object.keys(field)[0]}</dt>
+                      <dd
+                        dangerouslySetInnerHTML={{
+                          __html: this.state.detailsData[
+                            Object.values(field)[0]
+                          ]
+                        }}
+                      />
+                    </dl>
+                  ))}
+                </div>
+                <div className="col-6">
+                  {this.detailsSecondHalf.map(field => (
+                    <dl key={Object.values(field)[0]}>
+                      <dt>{Object.keys(field)[0]}</dt>
+                      <dd
+                        dangerouslySetInnerHTML={{
+                          __html: this.state.detailsData[
+                            Object.values(field)[0]
+                          ]
+                        }}
+                      />
+                    </dl>
+                  ))}
+                </div>
+              </div>
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>
@@ -215,15 +256,30 @@ class WorkOrderDetail extends Component {
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.inventoryData.map((comment, i) => (
+                  {this.state.inventoryData.map((inventory, i) => (
                     <li className="list-group-item d-flex row" key={i}>
-                      <div className="col-12">{comment.field_2173}</div>
-                      <div className="col-6">{comment.field_2190}</div>
-                      <div
-                        className="col-6"
-                        dangerouslySetInnerHTML={{ __html: comment.field_2196 }}
-                      >
-                        {}
+                      <div className="col-12">
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              inventory[workOrderInventoryFields.INVENTORY_ITEM]
+                          }}
+                        />
+                      </div>
+                      <div className="col-12">
+                        <div className="row">
+                          <div className="col-4">
+                            {inventory[workOrderInventoryFields.STATUS]}
+                          </div>
+                          <div className="col-4">
+                            <span>Quantity: </span>
+                            {inventory[workOrderInventoryFields.QUANTITY]}
+                          </div>
+                          <div className="col-4">
+                            <span>Condition: </span>
+                            {inventory[workOrderInventoryFields.CONDITION]}
+                          </div>
+                        </div>
                       </div>
                     </li>
                   ))}

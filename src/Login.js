@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import axios from "axios";
-import { formStyles, pageStyles, buttonStyles, inputStyles, labelStyles } from './styles/Login.css';
-import {
-  faEnvelope,
-  faKey
-} from "@fortawesome/free-solid-svg-icons";
+import { formStyles, pageStyles, buttonStyles, inputStyles, labelStyles, errorMessageStyles } from './styles/Login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -43,7 +39,7 @@ class Login extends Component {
 
     return (
       <div className={pageStyles}>
-        <p style={{ color: "red" }}>{this.state.loginError ? 'Email or password incorrect.' : ''}</p>
+        <p className={errorMessageStyles}>{this.state.loginError ? 'Email or password incorrect.' : ''}</p>
         <h1>Login</h1>
         <form className={formStyles} onSubmit={this.knackRemoteLogin}>
           <label className={labelStyles} htmlFor="email">Email</label>
@@ -61,7 +57,7 @@ class Login extends Component {
             onChange={this.handleChange}
             id="password"
             name="password"
-            type="text"
+            type="password"
             placeholder="Password"
           />
           <button className={buttonStyles} type="submit">Login</button>

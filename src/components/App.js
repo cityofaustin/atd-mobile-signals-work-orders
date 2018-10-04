@@ -16,7 +16,6 @@ import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
 import AllIssuedJobs from "./AllIssuedJobs";
 import NewWorkOrder from "./NewWorkOrder";
-import JobDetail from "./JobDetail";
 
 import "../styles/App.css";
 
@@ -90,11 +89,6 @@ class App extends Component {
             appId={this.state.appId}
           />
           <Home path="/" knackUserToken={this.state.knackUserToken} />
-
-          <JobDetail
-            path="/jobs/:jobId"
-            knackUserToken={this.state.knackUserToken}
-          />
           <MyWorkOrders
             path="/my-work-orders"
             knackUserToken={this.state.knackUserToken}

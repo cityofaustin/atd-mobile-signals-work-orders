@@ -5,46 +5,70 @@ import {
   faTimes,
   faTruck,
   faExclamationTriangle,
-  faBullhorn
+  faBullhorn,
+  faAsterisk,
+  faWrench
 } from "@fortawesome/free-solid-svg-icons";
 
+import { colors } from "./colors";
+
 export const signalsWorkOrderStatuses = {
+  Unassigned: {
+    icon: faAsterisk,
+    backgroundColor: colors.red,
+    textColor: colors.white
+  },
   Assigned: {
     icon: faBullhorn,
-    backgroundColor: "#377eb8",
-    textColor: "white"
+    backgroundColor: colors.blue,
+    textColor: colors.white
+  },
+  "In Progress": {
+    icon: faWrench,
+    backgroundColor: colors.grey,
+    textColor: colors.black
+  },
+  Submitted: {
+    icon: faFlagCheckered,
+    backgroundColor: colors.green,
+    textColor: colors.white
+  },
+  Closed: {
+    icon: faCheckCircle,
+    backgroundColor: colors.white,
+    textColor: colors.black
   }
 };
 
 export const statusMap = {
   "ON HOLD": {
     icon: faClock,
-    backgroundColor: "#aeaeae",
-    textColor: "white"
+    backgroundColor: colors.grey,
+    textColor: colors.white
   },
   "FINAL REVIEW": {
     icon: faFlagCheckered,
-    backgroundColor: "#4daf4a",
-    textColor: "white"
+    backgroundColor: colors.green,
+    textColor: colors.white
   },
   "NEED TO BE ISSUED": {
     icon: faExclamationTriangle,
-    backgroundColor: "#e41a1c",
-    textColor: "white"
+    backgroundColor: colors.red,
+    textColor: colors.white
   },
   ISSUED: {
     icon: faTruck,
-    backgroundColor: "#377eb8",
-    textColor: "white"
+    backgroundColor: colors.blue,
+    textColor: colors.white
   },
   CLOSED: {
     icon: faCheckCircle,
-    backgroundColor: "white",
-    textColor: "black"
+    backgroundColor: colors.white,
+    textColor: colors.black
   },
   CANCELLED: {
     icon: faTimes,
-    backgroundColor: "white",
-    textColor: "black"
+    backgroundColor: colors.white,
+    textColor: colors.black
   }
 };

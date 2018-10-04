@@ -11,7 +11,7 @@ import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
 import { signalsWorkOrderStatuses } from "../constants/statuses";
 
-const fields = workOrderFields;
+const fields = workOrderFields.baseFields;
 const statuses = signalsWorkOrderStatuses;
 
 class MyWorkOrders extends Component {
@@ -46,7 +46,7 @@ class MyWorkOrders extends Component {
         <ul className="list-group list-group-flush">
           {isMyJobsDataLoaded &&
             myWorkOrdersData.map(item => (
-              <Link to={`/work-order/${item.id}`} key={item.id}>
+              <Link to={`/work-orders/${item.id}`} key={item.id}>
                 <li
                   className="list-group-item d-flex row"
                   style={{

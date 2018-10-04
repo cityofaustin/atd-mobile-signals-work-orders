@@ -24,7 +24,8 @@ import api from "../queries/api";
 import {
   workOrderFields,
   workOrdersDetailsFields,
-  workOrderHeaderFields
+  workOrderHeaderFields,
+  workOrderTimeLogFields
 } from "../queries/fields";
 import { signalsWorkOrderStatuses } from "../constants/statuses";
 
@@ -44,7 +45,6 @@ class WorkOrderDetail extends Component {
     this.requestTitle();
     this.requestDetails();
     this.requestTimeLogs();
-    this.test();
   }
 
   requestTitle = () => {
@@ -71,7 +71,7 @@ class WorkOrderDetail extends Component {
       .getTimeLogs(this.props.workOrderId)
       .then(res => {
         console.log(res);
-        this.setState({ timeLogData: res.data });
+        this.setState({ timeLogData: res.data.records });
       });
   };
 
@@ -123,14 +123,72 @@ class WorkOrderDetail extends Component {
               {this.state.timeLogData.length === 0 && <p>No data</p>}
               {this.state.timeLogData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.timeLogData.map((comment, i) => (
+                  {this.state.timeLogData.map((timeLog, i) => (
                     <li className="list-group-item d-flex row" key={i}>
-                      <div className="col-12">{comment.field_1753}</div>
-                      <div className="col-6">{comment.field_2193}</div>
-                      <div
-                        className="col-6"
-                        dangerouslySetInnerHTML={{ __html: comment.field_2194 }}
-                      />
+                      <div className="col-7">
+                        <div className="row">
+                          <div className="col-12">
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  timeLog[workOrderTimeLogFields.TECHNICIAN]
+                              }}
+                            />
+                          </div>
+                          <div
+                            className="col-12"
+                            dangerouslySetInnerHTML={{
+                              __html: timeLog[workOrderTimeLogFields.VEHICLE]
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-5">
+                        <div className="row">
+                          <div className="col-12">
+                            <span>Recieved: </span>
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  timeLog[
+                                    workOrderTimeLogFields.ISSUE_RECEIVED_TIME
+                                  ]
+                              }}
+                            />
+                          </div>
+                          <div className="col-12">
+                            <span>Arrived: </span>
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  timeLog[
+                                    workOrderTimeLogFields.WORKSITE_ARRIVE
+                                  ]
+                              }}
+                            />
+                          </div>
+                          <div className="col-12">
+                            <span>Left: </span>
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  timeLog[workOrderTimeLogFields.WORKSITE_LEAVE]
+                              }}
+                            />
+                          </div>
+                          <div className="col-12">
+                            <span>Returned: </span>
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  timeLog[
+                                    workOrderTimeLogFields.WORKSITE_SHOP_RETURN
+                                  ]
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </li>
                   ))}
                 </ul>

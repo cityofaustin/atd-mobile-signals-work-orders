@@ -5,7 +5,7 @@ const keys = {
   allMyWorkOrder: { sceneId: "scene_88", viewId: "view_813" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
-  workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1901" }
+  workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" }
 };
 
 // Technician options
@@ -46,12 +46,14 @@ const api = {
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.workOrderTimeLogs.sceneId
-          }/views/${keys.workOrderTimeLogs.viewId}/records/${id}`,
+          }/views/${
+            keys.workOrderTimeLogs.viewId
+          }/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b`,
           headers
         ),
       test: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/scene_297/views/view_1251/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&_=1538621967591`,
+          `https://us-api.knack.com/v1/scenes/scene_297/views/view_1251/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b`,
           headers
         )
     };

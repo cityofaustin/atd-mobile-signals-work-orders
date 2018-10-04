@@ -21,4 +21,11 @@ export const workOrderHeaderFields = {
   title: "field_211_raw"
 };
 
-export const workOrderTimeLogs = {};
+export const workOrderTimeLogFields = {
+  TECHNICIAN: "field_1753",
+  VEHICLE: "field_1427",
+  ISSUE_RECEIVED_TIME: "field_2020",
+  WORKSITE_ARRIVE: "field_1437",
+  WORKSITE_LEAVE: "field_1438",
+  WORKSITE_SHOP_RETURN: "field_1425"
+};

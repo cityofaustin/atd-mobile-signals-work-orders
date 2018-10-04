@@ -8,7 +8,7 @@ import {
   inputStyles,
   labelStyles,
   errorMessageStyles
-} from "./styles/Login.css";
+} from "../styles/Login.css";
 
 class Login extends Component {
   constructor(props) {

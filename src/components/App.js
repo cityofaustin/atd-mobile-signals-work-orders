@@ -98,7 +98,7 @@ class App extends Component {
             knackUserToken={this.state.knackUserToken}
           />
           <NewWorkOrder
-            path="/new-work-order"
+            path="/work-order/new"
             knackUserToken={this.state.knackUserToken}
           />
           <WorkOrderDetails

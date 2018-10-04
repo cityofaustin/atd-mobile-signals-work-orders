@@ -6,9 +6,9 @@ import {
   pageStyles,
   buttonStyles,
   inputStyles,
-  labelStyles
-} from "../styles/Login.css";
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
+  labelStyles,
+  errorMessageStyles
+} from "./styles/Login.css";
 
 class Login extends Component {
   constructor(props) {
@@ -47,7 +47,7 @@ class Login extends Component {
 
     return (
       <div className={pageStyles}>
-        <p style={{ color: "red" }}>
+        <p className={errorMessageStyles}>
           {this.state.loginError ? "Email or password incorrect." : ""}
         </p>
         <h1>Login</h1>

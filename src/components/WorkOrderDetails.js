@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments, faClock } from "@fortawesome/free-regular-svg-icons";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 import {
   faWrench,
   faInfoCircle,
-  faEdit,
   faCamera,
-  faPaperclip,
   faBarcode,
   faSpinner
 } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +19,6 @@ import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
-import { signalsWorkOrderStatuses } from "../constants/statuses";
 
 class WorkOrderDetail extends Component {
   constructor(props) {

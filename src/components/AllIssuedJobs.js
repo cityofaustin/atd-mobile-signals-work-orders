@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faTruck,
-  faStreetView,
-  faWrench
-} from "@fortawesome/free-solid-svg-icons";
+import { faTruck } from "@fortawesome/free-solid-svg-icons";
 
 class AllIssuedJobs extends Component {
   render() {

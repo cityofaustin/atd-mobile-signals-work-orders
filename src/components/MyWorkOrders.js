@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,7 +25,6 @@ class MyWorkOrders extends Component {
       .myWorkOrders()
       .getAll()
       .then(res => {
-        console.log(res);
         this.setState({ myWorkOrdersData: res.data.records });
       });
   }

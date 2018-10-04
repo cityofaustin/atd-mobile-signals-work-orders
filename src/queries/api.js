@@ -6,7 +6,8 @@ const keys = {
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
-  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" }
+  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
+  workOrderImages: { sceneId: "scene_297", viewId: "view_922" }
 };
 
 // Technician options
@@ -64,7 +65,15 @@ const api = {
           }/records?my-work-order-details2_id=${id}`,
           headers
         ),
-      test: id => axios.get(``, headers)
+      getImages: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderImages.sceneId
+          }/views/${
+            keys.workOrderImages.viewId
+          }/records?my-work-order-details2_id=${id}`,
+          headers
+        )
     };
   }
 };

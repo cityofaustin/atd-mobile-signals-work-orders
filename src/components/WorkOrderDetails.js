@@ -21,13 +21,7 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../queries/api";
-import {
-  workOrderFields,
-  workOrdersDetailsFields,
-  workOrderHeaderFields,
-  workOrderTimeLogFields,
-  workOrderInventoryFields
-} from "../queries/fields";
+import { workOrderFields } from "../queries/fields";
 import { signalsWorkOrderStatuses } from "../constants/statuses";
 
 class WorkOrderDetail extends Component {
@@ -41,68 +35,59 @@ class WorkOrderDetail extends Component {
       imagesData: false
     };
 
-    // Split the Details fields into two so we can display them side by side and
+    // Split the Details fields in two so we can display them side by side and
     // save some screen real estate
-    this.halfDetails = Math.ceil(workOrdersDetailsFields.length / 2);
-    this.detailsFirstHalf = workOrdersDetailsFields.slice(0, this.halfDetails);
-    this.detailsSecondHalf = workOrdersDetailsFields.slice(
+    this.halfDetails = Math.ceil(workOrderFields.details.length / 2);
+    this.detailsFirstHalf = workOrderFields.details.slice(0, this.halfDetails);
+    this.detailsSecondHalf = workOrderFields.details.slice(
       this.halfDetails,
       -1
     );
   }
 
   componentDidMount() {
-    this.requestTitle();
-    this.requestDetails();
-    this.requestTimeLogs();
-    this.requestInventory();
-    // this.test();
+    const { workOrderId } = this.props;
+    this.requestTitle(workOrderId);
+    this.requestDetails(workOrderId);
+    // Stagger the calls to Knack API so we don't get rate limited.
+    setTimeout(this.requestTimeLogs, 500, workOrderId);
+    setTimeout(this.requestInventory, 1000, workOrderId);
+    setTimeout(this.requestImages, 1500, workOrderId);
   }
 
-  requestTitle = () => {
+  requestTitle = id => {
     api
       .workOrder()
-      .getTitle(this.props.workOrderId)
-      .then(res => {
-        this.setState({ titleData: res.data });
-      });
+      .getTitle(id)
+      .then(res => this.setState({ titleData: res.data }));
   };
 
-  requestDetails = () => {
+  requestDetails = id => {
     api
       .workOrder()
-      .getDetails(this.props.workOrderId)
-      .then(res => {
-        this.setState({ detailsData: res.data });
-      });
+      .getDetails(id)
+      .then(res => this.setState({ detailsData: res.data }));
   };
 
-  requestTimeLogs = () => {
+  requestTimeLogs = id => {
     api
       .workOrder()
-      .getTimeLogs(this.props.workOrderId)
-      .then(res => {
-        this.setState({ timeLogData: res.data.records });
-      });
+      .getTimeLogs(id)
+      .then(res => this.setState({ timeLogData: res.data.records }));
   };
 
-  requestInventory = () => {
+  requestInventory = id => {
     api
       .workOrder()
-      .getInventory(this.props.workOrderId)
-      .then(res => {
-        console.log("inventory", res.data.records);
-        this.setState({ inventoryData: res.data.records });
-      });
+      .getInventory(id)
+      .then(res => this.setState({ inventoryData: res.data.records }));
   };
 
-  test = () => {
+  requestImages = id => {
     api
       .workOrder()
-      .test(this.props.workOrderId)
-      .then(res => {
-        console.log("test", res.data.records);
-      });
+      .getImages(id)
+      .then(res => this.setState({ imagesData: res.data.records }));
   };
 
   render() {
@@ -110,7 +95,7 @@ class WorkOrderDetail extends Component {
       <div>
         <h1>
           <FontAwesomeIcon icon={faWrench} />{" "}
-          {this.state.titleData[workOrderHeaderFields.title]}
+          {this.state.titleData[workOrderFields.header]}
         </h1>
         <Accordion>
           <AccordionItem>
@@ -172,14 +157,14 @@ class WorkOrderDetail extends Component {
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
-                                  timeLog[workOrderTimeLogFields.TECHNICIAN]
+                                  timeLog[workOrderFields.timelog.TECHNICIAN]
                               }}
                             />
                           </div>
                           <div
                             className="col-12"
                             dangerouslySetInnerHTML={{
-                              __html: timeLog[workOrderTimeLogFields.VEHICLE]
+                              __html: timeLog[workOrderFields.timelog.VEHICLE]
                             }}
                           />
                         </div>
@@ -192,7 +177,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                    workOrderTimeLogFields.ISSUE_RECEIVED_TIME
+                                    workOrderFields.timelog.ISSUE_RECEIVED_TIME
                                   ]
                               }}
                             />
@@ -203,7 +188,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                    workOrderTimeLogFields.WORKSITE_ARRIVE
+                                    workOrderFields.timelog.WORKSITE_ARRIVE
                                   ]
                               }}
                             />
@@ -213,7 +198,9 @@ class WorkOrderDetail extends Component {
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
-                                  timeLog[workOrderTimeLogFields.WORKSITE_LEAVE]
+                                  timeLog[
+                                    workOrderFields.timelog.WORKSITE_LEAVE
+                                  ]
                               }}
                             />
                           </div>
@@ -223,7 +210,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                    workOrderTimeLogFields.WORKSITE_SHOP_RETURN
+                                    workOrderFields.timelog.WORKSITE_SHOP_RETURN
                                   ]
                               }}
                             />
@@ -262,22 +249,24 @@ class WorkOrderDetail extends Component {
                         <div
                           dangerouslySetInnerHTML={{
                             __html:
-                              inventory[workOrderInventoryFields.INVENTORY_ITEM]
+                              inventory[
+                                workOrderFields.inventory.INVENTORY_ITEM
+                              ]
                           }}
                         />
                       </div>
                       <div className="col-12">
                         <div className="row">
                           <div className="col-4">
-                            {inventory[workOrderInventoryFields.STATUS]}
+                            {inventory[workOrderFields.inventory.STATUS]}
                           </div>
                           <div className="col-4">
                             <span>Quantity: </span>
-                            {inventory[workOrderInventoryFields.QUANTITY]}
+                            {inventory[workOrderFields.inventory.QUANTITY]}
                           </div>
                           <div className="col-4">
                             <span>Condition: </span>
-                            {inventory[workOrderInventoryFields.CONDITION]}
+                            {inventory[workOrderFields.inventory.CONDITION]}
                           </div>
                         </div>
                       </div>
@@ -307,18 +296,24 @@ class WorkOrderDetail extends Component {
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.imagesData.map((comment, i) => (
-                    <li className="list-group-item d-flex row" key={i}>
-                      <div className="col-4">{comment.field_2403}</div>
-                      <div className="col-4">{comment.field_2407}</div>
-                      <div
-                        className="col-4"
-                        dangerouslySetInnerHTML={{ __html: comment.field_2406 }}
-                      />
+                  {this.state.imagesData.map((image, i) => (
+                    <li
+                      className="list-group-item d-flex row"
+                      key={i}
+                      style={{ textAlign: "center" }}
+                    >
                       <div
                         className="col-12"
-                        dangerouslySetInnerHTML={{ __html: comment.field_2405 }}
+                        dangerouslySetInnerHTML={{
+                          __html: image[workOrderFields.images.IMAGE]
+                        }}
                       />
+                      <div className="col-12">
+                        <span style={{ fontStyle: "italic" }}>
+                          Uploaded at:{" "}
+                        </span>
+                        {image[workOrderFields.images.DATESTAMP]}
+                      </div>
                     </li>
                   ))}
                 </ul>

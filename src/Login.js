@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import axios from "axios";
 import { formStyles, pageStyles, buttonStyles, inputStyles, labelStyles, errorMessageStyles } from './styles/Login.css';
-import {
-  faEnvelope,
-  faKey
-} from "@fortawesome/free-solid-svg-icons";
 
 class Login extends Component {
   constructor(props) {

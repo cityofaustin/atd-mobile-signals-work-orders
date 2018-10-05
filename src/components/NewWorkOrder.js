@@ -33,6 +33,13 @@ class NewWorkOrder extends Component {
       }
     };
   }
+
+  handleChange = e => {
+    let formData = this.state.formData;
+    formData[e.target.name] = e.target.value;
+    this.setState({ formData });
+  };
+
   submitForm = e => {
     e.preventDefault();
     api
@@ -57,6 +64,7 @@ class NewWorkOrder extends Component {
               className="form-control"
               id={fields.ASSET_TYPE}
               name={fields.ASSET_TYPE}
+              onChange={this.handleChange}
             >
               {ASSET_TYPE_OPTIONS.map(option => (
                 <option value={option} selected="">
@@ -74,6 +82,7 @@ class NewWorkOrder extends Component {
               className="form-control"
               id={fields.SCHOOL_ZONE}
               name={fields.SCHOOL_ZONE}
+              onChange={this.handleChange}
             >
               {SCHOOL_ZONES.map(zone => (
                 <option value={zone.id}>{zone.name}</option>
@@ -88,10 +97,13 @@ class NewWorkOrder extends Component {
               <input
                 className="form-check-input"
                 type="radio"
-                name={fields.WORK_TYPE}
+                name={fields.WORK_TYPzE}
                 id="field_1004_Trouble_Call"
                 value="Trouble Call"
-                checked
+                checked={
+                  this.state.formData[fields.WORK_TYPE] === "Trouble Call"
+                }
+                onChange={this.handleChange}
               />
               <label className="form-check-label" for="field_1004_Trouble_Call">
                 Trouble Call
@@ -104,6 +116,10 @@ class NewWorkOrder extends Component {
                 name={fields.WORK_TYPE}
                 id="field_1004_Scheduled_Work"
                 value="Scheduled Work"
+                checked={
+                  this.state.formData[fields.WORK_TYPE] === "Scheduled Work"
+                }
+                onChange={this.handleChange}
               />
               <label
                 className="form-check-label"
@@ -123,6 +139,7 @@ class NewWorkOrder extends Component {
               className="form-control"
               name={fields.WORK_TYPE_TROUBLE_CALL}
               id={fields.WORK_TYPE_TROUBLE_CALL}
+              onChange={this.handleChange}
             >
               <option value="" selected="">
                 Select...
@@ -143,6 +160,7 @@ class NewWorkOrder extends Component {
               className="form-control"
               name={fields.WORK_TYPE_SCHEDULED_WORK}
               id={fields.WORK_TYPE_SCHEDULED_WORK}
+              onChange={this.handleChange}
             >
               {WORK_TYPE_SCHEDULED_WORK_OPTIONS.map(option => (
                 <option value={option}>{option}</option>
@@ -157,6 +175,7 @@ class NewWorkOrder extends Component {
               className="form-control"
               name={fields.WORK_TYPE_OTHER}
               id={fields.WORK_TYPE_OTHER}
+              onChange={this.handleChange}
             />
           </div>
 

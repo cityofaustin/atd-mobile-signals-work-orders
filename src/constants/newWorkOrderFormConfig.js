@@ -8,8 +8,8 @@ export const ASSET_TYPE_OPTIONS = [
   "Other / No Asset"
 ];
 
-export const SCHOOL_ZONES = [
-  { id: "", name: "", name: "Select" },
+export const SCHOOL_ZONE_OPTIONS = [
+  { id: "", name: "Select" },
   { id: "5b63411dbe8a97076888173f", name: "ALLAN" },
   { id: "5b63411cbe8a970768881605", name: "ALLAN COLLEGE PREP, IDEA SCHOOL" },
   { id: "5b63411dbe8a9707688816b1", name: "ALLISON" },

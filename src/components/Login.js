@@ -60,7 +60,7 @@ class Login extends Component {
             onChange={this.handleChange}
             id="email"
             name="email"
-            type="text"
+            type="email"
             placeholder="Email"
           />
           <label className={labelStyles} htmlFor="password">

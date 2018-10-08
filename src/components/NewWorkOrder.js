@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWrench } from "@fortawesome/free-solid-svg-icons";
+import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../queries/api";
 import {
@@ -73,7 +74,10 @@ class NewWorkOrder extends Component {
         field_900: null,
         field_1420: ""
       },
-      errors: []
+      errors: [],
+      isSubmitting: false,
+      isSubmitted: false,
+      newWorkOrder: {}
     };
   }
 
@@ -85,15 +89,24 @@ class NewWorkOrder extends Component {
 
   submitForm = e => {
     e.preventDefault();
+    this.setState({ isSubmitting: true });
     api
       .workOrder()
       .new(this.state.formData)
       .then(res => {
         console.log(res);
+        this.setState({
+          isSubmitting: false,
+          isSubmitted: true,
+          newWorkOrder: res.data.record
+        });
       })
       .catch(error => {
         console.log(error.response.data.errors);
-        this.setState({ errors: error.response.data.errors });
+        this.setState({
+          errors: error.response.data.errors,
+          isSubmitting: false
+        });
       });
   };
 
@@ -106,10 +119,24 @@ class NewWorkOrder extends Component {
 
         {this.state.errors &&
           this.state.errors.map(error => (
-            <p style={{ color: "red" }} key={error.field}>
-              {error.field}: {error.message}
-            </p>
+            <div className="alert alert-danger" role="alert" key={error.field}>
+              <p style={{ color: "red" }}>{error.message}</p>
+            </div>
           ))}
+
+        {this.state.isSubmitted && (
+          <div className="alert alert-success" role="alert">
+            <p>
+              <Link
+                to={`/work-orders/${this.state.newWorkOrder.id}`}
+                className="alert-link"
+              >
+                New Work Order
+              </Link>{" "}
+              successfully created!
+            </p>
+          </div>
+        )}
 
         <form onSubmit={this.submitForm}>
           {/* ASSET_TYPE */}
@@ -259,7 +286,15 @@ class NewWorkOrder extends Component {
           </div>
 
           <button type="submit" className="btn btn-primary">
-            Submit
+            {this.state.isSubmitting ? (
+              <FontAwesomeIcon
+                icon={faSpinner}
+                size="2x"
+                className="atd-spinner"
+              />
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </div>

@@ -4,40 +4,71 @@ import {
   faCheckCircle,
   faTimes,
   faTruck,
-  faExclamationTriangle
+  faExclamationTriangle,
+  faBullhorn,
+  faAsterisk,
+  faWrench
 } from "@fortawesome/free-solid-svg-icons";
 
-const statusMap = {
-  "ON HOLD": {
-    icon: faClock,
-    backgroundColor: "#aeaeae",
-    textColor: "white"
+import { colors } from "./colors";
+
+export const signalsWorkOrderStatuses = {
+  Unassigned: {
+    icon: faAsterisk,
+    backgroundColor: colors.red,
+    textColor: colors.white
   },
-  "FINAL REVIEW": {
+  Assigned: {
+    icon: faBullhorn,
+    backgroundColor: colors.blue,
+    textColor: colors.white
+  },
+  "In Progress": {
+    icon: faWrench,
+    backgroundColor: colors.grey,
+    textColor: colors.black
+  },
+  Submitted: {
     icon: faFlagCheckered,
-    backgroundColor: "#4daf4a",
-    textColor: "white"
+    backgroundColor: colors.green,
+    textColor: colors.white
   },
-  "NEED TO BE ISSUED": {
-    icon: faExclamationTriangle,
-    backgroundColor: "#e41a1c",
-    textColor: "white"
-  },
-  ISSUED: {
-    icon: faTruck,
-    backgroundColor: "#377eb8",
-    textColor: "white"
-  },
-  CLOSED: {
+  Closed: {
     icon: faCheckCircle,
-    backgroundColor: "white",
-    textColor: "black"
-  },
-  CANCELLED: {
-    icon: faTimes,
-    backgroundColor: "white",
-    textColor: "black"
+    backgroundColor: colors.white,
+    textColor: colors.black
   }
 };
 
-export default statusMap;
+export const statusMap = {
+  "ON HOLD": {
+    icon: faClock,
+    backgroundColor: colors.grey,
+    textColor: colors.white
+  },
+  "FINAL REVIEW": {
+    icon: faFlagCheckered,
+    backgroundColor: colors.green,
+    textColor: colors.white
+  },
+  "NEED TO BE ISSUED": {
+    icon: faExclamationTriangle,
+    backgroundColor: colors.red,
+    textColor: colors.white
+  },
+  ISSUED: {
+    icon: faTruck,
+    backgroundColor: colors.blue,
+    textColor: colors.white
+  },
+  CLOSED: {
+    icon: faCheckCircle,
+    backgroundColor: colors.white,
+    textColor: colors.black
+  },
+  CANCELLED: {
+    icon: faTimes,
+    backgroundColor: colors.white,
+    textColor: colors.black
+  }
+};

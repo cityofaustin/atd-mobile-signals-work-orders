@@ -68,7 +68,7 @@ class NewWorkOrder extends Component {
 
   submitForm = e => {
     e.preventDefault();
-    this.setState({ isSubmitting: true });
+    this.setState({ errors: [], isSubmitting: true });
     api
       .workOrder()
       .new(this.state.formData)

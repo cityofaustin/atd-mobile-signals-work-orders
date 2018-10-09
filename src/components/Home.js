@@ -21,7 +21,7 @@ const mainPages = [
   },
   {
     title: "New Work Order",
-    link: "/new-work-order",
+    link: "/work-order/new",
     icon: faWrench
   }
 ];

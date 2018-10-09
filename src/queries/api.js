@@ -2,12 +2,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const keys = {
-  allMyWorkOrder: { sceneId: "scene_88", viewId: "view_813" },
+  allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
   workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
-  workOrderImages: { sceneId: "scene_297", viewId: "view_922" }
+  workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
+  newWorkOrder: { sceneId: "scene_910", viewId: "view_2332" }
 };
 
 // Technician options
@@ -25,14 +26,22 @@ const api = {
       getAll: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
-            keys.allMyWorkOrder.sceneId
-          }/views/${keys.allMyWorkOrder.viewId}/records/`,
+            keys.allMyWorkOrders.sceneId
+          }/views/${keys.allMyWorkOrders.viewId}/records/`,
           headers
         )
     };
   },
   workOrder() {
     return {
+      new: data =>
+        axios.post(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/records`,
+          data,
+          headers
+        ),
       getTitle: id =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${

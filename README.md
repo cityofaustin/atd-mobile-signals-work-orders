@@ -6,6 +6,8 @@ Initial notes on the project can be found [here](https://gist.github.com/mateocl
 
 Documentation on the current Knack frontend for Markings Work Orders: https://github.com/cityofaustin/data-tracker-guides/blob/master/signs_markings/work_order_management.md#managing-work-orders
 
+Documentation for what Tech and Supers can do to Signals Work Orders depending on the status of the Work Order can be found here: https://docs.google.com/spreadsheets/d/1kyqQnyC3gqMo3X0EeqUumRO0RZx0PRaEDfmeC1WGC5E/edit?usp=sharing
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 ## Getting Started

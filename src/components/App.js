@@ -30,7 +30,7 @@ class App extends Component {
     // These are config variables that knack.js expects to find on the global
     // window element
     let app_id, distribution_key;
-    window.app_id = "5b633d68c04cc40730078ac3";
+    window.app_id = "5bbcfd7b4ae801302fe650c3";
     window.distribution_key = "dist_2";
 
     this.state = {

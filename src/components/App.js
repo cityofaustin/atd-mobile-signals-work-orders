@@ -15,7 +15,7 @@ import Data from "./Data";
 import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
 import AllIssuedJobs from "./AllIssuedJobs";
-import NewWorkOrder from "./NewWorkOrder";
+import NewWorkOrder from "./NewWorkOrder/index";
 
 import "../styles/App.css";
 

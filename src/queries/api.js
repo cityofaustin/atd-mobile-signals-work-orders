@@ -3,12 +3,18 @@ import Cookies from "js-cookie";
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
-  workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
+  newWorkOrder: { sceneId: "scene_910", viewId: "view_2332" },
+  signals: { sceneId: "scene_337", viewId: "view_1672" },
+  schoolZones: {
+    sceneId: "scene_337",
+    viewId: "view_1672",
+    fieldId: "field_1871"
+  },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
-  workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
-  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
   workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
-  newWorkOrder: { sceneId: "scene_910", viewId: "view_2332" }
+  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
+  workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
+  workOrderTitle: { sceneId: "scene_297", viewId: "view_910" }
 };
 
 // Technician options
@@ -20,6 +26,13 @@ const keys = {
 // images
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
 
+// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":"as"}]
+
+// signal search
+// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"}]&limit_return=true
+// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":"ave"}]
+// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":av}]
+
 const api = {
   myWorkOrders() {
     return {
@@ -28,6 +41,31 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${
             keys.allMyWorkOrders.sceneId
           }/views/${keys.allMyWorkOrders.viewId}/records/`,
+          headers
+        )
+    };
+  },
+  schoolZones() {
+    return {
+      // https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1871?rows_per_page=2000&filters=%5B%5D&limit_return=true&callback=jQuery172020114189195462506_1539012724374&_=1539012725129
+      search: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.schoolZones.sceneId
+          }/views/${keys.schoolZones.viewId}/connections/${
+            keys.schoolZones.fieldId
+          }?rows_per_page=2000`,
+          headers
+        )
+    };
+  },
+  signals() {
+    return {
+      search: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${keys.signals.sceneId}/views/${
+            keys.signals.viewId
+          }/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":${searchValue}}]`,
           headers
         )
     };

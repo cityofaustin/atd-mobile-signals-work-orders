@@ -4,7 +4,7 @@ import { APP_ID } from "../constants/api";
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
-  newWorkOrder: { sceneId: "scene_910", viewId: "view_2332" },
+  cameras: { sceneId: "scene_337", viewId: "view_1672" },
   signals: { sceneId: "scene_337", viewId: "view_1672" },
   schoolZones: {
     sceneId: "scene_337",
@@ -66,6 +66,17 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${keys.signals.sceneId}/views/${
             keys.signals.viewId
           }/connections/field_1060?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
+          headers
+        )
+    };
+  },
+  cameras() {
+    return {
+      search: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${keys.cameras.sceneId}/views/${
+            keys.cameras.viewId
+          }/connections/field_1862?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
           headers
         )
     };

@@ -10,8 +10,7 @@ export const FIELDS = {
           name: "hi"
         },
         { id: "ho", name: "ho" }
-      ],
-      options: []
+      ]
     },
     Camera: {
       fieldId: "field_1862",

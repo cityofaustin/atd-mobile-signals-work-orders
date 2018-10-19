@@ -39,9 +39,12 @@ class NewWorkOrder extends Component {
       signalOptions: [],
       signalName: "",
       schoolZoneOptions: [],
-      schoolZoneName: ""
+      schoolZoneName: "",
+      cameraOptions: [],
+      cameraName: ""
     };
     this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
+    this.delayedGetCameraOptions = _.debounce(this.getCameraOptions, 200);
   }
 
   handleChange = e => {
@@ -55,8 +58,17 @@ class NewWorkOrder extends Component {
       .signals()
       .search(searchValue)
       .then(res => {
-        console.log(res);
         this.setState({ signalOptions: res.data.records });
+      });
+  };
+
+  getCameraOptions = searchValue => {
+    api
+      .cameras()
+      .search(searchValue)
+      .then(res => {
+        console.log("cameraRes", res);
+        this.setState({ cameraOptions: res.data.records });
       });
   };
 
@@ -99,9 +111,17 @@ class NewWorkOrder extends Component {
     );
   };
 
+  handleCameraChange = e => {
+    e.persist();
+    this.setState({ cameraName: e.target.value }, () =>
+      this.delayedGetCameraOptions(e.target.value)
+    );
+  };
+
   componentDidMount() {
     this.getSchoolZoneOptions();
     this.getSignalsOptions(this.state.signalName);
+    this.getCameraOptions(this.state.cameraName);
   }
 
   render() {
@@ -142,8 +162,9 @@ class NewWorkOrder extends Component {
           {/* ASSET ITEM SELECT */}
           {/* // TODO: search select UI component */}
           {this.state.formData[FIELDS.ASSET_TYPE] !== "Other / No Asset" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "School Beacon" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "Signal" && (
+            this.state.formData[FIELDS.ASSET_TYPE] !== "Signal" &&
+            this.state.formData[FIELDS.ASSET_TYPE] !== "Camera" &&
+            this.state.formData[FIELDS.ASSET_TYPE] !== "School Beacon" && (
               <div className="form-group">
                 <label
                   htmlFor={
@@ -223,6 +244,58 @@ class NewWorkOrder extends Component {
                   let formData = this.state.formData;
                   formData[FIELDS.ASSETS["Signal"].fieldId] = value;
                   this.setState({ formData, signalName: item.identifier });
+                }}
+              />
+            </div>
+          )}
+
+          {/* Autocomplete for Cameras */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Camera" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Camera"].fieldId}>
+                {FIELDS.ASSETS["Camera"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.cameraOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Camera"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.cameraName}
+                onChange={this.handleCameraChange}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Camera"].fieldId] = value;
+                  this.setState({ formData, cameraName: item.identifier });
                 }}
               />
             </div>

@@ -5,6 +5,7 @@ import { APP_ID } from "../constants/api";
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
   cameras: { sceneId: "scene_337", viewId: "view_1672" },
+  newWorkOrder: { sceneId: "scene_337", viewId: "view_1672" },
   signals: { sceneId: "scene_337", viewId: "view_1672" },
   schoolZones: {
     sceneId: "scene_337",

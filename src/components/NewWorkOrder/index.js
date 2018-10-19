@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
+import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -36,9 +37,11 @@ class NewWorkOrder extends Component {
       isSubmitted: false,
       newWorkOrder: {},
       signalOptions: [],
+      signalName: "",
       schoolZoneOptions: [],
       schoolZoneName: ""
     };
+    this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
   }
 
   handleChange = e => {
@@ -47,15 +50,15 @@ class NewWorkOrder extends Component {
     this.setState({ formData });
   };
 
-  // TODO: Blocked by current form config in Knack
-  // getSignalsOptions = searchValue => {
-  //   api
-  //     .signals()
-  //     .search(searchValue)
-  //     .then(res => {
-  //       console.log(res);
-  //     });
-  // };
+  getSignalsOptions = searchValue => {
+    api
+      .signals()
+      .search(searchValue)
+      .then(res => {
+        console.log(res);
+        this.setState({ signalOptions: res.data.records });
+      });
+  };
 
   getSchoolZoneOptions = () => {
     api
@@ -89,8 +92,16 @@ class NewWorkOrder extends Component {
       });
   };
 
+  handleSignalChange = e => {
+    e.persist();
+    this.setState({ signalName: e.target.value }, () =>
+      this.delayedGetSignalsOptions(e.target.value)
+    );
+  };
+
   componentDidMount() {
     this.getSchoolZoneOptions();
+    this.getSignalsOptions(this.state.signalName);
   }
 
   render() {
@@ -131,7 +142,8 @@ class NewWorkOrder extends Component {
           {/* ASSET ITEM SELECT */}
           {/* // TODO: search select UI component */}
           {this.state.formData[FIELDS.ASSET_TYPE] !== "Other / No Asset" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "School Beacon" && (
+            this.state.formData[FIELDS.ASSET_TYPE] !== "School Beacon" &&
+            this.state.formData[FIELDS.ASSET_TYPE] !== "Signal" && (
               <div className="form-group">
                 <label
                   htmlFor={
@@ -163,6 +175,58 @@ class NewWorkOrder extends Component {
                 </select>
               </div>
             )}
+
+          {/* Autocomplete for Signals */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Signal" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Signal"].fieldId}>
+                {FIELDS.ASSETS["Signal"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.signalOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Signal"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.signalName}
+                onChange={this.handleSignalChange}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Signal"].fieldId] = value;
+                  this.setState({ formData, signalName: item.identifier });
+                }}
+              />
+            </div>
+          )}
 
           {/* Autocomplete for School Zones */}
           {this.state.formData[FIELDS.ASSET_TYPE] === "School Beacon" && (

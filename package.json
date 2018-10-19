@@ -12,6 +12,7 @@
     "bootstrap": "^4.1.3",
     "emotion": "^9.2.10",
     "js-cookie": "^2.2.0",
+    "lodash": "^4.17.11",
     "react": "^16.5.2",
     "react-accessible-accordion": "^2.4.4",
     "react-autocomplete": "^1.8.1",

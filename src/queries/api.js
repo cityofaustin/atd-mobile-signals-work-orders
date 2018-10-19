@@ -48,7 +48,6 @@ const api = {
   },
   schoolZones() {
     return {
-      // https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1871?rows_per_page=2000&filters=%5B%5D&limit_return=true&callback=jQuery172020114189195462506_1539012724374&_=1539012725129
       search: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -66,7 +65,7 @@ const api = {
         axios.get(
           `https://us-api.knack.com/v1/scenes/${keys.signals.sceneId}/views/${
             keys.signals.viewId
-          }/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":${searchValue}}]`,
+          }/connections/field_1060?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
           headers
         )
     };

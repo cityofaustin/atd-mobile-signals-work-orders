@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
+import Select from "react-select";
 import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -27,10 +28,10 @@ class NewWorkOrder extends Component {
         field_1864: "", // HAZARD_FLASHER
         field_1859: "", // DMS
         field_1863: "", // SENSOR
-        field_1004: "Trouble Call",
-        field_976: "",
-        field_900: null,
-        field_1420: ""
+        field_1004: "Trouble Call", // WORK_TYPE
+        field_976: "", // WORK_TYPE_TROUBLE_CALL
+        field_900: [], // WORK_TYPE_SCHEDULED_WORK
+        field_1420: "" // WORK_TYPE_OTHER
       },
       errors: [],
       isSubmitting: false,
@@ -48,6 +49,7 @@ class NewWorkOrder extends Component {
       dmsName: "",
       sensorOptions: [],
       sensorName: "",
+      workTypeScheduledWorkOptions: []
     };
     this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
     this.delayedGetCameraOptions = _.debounce(this.getCameraOptions, 200);
@@ -56,6 +58,21 @@ class NewWorkOrder extends Component {
   handleChange = e => {
     let formData = this.state.formData;
     formData[e.target.name] = e.target.value;
+    this.setState({ formData });
+  };
+
+  handleWorkTypeChange = e => {
+    let formData = this.state.formData;
+    formData[FIELDS.WORK_TYPE_TROUBLE_CALL] = "";
+    formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = [];
+    this.setState({ formData });
+    this.handleChange(e);
+  };
+
+  handleReactMultiSelectChange = values => {
+    let formData = this.state.formData;
+    formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = values.map(item => item.value);
+    debugger;
     this.setState({ formData });
   };
 
@@ -156,7 +173,38 @@ class NewWorkOrder extends Component {
     this.getSchoolZoneOptions();
     this.getSignalsOptions(this.state.signalName);
     this.getCameraOptions(this.state.cameraName);
-    this.getHazardFlasher();
+    this.getHazardFlasherOptions();
+    this.getDmsOptions();
+    this.getSensorOptions();
+
+    let workTypeScheduledWorkOptions;
+    const getwWorkTypeScheduledWorkOptions = knack =>
+      knack.objects.models
+        .find(model => model.attributes.name === "work_orders_signals")
+        .attributes.fields.find(
+          field => field.name === "WORK_TYPE_SCHEDULED_WORK"
+        )
+        .format.options.map(option => ({
+          label: option,
+          value: option
+        }));
+
+    // TODO: Be smarter about the way we pull out config data from the Knack object
+    if (window.Knack) {
+      workTypeScheduledWorkOptions = this.setState({
+        workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
+          window.Knack
+        )
+      });
+    } else {
+      setTimeout(() => {
+        this.setState({
+          workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
+            window.Knack
+          )
+        });
+      }, 5000);
+    }
   }
 
   render() {
@@ -537,7 +585,7 @@ class NewWorkOrder extends Component {
                 checked={
                   this.state.formData[FIELDS.WORK_TYPE] === "Trouble Call"
                 }
-                onChange={this.handleChange}
+                onChange={this.handleWorkTypeChange}
               />
               <label
                 className="form-check-label"
@@ -556,7 +604,7 @@ class NewWorkOrder extends Component {
                 checked={
                   this.state.formData[FIELDS.WORK_TYPE] === "Scheduled Work"
                 }
-                onChange={this.handleChange}
+                onChange={this.handleWorkTypeChange}
               />
               <label
                 className="form-check-label"
@@ -589,23 +637,19 @@ class NewWorkOrder extends Component {
             </div>
           ) : (
             // {/* WORK_TYPE_SCHEDULED_WORK */}
-            // {/* TODO: Mulitselect + Search UI */}
             <div className="form-group">
               <label htmlFor={FIELDS.WORK_TYPE_SCHEDULED_WORK}>
                 Work Type Scheduled Work
               </label>
-              <select
-                className="form-control"
+              <Select
+                defaultValue={[]}
+                isMulti
                 name={FIELDS.WORK_TYPE_SCHEDULED_WORK}
-                id={FIELDS.WORK_TYPE_SCHEDULED_WORK}
-                onChange={this.handleChange}
-              >
-                {WORK_TYPE_SCHEDULED_WORK_OPTIONS.map(option => (
-                  <option value={option} key={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+                options={this.state.workTypeScheduledWorkOptions}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={this.handleReactMultiSelectChange}
+              />
             </div>
           )}
 

@@ -26,13 +26,11 @@ export const FIELDS = {
     },
     "Digital Messaging Sign (DMS)": {
       fieldId: "field_1859",
-      label: "DMS",
-      options: [] // TODO
+      label: "DMS"
     },
     Sensor: {
       fieldId: "field_1863",
-      label: "Sensor",
-      options: [] // TODO
+      label: "Sensor"
     }
   },
   WORK_TYPE: "field_1004",

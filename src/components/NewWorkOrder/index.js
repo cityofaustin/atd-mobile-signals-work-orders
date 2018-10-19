@@ -43,7 +43,11 @@ class NewWorkOrder extends Component {
       cameraOptions: [],
       cameraName: "",
       hazardFlasherOptions: [],
-      hazardFlasherName: ""
+      hazardFlasherName: "",
+      dmsOptions: [],
+      dmsName: "",
+      sensorOptions: [],
+      sensorName: "",
     };
     this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
     this.delayedGetCameraOptions = _.debounce(this.getCameraOptions, 200);
@@ -57,8 +61,8 @@ class NewWorkOrder extends Component {
 
   getSignalsOptions = searchValue => {
     api
-      .signals()
-      .search(searchValue)
+      .workOrder()
+      .signals(searchValue)
       .then(res => {
         this.setState({ signalOptions: res.data.records });
       });
@@ -66,8 +70,8 @@ class NewWorkOrder extends Component {
 
   getCameraOptions = searchValue => {
     api
-      .cameras()
-      .search(searchValue)
+      .workOrder()
+      .cameras(searchValue)
       .then(res => {
         this.setState({ cameraOptions: res.data.records });
       });
@@ -75,19 +79,39 @@ class NewWorkOrder extends Component {
 
   getSchoolZoneOptions = () => {
     api
+      .workOrder()
       .schoolZones()
-      .search()
       .then(res => {
         this.setState({ schoolZoneOptions: res.data.records });
       });
   };
 
-  getHazardFlasher = () => {
+  getHazardFlasherOptions = () => {
     api
-      .hazardFlasher()
-      .search()
+      .workOrder()
+      .hazardFlashers()
       .then(res => {
         this.setState({ hazardFlasherOptions: res.data.records });
+      });
+  };
+
+  getDmsOptions = () => {
+    api
+      .workOrder()
+      .dmses()
+      .then(res => {
+        console.log("dms", res.data.records);
+        this.setState({ dmsOptions: res.data.records });
+      });
+  };
+
+  getSensorOptions = () => {
+    api
+      .workOrder()
+      .sensors()
+      .then(res => {
+        console.log("sensors", res.data.records);
+        this.setState({ sensorOptions: res.data.records });
       });
   };
 
@@ -169,45 +193,6 @@ class NewWorkOrder extends Component {
               ))}
             </select>
           </div>
-
-          {/* ASSET ITEM SELECT */}
-          {/* // TODO: search select UI component */}
-          {this.state.formData[FIELDS.ASSET_TYPE] !== "Other / No Asset" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "Signal" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "Camera" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "Hazard Flasher" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "School Beacon" && (
-              <div className="form-group">
-                <label
-                  htmlFor={
-                    FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]]
-                      .fieldId
-                  }
-                >
-                  {FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]].label}
-                </label>
-                <select
-                  className="form-control"
-                  id={
-                    FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]]
-                      .fieldId
-                  }
-                  name={
-                    FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]]
-                      .fieldId
-                  }
-                  onChange={this.handleChange}
-                >
-                  {FIELDS.ASSETS[
-                    this.state.formData[FIELDS.ASSET_TYPE]
-                  ].options.map(option => (
-                    <option value={option.id} key={option.id}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
 
           {/* Autocomplete for Signals */}
           {this.state.formData[FIELDS.ASSET_TYPE] === "Signal" && (
@@ -418,6 +403,121 @@ class NewWorkOrder extends Component {
                   this.setState({
                     formData,
                     hazardFlasherName: item.identifier
+                  });
+                }}
+              />
+            </div>
+          )}
+
+          {/* Autocomplete for DMS */}
+          {this.state.formData[FIELDS.ASSET_TYPE] ===
+            "Digital Messaging Sign (DMS)" && (
+            <div className="form-group">
+              <label
+                htmlFor={FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId}
+              >
+                {FIELDS.ASSETS["Digital Messaging Sign (DMS)"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.dmsOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.dmsName}
+                onChange={e => this.setState({ dmsName: e.target.value })}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[
+                    FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId
+                  ] = value;
+                  this.setState({
+                    formData,
+                    dmsName: item.identifier
+                  });
+                }}
+              />
+            </div>
+          )}
+
+          {/* Autocomplete for Sensor */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Sensor" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Sensor"].fieldId}>
+                {FIELDS.ASSETS["Sensor"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.sensorOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Sensor"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.sensorName}
+                onChange={e => this.setState({ sensorName: e.target.value })}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Sensor"].fieldId] = value;
+                  this.setState({
+                    formData,
+                    sensorName: item.identifier
                   });
                 }}
               />

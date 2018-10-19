@@ -41,7 +41,9 @@ class NewWorkOrder extends Component {
       schoolZoneOptions: [],
       schoolZoneName: "",
       cameraOptions: [],
-      cameraName: ""
+      cameraName: "",
+      hazardFlasherOptions: [],
+      hazardFlasherName: ""
     };
     this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
     this.delayedGetCameraOptions = _.debounce(this.getCameraOptions, 200);
@@ -67,7 +69,6 @@ class NewWorkOrder extends Component {
       .cameras()
       .search(searchValue)
       .then(res => {
-        console.log("cameraRes", res);
         this.setState({ cameraOptions: res.data.records });
       });
   };
@@ -78,6 +79,15 @@ class NewWorkOrder extends Component {
       .search()
       .then(res => {
         this.setState({ schoolZoneOptions: res.data.records });
+      });
+  };
+
+  getHazardFlasher = () => {
+    api
+      .hazardFlasher()
+      .search()
+      .then(res => {
+        this.setState({ hazardFlasherOptions: res.data.records });
       });
   };
 
@@ -122,6 +132,7 @@ class NewWorkOrder extends Component {
     this.getSchoolZoneOptions();
     this.getSignalsOptions(this.state.signalName);
     this.getCameraOptions(this.state.cameraName);
+    this.getHazardFlasher();
   }
 
   render() {
@@ -164,6 +175,7 @@ class NewWorkOrder extends Component {
           {this.state.formData[FIELDS.ASSET_TYPE] !== "Other / No Asset" &&
             this.state.formData[FIELDS.ASSET_TYPE] !== "Signal" &&
             this.state.formData[FIELDS.ASSET_TYPE] !== "Camera" &&
+            this.state.formData[FIELDS.ASSET_TYPE] !== "Hazard Flasher" &&
             this.state.formData[FIELDS.ASSET_TYPE] !== "School Beacon" && (
               <div className="form-group">
                 <label
@@ -350,6 +362,63 @@ class NewWorkOrder extends Component {
                   let formData = this.state.formData;
                   formData[FIELDS.ASSETS["School Beacon"].fieldId] = value;
                   this.setState({ formData, schoolZoneName: item.identifier });
+                }}
+              />
+            </div>
+          )}
+
+          {/* Autocomplete for Hazard Flasher */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Hazard Flasher" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Hazard Flasher"].fieldId}>
+                {FIELDS.ASSETS["Hazard Flasher"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.hazardFlasherOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Hazard Flasher"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.hazardFlasherName}
+                onChange={e =>
+                  this.setState({ hazardFlasherName: e.target.value })
+                }
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Hazard Flasher"].fieldId] = value;
+                  this.setState({
+                    formData,
+                    hazardFlasherName: item.identifier
+                  });
                 }}
               />
             </div>

@@ -22,8 +22,7 @@ export const FIELDS = {
     },
     "Hazard Flasher": {
       fieldId: "field_1864",
-      label: "Hazard Flasher",
-      options: [] // TODO
+      label: "Hazard Flasher"
     },
     "Digital Messaging Sign (DMS)": {
       fieldId: "field_1859",

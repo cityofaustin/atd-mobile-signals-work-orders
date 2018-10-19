@@ -28,13 +28,6 @@ const keys = {
 // images
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
 
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":"as"}]
-
-// signal search
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"}]&limit_return=true
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":"ave"}]
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":av}]
-
 const api = {
   myWorkOrders() {
     return {
@@ -78,6 +71,15 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${keys.cameras.sceneId}/views/${
             keys.cameras.viewId
           }/connections/field_1862?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
+          headers
+        )
+    };
+  },
+  hazardFlasher() {
+    return {
+      search: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1864?rows_per_page=2000&filters=[]&limit_return=true`,
           headers
         )
     };

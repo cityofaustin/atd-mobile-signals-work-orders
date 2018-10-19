@@ -4,13 +4,18 @@ import { APP_ID } from "../constants/api";
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
-  cameras: { sceneId: "scene_337", viewId: "view_1672" },
+  cameras: { sceneId: "scene_337", viewId: "view_1672", fieldId: "field_1862" },
   newWorkOrder: { sceneId: "scene_337", viewId: "view_1672" },
-  signals: { sceneId: "scene_337", viewId: "view_1672" },
+  signals: { sceneId: "scene_337", viewId: "view_1672", fieldId: "field_1060" },
   schoolZones: {
     sceneId: "scene_337",
     viewId: "view_1672",
     fieldId: "field_1871"
+  },
+  hazardFlasher: {
+    sceneId: "scene_337",
+    viewId: "view_1672",
+    fieldId: "field_1864"
   },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
@@ -59,7 +64,9 @@ const api = {
         axios.get(
           `https://us-api.knack.com/v1/scenes/${keys.signals.sceneId}/views/${
             keys.signals.viewId
-          }/connections/field_1060?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
+          }/connections/${
+            keys.signals.fieldId
+          }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
           headers
         )
     };
@@ -70,7 +77,9 @@ const api = {
         axios.get(
           `https://us-api.knack.com/v1/scenes/${keys.cameras.sceneId}/views/${
             keys.cameras.viewId
-          }/connections/field_1862?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
+          }/connections/${
+            keys.cameras.fieldId
+          }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
           headers
         )
     };
@@ -79,7 +88,11 @@ const api = {
     return {
       search: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1864?rows_per_page=2000&filters=[]&limit_return=true`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.hazardFlasher.sceneId
+          }/views/${keys.hazardFlasher.viewId}/connections/${
+            keys.hazardFlasher.fieldId
+          }?rows_per_page=2000&filters=[]&limit_return=true`,
           headers
         )
     };

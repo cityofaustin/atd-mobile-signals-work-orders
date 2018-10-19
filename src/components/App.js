@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Router, navigate } from "@reach/router";
 import Cookies from "js-cookie";
+import Script from "react-load-script";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
@@ -76,12 +77,22 @@ class App extends Component {
       });
   };
 
+  handleScriptLoad = () => {
+    console.log("Knack.js loaded");
+  };
+
   render() {
     // If we're not authenticated, go back to the login page
     !this.state.knackUserToken && navigate("/login");
 
     return (
       <div className="container">
+        <Script
+          url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
+          onCreate={data => console.log(data)}
+          onError={error => console.log(error)}
+          onLoad={this.handleScriptLoad}
+        />
         <Router>
           <Login
             path="/login"

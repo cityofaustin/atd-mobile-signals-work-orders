@@ -6,11 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
-import { colors } from "../../constants/colors";
 import {
   ASSET_TYPE_OPTIONS,
   WORK_TYPE_TROUBLE_CALL_OPTIONS,
-  WORK_TYPE_SCHEDULED_WORK_OPTIONS,
   FIELDS
 } from "./formConfig";
 
@@ -72,7 +70,6 @@ class NewWorkOrder extends Component {
   handleReactMultiSelectChange = values => {
     let formData = this.state.formData;
     formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = values.map(item => item.value);
-    debugger;
     this.setState({ formData });
   };
 
@@ -177,8 +174,7 @@ class NewWorkOrder extends Component {
     this.getDmsOptions();
     this.getSensorOptions();
 
-    let workTypeScheduledWorkOptions;
-    const getwWorkTypeScheduledWorkOptions = knack =>
+    const getWorkTypeScheduledWorkOptions = knack =>
       knack.objects.models
         .find(model => model.attributes.name === "work_orders_signals")
         .attributes.fields.find(
@@ -191,15 +187,15 @@ class NewWorkOrder extends Component {
 
     // TODO: Be smarter about the way we pull out config data from the Knack object
     if (window.Knack) {
-      workTypeScheduledWorkOptions = this.setState({
-        workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
+      this.setState({
+        workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
           window.Knack
         )
       });
     } else {
       setTimeout(() => {
         this.setState({
-          workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
+          workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
             window.Knack
           )
         });
@@ -619,7 +615,7 @@ class NewWorkOrder extends Component {
             // {/* WORK_TYPE_TROUBLE_CALL */}
             <div className="form-group">
               <label htmlFor={FIELDS.WORK_TYPE_TROUBLE_CALL}>
-                Work Type Trouble Call
+                Trouble Call Type
               </label>
               <select
                 className="form-control"
@@ -639,7 +635,7 @@ class NewWorkOrder extends Component {
             // {/* WORK_TYPE_SCHEDULED_WORK */}
             <div className="form-group">
               <label htmlFor={FIELDS.WORK_TYPE_SCHEDULED_WORK}>
-                Work Type Scheduled Work
+                Scheduled Work Type
               </label>
               <Select
                 defaultValue={[]}

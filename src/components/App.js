@@ -77,10 +77,6 @@ class App extends Component {
       });
   };
 
-  handleScriptLoad = () => {
-    console.log("Knack.js loaded");
-  };
-
   render() {
     // If we're not authenticated, go back to the login page
     !this.state.knackUserToken && navigate("/login");
@@ -89,9 +85,9 @@ class App extends Component {
       <div className="container">
         <Script
           url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
-          onCreate={data => console.log(data)}
+          onCreate={() => console.log("Knack.js script created")}
           onError={error => console.log(error)}
-          onLoad={this.handleScriptLoad}
+          onLoad={() => console.log("Knack.js loaded")}
         />
         <Router>
           <Login

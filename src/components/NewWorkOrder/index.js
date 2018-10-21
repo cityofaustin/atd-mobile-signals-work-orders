@@ -114,7 +114,6 @@ class NewWorkOrder extends Component {
       .workOrder()
       .dmses()
       .then(res => {
-        console.log("dms", res.data.records);
         this.setState({ dmsOptions: res.data.records });
       });
   };
@@ -124,7 +123,6 @@ class NewWorkOrder extends Component {
       .workOrder()
       .sensors()
       .then(res => {
-        console.log("sensors", res.data.records);
         this.setState({ sensorOptions: res.data.records });
       });
   };

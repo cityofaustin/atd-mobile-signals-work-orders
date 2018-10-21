@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
+import Select from "react-select";
+import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,19 +28,31 @@ class NewWorkOrder extends Component {
         field_1864: "", // HAZARD_FLASHER
         field_1859: "", // DMS
         field_1863: "", // SENSOR
-        field_1004: "Trouble Call",
-        field_976: "",
-        field_900: null,
-        field_1420: ""
+        field_1004: "Trouble Call", // WORK_TYPE
+        field_976: "", // WORK_TYPE_TROUBLE_CALL
+        field_900: [], // WORK_TYPE_SCHEDULED_WORK
+        field_1420: "" // WORK_TYPE_OTHER
       },
       errors: [],
       isSubmitting: false,
       isSubmitted: false,
       newWorkOrder: {},
       signalOptions: [],
+      signalName: "",
       schoolZoneOptions: [],
-      schoolZoneName: ""
+      schoolZoneName: "",
+      cameraOptions: [],
+      cameraName: "",
+      hazardFlasherOptions: [],
+      hazardFlasherName: "",
+      dmsOptions: [],
+      dmsName: "",
+      sensorOptions: [],
+      sensorName: "",
+      workTypeScheduledWorkOptions: []
     };
+    this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
+    this.delayedGetCameraOptions = _.debounce(this.getCameraOptions, 200);
   }
 
   handleChange = e => {
@@ -47,22 +61,74 @@ class NewWorkOrder extends Component {
     this.setState({ formData });
   };
 
-  // TODO: Blocked by current form config in Knack
-  // getSignalsOptions = searchValue => {
-  //   api
-  //     .signals()
-  //     .search(searchValue)
-  //     .then(res => {
-  //       console.log(res);
-  //     });
-  // };
+  handleWorkTypeChange = e => {
+    let formData = this.state.formData;
+    formData[FIELDS.WORK_TYPE_TROUBLE_CALL] = "";
+    formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = [];
+    this.setState({ formData });
+    this.handleChange(e);
+  };
+
+  handleReactMultiSelectChange = values => {
+    let formData = this.state.formData;
+    formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = values.map(item => item.value);
+    debugger;
+    this.setState({ formData });
+  };
+
+  getSignalsOptions = searchValue => {
+    api
+      .workOrder()
+      .signals(searchValue)
+      .then(res => {
+        this.setState({ signalOptions: res.data.records });
+      });
+  };
+
+  getCameraOptions = searchValue => {
+    api
+      .workOrder()
+      .cameras(searchValue)
+      .then(res => {
+        this.setState({ cameraOptions: res.data.records });
+      });
+  };
 
   getSchoolZoneOptions = () => {
     api
+      .workOrder()
       .schoolZones()
-      .search()
       .then(res => {
         this.setState({ schoolZoneOptions: res.data.records });
+      });
+  };
+
+  getHazardFlasherOptions = () => {
+    api
+      .workOrder()
+      .hazardFlashers()
+      .then(res => {
+        this.setState({ hazardFlasherOptions: res.data.records });
+      });
+  };
+
+  getDmsOptions = () => {
+    api
+      .workOrder()
+      .dmses()
+      .then(res => {
+        console.log("dms", res.data.records);
+        this.setState({ dmsOptions: res.data.records });
+      });
+  };
+
+  getSensorOptions = () => {
+    api
+      .workOrder()
+      .sensors()
+      .then(res => {
+        console.log("sensors", res.data.records);
+        this.setState({ sensorOptions: res.data.records });
       });
   };
 
@@ -89,8 +155,56 @@ class NewWorkOrder extends Component {
       });
   };
 
+  handleSignalChange = e => {
+    e.persist();
+    this.setState({ signalName: e.target.value }, () =>
+      this.delayedGetSignalsOptions(e.target.value)
+    );
+  };
+
+  handleCameraChange = e => {
+    e.persist();
+    this.setState({ cameraName: e.target.value }, () =>
+      this.delayedGetCameraOptions(e.target.value)
+    );
+  };
+
   componentDidMount() {
     this.getSchoolZoneOptions();
+    this.getSignalsOptions(this.state.signalName);
+    this.getCameraOptions(this.state.cameraName);
+    this.getHazardFlasherOptions();
+    this.getDmsOptions();
+    this.getSensorOptions();
+
+    let workTypeScheduledWorkOptions;
+    const getwWorkTypeScheduledWorkOptions = knack =>
+      knack.objects.models
+        .find(model => model.attributes.name === "work_orders_signals")
+        .attributes.fields.find(
+          field => field.name === "WORK_TYPE_SCHEDULED_WORK"
+        )
+        .format.options.map(option => ({
+          label: option,
+          value: option
+        }));
+
+    // TODO: Be smarter about the way we pull out config data from the Knack object
+    if (window.Knack) {
+      workTypeScheduledWorkOptions = this.setState({
+        workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
+          window.Knack
+        )
+      });
+    } else {
+      setTimeout(() => {
+        this.setState({
+          workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
+            window.Knack
+          )
+        });
+      }, 5000);
+    }
   }
 
   render() {
@@ -128,41 +242,109 @@ class NewWorkOrder extends Component {
             </select>
           </div>
 
-          {/* ASSET ITEM SELECT */}
-          {/* // TODO: search select UI component */}
-          {this.state.formData[FIELDS.ASSET_TYPE] !== "Other / No Asset" &&
-            this.state.formData[FIELDS.ASSET_TYPE] !== "School Beacon" && (
-              <div className="form-group">
-                <label
-                  htmlFor={
-                    FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]]
-                      .fieldId
-                  }
-                >
-                  {FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]].label}
-                </label>
-                <select
-                  className="form-control"
-                  id={
-                    FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]]
-                      .fieldId
-                  }
-                  name={
-                    FIELDS.ASSETS[this.state.formData[FIELDS.ASSET_TYPE]]
-                      .fieldId
-                  }
-                  onChange={this.handleChange}
-                >
-                  {FIELDS.ASSETS[
-                    this.state.formData[FIELDS.ASSET_TYPE]
-                  ].options.map(option => (
-                    <option value={option.id} key={option.id}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+          {/* Autocomplete for Signals */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Signal" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Signal"].fieldId}>
+                {FIELDS.ASSETS["Signal"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.signalOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Signal"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.signalName}
+                onChange={this.handleSignalChange}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Signal"].fieldId] = value;
+                  this.setState({ formData, signalName: item.identifier });
+                }}
+              />
+            </div>
+          )}
+
+          {/* Autocomplete for Cameras */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Camera" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Camera"].fieldId}>
+                {FIELDS.ASSETS["Camera"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.cameraOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Camera"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.cameraName}
+                onChange={this.handleCameraChange}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Camera"].fieldId] = value;
+                  this.setState({ formData, cameraName: item.identifier });
+                }}
+              />
+            </div>
+          )}
 
           {/* Autocomplete for School Zones */}
           {this.state.formData[FIELDS.ASSET_TYPE] === "School Beacon" && (
@@ -218,6 +400,178 @@ class NewWorkOrder extends Component {
             </div>
           )}
 
+          {/* Autocomplete for Hazard Flasher */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Hazard Flasher" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Hazard Flasher"].fieldId}>
+                {FIELDS.ASSETS["Hazard Flasher"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.hazardFlasherOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Hazard Flasher"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.hazardFlasherName}
+                onChange={e =>
+                  this.setState({ hazardFlasherName: e.target.value })
+                }
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Hazard Flasher"].fieldId] = value;
+                  this.setState({
+                    formData,
+                    hazardFlasherName: item.identifier
+                  });
+                }}
+              />
+            </div>
+          )}
+
+          {/* Autocomplete for DMS */}
+          {this.state.formData[FIELDS.ASSET_TYPE] ===
+            "Digital Messaging Sign (DMS)" && (
+            <div className="form-group">
+              <label
+                htmlFor={FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId}
+              >
+                {FIELDS.ASSETS["Digital Messaging Sign (DMS)"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.dmsOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.dmsName}
+                onChange={e => this.setState({ dmsName: e.target.value })}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[
+                    FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId
+                  ] = value;
+                  this.setState({
+                    formData,
+                    dmsName: item.identifier
+                  });
+                }}
+              />
+            </div>
+          )}
+
+          {/* Autocomplete for Sensor */}
+          {this.state.formData[FIELDS.ASSET_TYPE] === "Sensor" && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.ASSETS["Sensor"].fieldId}>
+                {FIELDS.ASSETS["Sensor"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.sensorOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Sensor"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.sensorName}
+                onChange={e => this.setState({ sensorName: e.target.value })}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[FIELDS.ASSETS["Sensor"].fieldId] = value;
+                  this.setState({
+                    formData,
+                    sensorName: item.identifier
+                  });
+                }}
+              />
+            </div>
+          )}
+
           {/* WORK_TYPE */}
           <div className="form-group">
             <label htmlFor={FIELDS.WORK_TYPE}>Work Type</label>
@@ -231,7 +585,7 @@ class NewWorkOrder extends Component {
                 checked={
                   this.state.formData[FIELDS.WORK_TYPE] === "Trouble Call"
                 }
-                onChange={this.handleChange}
+                onChange={this.handleWorkTypeChange}
               />
               <label
                 className="form-check-label"
@@ -250,7 +604,7 @@ class NewWorkOrder extends Component {
                 checked={
                   this.state.formData[FIELDS.WORK_TYPE] === "Scheduled Work"
                 }
-                onChange={this.handleChange}
+                onChange={this.handleWorkTypeChange}
               />
               <label
                 className="form-check-label"
@@ -283,23 +637,19 @@ class NewWorkOrder extends Component {
             </div>
           ) : (
             // {/* WORK_TYPE_SCHEDULED_WORK */}
-            // {/* TODO: Mulitselect + Search UI */}
             <div className="form-group">
               <label htmlFor={FIELDS.WORK_TYPE_SCHEDULED_WORK}>
                 Work Type Scheduled Work
               </label>
-              <select
-                className="form-control"
+              <Select
+                defaultValue={[]}
+                isMulti
                 name={FIELDS.WORK_TYPE_SCHEDULED_WORK}
-                id={FIELDS.WORK_TYPE_SCHEDULED_WORK}
-                onChange={this.handleChange}
-              >
-                {WORK_TYPE_SCHEDULED_WORK_OPTIONS.map(option => (
-                  <option value={option} key={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+                options={this.state.workTypeScheduledWorkOptions}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={this.handleReactMultiSelectChange}
+              />
             </div>
           )}
 

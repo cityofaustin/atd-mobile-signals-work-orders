@@ -10,8 +10,7 @@ export const FIELDS = {
           name: "hi"
         },
         { id: "ho", name: "ho" }
-      ],
-      options: []
+      ]
     },
     Camera: {
       fieldId: "field_1862",
@@ -23,18 +22,15 @@ export const FIELDS = {
     },
     "Hazard Flasher": {
       fieldId: "field_1864",
-      label: "Hazard Flasher",
-      options: [] // TODO
+      label: "Hazard Flasher"
     },
     "Digital Messaging Sign (DMS)": {
       fieldId: "field_1859",
-      label: "DMS",
-      options: [] // TODO
+      label: "DMS"
     },
     Sensor: {
       fieldId: "field_1863",
-      label: "Sensor",
-      options: [] // TODO
+      label: "Sensor"
     }
   },
   WORK_TYPE: "field_1004",

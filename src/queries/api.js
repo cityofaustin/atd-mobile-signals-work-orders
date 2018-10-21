@@ -1,14 +1,18 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { APP_ID } from "../constants/api";
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
-  newWorkOrder: { sceneId: "scene_910", viewId: "view_2332" },
-  signals: { sceneId: "scene_337", viewId: "view_1672" },
-  schoolZones: {
+  newWorkOrder: {
     sceneId: "scene_337",
     viewId: "view_1672",
-    fieldId: "field_1871"
+    cameraFieldId: "field_1862",
+    schoolZoneFieldId: "field_1871",
+    signalFieldId: "field_1060",
+    hazardFlasherFieldId: "field_1864",
+    dmsFieldId: "field_1859",
+    sensorFieldId: "field_1863"
   },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
@@ -26,13 +30,6 @@ const keys = {
 // images
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
 
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":"as"}]
-
-// signal search
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"}]&limit_return=true
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":"ave"}]
-// https://us-api.knack.com/v1/scenes/scene_337/views/view_1672?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":av}]
-
 const api = {
   myWorkOrders() {
     return {
@@ -41,31 +38,6 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${
             keys.allMyWorkOrders.sceneId
           }/views/${keys.allMyWorkOrders.viewId}/records/`,
-          headers
-        )
-    };
-  },
-  schoolZones() {
-    return {
-      // https://us-api.knack.com/v1/scenes/scene_337/views/view_1672/connections/field_1871?rows_per_page=2000&filters=%5B%5D&limit_return=true&callback=jQuery172020114189195462506_1539012724374&_=1539012725129
-      search: searchValue =>
-        axios.get(
-          `https://us-api.knack.com/v1/scenes/${
-            keys.schoolZones.sceneId
-          }/views/${keys.schoolZones.viewId}/connections/${
-            keys.schoolZones.fieldId
-          }?rows_per_page=2000`,
-          headers
-        )
-    };
-  },
-  signals() {
-    return {
-      search: searchValue =>
-        axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.signals.sceneId}/views/${
-            keys.signals.viewId
-          }/connections/field_1060?rows_per_page=2000&filters=[{"field":"field_208","operator":"is","value":"PRIMARY"},{"field":"field_1058","operator":"contains","value":${searchValue}}]`,
           headers
         )
     };
@@ -120,6 +92,60 @@ const api = {
             keys.workOrderImages.viewId
           }/records?my-work-order-details2_id=${id}`,
           headers
+        ),
+      schoolZones: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.schoolZoneFieldId
+          }?rows_per_page=2000`,
+          headers
+        ),
+      signals: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.signalFieldId
+          }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
+          headers
+        ),
+      cameras: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.cameraFieldId
+          }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
+          headers
+        ),
+      hazardFlashers: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.hazardFlasherFieldId
+          }?rows_per_page=2000&filters=[]&limit_return=true`,
+          headers
+        ),
+      dmses: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.dmsFieldId
+          }?rows_per_page=2000&filters=[]&limit_return=true`,
+          headers
+        ),
+      sensors: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.sensorFieldId
+          }?rows_per_page=2000&filters=[]&limit_return=true`,
+          headers
         )
     };
   }
@@ -127,7 +153,7 @@ const api = {
 
 const headers = {
   headers: {
-    "X-Knack-Application-Id": "5b633d68c04cc40730078ac3",
+    "X-Knack-Application-Id": APP_ID,
     "X-Knack-REST-API-KEY": "knack",
     Authorization: Cookies.get("knackUserToken"),
     "content-type": "application/json"

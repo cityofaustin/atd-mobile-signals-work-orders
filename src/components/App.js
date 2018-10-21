@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Router, navigate } from "@reach/router";
 import Cookies from "js-cookie";
+import Script from "react-load-script";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +17,7 @@ import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
 import AllIssuedJobs from "./AllIssuedJobs";
 import NewWorkOrder from "./NewWorkOrder/index";
+import { APP_ID } from "../constants/api";
 
 import "../styles/App.css";
 
@@ -30,7 +32,7 @@ class App extends Component {
     // These are config variables that knack.js expects to find on the global
     // window element
     let app_id, distribution_key;
-    window.app_id = "5b633d68c04cc40730078ac3";
+    window.app_id = APP_ID;
     window.distribution_key = "dist_2";
 
     this.state = {
@@ -54,7 +56,7 @@ class App extends Component {
         `https://api.knack.com/v1/pages/${sceneKey}/views/${viewKey}/records`,
         {
           headers: {
-            "X-Knack-Application-Id": "5b633d68c04cc40730078ac3",
+            "X-Knack-Application-Id": APP_ID,
             "X-Knack-REST-API-KEY": "knack",
             Authorization: this.state.knackUserToken,
             "content-type": "application/json"
@@ -75,12 +77,22 @@ class App extends Component {
       });
   };
 
+  handleScriptLoad = () => {
+    console.log("Knack.js loaded");
+  };
+
   render() {
     // If we're not authenticated, go back to the login page
     !this.state.knackUserToken && navigate("/login");
 
     return (
       <div className="container">
+        <Script
+          url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
+          onCreate={data => console.log(data)}
+          onError={error => console.log(error)}
+          onLoad={this.handleScriptLoad}
+        />
         <Router>
           <Login
             path="/login"

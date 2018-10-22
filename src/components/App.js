@@ -4,7 +4,8 @@ import Cookies from "js-cookie";
 import Script from "react-load-script";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStroopwafel, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 // Add bootstrap v4 for styling, layouts, CSS utilites, etc
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
@@ -62,6 +63,7 @@ class App extends Component {
     // The knack objects are ready when the script loads. They get updated after
     // the script executes. With the setTimeout, we wait a breath after the
     // script loads, let is execute, then grab the Knack.js objects. Not perfect.
+
     setTimeout(() => {
       this.setState({ knackObject: window.Knack, knackJsLoaded: true });
     }, 1000);
@@ -90,38 +92,49 @@ class App extends Component {
                 />
               )}
             />
-            <PrivateRoute
-              component={Home}
-              exact
-              path="/"
-              isAuthenticated={!!this.state.knackUserToken}
-            />
-            <PrivateRoute
-              path="/my-work-orders"
-              isAuthenticated={!!this.state.knackUserToken}
-              component={MyWorkOrders}
-            />
-            <PrivateRoute
-              path="/all-issued-jobs"
-              isAuthenticated={this.state.knackUserToken}
-              component={AllIssuedJobs}
-            />
-            <PrivateRoute
-              path="/work-order/new"
-              component={NewWorkOrder}
-              knackObject={this.state.knackObject}
-              isAuthenticated={this.state.knackUserToken}
-            />
-            <PrivateRoute
-              path="/work-order/edit-new/:workOrderId"
-              component={EditNewWorkOrder}
-              isAuthenticated={this.state.knackUserToken}
-            />
-            <PrivateRoute
-              path="/work-orders/:workOrderId"
-              component={WorkOrderDetails}
-              isAuthenticated={this.state.knackUserToken}
-            />
+            {this.state.knackObject ? (
+              <div>
+                <PrivateRoute
+                  component={Home}
+                  exact
+                  path="/"
+                  isAuthenticated={!!this.state.knackUserToken}
+                />
+                <PrivateRoute
+                  path="/my-work-orders"
+                  isAuthenticated={!!this.state.knackUserToken}
+                  component={MyWorkOrders}
+                />
+                <PrivateRoute
+                  path="/all-issued-jobs"
+                  isAuthenticated={this.state.knackUserToken}
+                  component={AllIssuedJobs}
+                />
+                <PrivateRoute
+                  path="/work-order/new"
+                  component={NewWorkOrder}
+                  knackObject={this.state.knackObject}
+                  isAuthenticated={this.state.knackUserToken}
+                />
+                <PrivateRoute
+                  path="/work-order/edit-new/:workOrderId"
+                  component={EditNewWorkOrder}
+                  isAuthenticated={this.state.knackUserToken}
+                  knackObject={this.state.knackObject}
+                />
+                <PrivateRoute
+                  path="/work-orders/:workOrderId"
+                  component={WorkOrderDetails}
+                  isAuthenticated={this.state.knackUserToken}
+                />
+              </div>
+            ) : (
+              <FontAwesomeIcon
+                icon={faSpinner}
+                size="2x"
+                className="atd-spinner"
+              />
+            )}
           </Switch>
         </Router>
       </div>

@@ -4,6 +4,11 @@ import { APP_ID } from "../constants/api";
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
+  editNewWorkOrder: {
+    sceneId: "scene_328",
+    detailsViewId: "view_962",
+    formViewId: "view_958"
+  },
   newWorkOrder: {
     sceneId: "scene_337",
     viewId: "view_1672",
@@ -50,6 +55,13 @@ const api = {
             keys.newWorkOrder.sceneId
           }/views/${keys.newWorkOrder.viewId}/records`,
           data,
+          headers
+        ),
+      getEditNewWorkOrderDetails: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.detailsViewId}/records/${id}`,
           headers
         ),
       getTitle: id =>

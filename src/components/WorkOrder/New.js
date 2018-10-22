@@ -143,7 +143,6 @@ class NewWorkOrder extends Component {
       .workOrder()
       .new(this.state.formData)
       .then(res => {
-        console.log(res);
         this.setState({
           isSubmitting: false,
           isSubmitted: true,

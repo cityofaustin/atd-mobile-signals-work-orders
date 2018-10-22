@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Redirect,
-  Switch
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Cookies from "js-cookie";
 import Script from "react-load-script";
 
@@ -36,7 +31,6 @@ class App extends Component {
 
     // These are config variables that knack.js expects to find on the global
     // window element
-    let app_id, distribution_key;
     window.app_id = APP_ID;
     window.distribution_key = "dist_2";
 
@@ -65,11 +59,11 @@ class App extends Component {
   };
 
   handleScriptLoad = () => {
+    // The knack objects are ready when the script loads. They get updated after
+    // the script executes. With the setTimeout, we wait a breath after the
+    // script loads, let is execute, then grab the Knack.js objects. Not perfect.
     setTimeout(() => {
-      console.log(window.Knack);
       this.setState({ knackObject: window.Knack, knackJsLoaded: true });
-      Cookies.remove("knackObject");
-      Cookies.set("knackObject", window.Knack);
     }, 1000);
   };
 

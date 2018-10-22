@@ -183,11 +183,11 @@ class NewWorkOrder extends Component {
   }
 
   render() {
-    // if (!!this.state.newWorkOrder) {
-    //   return (
-    //     <Redirect to={`/work-order/edit-new/${this.state.newWorkOrder.id}`} />
-    //   );
-    // }
+    if (!!this.state.newWorkOrder) {
+      return (
+        <Redirect to={`/work-order/edit-new/${this.state.newWorkOrder.id}`} />
+      );
+    }
 
     return (
       <div>

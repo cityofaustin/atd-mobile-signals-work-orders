@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
 import Select from "react-select";
+import { Redirect } from "react-router-dom";
 import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
+import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
 import {
   ASSET_TYPE_OPTIONS,
   WORK_TYPE_TROUBLE_CALL_OPTIONS,
@@ -34,7 +36,7 @@ class NewWorkOrder extends Component {
       errors: [],
       isSubmitting: false,
       isSubmitted: false,
-      newWorkOrder: {},
+      newWorkOrder: null,
       signalOptions: [],
       signalName: "",
       schoolZoneOptions: [],
@@ -51,6 +53,7 @@ class NewWorkOrder extends Component {
     };
     this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
     this.delayedGetCameraOptions = _.debounce(this.getCameraOptions, 200);
+    this.handleWorkTypeChange = this.handleWorkTypeChange.bind(this);
   }
 
   handleChange = e => {
@@ -63,7 +66,13 @@ class NewWorkOrder extends Component {
     let formData = this.state.formData;
     formData[FIELDS.WORK_TYPE_TROUBLE_CALL] = "";
     formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = [];
-    this.setState({ formData });
+    this.setState({
+      formData,
+      workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
+        this.props.knackObject
+      )
+    });
+
     this.handleChange(e);
   };
 
@@ -171,37 +180,15 @@ class NewWorkOrder extends Component {
     this.getHazardFlasherOptions();
     this.getDmsOptions();
     this.getSensorOptions();
-
-    const getWorkTypeScheduledWorkOptions = knack =>
-      knack.objects.models
-        .find(model => model.attributes.name === "work_orders_signals")
-        .attributes.fields.find(
-          field => field.name === "WORK_TYPE_SCHEDULED_WORK"
-        )
-        .format.options.map(option => ({
-          label: option,
-          value: option
-        }));
-
-    // TODO: Be smarter about the way we pull out config data from the Knack object
-    if (window.Knack) {
-      this.setState({
-        workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
-          window.Knack
-        )
-      });
-    } else {
-      setTimeout(() => {
-        this.setState({
-          workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
-            window.Knack
-          )
-        });
-      }, 5000);
-    }
   }
 
   render() {
+    // if (!!this.state.newWorkOrder) {
+    //   return (
+    //     <Redirect to={`/work-order/edit-new/${this.state.newWorkOrder.id}`} />
+    //   );
+    // }
+
     return (
       <div>
         <h1>

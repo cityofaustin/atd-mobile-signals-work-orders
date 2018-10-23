@@ -7,7 +7,9 @@ const keys = {
   editNewWorkOrder: {
     sceneId: "scene_328",
     detailsViewId: "view_962",
-    formViewId: "view_958"
+    formViewId: "view_958",
+    assignToSelfId: "field_1752",
+    technicianId: "field_1754"
   },
   newWorkOrder: {
     sceneId: "scene_337",
@@ -25,9 +27,6 @@ const keys = {
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" }
 };
-
-// Technician options
-// https://us-api.knack.com/v1/scenes/scene_297/views/view_1252/connections/field_1753?rows_per_page=2000&filters=%5B%7B%22value%22%3A%22profile_65%22%2C%22operator%22%3A%22contains%22%2C%22field%22%3A%22field_171%22%7D%5D&limit_return=true&_=1538621967582
 
 // Vehicle options
 // `https://us-api.knack.com/v1/scenes/scene_297/views/view_1252/connections/field_1427?rows_per_page=2000&filters=%5B%7B%22field%22%3A%22field_2360%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22ARTERIAL+MANAGEMENT%22%7D%5D&limit_return=true&_=1538621967585`,
@@ -49,6 +48,20 @@ const api = {
   },
   workOrder() {
     return {
+      // test: data =>
+      //   axios.get(
+      //     `https://us-api.knack.com/v1/scenes/scene_328/views/view_958/connections/field_1754?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]&limit_return=true&callback=jQuery1720032102094348505084_1540244189763&_=1540244192921`,
+      //     headers
+      //   ),
+      technicians: data =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.technicianId
+          }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
+          headers
+        ),
       new: data =>
         axios.post(
           `https://us-api.knack.com/v1/scenes/${

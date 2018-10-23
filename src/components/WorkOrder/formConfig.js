@@ -33,6 +33,9 @@ export const FIELDS = {
       label: "Sensor"
     }
   },
+  ASSIGN_TO_SELF: "field_1752",
+  LEAD_TECHNICIAN: "field_1754",
+  LOCATION_NAME_RAW: "field_211_raw",
   WORK_TYPE: "field_1004",
   WORK_TYPE_TROUBLE_CALL: "field_976",
   WORK_TYPE_SCHEDULED_WORK: "field_900",
@@ -48,6 +51,7 @@ export const ASSET_TYPE_OPTIONS = [
   "Sensor",
   "Other / No Asset"
 ];
+export const ASSIGN_TO_SELF_OPTIONS = ["Yes", "No"];
 
 export const WORK_TYPE_TROUBLE_CALL_OPTIONS = [
   "LED Out",

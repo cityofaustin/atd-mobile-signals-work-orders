@@ -66,7 +66,7 @@ class App extends Component {
 
     setTimeout(() => {
       this.setState({ knackObject: window.Knack, knackJsLoaded: true });
-    }, 1000);
+    }, 2000);
   };
 
   render() {

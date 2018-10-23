@@ -1,54 +1,137 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons";
-import api from "../../queries/api";
+import Select from "react-select";
 
-const fields = {
-  LOCATION_NAME: "field_211_raw",
-  WORK_TYPE_TROUBLE_CALL: "field_976",
-  WORK_TYPE_SCHEDULED_WORK: "field_900",
-  ASSET_TYPE: "field_977"
-};
+import api from "../../queries/api";
+import FormGroup from "../Form/FormGroup";
+
+import {
+  FIELDS,
+  ASSIGN_TO_SELF_OPTIONS,
+  WORK_TYPE_TROUBLE_CALL_OPTIONS
+} from "./formConfig";
 
 class EditNewWorkOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      workOrderDetails: {}
+      workOrderDetails: {},
+      formData: {
+        field_1754: "", // LEAD_TECHNICIAN
+        field_1752: "No" // ASSIGN_TO_SELF
+      },
+      technicianOptions: []
     };
     this.workOrderId = this.props.match.params.workOrderId;
   }
+
   componentDidMount() {
+    this.getDetails(this.workOrderId);
+    this.getTechnicianOptions();
+  }
+
+  handleChange = e => {
+    let formData = this.state.formData;
+    formData[e.target.name] = e.target.value;
+    this.setState({ formData });
+  };
+
+  getDetails = workOrderId => {
     api
       .workOrder()
-      .getEditNewWorkOrderDetails(this.workOrderId)
+      .getEditNewWorkOrderDetails(workOrderId)
       .then(res => this.setState({ workOrderDetails: res.data }));
+  };
 
-    if (this.props.knackObject) {
-      const scene = this.props.knackObject.scenes.models.find(
-        item => item.attributes.key === "scene_328"
-      );
-      console.log(scene);
-    }
-  }
+  getTechnicianOptions = searchValue => {
+    api
+      .workOrder()
+      .technicians()
+      .then(res => {
+        const technicianOptions = res.data.records.map(item => {
+          return { label: item.identifier, value: item.id };
+        });
+        this.setState({ technicianOptions });
+      });
+  };
+
+  submitForm = e => {
+    e.preventDefault();
+    this.setState({ errors: [], isSubmitting: true });
+    api
+      .workOrder()
+      .new(this.state.formData)
+      .then(res => {
+        this.setState({
+          isSubmitting: false,
+          isSubmitted: true,
+          newWorkOrder: res.data.record
+        });
+      })
+      .catch(error => {
+        console.log(error.response.data.errors);
+        this.setState({
+          errors: error.response.data.errors,
+          isSubmitting: false
+        });
+      });
+  };
+
+  handleReactSelectChange = (fieldId, selected) => {
+    debugger;
+    let formData = this.state.formData;
+    formData[fieldId] = selected ? selected.value : "";
+    this.setState({ formData });
+  };
 
   render() {
     const { workOrderDetails } = this.state;
     return (
       <div>
-        <h1>Edit New Work Order</h1>
-        <h2>
+        <h1>
           <FontAwesomeIcon icon={faWrench} />{" "}
-          {workOrderDetails[fields.LOCATION_NAME]}
-        </h2>
+          {workOrderDetails[FIELDS.LOCATION_NAME_RAW]}
+        </h1>
         <div className="row">
           <div className="col-6">
-            <h4>{workOrderDetails[fields.ASSET_TYPE]}</h4>
+            <h4>{workOrderDetails[FIELDS.ASSET_TYPE]}</h4>
           </div>
           <div className="col-6">
-            <h4>{workOrderDetails[fields.WORK_TYPE_TROUBLE_CALL]}</h4>
-            <h4>{workOrderDetails[fields.WORK_TYPE_SCHEDULED_WORK]}</h4>
+            <h4>{workOrderDetails[FIELDS.WORK_TYPE_TROUBLE_CALL]}</h4>
+            <h4>{workOrderDetails[FIELDS.WORK_TYPE_SCHEDULED_WORK]}</h4>
           </div>
+        </div>
+        <div>
+          <form onSubmit={this.submitForm}>
+            <FormGroup
+              label="Assign to Self"
+              defaultValue={this.state.formData[FIELDS.ASSIGN_TO_SELF]}
+              fieldId={FIELDS.ASSIGN_TO_SELF}
+              onChangeHandler={this.handleChange}
+              options={ASSIGN_TO_SELF_OPTIONS}
+              inputType="basicSelect"
+              helpText="Check yes if the work order should be assigned to yourself."
+            />
+
+            <div className="form-group">
+              <label htmlFor={FIELDS.LEAD_TECHNICIAN}>Lead Technician</label>
+              <Select
+                className="basic-single"
+                classNamePrefix="select"
+                defaultValue={""}
+                isClearable
+                isSearchable
+                name={FIELDS.LEAD_TECHNICIAN}
+                options={this.state.technicianOptions}
+                onChange={this.handleReactSelectChange.bind(
+                  this,
+                  FIELDS.LEAD_TECHNICIAN
+                )}
+              />
+            </div>
+          </form>
         </div>
       </div>
     );

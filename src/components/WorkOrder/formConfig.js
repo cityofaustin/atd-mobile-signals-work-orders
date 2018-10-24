@@ -34,8 +34,12 @@ export const FIELDS = {
     }
   },
   ASSIGN_TO_SELF: "field_1752",
+  CSR: "field_1235",
   LEAD_TECHNICIAN: "field_1754",
+  REPORTED_BY: "field_968",
+  SUPPORT_TECHNICIANS: "field_909",
   LOCATION_NAME_RAW: "field_211_raw",
+  WORK_DESCRIPTION: "field_463",
   WORK_TYPE: "field_1004",
   WORK_TYPE_TROUBLE_CALL: "field_976",
   WORK_TYPE_SCHEDULED_WORK: "field_900",
@@ -51,7 +55,15 @@ export const ASSET_TYPE_OPTIONS = [
   "Sensor",
   "Other / No Asset"
 ];
+
 export const ASSIGN_TO_SELF_OPTIONS = ["Yes", "No"];
+
+export const REPORTED_BY_OPTIONS = [
+  "Austin Transportation Staff",
+  "311 Customer Service Request (CSR)",
+  "TMC",
+  "Other"
+];
 
 export const WORK_TYPE_TROUBLE_CALL_OPTIONS = [
   "LED Out",

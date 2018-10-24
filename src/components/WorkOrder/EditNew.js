@@ -10,7 +10,8 @@ import FormGroup from "../Form/FormGroup";
 import {
   FIELDS,
   ASSIGN_TO_SELF_OPTIONS,
-  WORK_TYPE_TROUBLE_CALL_OPTIONS
+  WORK_TYPE_TROUBLE_CALL_OPTIONS,
+  REPORTED_BY_OPTIONS
 } from "./formConfig";
 
 class EditNewWorkOrder extends Component {
@@ -20,16 +21,20 @@ class EditNewWorkOrder extends Component {
       workOrderDetails: {},
       formData: {
         field_1754: "", // LEAD_TECHNICIAN
+        field_909: [], // SUPPORT_TECHNICIANS
         field_1752: "No" // ASSIGN_TO_SELF
       },
-      technicianOptions: []
+      technicianOptions: [],
+      csrOptions: []
     };
     this.workOrderId = this.props.match.params.workOrderId;
+    this.delayedGetCsrOptions = _.debounce(this.getCsrOptions, 200);
   }
 
   componentDidMount() {
     this.getDetails(this.workOrderId);
     this.getTechnicianOptions();
+    // this.getCsrOptions("");
   }
 
   handleChange = e => {
@@ -57,6 +62,18 @@ class EditNewWorkOrder extends Component {
       });
   };
 
+  getCsrOptions = searchValue => {
+    api
+      .workOrder()
+      .csr()
+      .then(res => {
+        debugger;
+        console.log(res.data.records);
+        const csrOptions = res.data.records;
+        this.setState({ csrOptions });
+      });
+  };
+
   submitForm = e => {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
@@ -80,10 +97,26 @@ class EditNewWorkOrder extends Component {
   };
 
   handleReactSelectChange = (fieldId, selected) => {
-    debugger;
     let formData = this.state.formData;
     formData[fieldId] = selected ? selected.value : "";
     this.setState({ formData });
+  };
+
+  handleReactMultiSelectChange = (name, values) => {
+    // React-Select sends the event as the updated selected values.
+    // https://github.com/JedWatson/react-select/issues/1631
+    let formData = this.state.formData;
+    formData[name] = values.map(item => item.value);
+    this.setState({ formData });
+  };
+
+  handleCsrChange = e => {
+    e.persist();
+    let formData = this.state.formData;
+    formData[FIELDS.CSR] = e.target.value;
+    this.setState({ formData }, () =>
+      this.delayedGetCsrOptions(e.target.value)
+    );
   };
 
   render() {
@@ -115,20 +148,83 @@ class EditNewWorkOrder extends Component {
               helpText="Check yes if the work order should be assigned to yourself."
             />
 
+            {this.state.formData[FIELDS.ASSIGN_TO_SELF] === "No" && (
+              <div className="form-group">
+                <label htmlFor={FIELDS.LEAD_TECHNICIAN}>Lead Technician</label>
+                <Select
+                  className="basic-single"
+                  classNamePrefix="select"
+                  defaultValue={""}
+                  isClearable
+                  isSearchable
+                  name={FIELDS.LEAD_TECHNICIAN}
+                  options={this.state.technicianOptions}
+                  onChange={e =>
+                    this.handleReactSelectChange(FIELDS.LEAD_TECHNICIAN, e)
+                  }
+                />
+              </div>
+            )}
+
             <div className="form-group">
-              <label htmlFor={FIELDS.LEAD_TECHNICIAN}>Lead Technician</label>
+              <label htmlFor={FIELDS.SUPPORT_TECHNICIANS}>
+                Support Technician(s)
+              </label>
+              <Select
+                className="basic-multi-select"
+                classNamePrefix="select"
+                isMulti
+                defaultValue={[]}
+                name={FIELDS.SUPPORT_TECHNICIANS}
+                options={this.state.technicianOptions}
+                onChange={this.handleReactMultiSelectChange.bind(
+                  this,
+                  FIELDS.SUPPORT_TECHNICIANS
+                )}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor={FIELDS.WORK_DESCRIPTION}>Work Description</label>
+              <textarea
+                className="form-control"
+                name={FIELDS.WORK_DESCRIPTION}
+                id={FIELDS.WORK_DESCRIPTION}
+                onChange={this.handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor={FIELDS.REPORTED_BY}>Reported By</label>
               <Select
                 className="basic-single"
                 classNamePrefix="select"
                 defaultValue={""}
                 isClearable
                 isSearchable
-                name={FIELDS.LEAD_TECHNICIAN}
-                options={this.state.technicianOptions}
-                onChange={this.handleReactSelectChange.bind(
-                  this,
-                  FIELDS.LEAD_TECHNICIAN
-                )}
+                name={FIELDS.REPORTED_BY}
+                options={REPORTED_BY_OPTIONS.map(item => ({
+                  value: item,
+                  label: item
+                }))}
+                onChange={e =>
+                  this.handleReactSelectChange(FIELDS.REPORTED_BY, e)
+                }
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor={FIELDS.CSR}>CSR #</label>
+              <Select
+                className="basic-single"
+                classNamePrefix="select"
+                placeholder="Type to Search"
+                defaultValue={""}
+                isClearable
+                isSearchable
+                name={FIELDS.CSR}
+                options={this.state.csrOptions}
+                onChange={this.handleCsrChange}
               />
             </div>
           </form>

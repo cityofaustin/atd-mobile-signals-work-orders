@@ -9,7 +9,8 @@ const keys = {
     detailsViewId: "view_962",
     formViewId: "view_958",
     assignToSelfId: "field_1752",
-    technicianId: "field_1754"
+    technicianId: "field_1754",
+    csrFieldId: "field_1235"
   },
   newWorkOrder: {
     sceneId: "scene_337",
@@ -60,6 +61,15 @@ const api = {
           }/views/${keys.editNewWorkOrder.formViewId}/connections/${
             keys.editNewWorkOrder.technicianId
           }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
+          headers
+        ),
+      csr: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.csrFieldId
+          }?rows_per_page=2000&filters=[{"field":"field_1887","operator":"contains","value":"${searchValue}"}]`,
           headers
         ),
       new: data =>

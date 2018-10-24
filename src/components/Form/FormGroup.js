@@ -17,7 +17,7 @@ const FormGroup = ({
           className="form-control"
           id={fieldId}
           name={fieldId}
-          onChange={this.handleChange}
+          onChange={onChangeHandler}
           defaultValue={defaultValue}
           aria-describedby={`${fieldId}_HelpBlock`}
         >

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Router, navigate } from "@reach/router";
+import { ThemeProvider } from 'emotion-theming';
 import Cookies from "js-cookie";
 import Script from "react-load-script";
 
@@ -24,6 +25,17 @@ import "../styles/App.css";
 // Load Font Awesome v5 SVG / JS version
 // https://github.com/FortAwesome/react-fontawesome
 library.add(faStroopwafel);
+
+const theme = {
+  colorWhite: '#fff',
+  colorBlue: "#377eb8",
+  colorGrey: "#aeaeae",
+  colorGreen: "#4daf4a",
+  colorRed: "#e41a1c",
+  colorBlack: "#220e01",
+  inputBackgroundColor: 'rgba(238, 238, 238, .6)',
+  inputBorderColor: 'rgba(0, 0, 0, .38)',
+}
 
 class App extends Component {
   constructor(props) {
@@ -86,49 +98,51 @@ class App extends Component {
     !this.state.knackUserToken && navigate("/login");
 
     return (
-      <div className="container">
-        <Script
-          url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
-          onCreate={data => console.log(data)}
-          onError={error => console.log(error)}
-          onLoad={this.handleScriptLoad}
-        />
-        <Router>
-          <Login
-            path="/login"
-            setKnackUserToken={this.setKnackUserToken}
-            knackUserToken={this.state.knackUserToken}
-            appId={this.state.appId}
+      <ThemeProvider theme={theme}>
+        <div className="container">
+          <Script
+            url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
+            onCreate={data => console.log(data)}
+            onError={error => console.log(error)}
+            onLoad={this.handleScriptLoad}
           />
-          <Home path="/" knackUserToken={this.state.knackUserToken} />
-          <MyWorkOrders
-            path="/my-work-orders"
-            knackUserToken={this.state.knackUserToken}
-          />
-          <AllIssuedJobs
-            path="/all-issued-jobs"
-            knackUserToken={this.state.knackUserToken}
-          />
-          <NewWorkOrder
-            path="/work-order/new"
-            knackUserToken={this.state.knackUserToken}
-          />
-          <WorkOrderDetails
-            path="/work-orders/:workOrderId"
-            knackUserToken={this.state.knackUserToken}
-          />
-          <Data
-            path="/data"
-            requestKnackViewData={this.requestKnackViewData}
-            setKnackUserToken={this.setKnackUserToken}
-            knackUserToken={this.state.knackUserToken}
-            knackData={this.state.knackData}
-            knackDataLoaded={this.state.knackDataLoaded}
-            sceneKey={this.sceneKey}
-            viewKey={this.viewKey}
-          />
-        </Router>
-      </div>
+          <Router>
+            <Login
+              path="/login"
+              setKnackUserToken={this.setKnackUserToken}
+              knackUserToken={this.state.knackUserToken}
+              appId={this.state.appId}
+            />
+            <Home path="/" knackUserToken={this.state.knackUserToken} />
+            <MyWorkOrders
+              path="/my-work-orders"
+              knackUserToken={this.state.knackUserToken}
+            />
+            <AllIssuedJobs
+              path="/all-issued-jobs"
+              knackUserToken={this.state.knackUserToken}
+            />
+            <NewWorkOrder
+              path="/work-order/new"
+              knackUserToken={this.state.knackUserToken}
+            />
+            <WorkOrderDetails
+              path="/work-orders/:workOrderId"
+              knackUserToken={this.state.knackUserToken}
+            />
+            <Data
+              path="/data"
+              requestKnackViewData={this.requestKnackViewData}
+              setKnackUserToken={this.setKnackUserToken}
+              knackUserToken={this.state.knackUserToken}
+              knackData={this.state.knackData}
+              knackDataLoaded={this.state.knackDataLoaded}
+              sceneKey={this.sceneKey}
+              viewKey={this.viewKey}
+            />
+          </Router>
+        </div>
+      </ThemeProvider>
     );
   }
 }

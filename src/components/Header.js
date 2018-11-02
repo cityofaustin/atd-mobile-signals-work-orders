@@ -1,14 +1,15 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import StyledHeader from '../styles/Header.css.js';
+import { Link } from '@reach/router';
 
 const Header = props => {
   return (
     <StyledHeader>
-      <button onClick={() => console.log('go back to previous page')}>
-        <FontAwesomeIcon icon={faArrowLeft} />
-      </button>
+      <Link to="/">
+        <FontAwesomeIcon icon={faHome} />
+      </Link>
       <h2>{props.currentPage}</h2>
       <button onClick={() => console.log('logging out...')}>Log out</button>
     </StyledHeader>

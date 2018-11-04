@@ -1,18 +1,26 @@
 import React from 'react';
+import { Link, navigate, redirectTo } from '@reach/router';
+import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import StyledHeader from '../styles/Header.css.js';
-import { Link } from '@reach/router';
 
 const Header = props => {
+
   return (
     <StyledHeader>
-      <Link to="/">
-        <FontAwesomeIcon icon={faHome} />
-      </Link>
+      <button onClick={
+        () => window.history.go('-1')
+      }><FontAwesomeIcon icon={faArrowLeft} />
+      </button>
       <h2>{props.currentPage}</h2>
-      <button onClick={() => console.log('logging out...')}>Log out</button>
-    </StyledHeader>
+      <button
+        onClick={() => {
+          Cookies.remove('knackUserToken');
+          navigate({ to: '/login' });
+        }}
+      >Log out</button>
+    </StyledHeader >
   )
 }
 

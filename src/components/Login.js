@@ -17,8 +17,7 @@ class Login extends Component {
       requestMade: false,
       email: "",
       password: "",
-      loginError: false,
-      isLoggedIn: false
+      loginError: false
     };
   }
 
@@ -32,7 +31,6 @@ class Login extends Component {
         { email, password, headers }
       )
       .then(res => this.props.setKnackUserToken(res.data.session.user.token))
-      .then(this.setState({ isLoggedIn: true }))
       .catch(error => {
         this.setState({ loginError: true });
       });
@@ -43,7 +41,7 @@ class Login extends Component {
   };
 
   render() {
-    if (this.props.knackUserToken) {
+    if (this.props.isAuthenticated) {
       return <Redirect to="/" />;
     }
     return (

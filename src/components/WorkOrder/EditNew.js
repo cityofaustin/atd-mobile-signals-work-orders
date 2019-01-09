@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWrench } from "@fortawesome/free-solid-svg-icons";
+import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 
 import api from "../../queries/api";
@@ -18,6 +18,7 @@ class EditNewWorkOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSubmitting: false,
       workOrderDetails: {},
       formData: {
         field_1754: "", // LEAD_TECHNICIAN
@@ -34,7 +35,6 @@ class EditNewWorkOrder extends Component {
   componentDidMount() {
     this.getDetails(this.workOrderId);
     this.getTechnicianOptions();
-    // this.getCsrOptions("");
   }
 
   handleChange = e => {
@@ -63,13 +63,16 @@ class EditNewWorkOrder extends Component {
   };
 
   getCsrOptions = searchValue => {
+    if (searchValue.length < 2) {
+      return searchValue;
+    }
     api
       .workOrder()
-      .csr()
+      .csr(searchValue)
       .then(res => {
-        debugger;
-        console.log(res.data.records);
-        const csrOptions = res.data.records;
+        const csrOptions = res.data.records.map(item => {
+          return { label: item.identifier, value: item.id };
+        });
         this.setState({ csrOptions });
       });
   };
@@ -110,12 +113,11 @@ class EditNewWorkOrder extends Component {
     this.setState({ formData });
   };
 
-  handleCsrChange = e => {
-    e.persist();
+  handleCsrChange = selection => {
     let formData = this.state.formData;
-    formData[FIELDS.CSR] = e.target.value;
+    formData[FIELDS.CSR] = selection.value;
     this.setState({ formData }, () =>
-      this.delayedGetCsrOptions(e.target.value)
+      this.delayedGetCsrOptions(selection.value)
     );
   };
 
@@ -225,8 +227,21 @@ class EditNewWorkOrder extends Component {
                 name={FIELDS.CSR}
                 options={this.state.csrOptions}
                 onChange={this.handleCsrChange}
+                onInputChange={this.getCsrOptions}
               />
             </div>
+
+            <button type="submit" className="btn btn-primary">
+              {this.state.isSubmitting ? (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  size="2x"
+                  className="atd-spinner"
+                />
+              ) : (
+                "Submit"
+              )}
+            </button>
           </form>
         </div>
       </div>

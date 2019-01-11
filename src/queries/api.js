@@ -22,6 +22,10 @@ const keys = {
     dmsFieldId: "field_1859",
     sensorFieldId: "field_1863"
   },
+  newCsrNumber: {
+    sceneId: "scene_328",
+    viewId: "view_1115"
+  },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
   workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
@@ -36,6 +40,18 @@ const keys = {
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
 
 const api = {
+  csrNumber() {
+    return {
+      new: data =>
+        axios.post(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newCsrNumber.sceneId
+          }/views/${keys.newCsrNumber.viewId}/records`,
+          data,
+          headers
+        )
+    };
+  },
   myWorkOrders() {
     return {
       getAll: () =>

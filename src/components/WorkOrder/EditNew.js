@@ -6,6 +6,7 @@ import Select from "react-select";
 
 import api from "../../queries/api";
 import FormGroup from "../Form/FormGroup";
+import CsrField from "./CsrField";
 
 import {
   FIELDS,
@@ -21,15 +22,16 @@ class EditNewWorkOrder extends Component {
       isSubmitting: false,
       workOrderDetails: {},
       formData: {
+        field_1752: "No", // ASSIGN_TO_SELF
         field_1754: "", // LEAD_TECHNICIAN
         field_909: [], // SUPPORT_TECHNICIANS
-        field_1752: "No" // ASSIGN_TO_SELF
+        field_463: "", // WORK DESCRIPTION
+        field_968: "", // REPORTED_BY
+        field_1235: "" // CSR_NUMBER
       },
-      technicianOptions: [],
-      csrOptions: []
+      technicianOptions: []
     };
     this.workOrderId = this.props.match.params.workOrderId;
-    this.delayedGetCsrOptions = _.debounce(this.getCsrOptions, 200);
   }
 
   componentDidMount() {
@@ -59,21 +61,6 @@ class EditNewWorkOrder extends Component {
           return { label: item.identifier, value: item.id };
         });
         this.setState({ technicianOptions });
-      });
-  };
-
-  getCsrOptions = searchValue => {
-    if (searchValue.length < 2) {
-      return searchValue;
-    }
-    api
-      .workOrder()
-      .csr(searchValue)
-      .then(res => {
-        const csrOptions = res.data.records.map(item => {
-          return { label: item.identifier, value: item.id };
-        });
-        this.setState({ csrOptions });
       });
   };
 
@@ -116,9 +103,7 @@ class EditNewWorkOrder extends Component {
   handleCsrChange = selection => {
     let formData = this.state.formData;
     formData[FIELDS.CSR] = selection.value;
-    this.setState({ formData }, () =>
-      this.delayedGetCsrOptions(selection.value)
-    );
+    this.setState({ formData });
   };
 
   render() {
@@ -215,21 +200,7 @@ class EditNewWorkOrder extends Component {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor={FIELDS.CSR}>CSR #</label>
-              <Select
-                className="basic-single"
-                classNamePrefix="select"
-                placeholder="Type to Search"
-                defaultValue={""}
-                isClearable
-                isSearchable
-                name={FIELDS.CSR}
-                options={this.state.csrOptions}
-                onChange={this.handleCsrChange}
-                onInputChange={this.getCsrOptions}
-              />
-            </div>
+            <CsrField handleCsrChange={this.handleCsrChange} />
 
             <button type="submit" className="btn btn-primary">
               {this.state.isSubmitting ? (

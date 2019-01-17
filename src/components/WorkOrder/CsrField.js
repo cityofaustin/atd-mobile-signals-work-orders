@@ -103,18 +103,29 @@ class CsrField extends Component {
       csrNumbersArray[0].length === 2 && isNumbers(csrNumbersArray[0]);
     let suffixValidates =
       csrNumbersArray[1].length === 8 && isNumbers(csrNumbersArray[1]);
-
+    //
     if (prefixValidates && suffixValidates) {
       return true;
     } else {
       this.setState({ hasError: true, errorText });
       return false;
     }
+    return true;
     console.log(csrNumber);
   };
 
   handleCsrChange = selection => {
-    this.props.handleCsrChange(selection);
+    // We need to check for a null value because a user can "x" out a previous
+    // selection. In that case, the value of selection is null. We need to
+    // coerce that null value to a object with a "value" attribute set equal to
+    // an empty string "".
+    if (selection === null) {
+      let blankSelection = {};
+      blankSelection.value = "";
+      this.props.handleCsrChange(blankSelection);
+    } else {
+      this.props.handleCsrChange(selection);
+    }
     this.getCsrOptions("");
   };
 

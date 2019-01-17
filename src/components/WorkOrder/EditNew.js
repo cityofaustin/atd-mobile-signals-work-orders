@@ -200,7 +200,10 @@ class EditNewWorkOrder extends Component {
               />
             </div>
 
-            <CsrField handleCsrChange={this.handleCsrChange} />
+            <CsrField
+              handleCsrChange={this.handleCsrChange}
+              formData={this.state.formData}
+            />
 
             <button type="submit" className="btn btn-primary">
               {this.state.isSubmitting ? (

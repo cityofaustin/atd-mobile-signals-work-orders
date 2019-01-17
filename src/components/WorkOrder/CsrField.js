@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Select from "react-select";
-import _ from "lodash";
+import AsyncSelect from "react-select/lib/Async";
 import api from "../../queries/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -12,10 +11,11 @@ class CsrField extends Component {
     super(props);
     this.state = {
       formData: {
-        field_1232: "" // NEW_CSR_NUMBER
+        field_1232: "", // NEW_CSR_NUMBER
+        field_1235: props.formData[FIELDS.CSR] || "" // SELECTED_CSR_NUMBER
       },
-      csrOptions: [],
-      csrUiNewOption: false,
+      selectedOption: "",
+      csrUiDisplayNew: false,
       hasError: false,
       errorText: ""
     };
@@ -27,23 +27,8 @@ class CsrField extends Component {
     this.setState({ formData });
   };
 
-  getCsrOptions = searchValue => {
-    if (searchValue.length < 2) {
-      return searchValue;
-    }
-    api
-      .workOrder()
-      .csr(searchValue)
-      .then(res => {
-        const csrOptions = res.data.records.map(item => {
-          return { label: item.identifier, value: item.id };
-        });
-        this.setState({ csrOptions });
-      });
-  };
-
   toggleCsrDropdown = () => {
-    this.setState({ csrUiNewOption: !this.state.csrUiNewOption });
+    this.setState({ csrUiDisplayNew: !this.state.csrUiDisplayNew });
   };
 
   createNewCsrNumber = () => {
@@ -54,16 +39,20 @@ class CsrField extends Component {
       .csrNumber()
       .new(this.state.formData)
       .then(res => {
-        debugger;
-        this.setState({
-          isSubmittingCsr: false,
-          isSubmittedCsr: true,
-          newCsr: res.data.record
-        });
-        this.props.handleCsrChange({
-          label: res.data.record["field_1887"],
+        let newSelectedCsrOption = {
+          label: res.data.record[FIELDS.CSR_LABEL],
           value: res.data.record.id
+        };
+        this.setState({
+          hasError: false,
+          csrUiDisplayNew: false,
+          formData: {
+            field_1232: res.data.record.id
+          },
+          csrOptions: [newSelectedCsrOption],
+          selectedOption: newSelectedCsrOption
         });
+        this.props.handleCsrChange(newSelectedCsrOption);
       })
       .catch(error => {
         const errorsList = (
@@ -82,7 +71,7 @@ class CsrField extends Component {
 
   validateCsrNumber = () => {
     // returns a boolean
-    const csrNumber = this.state.formData.field_1232;
+    const csrNumber = this.state.formData[FIELDS.NEW_CSR];
     let csrNumbersArray = csrNumber.split("-");
     const errorText =
       "CSR number does not match forma [two-digit year] [dash] [eight-digit identifier]";
@@ -110,8 +99,6 @@ class CsrField extends Component {
       this.setState({ hasError: true, errorText });
       return false;
     }
-    return true;
-    console.log(csrNumber);
   };
 
   handleCsrChange = selection => {
@@ -119,6 +106,10 @@ class CsrField extends Component {
     // selection. In that case, the value of selection is null. We need to
     // coerce that null value to a object with a "value" attribute set equal to
     // an empty string "".
+    this.setState({
+      selectedOption: selection
+    });
+
     if (selection === null) {
       let blankSelection = {};
       blankSelection.value = "";
@@ -126,7 +117,32 @@ class CsrField extends Component {
     } else {
       this.props.handleCsrChange(selection);
     }
-    this.getCsrOptions("");
+  };
+
+  loadOptions = (inputValue, callback) => {
+    if (inputValue.length < 2) {
+      return inputValue;
+    }
+    api
+      .workOrder()
+      .csr(inputValue)
+      .then(res => {
+        const csrOptions = res.data.records.map(item => {
+          return { label: item.identifier, value: item.id };
+        });
+        this.setState({ csrOptions });
+        if (this.state.selectedOption) {
+          debugger;
+          csrOptions.push(this.state.selectedOption);
+        }
+        return callback(csrOptions);
+      });
+  };
+
+  handleInputChange = newValue => {
+    const inputValue = newValue.replace(/\W/g, "");
+    this.setState({ inputValue });
+    return inputValue;
   };
 
   render() {
@@ -134,7 +150,7 @@ class CsrField extends Component {
       <div className="form-group">
         <label htmlFor={FIELDS.CSR}>CSR #</label>
 
-        {this.state.csrUiNewOption ? (
+        {this.state.csrUiDisplayNew ? (
           <div>
             {this.state.hasError ? (
               <div className="alert alert-danger" role="alert">
@@ -150,7 +166,7 @@ class CsrField extends Component {
                 this.state.hasError ? "is-invalid" : ""
               }`}
               defaultValue=""
-              name="field_1232"
+              name={FIELDS.NEW_CSR}
               onKeyUp={this.handleChange}
             />
             <div
@@ -159,20 +175,24 @@ class CsrField extends Component {
             >
               Create New CSR Number
             </div>
+            <div
+              className="btn btn-danger mt-2 ml-2"
+              onClick={this.toggleCsrDropdown}
+            >
+              Cancel
+            </div>
           </div>
         ) : (
           <div>
-            <Select
-              className="basic-single"
-              classNamePrefix="select"
-              placeholder="Type to Search"
-              defaultValue={""}
-              isClearable
-              isSearchable
+            <AsyncSelect
               name={FIELDS.CSR}
-              options={this.state.csrOptions}
+              value={this.state.selectedOption}
+              cacheOptions
+              loadOptions={this.loadOptions}
+              isClearable
+              placeholder="Type to Search"
+              onInputChange={this.handleInputChange}
               onChange={this.handleCsrChange}
-              onInputChange={this.getCsrOptions}
             />
             <div
               className="btn btn-secondary mt-2"

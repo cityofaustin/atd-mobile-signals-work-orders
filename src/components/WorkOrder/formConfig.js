@@ -35,6 +35,8 @@ export const FIELDS = {
   },
   ASSIGN_TO_SELF: "field_1752",
   CSR: "field_1235",
+  NEW_CSR: "field_1232",
+  CSR_LABEL: "field_1887",
   LEAD_TECHNICIAN: "field_1754",
   REPORTED_BY: "field_968",
   SUPPORT_TECHNICIANS: "field_909",

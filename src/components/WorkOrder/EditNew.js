@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
@@ -7,13 +6,9 @@ import Select from "react-select";
 import api from "../../queries/api";
 import FormGroup from "../Form/FormGroup";
 import CsrField from "./CsrField";
+import DateTimeRangePicker from "./DateTimeRangePicker";
 
-import {
-  FIELDS,
-  ASSIGN_TO_SELF_OPTIONS,
-  WORK_TYPE_TROUBLE_CALL_OPTIONS,
-  REPORTED_BY_OPTIONS
-} from "./formConfig";
+import { FIELDS, YES_NO_OPTIONS, REPORTED_BY_OPTIONS } from "./formConfig";
 
 class EditNewWorkOrder extends Component {
   constructor(props) {
@@ -27,7 +22,9 @@ class EditNewWorkOrder extends Component {
         field_909: [], // SUPPORT_TECHNICIANS
         field_463: "", // WORK DESCRIPTION
         field_968: "", // REPORTED_BY
-        field_1235: "" // CSR_NUMBER
+        field_1235: "", // CSR_NUMBER
+        field_1006: "Yes", // SCHEDULE_IMMEDIATELY
+        field_460: "" // SCHEDULED_DATE
       },
       technicianOptions: []
     };
@@ -130,7 +127,7 @@ class EditNewWorkOrder extends Component {
               defaultValue={this.state.formData[FIELDS.ASSIGN_TO_SELF]}
               fieldId={FIELDS.ASSIGN_TO_SELF}
               onChangeHandler={this.handleChange}
-              options={ASSIGN_TO_SELF_OPTIONS}
+              options={YES_NO_OPTIONS}
               inputType="basicSelect"
               helpText="Check yes if the work order should be assigned to yourself."
             />
@@ -204,6 +201,19 @@ class EditNewWorkOrder extends Component {
               handleCsrChange={this.handleCsrChange}
               formData={this.state.formData}
             />
+
+            <FormGroup
+              label="Schedule Immediately"
+              defaultValue={this.state.formData[FIELDS.SCHEDULE_IMMEDIATELY]}
+              fieldId={FIELDS.SCHEDULE_IMMEDIATELY}
+              onChangeHandler={this.handleChange}
+              options={YES_NO_OPTIONS}
+              inputType="basicSelect"
+            />
+
+            {this.state.formData[FIELDS.SCHEDULE_IMMEDIATELY] === "No" && (
+              <DateTimeRangePicker />
+            )}
 
             <button type="submit" className="btn btn-primary">
               {this.state.isSubmitting ? (

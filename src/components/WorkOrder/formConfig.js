@@ -40,6 +40,8 @@ export const FIELDS = {
   LEAD_TECHNICIAN: "field_1754",
   REPORTED_BY: "field_968",
   SUPPORT_TECHNICIANS: "field_909",
+  SCHEDULE_IMMEDIATELY: "field_1006",
+  SCHEDULED_DATE: "field_460",
   LOCATION_NAME_RAW: "field_211_raw",
   WORK_DESCRIPTION: "field_463",
   WORK_TYPE: "field_1004",
@@ -58,7 +60,7 @@ export const ASSET_TYPE_OPTIONS = [
   "Other / No Asset"
 ];
 
-export const ASSIGN_TO_SELF_OPTIONS = ["Yes", "No"];
+export const YES_NO_OPTIONS = ["Yes", "No"];
 
 export const REPORTED_BY_OPTIONS = [
   "Austin Transportation Staff",

@@ -7,6 +7,7 @@ import api from "../../queries/api";
 import FormGroup from "../Form/FormGroup";
 import CsrField from "./CsrField";
 import DateTimeRangePicker from "./DateTimeRangePicker";
+import { ErrorMessage, SuccessMessage } from "./Alerts";
 
 import { FIELDS, YES_NO_OPTIONS, REPORTED_BY_OPTIONS } from "./formConfig";
 
@@ -26,6 +27,7 @@ class EditNewWorkOrder extends Component {
         field_1006: "No", // SCHEDULE_IMMEDIATELY
         field_460: "" // WORK_SCHEDULED_DATE
       },
+      errors: [],
       technicianOptions: []
     };
     this.workOrderId = this.props.match.params.workOrderId;
@@ -126,6 +128,12 @@ class EditNewWorkOrder extends Component {
             <h4>{workOrderDetails[FIELDS.WORK_TYPE_SCHEDULED_WORK]}</h4>
           </div>
         </div>
+
+        {this.state.errors &&
+          this.state.errors.map(error => (
+            <ErrorMessage error={error} key={error.field} />
+          ))}
+
         <div>
           <form onSubmit={this.submitForm}>
             <FormGroup

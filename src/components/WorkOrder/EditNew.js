@@ -66,7 +66,7 @@ class EditNewWorkOrder extends Component {
     this.setState({ errors: [], isSubmitting: true });
     api
       .workOrder()
-      .new(this.state.formData)
+      .editNewWorkOrder(this.workOrderId, this.state.formData)
       .then(res => {
         this.setState({
           isSubmitting: false,

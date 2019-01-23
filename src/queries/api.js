@@ -96,6 +96,14 @@ const api = {
           data,
           headers
         ),
+      editNewWorkOrder: (id, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/records/${id}`,
+          data,
+          headers
+        ),
       getEditNewWorkOrderDetails: id =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${

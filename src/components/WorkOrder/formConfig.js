@@ -47,7 +47,8 @@ export const FIELDS = {
   WORK_TYPE: "field_1004",
   WORK_TYPE_TROUBLE_CALL: "field_976",
   WORK_TYPE_SCHEDULED_WORK: "field_900",
-  WORK_TYPE_OTHER: "field_1420"
+  WORK_TYPE_OTHER: "field_1420",
+  WORK_SCHEDULED_DATE: "field_460"
 };
 
 export const ASSET_TYPE_OPTIONS = [

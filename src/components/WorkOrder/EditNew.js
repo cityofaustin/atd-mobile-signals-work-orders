@@ -23,8 +23,8 @@ class EditNewWorkOrder extends Component {
         field_463: "", // WORK DESCRIPTION
         field_968: "", // REPORTED_BY
         field_1235: "", // CSR_NUMBER
-        field_1006: "Yes", // SCHEDULE_IMMEDIATELY
-        field_460: "" // SCHEDULED_DATE
+        field_1006: "No", // SCHEDULE_IMMEDIATELY
+        field_460: "" // WORK_SCHEDULED_DATE
       },
       technicianOptions: []
     };
@@ -100,6 +100,12 @@ class EditNewWorkOrder extends Component {
   handleCsrChange = selection => {
     let formData = this.state.formData;
     formData[FIELDS.CSR] = selection.value;
+    this.setState({ formData });
+  };
+
+  handleScheduledTimeChange = value => {
+    let formData = this.state.formData;
+    formData[FIELDS.WORK_SCHEDULED_DATE] = value;
     this.setState({ formData });
   };
 
@@ -212,7 +218,10 @@ class EditNewWorkOrder extends Component {
             />
 
             {this.state.formData[FIELDS.SCHEDULE_IMMEDIATELY] === "No" && (
-              <DateTimeRangePicker />
+              <DateTimeRangePicker
+                fieldName={FIELDS.WORK_SCHEDULED_DATE}
+                handleScheduledTimeChange={this.handleScheduledTimeChange}
+              />
             )}
 
             <button type="submit" className="btn btn-primary">

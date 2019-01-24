@@ -132,7 +132,6 @@ class CsrField extends Component {
         });
         this.setState({ csrOptions });
         if (this.state.selectedOption) {
-          debugger;
           csrOptions.push(this.state.selectedOption);
         }
         return callback(csrOptions);

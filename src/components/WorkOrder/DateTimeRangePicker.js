@@ -25,7 +25,6 @@ class DateTimeRangePicker extends Component {
   }
 
   updateDateString() {
-    debugger;
     const { startDate, startTime, endDate, endTime, isAllDay } = this.state;
     let dateFieldObject = {
       date: this.getFormattedDate(startDate),

@@ -66,11 +66,6 @@ const api = {
   },
   workOrder() {
     return {
-      // test: data =>
-      //   axios.get(
-      //     `https://us-api.knack.com/v1/scenes/scene_328/views/view_958/connections/field_1754?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]&limit_return=true&callback=jQuery1720032102094348505084_1540244189763&_=1540244192921`,
-      //     headers
-      //   ),
       technicians: data =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
+import AsyncSelect from "react-select/lib/Async";
 
 import api from "../../queries/api";
 import FormGroup from "../Form/FormGroup";
@@ -25,7 +26,8 @@ class EditNewWorkOrder extends Component {
         field_968: "", // REPORTED_BY
         field_1235: "", // CSR_NUMBER
         field_1006: "No", // SCHEDULE_IMMEDIATELY
-        field_460: "" // WORK_SCHEDULED_DATE
+        field_460: "", // WORK_SCHEDULED_DATE
+        field_2634: [] // TASK_ORDERS
       },
       errors: [],
       technicianOptions: []
@@ -109,6 +111,37 @@ class EditNewWorkOrder extends Component {
     let formData = this.state.formData;
     formData[FIELDS.WORK_SCHEDULED_DATE] = value;
     this.setState({ formData });
+  };
+
+  loadTaskOrderOptions = (inputValue, callback) => {
+    if (inputValue.length < 2) {
+      return inputValue;
+    }
+    api
+      .workOrder()
+      .taskOrder(inputValue)
+      .then(res => {
+        const options = res.data.records.map(item => {
+          return { label: item.identifier, value: item.id };
+        });
+        this.setState({ options });
+        if (this.state[FIELDS.TASK_ORDERS]) {
+          options.push(this.state[FIELDS.TASK_ORDERS]);
+        }
+        return callback(options);
+      });
+  };
+
+  handleAsyncInputChange = newValue => {
+    const inputValue = newValue.replace(/\W/g, "");
+    this.setState({ inputValue });
+    return inputValue;
+  };
+
+  handleTaskOrderChange = selection => {
+    this.setState({
+      [FIELDS.TASK_ORDERS]: selection
+    });
   };
 
   render() {
@@ -231,6 +264,22 @@ class EditNewWorkOrder extends Component {
                 handleScheduledTimeChange={this.handleScheduledTimeChange}
               />
             )}
+
+            <div className="mb-3">
+              <label htmlFor={FIELDS.TASK_ORDERS}>Task Order(s)</label>
+              <AsyncSelect
+                name={FIELDS.TASK_ORDERS}
+                id={FIELDS.TASK_ORDERS}
+                value={this.state[FIELDS.TASK_ORDERS]}
+                cacheOptions
+                loadOptions={this.loadTaskOrderOptions}
+                isClearable
+                isMulti
+                placeholder="Type to Search"
+                onInputChange={this.handleAsyncInputChange}
+                onChange={this.handleTaskOrderChange}
+              />
+            </div>
 
             <button type="submit" className="btn btn-primary">
               {this.state.isSubmitting ? (

@@ -10,7 +10,8 @@ const keys = {
     formViewId: "view_958",
     assignToSelfId: "field_1752",
     technicianId: "field_1754",
-    csrFieldId: "field_1235"
+    csrFieldId: "field_1235",
+    taskOrderId: "field_2634"
   },
   newWorkOrder: {
     sceneId: "scene_337",
@@ -86,6 +87,15 @@ const api = {
           }/views/${keys.editNewWorkOrder.formViewId}/connections/${
             keys.editNewWorkOrder.csrFieldId
           }?rows_per_page=2000&filters=[{"field":"field_1887","operator":"contains","value":"${searchValue}"}]`,
+          headers
+        ),
+      taskOrder: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.taskOrderId
+          }?rows_per_page=2000&filters=[{"field":"field_2633","operator":"is","value":"Yes"},{"field":"field_1278","operator":"contains","value":"${searchValue}"}]`,
           headers
         ),
       new: data =>

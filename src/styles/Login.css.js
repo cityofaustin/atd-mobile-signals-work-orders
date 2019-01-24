@@ -16,14 +16,17 @@ export const pageStyles = css`
 `;
 
 export const formStyles = css`
-  display: grid;
-  grid-template-columns: min-content;
-  grid-template-rows: min-content 40px min-content 40px 40px;
+  display: flex;
+  height: 300px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const buttonStyles = css`
   margin-top: 20px;
   height: 40px;
+  width: 140px;
   background-color: ${colorBlue};
   border: none;
   border-radius: 2px;
@@ -39,6 +42,7 @@ export const errorMessageStyles = css`
 `;
 export const labelStyles = css`
   margin-top: .5rem;
+  align-self: flex-start;
 `;
 
 export const inputStyles = css`

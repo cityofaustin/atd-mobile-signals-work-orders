@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { ThemeProvider } from "emotion-theming";
 import Cookies from "js-cookie";
 import Script from "react-load-script";
 
@@ -25,6 +26,17 @@ import "../styles/App.css";
 // Load Font Awesome v5 SVG / JS version
 // https://github.com/FortAwesome/react-fontawesome
 library.add(faStroopwafel);
+
+const theme = {
+  colorWhite: "#fff",
+  colorBlue: "#377eb8",
+  colorGrey: "#aeaeae",
+  colorGreen: "#4daf4a",
+  colorRed: "#e41a1c",
+  colorBlack: "#220e01",
+  inputBackgroundColor: "rgba(238, 238, 238, .6)",
+  inputBorderColor: "rgba(0, 0, 0, .38)"
+};
 
 class App extends Component {
   constructor(props) {
@@ -71,73 +83,75 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <Script
-          url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
-          onCreate={this.handleScriptCreate}
-          onError={this.handleScriptError}
-          onLoad={this.handleScriptLoad.bind(this)}
-        />
+      <ThemeProvider theme={theme}>
+        <div className="container">
+          <Script
+            url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
+            onCreate={this.handleScriptCreate}
+            onError={this.handleScriptError}
+            onLoad={this.handleScriptLoad.bind(this)}
+          />
 
-        <Router>
-          <Switch>
-            <Route
-              path="/login"
-              render={props => (
-                <Login
-                  {...props}
-                  setKnackUserToken={this.setKnackUserToken}
-                  isAuthenticated={this.state.knackUserToken}
-                  appId={this.state.appId}
+          <Router>
+            <Switch>
+              <Route
+                path="/login"
+                render={props => (
+                  <Login
+                    {...props}
+                    setKnackUserToken={this.setKnackUserToken}
+                    isAuthenticated={this.state.knackUserToken}
+                    appId={this.state.appId}
+                  />
+                )}
+              />
+              {this.state.knackObject ? (
+                <div>
+                  <PrivateRoute
+                    component={Home}
+                    exact
+                    path="/"
+                    isAuthenticated={!!this.state.knackUserToken}
+                  />
+                  <PrivateRoute
+                    path="/my-work-orders"
+                    isAuthenticated={!!this.state.knackUserToken}
+                    component={MyWorkOrders}
+                  />
+                  <PrivateRoute
+                    path="/all-issued-jobs"
+                    isAuthenticated={this.state.knackUserToken}
+                    component={AllIssuedJobs}
+                  />
+                  <PrivateRoute
+                    path="/work-order/new"
+                    component={NewWorkOrder}
+                    knackObject={this.state.knackObject}
+                    isAuthenticated={this.state.knackUserToken}
+                  />
+                  <PrivateRoute
+                    path="/work-order/edit-new/:workOrderId"
+                    component={EditNewWorkOrder}
+                    isAuthenticated={this.state.knackUserToken}
+                    knackObject={this.state.knackObject}
+                  />
+                  <PrivateRoute
+                    path="/work-orders/:workOrderId"
+                    component={WorkOrderDetails}
+                    isAuthenticated={this.state.knackUserToken}
+                  />
+                </div>
+              ) : (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  size="2x"
+                  className="atd-spinner"
                 />
               )}
-            />
-            {this.state.knackObject ? (
-              <div>
-                <PrivateRoute
-                  component={Home}
-                  exact
-                  path="/"
-                  isAuthenticated={!!this.state.knackUserToken}
-                />
-                <PrivateRoute
-                  path="/my-work-orders"
-                  isAuthenticated={!!this.state.knackUserToken}
-                  component={MyWorkOrders}
-                />
-                <PrivateRoute
-                  path="/all-issued-jobs"
-                  isAuthenticated={this.state.knackUserToken}
-                  component={AllIssuedJobs}
-                />
-                <PrivateRoute
-                  path="/work-order/new"
-                  component={NewWorkOrder}
-                  knackObject={this.state.knackObject}
-                  isAuthenticated={this.state.knackUserToken}
-                />
-                <PrivateRoute
-                  path="/work-order/edit-new/:workOrderId"
-                  component={EditNewWorkOrder}
-                  isAuthenticated={this.state.knackUserToken}
-                  knackObject={this.state.knackObject}
-                />
-                <PrivateRoute
-                  path="/work-orders/:workOrderId"
-                  component={WorkOrderDetails}
-                  isAuthenticated={this.state.knackUserToken}
-                />
-              </div>
-            ) : (
-              <FontAwesomeIcon
-                icon={faSpinner}
-                size="2x"
-                className="atd-spinner"
-              />
-            )}
-          </Switch>
-        </Router>
-      </div>
+            </Switch>
+          </Router>
+        </div>
+      </ThemeProvider>
     );
   }
 }

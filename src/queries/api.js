@@ -49,7 +49,7 @@ const api = {
             keys.newCsrNumber.sceneId
           }/views/${keys.newCsrNumber.viewId}/records`,
           data,
-          headers
+          getHeaders()
         )
     };
   },
@@ -60,7 +60,7 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${
             keys.allMyWorkOrders.sceneId
           }/views/${keys.allMyWorkOrders.viewId}/records/`,
-          headers
+          getHeaders()
         )
     };
   },
@@ -73,7 +73,7 @@ const api = {
           }/views/${keys.editNewWorkOrder.formViewId}/connections/${
             keys.editNewWorkOrder.technicianId
           }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
-          headers
+          getHeaders()
         ),
       csr: searchValue =>
         axios.get(
@@ -82,7 +82,7 @@ const api = {
           }/views/${keys.editNewWorkOrder.formViewId}/connections/${
             keys.editNewWorkOrder.csrFieldId
           }?rows_per_page=2000&filters=[{"field":"field_1887","operator":"contains","value":"${searchValue}"}]`,
-          headers
+          getHeaders()
         ),
       taskOrder: searchValue =>
         axios.get(
@@ -91,7 +91,7 @@ const api = {
           }/views/${keys.editNewWorkOrder.formViewId}/connections/${
             keys.editNewWorkOrder.taskOrderId
           }?rows_per_page=2000&filters=[{"field":"field_2633","operator":"is","value":"Yes"},{"field":"field_1278","operator":"contains","value":"${searchValue}"}]`,
-          headers
+          getHeaders()
         ),
       new: data =>
         axios.post(
@@ -99,7 +99,7 @@ const api = {
             keys.newWorkOrder.sceneId
           }/views/${keys.newWorkOrder.viewId}/records`,
           data,
-          headers
+          getHeaders()
         ),
       editNewWorkOrder: (id, data) =>
         axios.put(
@@ -107,28 +107,28 @@ const api = {
             keys.editNewWorkOrder.sceneId
           }/views/${keys.editNewWorkOrder.formViewId}/records/${id}`,
           data,
-          headers
+          getHeaders()
         ),
       getEditNewWorkOrderDetails: id =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.editNewWorkOrder.sceneId
           }/views/${keys.editNewWorkOrder.detailsViewId}/records/${id}`,
-          headers
+          getHeaders()
         ),
       getTitle: id =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.workOrderTitle.sceneId
           }/views/${keys.workOrderTitle.viewId}/records/${id}`,
-          headers
+          getHeaders()
         ),
       getDetails: id =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.workOrderDetails.sceneId
           }/views/${keys.workOrderDetails.viewId}/records/${id}`,
-          headers
+          getHeaders()
         ),
       getTimeLogs: id =>
         axios.get(
@@ -137,7 +137,7 @@ const api = {
           }/views/${
             keys.workOrderTimeLogs.viewId
           }/records?my-work-order-details2_id=${id}`,
-          headers
+          getHeaders()
         ),
       getInventory: id =>
         axios.get(
@@ -146,7 +146,7 @@ const api = {
           }/views/${
             keys.workOrderInventory.viewId
           }/records?my-work-order-details2_id=${id}`,
-          headers
+          getHeaders()
         ),
       getImages: id =>
         axios.get(
@@ -155,7 +155,7 @@ const api = {
           }/views/${
             keys.workOrderImages.viewId
           }/records?my-work-order-details2_id=${id}`,
-          headers
+          getHeaders()
         ),
       schoolZones: searchValue =>
         axios.get(
@@ -164,7 +164,7 @@ const api = {
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.schoolZoneFieldId
           }?rows_per_page=2000`,
-          headers
+          getHeaders()
         ),
       signals: searchValue =>
         axios.get(
@@ -173,7 +173,7 @@ const api = {
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.signalFieldId
           }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
-          headers
+          getHeaders()
         ),
       cameras: searchValue =>
         axios.get(
@@ -182,7 +182,7 @@ const api = {
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.cameraFieldId
           }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
-          headers
+          getHeaders()
         ),
       hazardFlashers: searchValue =>
         axios.get(
@@ -191,7 +191,7 @@ const api = {
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.hazardFlasherFieldId
           }?rows_per_page=2000&filters=[]&limit_return=true`,
-          headers
+          getHeaders()
         ),
       dmses: searchValue =>
         axios.get(
@@ -200,7 +200,7 @@ const api = {
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.dmsFieldId
           }?rows_per_page=2000&filters=[]&limit_return=true`,
-          headers
+          getHeaders()
         ),
       sensors: searchValue =>
         axios.get(
@@ -209,19 +209,21 @@ const api = {
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.sensorFieldId
           }?rows_per_page=2000&filters=[]&limit_return=true`,
-          headers
+          getHeaders()
         )
     };
   }
 };
 
-const headers = {
-  headers: {
-    "X-Knack-Application-Id": APP_ID,
-    "X-Knack-REST-API-KEY": "knack",
-    Authorization: Cookies.get("knackUserToken"),
-    "content-type": "application/json"
-  }
-};
+function getHeaders() {
+  return {
+    headers: {
+      "X-Knack-Application-Id": APP_ID,
+      "X-Knack-REST-API-KEY": "knack",
+      Authorization: Cookies.get("knackUserToken"),
+      "content-type": "application/json"
+    }
+  };
+}
 
 export default api;

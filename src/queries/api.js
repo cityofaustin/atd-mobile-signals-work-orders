@@ -4,6 +4,15 @@ import { APP_ID } from "../constants/api";
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
+  editNewWorkOrder: {
+    sceneId: "scene_328",
+    detailsViewId: "view_962",
+    formViewId: "view_958",
+    assignToSelfId: "field_1752",
+    technicianId: "field_1754",
+    csrFieldId: "field_1235",
+    taskOrderId: "field_2634"
+  },
   newWorkOrder: {
     sceneId: "scene_337",
     viewId: "view_1672",
@@ -14,15 +23,16 @@ const keys = {
     dmsFieldId: "field_1859",
     sensorFieldId: "field_1863"
   },
+  newCsrNumber: {
+    sceneId: "scene_328",
+    viewId: "view_1115"
+  },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
   workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" }
 };
-
-// Technician options
-// https://us-api.knack.com/v1/scenes/scene_297/views/view_1252/connections/field_1753?rows_per_page=2000&filters=%5B%7B%22value%22%3A%22profile_65%22%2C%22operator%22%3A%22contains%22%2C%22field%22%3A%22field_171%22%7D%5D&limit_return=true&_=1538621967582
 
 // Vehicle options
 // `https://us-api.knack.com/v1/scenes/scene_297/views/view_1252/connections/field_1427?rows_per_page=2000&filters=%5B%7B%22field%22%3A%22field_2360%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22ARTERIAL+MANAGEMENT%22%7D%5D&limit_return=true&_=1538621967585`,
@@ -31,6 +41,18 @@ const keys = {
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
 
 const api = {
+  csrNumber() {
+    return {
+      new: data =>
+        axios.post(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newCsrNumber.sceneId
+          }/views/${keys.newCsrNumber.viewId}/records`,
+          data,
+          headers
+        )
+    };
+  },
   myWorkOrders() {
     return {
       getAll: () =>
@@ -44,12 +66,59 @@ const api = {
   },
   workOrder() {
     return {
+      // test: data =>
+      //   axios.get(
+      //     `https://us-api.knack.com/v1/scenes/scene_328/views/view_958/connections/field_1754?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]&limit_return=true&callback=jQuery1720032102094348505084_1540244189763&_=1540244192921`,
+      //     headers
+      //   ),
+      technicians: data =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.technicianId
+          }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
+          headers
+        ),
+      csr: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.csrFieldId
+          }?rows_per_page=2000&filters=[{"field":"field_1887","operator":"contains","value":"${searchValue}"}]`,
+          headers
+        ),
+      taskOrder: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.taskOrderId
+          }?rows_per_page=2000&filters=[{"field":"field_2633","operator":"is","value":"Yes"},{"field":"field_1278","operator":"contains","value":"${searchValue}"}]`,
+          headers
+        ),
       new: data =>
         axios.post(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
           }/views/${keys.newWorkOrder.viewId}/records`,
           data,
+          headers
+        ),
+      editNewWorkOrder: (id, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/records/${id}`,
+          data,
+          headers
+        ),
+      getEditNewWorkOrderDetails: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.detailsViewId}/records/${id}`,
           headers
         ),
       getTitle: id =>

@@ -42,7 +42,7 @@ class WorkOrderDetail extends Component {
   }
 
   componentDidMount() {
-    const { workOrderId } = this.props;
+    const { workOrderId } = this.props.match.params;
     this.requestTitle(workOrderId);
     this.requestDetails(workOrderId);
     // Stagger the calls to Knack API so we don't get rate limited.

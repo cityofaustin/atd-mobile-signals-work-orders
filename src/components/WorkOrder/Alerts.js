@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@reach/router";
+import { Link } from "react-router-dom";
 
 export const ErrorMessage = ({ error }) => (
   <div className="alert alert-danger" role="alert">

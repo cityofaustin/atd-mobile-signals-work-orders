@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 import {
   formStyles,
@@ -17,8 +17,7 @@ class Login extends Component {
       requestMade: false,
       email: "",
       password: "",
-      loginError: false,
-      isLoggedIn: false
+      loginError: false
     };
   }
 
@@ -32,7 +31,6 @@ class Login extends Component {
         { email, password, headers }
       )
       .then(res => this.props.setKnackUserToken(res.data.session.user.token))
-      .then(this.setState({ isLoggedIn: true }))
       .catch(error => {
         this.setState({ loginError: true });
       });
@@ -43,15 +41,19 @@ class Login extends Component {
   };
 
   render() {
-    this.props.knackUserToken && navigate("/");
-
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className={pageStyles}>
         <p className={errorMessageStyles}>
           {this.state.loginError ? "Email or password incorrect." : ""}
         </p>
         <h1>Login</h1>
-        <form className={formStyles} onSubmit={this.knackRemoteLogin}>
+        <form
+          className={formStyles}
+          onSubmit={this.knackRemoteLogin.bind(this)}
+        >
           <label className={labelStyles} htmlFor="email">
             Email
           </label>

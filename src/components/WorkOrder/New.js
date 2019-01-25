@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
 import Select from "react-select";
+import { Redirect } from "react-router-dom";
 import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -8,11 +9,12 @@ import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import api from "../../queries/api";
 import { colors } from "../../constants/colors";
 
-import Header from '../Header';
+import Header from "../Header";
+import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
+
 import {
   ASSET_TYPE_OPTIONS,
   WORK_TYPE_TROUBLE_CALL_OPTIONS,
-  WORK_TYPE_SCHEDULED_WORK_OPTIONS,
   FIELDS
 } from "./formConfig";
 
@@ -38,7 +40,7 @@ class NewWorkOrder extends Component {
       errors: [],
       isSubmitting: false,
       isSubmitted: false,
-      newWorkOrder: {},
+      newWorkOrder: null,
       signalOptions: [],
       signalName: "",
       schoolZoneOptions: [],
@@ -55,6 +57,7 @@ class NewWorkOrder extends Component {
     };
     this.delayedGetSignalsOptions = _.debounce(this.getSignalsOptions, 200);
     this.delayedGetCameraOptions = _.debounce(this.getCameraOptions, 200);
+    this.handleWorkTypeChange = this.handleWorkTypeChange.bind(this);
   }
 
   handleChange = e => {
@@ -67,14 +70,19 @@ class NewWorkOrder extends Component {
     let formData = this.state.formData;
     formData[FIELDS.WORK_TYPE_TROUBLE_CALL] = "";
     formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = [];
-    this.setState({ formData });
+    this.setState({
+      formData,
+      workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
+        this.props.knackObject
+      )
+    });
+
     this.handleChange(e);
   };
 
   handleReactMultiSelectChange = values => {
     let formData = this.state.formData;
     formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = values.map(item => item.value);
-    debugger;
     this.setState({ formData });
   };
 
@@ -119,7 +127,6 @@ class NewWorkOrder extends Component {
       .workOrder()
       .dmses()
       .then(res => {
-        console.log("dms", res.data.records);
         this.setState({ dmsOptions: res.data.records });
       });
   };
@@ -129,7 +136,6 @@ class NewWorkOrder extends Component {
       .workOrder()
       .sensors()
       .then(res => {
-        console.log("sensors", res.data.records);
         this.setState({ sensorOptions: res.data.records });
       });
   };
@@ -141,7 +147,6 @@ class NewWorkOrder extends Component {
       .workOrder()
       .new(this.state.formData)
       .then(res => {
-        console.log(res);
         this.setState({
           isSubmitting: false,
           isSubmitted: true,
@@ -178,38 +183,15 @@ class NewWorkOrder extends Component {
     this.getHazardFlasherOptions();
     this.getDmsOptions();
     this.getSensorOptions();
-
-    let workTypeScheduledWorkOptions;
-    const getwWorkTypeScheduledWorkOptions = knack =>
-      knack.objects.models
-        .find(model => model.attributes.name === "work_orders_signals")
-        .attributes.fields.find(
-          field => field.name === "WORK_TYPE_SCHEDULED_WORK"
-        )
-        .format.options.map(option => ({
-          label: option,
-          value: option
-        }));
-
-    // TODO: Be smarter about the way we pull out config data from the Knack object
-    if (window.Knack) {
-      workTypeScheduledWorkOptions = this.setState({
-        workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
-          window.Knack
-        )
-      });
-    } else {
-      setTimeout(() => {
-        this.setState({
-          workTypeScheduledWorkOptions: getwWorkTypeScheduledWorkOptions(
-            window.Knack
-          )
-        });
-      }, 5000);
-    }
   }
 
   render() {
+    if (!!this.state.newWorkOrder) {
+      return (
+        <Redirect to={`/work-order/edit-new/${this.state.newWorkOrder.id}`} />
+      );
+    }
+
     return (
       <div>
         <Header />
@@ -463,62 +445,62 @@ class NewWorkOrder extends Component {
           {/* Autocomplete for DMS */}
           {this.state.formData[FIELDS.ASSET_TYPE] ===
             "Digital Messaging Sign (DMS)" && (
-              <div className="form-group">
-                <label
-                  htmlFor={FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId}
-                >
-                  {FIELDS.ASSETS["Digital Messaging Sign (DMS)"].label}
-                </label>
-                <Autocomplete
-                  getItemValue={item => item.id}
-                  items={this.state.dmsOptions}
-                  inputProps={{
-                    className: "form-control",
-                    name: FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId,
-                    placeholder: "Type to search..."
-                  }}
-                  wrapperStyle={{ display: "block" }}
-                  menuStyle={{
-                    borderRadius: "3px",
-                    boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
-                    background: "rgba(255, 255, 255, 0.9)",
-                    padding: "2px 0",
-                    fontSize: "120%",
-                    position: "fixed",
-                    overflow: "auto",
-                    zIndex: "999",
-                    maxHeight: "50%"
-                  }}
-                  renderItem={(item, isHighlighted) => (
-                    <div
-                      key={item.id}
-                      style={{
-                        background: isHighlighted ? "lightgray" : "white",
-                        padding: "2px 5px"
-                      }}
-                    >
-                      {item.identifier}
-                    </div>
-                  )}
-                  shouldItemRender={(item, value) =>
-                    item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
-                    -1
-                  }
-                  value={this.state.dmsName}
-                  onChange={e => this.setState({ dmsName: e.target.value })}
-                  onSelect={(value, item) => {
-                    let formData = this.state.formData;
-                    formData[
-                      FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId
-                    ] = value;
-                    this.setState({
-                      formData,
-                      dmsName: item.identifier
-                    });
-                  }}
-                />
-              </div>
-            )}
+            <div className="form-group">
+              <label
+                htmlFor={FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId}
+              >
+                {FIELDS.ASSETS["Digital Messaging Sign (DMS)"].label}
+              </label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.dmsOptions}
+                inputProps={{
+                  className: "form-control",
+                  name: FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId,
+                  placeholder: "Type to search..."
+                }}
+                wrapperStyle={{ display: "block" }}
+                menuStyle={{
+                  borderRadius: "3px",
+                  boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(255, 255, 255, 0.9)",
+                  padding: "2px 0",
+                  fontSize: "120%",
+                  position: "fixed",
+                  overflow: "auto",
+                  zIndex: "999",
+                  maxHeight: "50%"
+                }}
+                renderItem={(item, isHighlighted) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      background: isHighlighted ? "lightgray" : "white",
+                      padding: "2px 5px"
+                    }}
+                  >
+                    {item.identifier}
+                  </div>
+                )}
+                shouldItemRender={(item, value) =>
+                  item.identifier.toLowerCase().indexOf(value.toLowerCase()) >
+                  -1
+                }
+                value={this.state.dmsName}
+                onChange={e => this.setState({ dmsName: e.target.value })}
+                onSelect={(value, item) => {
+                  let formData = this.state.formData;
+                  formData[
+                    FIELDS.ASSETS["Digital Messaging Sign (DMS)"].fieldId
+                  ] = value;
+                  this.setState({
+                    formData,
+                    dmsName: item.identifier
+                  });
+                }}
+              />
+            </div>
+          )}
 
           {/* Autocomplete for Sensor */}
           {this.state.formData[FIELDS.ASSET_TYPE] === "Sensor" && (
@@ -622,7 +604,7 @@ class NewWorkOrder extends Component {
             // {/* WORK_TYPE_TROUBLE_CALL */}
             <div className="form-group">
               <label htmlFor={FIELDS.WORK_TYPE_TROUBLE_CALL}>
-                Work Type Trouble Call
+                Trouble Call Type
               </label>
               <select
                 className="form-control"
@@ -639,22 +621,22 @@ class NewWorkOrder extends Component {
               </select>
             </div>
           ) : (
-              // {/* WORK_TYPE_SCHEDULED_WORK */}
-              <div className="form-group">
-                <label htmlFor={FIELDS.WORK_TYPE_SCHEDULED_WORK}>
-                  Work Type Scheduled Work
+            // {/* WORK_TYPE_SCHEDULED_WORK */}
+            <div className="form-group">
+              <label htmlFor={FIELDS.WORK_TYPE_SCHEDULED_WORK}>
+                Scheduled Work Type
               </label>
-                <Select
-                  defaultValue={[]}
-                  isMulti
-                  name={FIELDS.WORK_TYPE_SCHEDULED_WORK}
-                  options={this.state.workTypeScheduledWorkOptions}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
-                  onChange={this.handleReactMultiSelectChange}
-                />
-              </div>
-            )}
+              <Select
+                defaultValue={[]}
+                isMulti
+                name={FIELDS.WORK_TYPE_SCHEDULED_WORK}
+                options={this.state.workTypeScheduledWorkOptions}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={this.handleReactMultiSelectChange}
+              />
+            </div>
+          )}
 
           {/* WORK_TYPE_OTHER */}
           <div className="form-group">
@@ -675,8 +657,8 @@ class NewWorkOrder extends Component {
                 className="atd-spinner"
               />
             ) : (
-                "Submit"
-              )}
+              "Submit"
+            )}
           </button>
         </form>
       </div>

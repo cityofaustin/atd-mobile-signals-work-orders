@@ -8,7 +8,7 @@ import api from "../../queries/api";
 import FormGroup from "../Form/FormGroup";
 import CsrField from "./CsrField";
 import DateTimeRangePicker from "./DateTimeRangePicker";
-import { ErrorMessage, SuccessMessage } from "./Alerts";
+import { ErrorMessage } from "./Alerts";
 
 import { FIELDS, YES_NO_OPTIONS, REPORTED_BY_OPTIONS } from "./formConfig";
 

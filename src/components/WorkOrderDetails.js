@@ -19,7 +19,6 @@ import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
-import Header from './Header';
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -43,7 +42,7 @@ class WorkOrderDetail extends Component {
   }
 
   componentDidMount() {
-    const { workOrderId } = this.props;
+    const { workOrderId } = this.props.match.params;
     this.requestTitle(workOrderId);
     this.requestDetails(workOrderId);
     // Stagger the calls to Knack API so we don't get rate limited.
@@ -90,7 +89,6 @@ class WorkOrderDetail extends Component {
   render() {
     return (
       <div>
-        <Header />
         <h1>
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}
@@ -175,7 +173,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.ISSUE_RECEIVED_TIME
+                                    workOrderFields.timelog.ISSUE_RECEIVED_TIME
                                   ]
                               }}
                             />
@@ -186,7 +184,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.WORKSITE_ARRIVE
+                                    workOrderFields.timelog.WORKSITE_ARRIVE
                                   ]
                               }}
                             />
@@ -197,7 +195,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.WORKSITE_LEAVE
+                                    workOrderFields.timelog.WORKSITE_LEAVE
                                   ]
                               }}
                             />
@@ -208,7 +206,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.WORKSITE_SHOP_RETURN
+                                    workOrderFields.timelog.WORKSITE_SHOP_RETURN
                                   ]
                               }}
                             />
@@ -248,7 +246,7 @@ class WorkOrderDetail extends Component {
                           dangerouslySetInnerHTML={{
                             __html:
                               inventory[
-                              workOrderFields.inventory.INVENTORY_ITEM
+                                workOrderFields.inventory.INVENTORY_ITEM
                               ]
                           }}
                         />

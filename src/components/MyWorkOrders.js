@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "@reach/router";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
@@ -9,7 +9,6 @@ import {
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
 import { signalsWorkOrderStatuses } from "../constants/statuses";
-import Header from './Header';
 
 const fields = workOrderFields.baseFields;
 const statuses = signalsWorkOrderStatuses;
@@ -39,7 +38,6 @@ class MyWorkOrders extends Component {
 
     return (
       <div>
-        <Header />
         <h1>
           <FontAwesomeIcon icon={faStreetView} /> My Work Orders
         </h1>

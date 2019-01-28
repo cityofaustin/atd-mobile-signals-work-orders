@@ -173,7 +173,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.ISSUE_RECEIVED_TIME
+                                    workOrderFields.timelog.ISSUE_RECEIVED_TIME
                                   ]
                               }}
                             />
@@ -184,7 +184,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.WORKSITE_ARRIVE
+                                    workOrderFields.timelog.WORKSITE_ARRIVE
                                   ]
                               }}
                             />
@@ -195,7 +195,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.WORKSITE_LEAVE
+                                    workOrderFields.timelog.WORKSITE_LEAVE
                                   ]
                               }}
                             />
@@ -206,7 +206,7 @@ class WorkOrderDetail extends Component {
                               dangerouslySetInnerHTML={{
                                 __html:
                                   timeLog[
-                                  workOrderFields.timelog.WORKSITE_SHOP_RETURN
+                                    workOrderFields.timelog.WORKSITE_SHOP_RETURN
                                   ]
                               }}
                             />
@@ -246,7 +246,7 @@ class WorkOrderDetail extends Component {
                           dangerouslySetInnerHTML={{
                             __html:
                               inventory[
-                              workOrderFields.inventory.INVENTORY_ITEM
+                                workOrderFields.inventory.INVENTORY_ITEM
                               ]
                           }}
                         />

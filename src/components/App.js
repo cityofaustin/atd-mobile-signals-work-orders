@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { ThemeProvider } from "emotion-theming";
 import Cookies from "js-cookie";
 import Script from "react-load-script";
@@ -14,6 +19,7 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import Home from "./Home";
+import Header from "./Header";
 import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
 import AllIssuedJobs from "./AllIssuedJobs";
@@ -46,10 +52,14 @@ class App extends Component {
     // window element
     window.app_id = APP_ID;
     window.distribution_key = "dist_2";
+    const cookieToken =
+      Cookies.get("knackUserToken") === "false"
+        ? false
+        : Cookies.get("knackUserToken");
 
     this.state = {
       appId: APP_ID,
-      knackUserToken: Cookies.get("knackUserToken"),
+      knackUserToken: cookieToken,
       knackObject: null,
       knackJsLoaded: false,
       knackJsLoading: false,
@@ -62,6 +72,11 @@ class App extends Component {
     // set a cookie to expire in 48 hrs according to Knack documentation:
     // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
     Cookies.set("knackUserToken", token, { expires: 2 });
+  };
+
+  revokeKnackUserToken = () => {
+    this.setState({ knackUserToken: false });
+    Cookies.set("knackUserToken", false);
   };
 
   handleScriptCreate = () => this.setState({ knackJsLoading: true });
@@ -105,8 +120,18 @@ class App extends Component {
                   />
                 )}
               />
+              {!this.state.knackUserToken && <Redirect to="/login" />}
               {this.state.knackObject ? (
                 <div>
+                  <Route
+                    path="/"
+                    render={props => (
+                      <Header
+                        {...props}
+                        revokeKnackUserToken={this.revokeKnackUserToken}
+                      />
+                    )}
+                  />
                   <PrivateRoute
                     component={Home}
                     exact

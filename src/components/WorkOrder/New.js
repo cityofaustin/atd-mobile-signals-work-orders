@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
+import { colors } from "../../constants/colors";
+
 import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
+
 import {
   ASSET_TYPE_OPTIONS,
   WORK_TYPE_TROUBLE_CALL_OPTIONS,

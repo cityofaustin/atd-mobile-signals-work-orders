@@ -9,7 +9,6 @@ import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import api from "../../queries/api";
 import { colors } from "../../constants/colors";
 
-import Header from "../Header";
 import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
 
 import {
@@ -194,7 +193,6 @@ class NewWorkOrder extends Component {
 
     return (
       <div>
-        <Header />
         <h1>
           <FontAwesomeIcon icon={faWrench} /> New Work Order
         </h1>

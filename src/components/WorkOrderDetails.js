@@ -19,7 +19,6 @@ import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
-import Header from './Header';
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -90,7 +89,6 @@ class WorkOrderDetail extends Component {
   render() {
     return (
       <div>
-        <Header />
         <h1>
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}

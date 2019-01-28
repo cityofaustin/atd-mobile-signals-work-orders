@@ -14,6 +14,7 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import Home from "./Home";
+import Header from "./Header";
 import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
 import AllIssuedJobs from "./AllIssuedJobs";
@@ -107,6 +108,7 @@ class App extends Component {
               />
               {this.state.knackObject ? (
                 <div>
+                  <Route path="/" render={props => <Header {...props} />} />
                   <PrivateRoute
                     component={Home}
                     exact

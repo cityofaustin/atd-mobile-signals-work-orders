@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -6,7 +7,8 @@ import {
   faInfoCircle,
   faCamera,
   faBarcode,
-  faSpinner
+  faSpinner,
+  faEdit
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -93,6 +95,13 @@ class WorkOrderDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}
         </h1>
+        <div className="mb-3">
+          <Link to={`/work-order/edit/${this.props.match.params.workOrderId}`}>
+            <div className="btn btn-secondary">
+              <FontAwesomeIcon icon={faEdit} /> Edit Work Order
+            </div>
+          </Link>
+        </div>
         <Accordion>
           <AccordionItem>
             <AccordionItemTitle>

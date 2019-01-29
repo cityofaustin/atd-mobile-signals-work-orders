@@ -11,6 +11,7 @@ import DateTimeRangePicker from "./DateTimeRangePicker";
 import { ErrorMessage } from "./Alerts";
 
 import { FIELDS, YES_NO_OPTIONS, REPORTED_BY_OPTIONS } from "./formConfig";
+import { editNewWorkOrderInitialState } from "./formDataInitialState";
 
 class EditNewWorkOrder extends Component {
   constructor(props) {
@@ -18,17 +19,7 @@ class EditNewWorkOrder extends Component {
     this.state = {
       isSubmitting: false,
       workOrderDetails: {},
-      formData: {
-        field_1752: "No", // ASSIGN_TO_SELF
-        field_1754: "", // LEAD_TECHNICIAN
-        field_909: [], // SUPPORT_TECHNICIANS
-        field_463: "", // WORK DESCRIPTION
-        field_968: "", // REPORTED_BY
-        field_1235: "", // CSR_NUMBER
-        field_1006: "No", // SCHEDULE_IMMEDIATELY
-        field_460: "", // WORK_SCHEDULED_DATE
-        field_2634: [] // TASK_ORDERS
-      },
+      formData: editNewWorkOrderInitialState,
       errors: [],
       technicianOptions: []
     };

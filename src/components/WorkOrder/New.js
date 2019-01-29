@@ -10,6 +10,7 @@ import api from "../../queries/api";
 import { colors } from "../../constants/colors";
 
 import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
+import { newWorkOrderInitialState } from "./formDataInitialState";
 
 import {
   ASSET_TYPE_OPTIONS,
@@ -23,19 +24,7 @@ class NewWorkOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: {
-        field_977: "Signal",
-        field_1060: "", // SIGNAL
-        field_1862: "", // CAMERA
-        field_1871: "", // SCHOOL_ZONE
-        field_1864: "", // HAZARD_FLASHER
-        field_1859: "", // DMS
-        field_1863: "", // SENSOR
-        field_1004: "Trouble Call", // WORK_TYPE
-        field_976: "", // WORK_TYPE_TROUBLE_CALL
-        field_900: [], // WORK_TYPE_SCHEDULED_WORK
-        field_1420: "" // WORK_TYPE_OTHER
-      },
+      formData: newWorkOrderInitialState,
       errors: [],
       isSubmitting: false,
       isSubmitted: false,

@@ -7,19 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWrench, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
-import { colors } from "../../constants/colors";
-
 import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
 import { newWorkOrderInitialState } from "./formDataInitialState";
 
 import Header from "../Shared/Header";
+import { ErrorMessage, SuccessMessage } from "./Alerts";
+
 import {
   ASSET_TYPE_OPTIONS,
   WORK_TYPE_TROUBLE_CALL_OPTIONS,
   FIELDS
 } from "./formConfig";
-
-import { ErrorMessage, SuccessMessage } from "./Alerts";
 
 class NewWorkOrder extends Component {
   constructor(props) {

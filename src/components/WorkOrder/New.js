@@ -12,6 +12,7 @@ import { colors } from "../../constants/colors";
 import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
 import { newWorkOrderInitialState } from "./formDataInitialState";
 
+import Header from "../Shared/Header";
 import {
   ASSET_TYPE_OPTIONS,
   WORK_TYPE_TROUBLE_CALL_OPTIONS,
@@ -182,9 +183,7 @@ class NewWorkOrder extends Component {
 
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faWrench} /> New Work Order
-        </h1>
+        <Header icon={faWrench} title="New Work Order" />
 
         {this.state.isSubmitted && (
           <SuccessMessage newWorkOrder={this.state.newWorkOrder} />

@@ -5,6 +5,7 @@ import Select from "react-select";
 import AsyncSelect from "react-select/lib/Async";
 
 import api from "../../queries/api";
+import Header from "../Shared/Header";
 import FormGroup from "../Form/FormGroup";
 import CsrField from "./CsrField";
 import DateTimeRangePicker from "./DateTimeRangePicker";
@@ -139,10 +140,10 @@ class EditNewWorkOrder extends Component {
     const { workOrderDetails } = this.state;
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faWrench} />{" "}
-          {workOrderDetails[FIELDS.LOCATION_NAME_RAW]}
-        </h1>
+        <Header
+          icon={faWrench}
+          title={workOrderDetails[FIELDS.LOCATION_NAME_RAW]}
+        />
         <div className="row">
           <div className="col-6">
             <h4>{workOrderDetails[FIELDS.ASSET_TYPE]}</h4>

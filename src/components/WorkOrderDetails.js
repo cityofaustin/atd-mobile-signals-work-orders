@@ -21,6 +21,7 @@ import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
+import { getWorkOrderDetails, getWorkOrderTitle } from "./WorkOrder/helpers";
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -45,27 +46,17 @@ class WorkOrderDetail extends Component {
 
   componentDidMount() {
     const { workOrderId } = this.props.match.params;
-    this.requestTitle(workOrderId);
-    this.requestDetails(workOrderId);
+    getWorkOrderTitle(workOrderId).then(data => {
+      this.setState({ titleData: data });
+    });
+    getWorkOrderDetails(workOrderId).then(data => {
+      this.setState({ detailsData: data });
+    });
     // Stagger the calls to Knack API so we don't get rate limited.
     setTimeout(this.requestTimeLogs, 500, workOrderId);
     setTimeout(this.requestInventory, 1000, workOrderId);
     setTimeout(this.requestImages, 1500, workOrderId);
   }
-
-  requestTitle = id => {
-    api
-      .workOrder()
-      .getTitle(id)
-      .then(res => this.setState({ titleData: res.data }));
-  };
-
-  requestDetails = id => {
-    api
-      .workOrder()
-      .getDetails(id)
-      .then(res => this.setState({ detailsData: res.data }));
-  };
 
   requestTimeLogs = id => {
     api

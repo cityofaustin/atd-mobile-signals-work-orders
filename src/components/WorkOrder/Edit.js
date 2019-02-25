@@ -84,8 +84,12 @@ class Edit extends Component {
         <form onSubmit={this.submitForm}>
           {!this.state.isLoading && (
             <>
-              {/* WORK_TYPE */}
-              <WorkTypeFields values={this.state.workOrderDetails} />
+              <AssetTypeField
+                formData={this.state.formData}
+                handleChange={this.handleChange}
+              />
+
+              <WorkTypeFields values={this.state.formData} />
 
               {/* REQUESTED_BY */}
               <ReportedByField
@@ -99,10 +103,6 @@ class Edit extends Component {
                 formData={this.state.formData}
               />
 
-              {/* ASSET_TYPE */}
-              <AssetTypeField
-                formData={this.state.formData}
-                handleChange={this.handleChange}
               <SubmitButton
                 text="Update"
                 isSubmitting={this.state.isSubmitting}

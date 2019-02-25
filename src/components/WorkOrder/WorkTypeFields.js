@@ -97,7 +97,7 @@ export default class WorkTypeFields extends Component {
           // {/* WORK_TYPE_TROUBLE_CALL */}
           <div className="form-group">
             <label htmlFor={FIELDS.WORK_TYPE_TROUBLE_CALL}>
-              Trouble Call Type
+              Problem Reported
             </label>
             <select
               className="form-control"
@@ -118,7 +118,7 @@ export default class WorkTypeFields extends Component {
           // {/* WORK_TYPE_SCHEDULED_WORK */}
           <div className="form-group">
             <label htmlFor={FIELDS.WORK_TYPE_SCHEDULED_WORK}>
-              Scheduled Work Type
+              Scheduled Work Task(s)
             </label>
             <Select
               defaultValue={[]}

@@ -10,6 +10,7 @@ import AssetTypeField from "./AssetTypeField";
 import { FIELDS } from "./formConfig";
 import { getWorkOrderDetailsAndTitle } from "./helpers";
 import { editWorkOrderInitialState } from "./formDataInitialState";
+import AssignTechnicianFields from "./AssignTechnicianFields";
 import SubmitButton from "../Form/SubmitButton";
 import api from "../../queries/api";
 
@@ -75,6 +76,20 @@ class Edit extends Component {
     this.setState({ formData });
   };
 
+  handleReactSelectChange = (fieldId, selected) => {
+    let formData = this.state.formData;
+    formData[fieldId] = selected ? selected.value : "";
+    this.setState({ formData });
+  };
+
+  handleReactMultiSelectChange = (name, values) => {
+    // React-Select sends the event as the updated selected values.
+    // https://github.com/JedWatson/react-select/issues/1631
+    let formData = this.state.formData;
+    formData[name] = values.map(item => item.value);
+    this.setState({ formData });
+  };
+
   render() {
     console.log(this.state.formData);
     return (
@@ -92,6 +107,15 @@ class Edit extends Component {
               <WorkTypeFields values={this.state.formData} />
 
               {/* REQUESTED_BY */}
+              <AssignTechnicianFields
+                formData={this.state.formData}
+                handleAssignToSelfFieldChange={this.handleChange}
+                handleLeadTechnicianFieldChange={this.handleReactSelectChange}
+                handleSupportTechniciansFieldChange={
+                  this.handleReactMultiSelectChange
+                }
+              />
+
               <ReportedByField
                 formData={this.state.formData}
                 handleReactSelectChange={this.handleReactSelectChange}

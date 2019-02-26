@@ -13,6 +13,7 @@ import { editWorkOrderInitialState } from "./formDataInitialState";
 import AssignTechnicianFields from "./AssignTechnicianFields";
 import SubmitButton from "../Form/SubmitButton";
 import api from "../../queries/api";
+import TaskOrderField from "./TaskOrderField";
 
 class Edit extends Component {
   constructor(props) {
@@ -82,6 +83,17 @@ class Edit extends Component {
     this.setState({ formData });
   };
 
+  handleAsyncInputChange = newValue => {
+    const inputValue = newValue.replace(/\W/g, "");
+    this.setState({ inputValue });
+    return inputValue;
+  };
+
+  handleTaskOrderChange = selection => {
+    this.setState({
+      [FIELDS.TASK_ORDERS]: selection
+    });
+  };
   handleReactMultiSelectChange = (name, values) => {
     // React-Select sends the event as the updated selected values.
     // https://github.com/JedWatson/react-select/issues/1631
@@ -114,6 +126,12 @@ class Edit extends Component {
                 handleSupportTechniciansFieldChange={
                   this.handleReactMultiSelectChange
                 }
+              />
+
+              <TaskOrderField
+                handleInputChange={this.handleAsyncInputChange}
+                onChange={this.handleTaskOrderChange}
+                formData={this.state.formData}
               />
 
               <ReportedByField

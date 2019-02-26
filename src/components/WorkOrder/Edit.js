@@ -14,6 +14,7 @@ import AssignTechnicianFields from "./AssignTechnicianFields";
 import SubmitButton from "../Form/SubmitButton";
 import api from "../../queries/api";
 import TaskOrderField from "./TaskOrderField";
+import ScheduleFields from "./ScheduleFields";
 
 class Edit extends Component {
   constructor(props) {
@@ -94,6 +95,13 @@ class Edit extends Component {
       [FIELDS.TASK_ORDERS]: selection
     });
   };
+
+  handleScheduledTimeChange = value => {
+    let formData = this.state.formData;
+    formData[FIELDS.WORK_SCHEDULED_DATE] = value;
+    this.setState({ formData });
+  };
+
   handleReactMultiSelectChange = (name, values) => {
     // React-Select sends the event as the updated selected values.
     // https://github.com/JedWatson/react-select/issues/1631
@@ -126,6 +134,12 @@ class Edit extends Component {
                 handleSupportTechniciansFieldChange={
                   this.handleReactMultiSelectChange
                 }
+              />
+
+              <ScheduleFields
+                handleScheduledTimeChange={this.handleScheduledTimeChange}
+                toggleScheduleChange={this.handleChange}
+                formData={this.state.formData}
               />
 
               <TaskOrderField

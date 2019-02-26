@@ -9,7 +9,6 @@ import AssetTypeField from "./AssetTypeField";
 
 import { FIELDS } from "./formConfig";
 import { getWorkOrderDetailsAndTitle } from "./helpers";
-import { editWorkOrderInitialState } from "./formDataInitialState";
 import AssignTechnicianFields from "./AssignTechnicianFields";
 import SubmitButton from "../Form/SubmitButton";
 import api from "../../queries/api";
@@ -20,9 +19,8 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      workOrderDetails: {},
-      formData: editWorkOrderInitialState,
-      isLoading: true
+      // workOrderDetails: {},
+      formData: {},
       errors: [],
       isLoading: true,
       isSubmitting: false,
@@ -126,7 +124,6 @@ class Edit extends Component {
 
               <WorkTypeFields values={this.state.formData} />
 
-              {/* REQUESTED_BY */}
               <AssignTechnicianFields
                 formData={this.state.formData}
                 handleAssignToSelfFieldChange={this.handleChange}
@@ -153,7 +150,6 @@ class Edit extends Component {
                 handleReactSelectChange={this.handleReactSelectChange}
               />
 
-              {/* CSR */}
               <CsrField
                 handleCsrChange={this.handleCsrChange}
                 formData={this.state.formData}

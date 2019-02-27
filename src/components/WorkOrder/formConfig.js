@@ -1,34 +1,27 @@
 export const FIELDS = {
   ASSET_TYPE: "field_977",
   ASSETS: {
-    Signal: {
+    signal: {
       fieldId: "field_1060",
-      label: "Signal",
-      options: [
-        {
-          id: "hi",
-          name: "hi"
-        },
-        { id: "ho", name: "ho" }
-      ]
+      label: "Signal"
     },
-    Camera: {
+    camera: {
       fieldId: "field_1862",
       label: "Camera"
     },
-    "School Beacon": {
+    schoolBeacon: {
       fieldId: "field_1871",
       label: "School Zone"
     },
-    "Hazard Flasher": {
+    hazardFlasher: {
       fieldId: "field_1864",
       label: "Hazard Flasher"
     },
-    "Digital Messaging Sign (DMS)": {
+    dms: {
       fieldId: "field_1859",
       label: "DMS"
     },
-    Sensor: {
+    sensor: {
       fieldId: "field_1863",
       label: "Sensor"
     }

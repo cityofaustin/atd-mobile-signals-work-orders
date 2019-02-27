@@ -8,7 +8,6 @@ import CsrField from "./CsrField";
 import AssetTypeField from "./AssetTypeField";
 
 import { FIELDS } from "./formConfig";
-import { getWorkOrderDetailsAndTitle } from "./helpers";
 import AssignTechnicianFields from "./AssignTechnicianFields";
 import SubmitButton from "../Form/SubmitButton";
 import api from "../../queries/api";
@@ -19,7 +18,6 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // workOrderDetails: {},
       formData: {},
       errors: [],
       isLoading: true,
@@ -31,9 +29,12 @@ class Edit extends Component {
   }
 
   componentDidMount = () => {
-    getWorkOrderDetailsAndTitle(this.workOrderId).then(data => {
-      this.setState({ workOrderDetails: data, isLoading: false });
-    });
+    api
+      .workOrder()
+      .getEditPageDetails(this.workOrderId)
+      .then(res => this.setState({ formData: res.data, isLoading: false }));
+  };
+
   submitForm = e => {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
@@ -62,6 +63,10 @@ class Edit extends Component {
     let formData = this.state.formData;
     formData[e.target.name] = e.target.value;
     this.setState({ formData });
+  };
+
+  handleAssetChange = updateData => {
+    this.setState({ formData: updateData });
   };
 
   handleCsrChange = selection => {
@@ -109,7 +114,6 @@ class Edit extends Component {
   };
 
   render() {
-    console.log(this.state.formData);
     return (
       <div>
         <Header icon={faEdit} title="Edit Work Order" />
@@ -120,6 +124,7 @@ class Edit extends Component {
               <AssetTypeField
                 formData={this.state.formData}
                 handleChange={this.handleChange}
+                handleAssetChange={this.handleAssetChange}
               />
 
               <WorkTypeFields values={this.state.formData} />

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export const ErrorMessage = ({ error }) => (
   <div className="alert alert-danger" role="alert">
@@ -7,13 +6,10 @@ export const ErrorMessage = ({ error }) => (
   </div>
 );
 
-export const SuccessMessage = ({ newWorkOrder }) => (
+export const SuccessMessage = ({ formVerb = "update", formType = "Data" }) => (
   <div className="alert alert-success" role="alert">
     <span>
-      <Link to={`/work-orders/${newWorkOrder.id}`} className="alert-link">
-        New Work Order
-      </Link>{" "}
-      successfully created!
+      {formType} successfully {`${formVerb}d`}!
     </span>
   </div>
 );

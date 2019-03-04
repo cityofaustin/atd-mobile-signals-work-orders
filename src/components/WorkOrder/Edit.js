@@ -6,6 +6,7 @@ import WorkTypeFields from "./WorkTypeFields";
 import ReportedByField from "./ReportedByField";
 import CsrField from "./CsrField";
 import AssetTypeField from "./AssetTypeField";
+import { ErrorMessage, SuccessMessage } from "./Alerts";
 
 import { FIELDS } from "./formConfig";
 import AssignTechnicianFields from "./AssignTechnicianFields";
@@ -18,12 +19,13 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: {},
+      rawData: {},
+      updatedFormData: {},
       errors: [],
       isLoading: true,
       isSubmitting: false,
       isSubmitted: false,
-      updatedWorkOrder: null
+      successfulResponseData: null
     };
     this.workOrderId = this.props.match.params.workOrderId;
   }
@@ -32,22 +34,24 @@ class Edit extends Component {
     api
       .workOrder()
       .getEditPageDetails(this.workOrderId)
-      .then(res => this.setState({ formData: res.data, isLoading: false }));
+      .then(res => this.setState({ rawData: res.data, isLoading: false }));
   };
 
   submitForm = e => {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
 
+    console.log("submitting: ", this.state.updatedFormData);
+
     api
       .workOrder()
-      .edit(this.workOrderId, this.state.formData)
+      .edit(this.workOrderId, this.state.updatedFormData)
       .then(res => {
         console.log(res);
         this.setState({
           isSubmitting: false,
           isSubmitted: true,
-          updatedWorkOrder: res.data.record
+          successfulResponseData: res.data.record
         });
       })
       .catch(error => {
@@ -60,31 +64,60 @@ class Edit extends Component {
   };
 
   handleChange = e => {
-    let formData = this.state.formData;
-    formData[e.target.name] = e.target.value;
-    this.setState({ formData });
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[e.target.name] = e.target.value;
+    const updatedAllData = Object.assign(
+      {},
+      this.state.rawData,
+      updatedFormData
+    );
+    updatedAllData[`${e.target.name}_raw`] = "";
+    this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
-  handleAssetChange = updateData => {
-    this.setState({ formData: updateData });
+  handleFormDataChange = updatedData => {
+    // create object of updated data
+    let updatedFormData = Object.assign(
+      {},
+      this.state.updatedFormData,
+      updatedData
+    );
+
+    // merge updated data into all data
+    const updatedAllData = Object.assign(
+      {},
+      this.state.rawData,
+      updatedFormData
+    );
+
+    // TODO: Only send field id update for if asssociated ASSET_TYPE is active
+    // let fieldsList = Object.keys(FIELDS.ASSETS).map(
+    //   item => FIELDS.ASSETS[item].fieldId
+    // );
+    // fieldsList.forEach(fieldId => delete data[fieldId]);
+
+    // TODO: Don't send raw fields in form submit
+    // updatedAllData[`${e.target.name}_raw`] = "";
+
+    this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
   handleCsrChange = selection => {
-    let formData = this.state.formData;
-    formData[FIELDS.CSR] = selection.value;
-    this.setState({ formData });
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[FIELDS.CSR] = selection.value;
+    this.setState({ updatedFormData });
   };
 
   handleReactSelectChange = (fieldId, selected) => {
-    let formData = this.state.formData;
-    formData[fieldId] = selected ? selected.value : "";
-    this.setState({ formData });
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[fieldId] = selected ? selected.value : "";
+    this.setState({ updatedFormData });
   };
 
   handleReactSelectChange = (fieldId, selected) => {
-    let formData = this.state.formData;
-    formData[fieldId] = selected ? selected.value : "";
-    this.setState({ formData });
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[fieldId] = selected ? selected.value : "";
+    this.setState({ updatedFormData });
   };
 
   handleAsyncInputChange = newValue => {
@@ -117,6 +150,15 @@ class Edit extends Component {
     return (
       <div>
         <Header icon={faEdit} title="Edit Work Order" />
+
+        {this.state.isSubmitted && (
+          <SuccessMessage formType="Work Order" formVerb="update" />
+        )}
+
+        {this.state.errors &&
+          this.state.errors.map(error => (
+            <ErrorMessage error={error} key={error.field} />
+          ))}
 
         <form onSubmit={this.submitForm}>
           {!this.state.isLoading && (

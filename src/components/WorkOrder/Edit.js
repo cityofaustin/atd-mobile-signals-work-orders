@@ -164,9 +164,8 @@ class Edit extends Component {
           {!this.state.isLoading && (
             <>
               <AssetTypeField
-                formData={this.state.formData}
-                handleChange={this.handleChange}
-                handleAssetChange={this.handleAssetChange}
+                data={this.state.rawData}
+                handleAssetChange={this.handleFormDataChange}
               />
 
               <WorkTypeFields values={this.state.formData} />

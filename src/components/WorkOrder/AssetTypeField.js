@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
-import _ from "lodash";
 
-import api from "../../queries/api";
 import { FIELDS, ASSET_TYPE_OPTIONS } from "./formConfig";
 import { getAllAssets } from "./helpers";
 
@@ -11,10 +9,8 @@ export default class AssetTypeField extends Component {
     super(props);
 
     this.setInitalAssetName = field => {
-      const fieldArray = this.props.formData[
-        `${FIELDS.ASSETS[field].fieldId}_raw`
-      ];
-      const hasValue = fieldArray.length > 0;
+      const fieldArray = this.props.data[`${FIELDS.ASSETS[field].fieldId}_raw`];
+      const hasValue = fieldArray && fieldArray.length > 0;
 
       if (hasValue) {
         return fieldArray[0].identifier;
@@ -35,7 +31,8 @@ export default class AssetTypeField extends Component {
       schoolBeacon: this.setInitalAssetName("schoolBeacon"),
       hazardFlasher: this.setInitalAssetName("hazardFlasher"),
       dms: this.setInitalAssetName("dms"),
-      sensor: this.setInitalAssetName("sensor")
+      sensor: this.setInitalAssetName("sensor"),
+      updatedFormData: {}
     };
 
     this.menuStyle = {
@@ -93,24 +90,43 @@ export default class AssetTypeField extends Component {
     });
   }
 
-  handleChange = (assetTypeString, e) => {
+  handleAutocompleteChange = (assetTypeString, e) => {
     e.persist();
-    let formData = this.props.formData;
+    let data = this.state.updatedFormData;
     let fieldId = FIELDS.ASSETS[assetTypeString].fieldId;
-    formData[fieldId] = e.target.value;
-    formData[`${fieldId}_raw`] = [];
-    this.props.handleAssetChange(formData);
-    this.setState({ [assetTypeString]: e.target.value });
+
+    data[fieldId] = e.target.value;
+    this.props.handleAssetChange(data);
+    this.setState({ [assetTypeString]: e.target.value, updatedFormData: data });
   };
 
-  onSelect = (value, item, field) => {
-    let formData = this.props.formData;
-    formData[FIELDS.ASSETS[field].fieldId] = value;
-    formData[`${FIELDS.ASSETS[field].fieldId}_raw`].id = item.id;
-    formData[`${FIELDS.ASSETS[field].fieldId}_raw`].identifier =
-      item.identifier;
-    this.setState({ [field]: item.identifier });
-    this.props.handleAssetChange(formData);
+  onAssetSelect = (value, item, field) => {
+    // create a blank object that we'll edit and eventually pass as the updated formData state
+    let data = {};
+
+    // copy exisiting ASSET_TYPE selection to the formData object if it has changed
+    if (this.state.updatedFormData[FIELDS.ASSET_TYPE]) {
+      data[FIELDS.ASSET_TYPE] = this.state.updatedFormData[FIELDS.ASSET_TYPE];
+    }
+
+    // update selected value for current ASSET_TYPE on the formData object
+    data[FIELDS.ASSETS[field].fieldId] = value;
+
+    // update component state and update parent state
+    this.setState({ [field]: item.identifier, updatedFormData: data });
+    this.props.handleAssetChange(data);
+  };
+
+  handleAssetTypeChange = e => {
+    let data = {};
+
+    data[FIELDS.ASSET_TYPE] = e.target.value;
+
+    this.setState({
+      [FIELDS.ASSET_TYPE.fieldId]: e.target.value,
+      updatedFormData: data
+    });
+    this.props.handleAssetChange(data);
   };
 
   render() {
@@ -122,8 +138,8 @@ export default class AssetTypeField extends Component {
             className="form-control"
             id={FIELDS.ASSET_TYPE}
             name={FIELDS.ASSET_TYPE}
-            onChange={this.props.handleChange}
-            defaultValue={this.props.formData[FIELDS.ASSET_TYPE]}
+            onChange={this.handleAssetTypeChange}
+            defaultValue={this.props.data[FIELDS.ASSET_TYPE]}
           >
             {ASSET_TYPE_OPTIONS.map(option => (
               <option value={option} key={option}>
@@ -134,7 +150,7 @@ export default class AssetTypeField extends Component {
         </div>
 
         {/* Autocomplete for Signals */}
-        {this.props.formData[FIELDS.ASSET_TYPE] === "Signal" && (
+        {this.props.data[FIELDS.ASSET_TYPE] === "Signal" && (
           <div className="form-group">
             <label htmlFor={FIELDS.ASSETS.signal.fieldId}>
               {FIELDS.ASSETS.signal.label}
@@ -152,14 +168,16 @@ export default class AssetTypeField extends Component {
                 this.shouldItemRender(item, value)
               }
               value={this.state.signal}
-              onChange={this.handleChange.bind(this, "signal")}
-              onSelect={(value, item) => this.onSelect(value, item, "signal")}
+              onChange={this.handleAutocompleteChange.bind(this, "signal")}
+              onSelect={(value, item) =>
+                this.onAssetSelect(value, item, "signal")
+              }
             />
           </div>
         )}
 
         {/* Autocomplete for Cameras */}
-        {this.props.formData[FIELDS.ASSET_TYPE] === "Camera" && (
+        {this.props.data[FIELDS.ASSET_TYPE] === "Camera" && (
           <div className="form-group">
             <label htmlFor={FIELDS.ASSETS.camera.fieldId}>
               {FIELDS.ASSETS.camera.label}
@@ -177,14 +195,16 @@ export default class AssetTypeField extends Component {
                 this.shouldItemRender(item, value)
               }
               value={this.state.camera}
-              onChange={this.handleChange.bind(this, "camera")}
-              onSelect={(value, item) => this.onSelect(value, item, "camera")}
+              onChange={this.handleAutocompleteChange.bind(this, "camera")}
+              onSelect={(value, item) =>
+                this.onAssetSelect(value, item, "camera")
+              }
             />
           </div>
         )}
 
         {/* Autocomplete for School Zones */}
-        {this.props.formData[FIELDS.ASSET_TYPE] === "School Beacon" && (
+        {this.props.data[FIELDS.ASSET_TYPE] === "School Beacon" && (
           <div className="form-group">
             <label htmlFor={FIELDS.ASSETS.schoolBeacon.fieldId}>
               {FIELDS.ASSETS.schoolBeacon.label}
@@ -202,16 +222,19 @@ export default class AssetTypeField extends Component {
                 this.shouldItemRender(item, value)
               }
               value={this.state.schoolBeacon}
-              onChange={this.handleChange.bind(this, "schoolBeacon")}
+              onChange={this.handleAutocompleteChange.bind(
+                this,
+                "schoolBeacon"
+              )}
               onSelect={(value, item) =>
-                this.onSelect(value, item, "schoolBeacon")
+                this.onAssetSelect(value, item, "schoolBeacon")
               }
             />
           </div>
         )}
 
         {/* Autocomplete for Hazard Flasher */}
-        {this.props.formData[FIELDS.ASSET_TYPE] === "Hazard Flasher" && (
+        {this.props.data[FIELDS.ASSET_TYPE] === "Hazard Flasher" && (
           <div className="form-group">
             <label htmlFor={FIELDS.ASSETS.hazardFlasher.fieldId}>
               {FIELDS.ASSETS.hazardFlasher.label}
@@ -229,16 +252,19 @@ export default class AssetTypeField extends Component {
                 this.shouldItemRender(item, value)
               }
               value={this.state.hazardFlasher}
-              onChange={this.handleChange.bind(this, "hazardFlasher")}
+              onChange={this.handleAutocompleteChange.bind(
+                this,
+                "hazardFlasher"
+              )}
               onSelect={(value, item) =>
-                this.onSelect(value, item, "hazardFlasher")
+                this.onAssetSelect(value, item, "hazardFlasher")
               }
             />
           </div>
         )}
 
         {/* Autocomplete for DMS */}
-        {this.props.formData[FIELDS.ASSET_TYPE] ===
+        {this.props.data[FIELDS.ASSET_TYPE] ===
           "Digital Messaging Sign (DMS)" && (
           <div className="form-group">
             <label htmlFor={FIELDS.ASSETS.dms.fieldId}>
@@ -257,14 +283,14 @@ export default class AssetTypeField extends Component {
                 this.shouldItemRender(item, value)
               }
               value={this.state.dms}
-              onChange={this.handleChange.bind(this, "dms")}
-              onSelect={(value, item) => this.onSelect(value, item, "dms")}
+              onChange={this.handleAutocompleteChange.bind(this, "dms")}
+              onSelect={(value, item) => this.onAssetSelect(value, item, "dms")}
             />
           </div>
         )}
 
         {/* Autocomplete for Sensor */}
-        {this.props.formData[FIELDS.ASSET_TYPE] === "Sensor" && (
+        {this.props.data[FIELDS.ASSET_TYPE] === "Sensor" && (
           <div className="form-group">
             <label htmlFor={FIELDS.ASSETS.sensor.fieldId}>
               {FIELDS.ASSETS.sensor.label}
@@ -282,8 +308,10 @@ export default class AssetTypeField extends Component {
                 this.shouldItemRender(item, value)
               }
               value={this.state.sensor}
-              onChange={this.handleChange.bind(this, "sensor")}
-              onSelect={(value, item) => this.onSelect(value, item, "sensor")}
+              onChange={this.handleAutocompleteChange.bind(this, "sensor")}
+              onSelect={(value, item) =>
+                this.onAssetSelect(value, item, "sensor")
+              }
             />
           </div>
         )}

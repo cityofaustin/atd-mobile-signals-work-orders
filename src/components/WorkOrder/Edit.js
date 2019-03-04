@@ -168,7 +168,10 @@ class Edit extends Component {
                 handleAssetChange={this.handleFormDataChange}
               />
 
-              <WorkTypeFields values={this.state.formData} />
+              <WorkTypeFields
+                data={this.state.rawData}
+                handleWorkTypeChange={this.handleFormDataChange}
+              />
 
               <AssignTechnicianFields
                 formData={this.state.formData}

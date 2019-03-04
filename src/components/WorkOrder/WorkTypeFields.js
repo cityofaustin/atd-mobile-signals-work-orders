@@ -9,30 +9,32 @@ export default class WorkTypeFields extends Component {
     super(props);
 
     this.state = {
-      formData: props.values,
+      data: props.data,
       workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
         window.Knack
-      )
+      ),
+      updatedFormData: {}
     };
     this.handleWorkTypeChange = this.handleWorkTypeChange.bind(this);
   }
 
   componentDidMount = () => {
-    this.setState({ formData: this.props.values });
+    this.setState({ data: this.props.data });
   };
 
   handleChange = e => {
-    let formData = this.state.formData;
-    formData[e.target.name] = e.target.value;
-    this.setState({ formData });
+    let data = {};
+    data[e.target.name] = e.target.value;
+    this.setState({ updatedFormData: data });
+    this.props.handleWorkTypeChange(data);
   };
 
   handleWorkTypeChange = e => {
-    let formData = this.state.formData;
-    formData[FIELDS.WORK_TYPE_TROUBLE_CALL] = "";
-    formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = [];
+    let data = {};
+    data[FIELDS.WORK_TYPE_TROUBLE_CALL] = "";
+    data[FIELDS.WORK_TYPE_SCHEDULED_WORK] = [];
     this.setState({
-      formData,
+      updatedFormData: data,
       workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
         window.Knack
       )
@@ -44,10 +46,10 @@ export default class WorkTypeFields extends Component {
   handleReactMultiSelectChange = (name, values) => {
     // React-Select sends the event as the updated selected values.
     // https://github.com/JedWatson/react-select/issues/1631
-    debugger;
-    let formData = this.state.formData;
-    formData[name] = values.map(item => item.value);
-    this.setState({ formData });
+    let data = {};
+    data[name] = values.map(item => item.value);
+    this.setState({ data });
+    this.props.handleWorkTypeChange(data);
   };
 
   render() {
@@ -55,6 +57,7 @@ export default class WorkTypeFields extends Component {
       <div>
         {/* WORK_TYPE */}
         <div className="form-group">
+          {/* TODO: a more friendly button interface than radios for Work Type */}
           <label htmlFor={FIELDS.WORK_TYPE}>Work Type</label>
           <div className="form-check">
             <input
@@ -63,7 +66,7 @@ export default class WorkTypeFields extends Component {
               name={FIELDS.WORK_TYPE}
               id="field_1004_Trouble_Call"
               value="Trouble Call"
-              checked={this.state.formData[FIELDS.WORK_TYPE] === "Trouble Call"}
+              checked={this.props.data[FIELDS.WORK_TYPE] === "Trouble Call"}
               onChange={this.handleWorkTypeChange}
             />
             <label
@@ -80,9 +83,7 @@ export default class WorkTypeFields extends Component {
               name={FIELDS.WORK_TYPE}
               id="field_1004_Scheduled_Work"
               value="Scheduled Work"
-              checked={
-                this.state.formData[FIELDS.WORK_TYPE] === "Scheduled Work"
-              }
+              checked={this.props.data[FIELDS.WORK_TYPE] === "Scheduled Work"}
               onChange={this.handleWorkTypeChange}
             />
             <label
@@ -93,7 +94,7 @@ export default class WorkTypeFields extends Component {
             </label>
           </div>
         </div>
-        {this.state.formData[FIELDS.WORK_TYPE] === "Trouble Call" ? (
+        {this.props.data[FIELDS.WORK_TYPE] === "Trouble Call" ? (
           // {/* WORK_TYPE_TROUBLE_CALL */}
           <div className="form-group">
             <label htmlFor={FIELDS.WORK_TYPE_TROUBLE_CALL}>
@@ -104,7 +105,7 @@ export default class WorkTypeFields extends Component {
               name={FIELDS.WORK_TYPE_TROUBLE_CALL}
               id={FIELDS.WORK_TYPE_TROUBLE_CALL}
               onChange={this.handleChange}
-              value={this.state.formData[FIELDS.WORK_TYPE_TROUBLE_CALL]}
+              value={this.props.data[FIELDS.WORK_TYPE_TROUBLE_CALL]}
             >
               <option value="">Select...</option>
               {WORK_TYPE_TROUBLE_CALL_OPTIONS.map(option => (
@@ -121,7 +122,12 @@ export default class WorkTypeFields extends Component {
               Scheduled Work Task(s)
             </label>
             <Select
-              defaultValue={[]}
+              defaultValue={this.props.data[
+                `${FIELDS.WORK_TYPE_SCHEDULED_WORK}_raw`
+              ].map(item => ({
+                value: item,
+                label: item
+              }))}
               isMulti
               name={FIELDS.WORK_TYPE_SCHEDULED_WORK}
               options={this.state.workTypeScheduledWorkOptions}
@@ -135,8 +141,8 @@ export default class WorkTypeFields extends Component {
           </div>
         )}
         {/* WORK_TYPE_OTHER */}
-        {(this.state.formData[FIELDS.WORK_TYPE_TROUBLE_CALL] === "Other" ||
-          this.state.formData[FIELDS.WORK_TYPE_SCHEDULED_WORK].includes(
+        {(this.props.data[FIELDS.WORK_TYPE_TROUBLE_CALL] === "Other" ||
+          this.props.data[FIELDS.WORK_TYPE_SCHEDULED_WORK].includes(
             "Other"
           )) && (
           <div className="form-group">

@@ -1,15 +1,42 @@
 import React, { Component } from "react";
-import FormGroup from "../Form/FormGroup";
 import Select from "react-select";
+
+import FormGroup from "../Form/FormGroup";
+
 import { FIELDS, YES_NO_OPTIONS } from "./formConfig";
+import api from "../../queries/api";
 
 export default class AssignTechnicianFields extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      technicianOptions: []
+    };
+  }
+
+  componentDidMount() {
+    this.getTechnicianOptions();
+  }
+
+  getTechnicianOptions = () => {
+    api
+      .workOrder()
+      .technicians()
+      .then(res => {
+        const technicianOptions = res.data.records.map(item => {
+          return { label: item.identifier, value: item.id };
+        });
+        this.setState({ technicianOptions });
+      });
+  };
+
   render() {
     return (
       <>
         <FormGroup
           label="Assign to Self"
-          defaultValue={this.props.formData[FIELDS.ASSIGN_TO_SELF]}
+          defaultValue={this.props.data[FIELDS.ASSIGN_TO_SELF]}
           fieldId={FIELDS.ASSIGN_TO_SELF}
           onChangeHandler={this.props.handleAssignToSelfFieldChange}
           options={YES_NO_OPTIONS}
@@ -17,17 +44,17 @@ export default class AssignTechnicianFields extends Component {
           helpText="Check yes if the work order should be assigned to yourself."
         />
 
-        {this.props.formData[FIELDS.ASSIGN_TO_SELF] === "No" && (
+        {this.props.data[FIELDS.ASSIGN_TO_SELF] === "No" && (
           <div className="form-group">
             <label htmlFor={FIELDS.LEAD_TECHNICIAN}>Lead Technician</label>
             <Select
               className="basic-single"
               classNamePrefix="select"
-              defaultValue={""}
+              defaultValue={this.props.data[FIELDS.LEAD_TECHNICIAN]}
               isClearable
               isSearchable
               name={FIELDS.LEAD_TECHNICIAN}
-              options={this.props.technicianOptions}
+              options={this.state.technicianOptions}
               onChange={e =>
                 this.props.handleLeadTechnicianFieldChange(
                   FIELDS.LEAD_TECHNICIAN,
@@ -46,9 +73,14 @@ export default class AssignTechnicianFields extends Component {
             className="basic-multi-select"
             classNamePrefix="select"
             isMulti
-            defaultValue={[]}
+            defaultValue={this.props.data[
+              `${FIELDS.SUPPORT_TECHNICIANS}_raw`
+            ].map(item => ({
+              value: item.id,
+              label: item.identifier
+            }))}
             name={FIELDS.SUPPORT_TECHNICIANS}
-            options={this.props.technicianOptions}
+            options={this.state.technicianOptions}
             onChange={this.props.handleSupportTechniciansFieldChange.bind(
               this,
               FIELDS.SUPPORT_TECHNICIANS

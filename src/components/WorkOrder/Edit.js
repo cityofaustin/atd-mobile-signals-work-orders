@@ -109,15 +109,21 @@ class Edit extends Component {
   };
 
   handleReactSelectChange = (fieldId, selected) => {
-    let updatedFormData = this.state.updatedFormData;
-    updatedFormData[fieldId] = selected ? selected.value : "";
-    this.setState({ updatedFormData });
-  };
+    let updatedData = selected ? selected.value : "";
 
-  handleReactSelectChange = (fieldId, selected) => {
-    let updatedFormData = this.state.updatedFormData;
-    updatedFormData[fieldId] = selected ? selected.value : "";
-    this.setState({ updatedFormData });
+    // create object of updated data
+    let updatedFormData = Object.assign({}, this.state.updatedFormData, {
+      [fieldId]: updatedData
+    });
+
+    // merge updated data into all data
+    const updatedAllData = Object.assign(
+      {},
+      this.state.rawData,
+      updatedFormData
+    );
+
+    this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
   handleAsyncInputChange = newValue => {
@@ -141,9 +147,21 @@ class Edit extends Component {
   handleReactMultiSelectChange = (name, values) => {
     // React-Select sends the event as the updated selected values.
     // https://github.com/JedWatson/react-select/issues/1631
-    let formData = this.state.formData;
-    formData[name] = values.map(item => item.value);
-    this.setState({ formData });
+    let data = {};
+    data[name] = values.map(item => item.value);
+    // TODO: figure out why multi select isn't updated properly via Knack API
+
+    // create object of updated data
+    let updatedFormData = Object.assign({}, this.state.updatedFormData, data);
+
+    // merge updated data into all data
+    const updatedAllData = Object.assign(
+      {},
+      this.state.rawData,
+      updatedFormData
+    );
+
+    this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
   render() {
@@ -174,7 +192,7 @@ class Edit extends Component {
               />
 
               <AssignTechnicianFields
-                formData={this.state.formData}
+                data={this.state.rawData}
                 handleAssignToSelfFieldChange={this.handleChange}
                 handleLeadTechnicianFieldChange={this.handleReactSelectChange}
                 handleSupportTechniciansFieldChange={

@@ -75,7 +75,7 @@ class Edit extends Component {
     this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
-  handleFormDataChange = updatedData => {
+  handleFormDataChange = (updatedData, field) => {
     // create object of updated data
     let updatedFormData = Object.assign(
       {},
@@ -89,6 +89,11 @@ class Edit extends Component {
       this.state.rawData,
       updatedFormData
     );
+
+    // remove raw field if its passed as a param
+    if (field) {
+      delete updatedAllData[`${field}_raw`];
+    }
 
     // TODO: Only send field id update for if asssociated ASSET_TYPE is active
     // let fieldsList = Object.keys(FIELDS.ASSETS).map(
@@ -124,18 +129,6 @@ class Edit extends Component {
     );
 
     this.setState({ updatedFormData, rawData: updatedAllData });
-  };
-
-  handleAsyncInputChange = newValue => {
-    const inputValue = newValue.replace(/\W/g, "");
-    this.setState({ inputValue });
-    return inputValue;
-  };
-
-  handleTaskOrderChange = selection => {
-    this.setState({
-      [FIELDS.TASK_ORDERS]: selection
-    });
   };
 
   handleScheduledTimeChange = object => {
@@ -217,9 +210,8 @@ class Edit extends Component {
               />
 
               <TaskOrderField
-                handleInputChange={this.handleAsyncInputChange}
-                onChange={this.handleTaskOrderChange}
-                formData={this.state.formData}
+                data={this.state.rawData}
+                handleFormDataChange={this.handleFormDataChange}
               />
 
               <ReportedByField

@@ -128,6 +128,8 @@ class Edit extends Component {
       updatedFormData
     );
 
+    delete updatedAllData[`${fieldId}_raw`];
+
     this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
@@ -215,7 +217,7 @@ class Edit extends Component {
               />
 
               <ReportedByField
-                formData={this.state.formData}
+                data={this.state.rawData}
                 handleReactSelectChange={this.handleReactSelectChange}
               />
 

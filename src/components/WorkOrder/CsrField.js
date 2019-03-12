@@ -9,12 +9,22 @@ import { FIELDS } from "./formConfig";
 class CsrField extends Component {
   constructor(props) {
     super(props);
+
+    this.getInitialFormData = () => {
+      let data = props.data[FIELDS.CSR];
+      let rawData = props.data[`${FIELDS.CSR}_raw`];
+
+      return rawData ? rawData : data;
+    };
     this.state = {
       formData: {
         field_1232: "", // NEW_CSR_NUMBER
-        field_1235: props.formData[FIELDS.CSR] || "" // SELECTED_CSR_NUMBER
+        field_1235: this.getInitialFormData()
       },
-      selectedOption: "",
+      selectedOption: this.getInitialFormData().map(item => ({
+        label: item.identifier,
+        value: item.id
+      })),
       csrUiDisplayNew: false,
       hasError: false,
       errorText: ""

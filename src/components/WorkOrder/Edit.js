@@ -222,8 +222,8 @@ class Edit extends Component {
               />
 
               <CsrField
+                data={this.state.rawData}
                 handleCsrChange={this.handleCsrChange}
-                formData={this.state.formData}
               />
 
               <SubmitButton

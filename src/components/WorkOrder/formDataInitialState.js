@@ -24,16 +24,14 @@ export const newWorkOrderInitialState = {
   field_1004: "Trouble Call", // WORK_TYPE
   field_976: "", // WORK_TYPE_TROUBLE_CALL
   field_900: [], // WORK_TYPE_SCHEDULED_WORK
-  field_1420: "" // WORK_TYPE_OTHER
-};
-
-export const editNewWorkOrderInitialState = {
+  field_1420: "", // WORK_TYPE_OTHER
+  field_909: [], // SUPPORT_TECHNICIANS
   field_1752: "No", // ASSIGN_TO_SELF
   field_1754: "", // LEAD_TECHNICIAN
-  field_909: [], // SUPPORT_TECHNICIANS
   field_463: "", // WORK DESCRIPTION
   field_968: "", // REPORTED_BY
   field_1235: "", // CSR_NUMBER
+  field_1235_raw: [], // CSR_NUMBER_RAW
   field_1006: "No", // SCHEDULE_IMMEDIATELY
   field_460: "", // WORK_SCHEDULED_DATE
   field_2634: [] // TASK_ORDERS

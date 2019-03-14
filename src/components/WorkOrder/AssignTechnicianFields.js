@@ -31,6 +31,18 @@ export default class AssignTechnicianFields extends Component {
       });
   };
 
+  getSupportTechnicianDefaultValue = () => {
+    let data = this.props.data[FIELDS.SUPPORT_TECHNICIANS];
+    let rawData = this.props.data[`${FIELDS.SUPPORT_TECHNICIANS}_raw`];
+
+    let currentData = rawData ? rawData : data;
+
+    return currentData.map(item => ({
+      value: item.id,
+      label: item.identifier
+    }));
+  };
+
   render() {
     return (
       <>
@@ -73,12 +85,7 @@ export default class AssignTechnicianFields extends Component {
             className="basic-multi-select"
             classNamePrefix="select"
             isMulti
-            defaultValue={this.props.data[
-              `${FIELDS.SUPPORT_TECHNICIANS}_raw`
-            ].map(item => ({
-              value: item.id,
-              label: item.identifier
-            }))}
+            defaultValue={this.getSupportTechnicianDefaultValue()}
             name={FIELDS.SUPPORT_TECHNICIANS}
             options={this.state.technicianOptions}
             onChange={this.props.handleSupportTechniciansFieldChange.bind(

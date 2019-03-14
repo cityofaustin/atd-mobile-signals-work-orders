@@ -21,7 +21,10 @@ const getAllDayValue = data => {
 
 const getFromDateTimeTimestamp = data => getDateTimeObject(data).timestamp;
 
-const getToDateTimeTimestamp = data => getDateTimeObject(data).to.timestamp;
+const getToDateTimeTimestamp = data => {
+  let dateTimeObject = getDateTimeObject(data);
+  return typeof dateTimeObject === "object" ? dateTimeObject.to.timestamp : "";
+};
 
 const toggleAllDay = (data, getDateTimeObject, handleScheduledTimeChange) => {
   let updatedData = getDateTimeObject(data);

@@ -25,7 +25,6 @@ import MyWorkOrders from "./MyWorkOrders";
 import AllIssuedJobs from "./AllIssuedJobs";
 import NewWorkOrder from "./WorkOrder/New";
 import EditWorkOrder from "./WorkOrder/Edit";
-import EditNewWorkOrder from "./WorkOrder/EditNew";
 import { APP_ID } from "../constants/api";
 
 import "../styles/App.css";
@@ -154,12 +153,6 @@ class App extends Component {
                     component={NewWorkOrder}
                     knackObject={this.state.knackObject}
                     isAuthenticated={this.state.knackUserToken}
-                  />
-                  <PrivateRoute
-                    path="/work-order/edit-new/:workOrderId"
-                    component={EditNewWorkOrder}
-                    isAuthenticated={this.state.knackUserToken}
-                    knackObject={this.state.knackObject}
                   />
                   <PrivateRoute
                     path="/work-order/edit/:workOrderId"

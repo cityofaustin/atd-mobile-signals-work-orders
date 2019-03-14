@@ -10,6 +10,11 @@ import Header from "../Shared/Header";
 import { ErrorMessage, SuccessMessage } from "./Alerts";
 import WorkTypeFields from "./WorkTypeFields";
 import AssetTypeField from "./AssetTypeField";
+import AssignTechnicianFields from "./AssignTechnicianFields";
+import CsrField from "./CsrField";
+import ReportedByField from "./ReportedByField";
+import ScheduleFields from "./ScheduleFields";
+import TaskOrderField from "./TaskOrderField";
 
 import { FIELDS } from "./formConfig";
 import SubmitButton from "../Form/SubmitButton";
@@ -72,6 +77,37 @@ class NewWorkOrder extends Component {
     this.setState({ formData });
   };
 
+  handleCsrChange = selection => {
+    let formData = this.state.formData;
+    formData[FIELDS.CSR] = selection.value;
+    this.setState({ formData });
+  };
+
+  handleScheduledTimeChange = value => {
+    let formData = this.state.formData;
+    formData[FIELDS.WORK_SCHEDULED_DATE] = value;
+    this.setState({ formData });
+  };
+
+  handleAsyncInputChange = newValue => {
+    const inputValue = newValue.replace(/\W/g, "");
+    this.setState({ inputValue });
+    return inputValue;
+  };
+
+  handleTaskOrderChange = selection => {
+    this.setState({
+      [FIELDS.TASK_ORDERS]: selection
+    });
+  };
+
+  handleReactSelectChange = (fieldId, selected) => {
+    let formData = this.state.formData;
+    formData[fieldId] = selected;
+
+    this.setState({ formData });
+  };
+
   submitForm = e => {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
@@ -96,9 +132,7 @@ class NewWorkOrder extends Component {
 
   render() {
     if (!!this.state.newWorkOrder) {
-      return (
-        <Redirect to={`/work-order/edit-new/${this.state.newWorkOrder.id}`} />
-      );
+      return <Redirect to={`/work-order/${this.state.newWorkOrder.id}`} />;
     }
 
     return (
@@ -124,6 +158,42 @@ class NewWorkOrder extends Component {
             data={this.state.rawData}
             handleWorkTypeChange={this.handleFormDataChange}
           />
+          <AssignTechnicianFields
+            data={this.state.rawData}
+            handleAssignToSelfFieldChange={this.handleChange}
+            handleLeadTechnicianFieldChange={this.handleReactSelectChange}
+            handleSupportTechniciansFieldChange={
+              this.handleReactMultiSelectChange
+            }
+          />
+
+          <div className="form-group">
+            <label htmlFor={FIELDS.WORK_DESCRIPTION}>Work Description</label>
+            <textarea
+              className="form-control"
+              name={FIELDS.WORK_DESCRIPTION}
+              id={FIELDS.WORK_DESCRIPTION}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <ReportedByField
+            data={this.state.rawData}
+            handleReactSelectChange={this.handleReactSelectChange}
+          />
+
+          <CsrField
+            data={this.state.rawData}
+            handleCsrChange={this.handleCsrChange}
+          />
+
+          <ScheduleFields
+            data={this.state.rawData}
+            handleScheduledTimeChange={this.handleScheduledTimeChange}
+            onChangeHandler={this.handleChange}
+          />
+
+          <TaskOrderField />
 
           <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
         </form>

@@ -11,6 +11,11 @@ class CsrField extends Component {
     super(props);
 
     this.getInitialFormData = () => {
+      // We need to return an array, even when we haven't loaded data yet,
+      // so `this.getInitialFormData().map` which is used to set state for
+      // selectedOption doesn't bomb.
+      if (props.data === undefined) return [];
+
       let data = props.data[FIELDS.CSR];
       let rawData = props.data[`${FIELDS.CSR}_raw`];
 

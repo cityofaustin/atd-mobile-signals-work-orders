@@ -34,9 +34,12 @@ class NewWorkOrder extends Component {
   }
 
   handleChange = e => {
-    let formData = this.state.formData;
-    formData[e.target.name] = e.target.value;
-    this.setState({ formData });
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[e.target.name] = e.target.value;
+
+    const rawData = Object.assign({}, this.state.rawData, updatedFormData);
+
+    this.setState({ updatedFormData, rawData });
   };
 
   handleFormDataChange = (updatedData, field) => {

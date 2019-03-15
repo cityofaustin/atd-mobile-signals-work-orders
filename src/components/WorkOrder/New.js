@@ -83,10 +83,20 @@ class NewWorkOrder extends Component {
     this.setState({ formData });
   };
 
-  handleScheduledTimeChange = value => {
-    let formData = this.state.formData;
-    formData[FIELDS.WORK_SCHEDULED_DATE] = value;
-    this.setState({ formData });
+  handleScheduledTimeChange = object => {
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[FIELDS.WORK_SCHEDULED_DATE] = object;
+    delete updatedFormData[`${FIELDS.WORK_SCHEDULED_DATE}_raw`];
+
+    // merge updated data into all data
+    const updatedAllData = Object.assign(
+      {},
+      this.state.rawData,
+      updatedFormData
+    );
+    delete updatedAllData[`${FIELDS.WORK_SCHEDULED_DATE}_raw`];
+
+    this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
   handleAsyncInputChange = newValue => {

@@ -19,11 +19,18 @@ const getAllDayValue = data => {
   return dateRaw ? dateRaw.all_day : date.all_day;
 };
 
-const getFromDateTimeTimestamp = data => getDateTimeObject(data).timestamp;
+const getFromDateTimeTimestamp = data => {
+  let dateTimeObject = getDateTimeObject(data);
+  return typeof dateTimeObject === "object"
+    ? new Date(dateTimeObject.timestamp)
+    : null;
+};
 
 const getToDateTimeTimestamp = data => {
   let dateTimeObject = getDateTimeObject(data);
-  return typeof dateTimeObject === "object" ? dateTimeObject.to.timestamp : "";
+  return typeof dateTimeObject === "object"
+    ? new Date(dateTimeObject.to.timestamp)
+    : null;
 };
 
 const toggleAllDay = (data, getDateTimeObject, handleScheduledTimeChange) => {
@@ -33,7 +40,6 @@ const toggleAllDay = (data, getDateTimeObject, handleScheduledTimeChange) => {
 };
 
 const getHours = date => {
-  debugger;
   let hours = date.getHours();
   // convert from military hours (13 should be 1, 23 should be 11, etc)
   hours = hours % 12;
@@ -57,8 +63,6 @@ const handleDateTimeFieldChange = (
 ) => {
   let previousDateField = getDateTimeObject(data);
   let updatedDateField = previousDateField;
-
-  debugger;
 
   // clear out unneeded raw fields
   delete updatedDateField.date_formatted;
@@ -118,7 +122,8 @@ const DateTimeRangePicker = ({
       <div className="d-block">
         <DatePicker
           name="startDate"
-          selected={new Date(getFromDateTimeTimestamp(data))}
+          selected={getFromDateTimeTimestamp(data)}
+          placeholderText="Click to select a date"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
@@ -132,7 +137,8 @@ const DateTimeRangePicker = ({
         />
         {!getAllDayValue(data) && (
           <DatePicker
-            selected={new Date(getFromDateTimeTimestamp(data))}
+            selected={getFromDateTimeTimestamp(data)}
+            placeholderText="Click to select a date"
             onChange={e =>
               handleDateTimeFieldChange(
                 e,
@@ -154,7 +160,8 @@ const DateTimeRangePicker = ({
         <span>to</span>
         <DatePicker
           name="endDate"
-          selected={new Date(getToDateTimeTimestamp(data))}
+          selected={getToDateTimeTimestamp(data)}
+          placeholderText="Click to select a date"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
@@ -168,7 +175,8 @@ const DateTimeRangePicker = ({
         />
         {!getAllDayValue(data) && (
           <DatePicker
-            selected={new Date(getToDateTimeTimestamp(data))}
+            selected={getToDateTimeTimestamp(data)}
+            placeholderText="Click to select a date"
             onChange={e =>
               handleDateTimeFieldChange(
                 e,

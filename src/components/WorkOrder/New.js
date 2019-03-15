@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import _ from "lodash";
 import { faWrench } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
 import { newWorkOrderInitialState } from "./formDataInitialState";
+import { FIELDS } from "./formConfig";
 
 import Header from "../Shared/Header";
 import { ErrorMessage, SuccessMessage } from "./Alerts";
@@ -15,8 +15,6 @@ import CsrField from "./CsrField";
 import ReportedByField from "./ReportedByField";
 import ScheduleFields from "./ScheduleFields";
 import TaskOrderField from "./TaskOrderField";
-
-import { FIELDS } from "./formConfig";
 import SubmitButton from "../Form/SubmitButton";
 
 class NewWorkOrder extends Component {

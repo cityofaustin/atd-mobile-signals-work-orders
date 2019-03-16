@@ -33,6 +33,6 @@ export const newWorkOrderInitialState = {
   field_1235: "", // CSR_NUMBER
   field_1235_raw: [], // CSR_NUMBER_RAW
   field_1006: "No", // SCHEDULE_IMMEDIATELY
-  field_460: "", // WORK_SCHEDULED_DATE
+  field_460: {}, // WORK_SCHEDULED_DATE
   field_2634: [] // TASK_ORDERS
 };

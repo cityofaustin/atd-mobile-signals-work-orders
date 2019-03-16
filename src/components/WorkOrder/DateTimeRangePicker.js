@@ -2,6 +2,7 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import { FIELDS } from "./formConfig";
 import moment from "moment";
+import { isEmpty } from "lodash";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -21,16 +22,14 @@ const getAllDayValue = data => {
 
 const getFromDateTimeTimestamp = data => {
   let dateTimeObject = getDateTimeObject(data);
-  return typeof dateTimeObject === "object"
-    ? new Date(dateTimeObject.timestamp)
-    : null;
+  return isEmpty(dateTimeObject) ? null : new Date(dateTimeObject.timestamp);
 };
 
 const getToDateTimeTimestamp = data => {
   let dateTimeObject = getDateTimeObject(data);
-  return typeof dateTimeObject === "object"
-    ? new Date(dateTimeObject.to.timestamp)
-    : null;
+  return isEmpty(dateTimeObject) || dateTimeObject.to === undefined
+    ? null
+    : new Date(dateTimeObject.to.timestamp);
 };
 
 const toggleAllDay = (data, getDateTimeObject, handleScheduledTimeChange) => {
@@ -64,17 +63,28 @@ const handleDateTimeFieldChange = (
   let previousDateField = getDateTimeObject(data);
   let updatedDateField = previousDateField;
 
-  // clear out unneeded raw fields
-  delete updatedDateField.date_formatted;
-  delete updatedDateField.iso_timestamp;
-  delete updatedDateField.unix_timestamp;
-  delete updatedDateField.time;
-  delete updatedDateField.to.date_formatted;
-  delete updatedDateField.to.iso_timestamp;
-  delete updatedDateField.to.unix_timestamp;
-  delete updatedDateField.to.time;
+  // If we are starting from a blank field, skip all this.
+  if (!isEmpty(updatedDateField)) {
+    // clear out unneeded raw fields
+    delete updatedDateField.date_formatted;
+    delete updatedDateField.iso_timestamp;
+    delete updatedDateField.unix_timestamp;
+    delete updatedDateField.time;
+    if (updatedDateField.to) {
+      delete updatedDateField.to.date_formatted;
+      delete updatedDateField.to.iso_timestamp;
+      delete updatedDateField.to.unix_timestamp;
+      delete updatedDateField.to.time;
+    }
+  }
 
   if (field === "fromDate") {
+    if (isEmpty(previousDateField)) {
+      // Need these to construct a timestamp, so lets give a default
+      previousDateField.hours = 12;
+      previousDateField.minutes = 0;
+      previousDateField.am_pm = "pm";
+    }
     updatedDateField.date = moment(date).format("MM/DD/YYYY");
     updatedDateField.timestamp = moment(
       `${updatedDateField.date} ${previousDateField.hours}:${
@@ -91,6 +101,12 @@ const handleDateTimeFieldChange = (
       } ${updatedDateField.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "toDate") {
+    if (isEmpty(previousDateField.to)) {
+      previousDateField.to = {};
+      previousDateField.to.hours = 12;
+      previousDateField.to.minutes = 0;
+      previousDateField.to.am_pm = "pm";
+    }
     updatedDateField.to.date = moment(date).format("MM/DD/YYYY");
     updatedDateField.to.timestamp = moment(
       `${updatedDateField.to.date} ${previousDateField.to.hours}:${
@@ -138,7 +154,7 @@ const DateTimeRangePicker = ({
         {!getAllDayValue(data) && (
           <DatePicker
             selected={getFromDateTimeTimestamp(data)}
-            placeholderText="Click to select a date"
+            placeholderText="Click to select a time"
             onChange={e =>
               handleDateTimeFieldChange(
                 e,
@@ -176,7 +192,7 @@ const DateTimeRangePicker = ({
         {!getAllDayValue(data) && (
           <DatePicker
             selected={getToDateTimeTimestamp(data)}
-            placeholderText="Click to select a date"
+            placeholderText="Click to select a time"
             onChange={e =>
               handleDateTimeFieldChange(
                 e,

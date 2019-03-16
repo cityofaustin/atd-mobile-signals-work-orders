@@ -72,16 +72,30 @@ class NewWorkOrder extends Component {
     this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
-  handleReactMultiSelectChange = values => {
-    let formData = this.state.formData;
-    formData[FIELDS.WORK_TYPE_SCHEDULED_WORK] = values.map(item => item.value);
-    this.setState({ formData });
+  handleReactMultiSelectChange = (name, values) => {
+    // React-Select sends the event as the updated selected values.
+    // https://github.com/JedWatson/react-select/issues/1631
+    let data = {};
+    data[name] = values.map(item => item.value);
+    // TODO: figure out why multi select isn't updated properly via Knack API
+
+    // create object of updated data
+    let updatedFormData = Object.assign({}, this.state.updatedFormData, data);
+
+    // merge updated data into all data
+    const updatedAllData = Object.assign(
+      {},
+      this.state.rawData,
+      updatedFormData
+    );
+
+    this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
   handleCsrChange = selection => {
-    let formData = this.state.formData;
-    formData[FIELDS.CSR] = selection.value;
-    this.setState({ formData });
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[FIELDS.CSR] = selection.value;
+    this.setState({ updatedFormData });
   };
 
   handleScheduledTimeChange = object => {
@@ -113,10 +127,23 @@ class NewWorkOrder extends Component {
   };
 
   handleReactSelectChange = (fieldId, selected) => {
-    let formData = this.state.formData;
-    formData[fieldId] = selected;
+    let updatedData = selected ? selected.value : "";
 
-    this.setState({ formData });
+    // create object of updated data
+    let updatedFormData = Object.assign({}, this.state.updatedFormData, {
+      [fieldId]: updatedData
+    });
+
+    // merge updated data into all data
+    const updatedAllData = Object.assign(
+      {},
+      this.state.rawData,
+      updatedFormData
+    );
+
+    delete updatedAllData[`${fieldId}_raw`];
+
+    this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
   submitForm = e => {
@@ -169,6 +196,7 @@ class NewWorkOrder extends Component {
             data={this.state.rawData}
             handleWorkTypeChange={this.handleFormDataChange}
           />
+
           <AssignTechnicianFields
             data={this.state.rawData}
             handleAssignToSelfFieldChange={this.handleChange}
@@ -201,10 +229,13 @@ class NewWorkOrder extends Component {
           <ScheduleFields
             data={this.state.rawData}
             handleScheduledTimeChange={this.handleScheduledTimeChange}
-            onChangeHandler={this.handleChange}
+            toggleScheduleChange={this.handleChange}
           />
 
-          <TaskOrderField />
+          <TaskOrderField
+            data={this.state.rawData}
+            handleFormDataChange={this.handleFormDataChange}
+          />
 
           <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
         </form>

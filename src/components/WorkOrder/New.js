@@ -170,7 +170,7 @@ class NewWorkOrder extends Component {
 
   render() {
     if (!!this.state.newWorkOrder) {
-      return <Redirect to={`/work-order/${this.state.newWorkOrder.id}`} />;
+      return <Redirect to={`/work-orders/${this.state.newWorkOrder.id}`} />;
     }
 
     return (

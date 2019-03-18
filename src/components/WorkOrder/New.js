@@ -22,7 +22,7 @@ class NewWorkOrder extends Component {
     super(props);
     this.state = {
       rawData: newWorkOrderInitialState,
-      updatedFormData: {},
+      updatedFormData: newWorkOrderInitialState,
       errors: [],
       isSubmitting: false,
       isSubmitted: false,
@@ -151,7 +151,7 @@ class NewWorkOrder extends Component {
     this.setState({ errors: [], isSubmitting: true });
     api
       .workOrder()
-      .new(this.state.formData)
+      .new(this.state.updatedFormData)
       .then(res => {
         this.setState({
           isSubmitting: false,

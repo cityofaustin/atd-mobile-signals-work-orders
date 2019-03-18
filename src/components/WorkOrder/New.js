@@ -221,10 +221,13 @@ class NewWorkOrder extends Component {
             handleReactSelectChange={this.handleReactSelectChange}
           />
 
-          <CsrField
-            data={this.state.rawData}
-            handleCsrChange={this.handleCsrChange}
-          />
+          {this.state.rawData[FIELDS.REPORTED_BY] ===
+            "311 Customer Service Request (CSR)" && (
+            <CsrField
+              data={this.state.rawData}
+              handleCsrChange={this.handleCsrChange}
+            />
+          )}
 
           <ScheduleFields
             data={this.state.rawData}

@@ -32,6 +32,7 @@ export class TaskOrderField extends Component {
   };
 
   getTaskOrderValues = () => {
+    if (this.props.data === undefined) return [];
     let data = this.props.data[FIELDS.TASK_ORDERS];
     let rawData = this.props.data[`${FIELDS.TASK_ORDERS}_raw`];
 

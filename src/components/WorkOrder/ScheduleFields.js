@@ -9,11 +9,16 @@ const ScheduleFields = ({
   toggleScheduleChange,
   handleScheduledTimeChange
 }) => {
+  function getDefaultValue() {
+    let value = data ? data[FIELDS.SCHEDULE_IMMEDIATELY] : "";
+    return value;
+  }
+
   return (
     <>
       <FormGroup
         label="Schedule Immediately"
-        defaultValue={data[FIELDS.SCHEDULE_IMMEDIATELY]}
+        defaultValue={getDefaultValue()}
         fieldId={FIELDS.SCHEDULE_IMMEDIATELY}
         onChangeHandler={toggleScheduleChange}
         options={YES_NO_OPTIONS}

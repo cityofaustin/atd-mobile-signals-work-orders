@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Redirect } from "react-router-dom";
 
 import Header from "../Shared/Header";
 import WorkTypeFields from "./WorkTypeFields";
@@ -170,6 +171,12 @@ class Edit extends Component {
   };
 
   render() {
+    if (!!this.state.successfulResponseData) {
+      return (
+        <Redirect to={`/work-orders/${this.state.successfulResponseData.id}`} />
+      );
+    }
+
     return (
       <div>
         <Header icon={faEdit} title="Edit Work Order" />
@@ -221,10 +228,13 @@ class Edit extends Component {
                 handleReactSelectChange={this.handleReactSelectChange}
               />
 
-              <CsrField
-                data={this.state.rawData}
-                handleCsrChange={this.handleCsrChange}
-              />
+              {this.state.rawData[FIELDS.REPORTED_BY] ===
+                "311 Customer Service Request (CSR)" && (
+                <CsrField
+                  data={this.state.rawData}
+                  handleCsrChange={this.handleCsrChange}
+                />
+              )}
 
               <SubmitButton
                 text="Update"

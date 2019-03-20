@@ -52,6 +52,18 @@ export default class WorkTypeFields extends Component {
     this.props.handleWorkTypeChange(data);
   };
 
+  getScheduledWorkDefaultValue = () => {
+    let data = this.props.data[FIELDS.WORK_TYPE_SCHEDULED_WORK];
+    let rawData = this.props.data[`${FIELDS.WORK_TYPE_SCHEDULED_WORK}_raw`];
+
+    let defaultValueObject = rawData ? rawData : data;
+
+    return defaultValueObject.map(item => ({
+      value: item,
+      label: item
+    }));
+  };
+
   render() {
     return (
       <div>
@@ -122,12 +134,7 @@ export default class WorkTypeFields extends Component {
               Scheduled Work Task(s)
             </label>
             <Select
-              defaultValue={this.props.data[
-                `${FIELDS.WORK_TYPE_SCHEDULED_WORK}_raw`
-              ].map(item => ({
-                value: item,
-                label: item
-              }))}
+              defaultValue={this.getScheduledWorkDefaultValue()}
               isMulti
               name={FIELDS.WORK_TYPE_SCHEDULED_WORK}
               options={this.state.workTypeScheduledWorkOptions}
@@ -151,6 +158,7 @@ export default class WorkTypeFields extends Component {
               className="form-control"
               name={FIELDS.WORK_TYPE_OTHER}
               id={FIELDS.WORK_TYPE_OTHER}
+              value={this.props.data[FIELDS.WORK_TYPE_OTHER]}
               onChange={this.handleChange}
             />
           </div>

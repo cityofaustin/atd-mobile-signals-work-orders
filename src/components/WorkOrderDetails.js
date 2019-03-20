@@ -90,15 +90,17 @@ class WorkOrderDetail extends Component {
         <div className="container">
           <div className="row">
             <div className="mb-3">
-              <Link
-                to={`/work-order/edit/${this.props.match.params.workOrderId}`}
-              >
-                <div className="btn btn-secondary">
-                  <FontAwesomeIcon icon={faEdit} /> Edit Work Order
-                </div>
-              </Link>
+              <div className="col">
+                <Link
+                  to={`/work-order/edit/${this.props.match.params.workOrderId}`}
+                >
+                  <div className="btn btn-secondary">
+                    <FontAwesomeIcon icon={faEdit} /> Edit
+                  </div>
+                </Link>
+              </div>
             </div>
-            <div className="ml-2">
+            <div className="col">
               {this.state.timeLogData.length > 0 ? (
                 <Link
                   to={`/work-order/submit/${
@@ -106,12 +108,12 @@ class WorkOrderDetail extends Component {
                   }`}
                 >
                   <div className={"btn btn-secondary"}>
-                    <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work Order
+                    <FontAwesomeIcon icon={faFlagCheckered} /> Submit
                   </div>
                 </Link>
               ) : (
                 <div className="btn btn-secondary disabled" disabled>
-                  <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work Order
+                  <FontAwesomeIcon icon={faFlagCheckered} /> Submit
                 </div>
               )}
             </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { faFlagCheckered } from "@fortawesome/free-solid-svg-icons";
+import { Redirect } from "react-router-dom";
 
 import Header from "../Shared/Header";
 import SubmitButton from "../Form/SubmitButton";
@@ -59,6 +60,12 @@ export default class Submit extends Component {
   };
 
   render() {
+    if (!!this.state.successfulResponseData) {
+      return (
+        <Redirect to={`/work-orders/${this.state.successfulResponseData.id}`} />
+      );
+    }
+
     return (
       <div>
         <Header icon={faFlagCheckered} title="Submit Work Order" />

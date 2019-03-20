@@ -9,7 +9,8 @@ import {
   faBarcode,
   faSpinner,
   faEdit,
-  faFlagCheckered
+  faFlagCheckered,
+  faUndo
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -23,6 +24,7 @@ import "react-accessible-accordion/dist/fancy-example.css";
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
 import { getWorkOrderDetails, getWorkOrderTitle } from "./WorkOrder/helpers";
+import { FIELDS } from "./WorkOrder/formConfig";
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -80,6 +82,16 @@ class WorkOrderDetail extends Component {
       .then(res => this.setState({ imagesData: res.data.records }));
   };
 
+  handleReopenWorkOrder = () => {
+    api
+      .workOrder()
+      .reopen(this.props.match.params.workOrderId)
+      .then(res => {
+        console.log(res);
+        this.setState({});
+      });
+  };
+
   render() {
     return (
       <div>
@@ -87,34 +99,53 @@ class WorkOrderDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}
         </h1>
-        <div className="container">
+        <div className="container mb-3">
           <div className="row">
-            <div className="mb-3">
-              <Link
-                to={`/work-order/edit/${this.props.match.params.workOrderId}`}
+            {/* Show Re-Open Button when Work Order is Submitted */}
+            {this.state.detailsData[FIELDS.STATUS] === "Submitted" && (
+              <div
+                className="btn btn-secondary"
+                onClick={this.handleReopenWorkOrder}
               >
-                <div className="btn btn-secondary">
-                  <FontAwesomeIcon icon={faEdit} /> Edit Work Order
-                </div>
-              </Link>
-            </div>
-            <div className="ml-2">
-              {this.state.timeLogData.length > 0 ? (
-                <Link
-                  to={`/work-order/submit/${
-                    this.props.match.params.workOrderId
-                  }`}
-                >
-                  <div className={"btn btn-secondary"}>
-                    <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work Order
+                <FontAwesomeIcon icon={faUndo} /> Re-Open Work Order
+              </div>
+            )}
+
+            {/* Once Field Status is loaded from state, show Edit and Submit button 
+            // if it isn't already in Submitted Status */}
+            {this.state.detailsData[FIELDS.STATUS] &&
+              this.state.detailsData[FIELDS.STATUS] !== "Submitted" && (
+                <>
+                  <Link
+                    to={`/work-order/edit/${
+                      this.props.match.params.workOrderId
+                    }`}
+                  >
+                    <div className="btn btn-secondary">
+                      <FontAwesomeIcon icon={faEdit} /> Edit Work Order
+                    </div>
+                  </Link>
+                  <div className="ml-2">
+                    {this.state.timeLogData.length > 0 ? (
+                      <Link
+                        to={`/work-order/submit/${
+                          this.props.match.params.workOrderId
+                        }`}
+                      >
+                        <div className={"btn btn-secondary"}>
+                          <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work
+                          Order
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="btn btn-secondary disabled" disabled>
+                        <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work
+                        Order
+                      </div>
+                    )}
                   </div>
-                </Link>
-              ) : (
-                <div className="btn btn-secondary disabled" disabled>
-                  <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work Order
-                </div>
+                </>
               )}
-            </div>
           </div>
         </div>
         <Accordion>

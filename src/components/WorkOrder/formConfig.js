@@ -42,7 +42,8 @@ export const FIELDS = {
   WORK_TYPE_SCHEDULED_WORK: "field_900",
   WORK_TYPE_OTHER: "field_1420",
   WORK_SCHEDULED_DATE: "field_460",
-  TASK_ORDERS: "field_2634"
+  TASK_ORDERS: "field_2634",
+  STATUS: "field_459"
 };
 
 export const ASSET_TYPE_OPTIONS = [

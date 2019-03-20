@@ -1,144 +1,236 @@
-import React, { Component } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
+import { FIELDS } from "./formConfig";
+import moment from "moment";
+import { isEmpty } from "lodash";
+
 import "react-datepicker/dist/react-datepicker.css";
 
-class DateTimeRangePicker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startDate: new Date(),
-      startTime: new Date(),
-      endDate: "",
-      endTime: "",
-      isAllDay: false
-    };
+const getDateTimeObject = data => {
+  let date = data[FIELDS.WORK_SCHEDULED_DATE];
+  let rawDate = data[`${FIELDS.WORK_SCHEDULED_DATE}_raw`];
+
+  return rawDate ? rawDate : date;
+};
+
+const getAllDayValue = data => {
+  let date = data[FIELDS.WORK_SCHEDULED_DATE];
+  let dateRaw = data[`${FIELDS.WORK_SCHEDULED_DATE}_raw`];
+
+  return dateRaw ? dateRaw.all_day : date.all_day;
+};
+
+const getFromDateTimeTimestamp = data => {
+  let dateTimeObject = getDateTimeObject(data);
+  return isEmpty(dateTimeObject) ? null : new Date(dateTimeObject.timestamp);
+};
+
+const getToDateTimeTimestamp = data => {
+  let dateTimeObject = getDateTimeObject(data);
+  return isEmpty(dateTimeObject) || dateTimeObject.to === undefined
+    ? null
+    : new Date(dateTimeObject.to.timestamp);
+};
+
+const toggleAllDay = (data, getDateTimeObject, handleScheduledTimeChange) => {
+  let updatedData = getDateTimeObject(data);
+  updatedData.all_day = !getAllDayValue(data);
+  handleScheduledTimeChange(updatedData);
+};
+
+const getHours = date => {
+  let hours = date.getHours();
+  // convert from military hours (13 should be 1, 23 should be 11, etc)
+  hours = hours % 12;
+  // 00 hours should be 12
+  hours = hours ? hours : 12;
+  return hours;
+};
+
+const getAmPm = date => {
+  let hours = date.getHours();
+  let ampm = hours >= 12 ? "PM" : "AM";
+  return ampm;
+};
+
+const handleDateTimeFieldChange = (
+  date,
+  field,
+  data,
+  getDateTimeObject,
+  handleScheduledTimeChange
+) => {
+  let previousDateField = getDateTimeObject(data);
+  let updatedDateField = previousDateField;
+
+  // If we are starting from a blank field, skip all this.
+  if (!isEmpty(updatedDateField)) {
+    // clear out unneeded raw fields
+    delete updatedDateField.date_formatted;
+    delete updatedDateField.iso_timestamp;
+    delete updatedDateField.unix_timestamp;
+    delete updatedDateField.time;
+    if (updatedDateField.to) {
+      delete updatedDateField.to.date_formatted;
+      delete updatedDateField.to.iso_timestamp;
+      delete updatedDateField.to.unix_timestamp;
+      delete updatedDateField.to.time;
+    }
   }
 
-  handleChange(field, date) {
-    let modifiedState = {};
-    modifiedState[field] = date;
-    this.setState(modifiedState, this.updateDateString);
+  if (field === "fromDate") {
+    if (isEmpty(previousDateField)) {
+      // Need these to construct a timestamp, so lets give a default
+      previousDateField.hours = 12;
+      previousDateField.minutes = 0;
+      previousDateField.am_pm = "pm";
+    }
+    updatedDateField.date = moment(date).format("MM/DD/YYYY");
+    updatedDateField.timestamp = moment(
+      `${updatedDateField.date} ${previousDateField.hours}:${
+        previousDateField.minutes
+      } ${previousDateField.am_pm}`
+    ).format("MM/DD/YYYY h:mm a");
+  } else if (field === "fromTime") {
+    updatedDateField.hours = getHours(date);
+    updatedDateField.minutes = date.getMinutes();
+    updatedDateField.am_pm = getAmPm(date);
+    updatedDateField.timestamp = moment(
+      `${previousDateField.date} ${updatedDateField.hours}:${
+        updatedDateField.minutes
+      } ${updatedDateField.am_pm}`
+    ).format("MM/DD/YYYY h:mm a");
+  } else if (field === "toDate") {
+    if (isEmpty(previousDateField.to)) {
+      previousDateField.to = {};
+      previousDateField.to.hours = 12;
+      previousDateField.to.minutes = 0;
+      previousDateField.to.am_pm = "pm";
+    }
+    updatedDateField.to.date = moment(date).format("MM/DD/YYYY");
+    updatedDateField.to.timestamp = moment(
+      `${updatedDateField.to.date} ${previousDateField.to.hours}:${
+        previousDateField.to.minutes
+      } ${previousDateField.to.am_pm}`
+    ).format("MM/DD/YYYY h:mm a");
+  } else if (field === "toTime") {
+    updatedDateField.to.hours = getHours(date);
+    updatedDateField.to.minutes = date.getMinutes();
+    updatedDateField.to.am_pm = getAmPm(date);
+    updatedDateField.to.timestamp = moment(
+      `${previousDateField.to.date} ${updatedDateField.to.hours}:${
+        updatedDateField.to.minutes
+      } ${updatedDateField.to.am_pm}`
+    ).format("MM/DD/YYYY h:mm a");
   }
 
-  toggleAllDay() {
-    this.setState({ isAllDay: !this.state.isAllDay }, this.updateDateString);
-  }
+  handleScheduledTimeChange(updatedDateField);
+};
 
-  updateDateString() {
-    const { startDate, startTime, endDate, endTime, isAllDay } = this.state;
-    let dateFieldObject = {
-      date: this.getFormattedDate(startDate),
-      hours: this.getFormatedTimeArray(startTime)[0],
-      minutes: this.getFormatedTimeArray(startTime)[1],
-      am_pm: this.getFormatedTimeArray(startTime)[2],
-      all_day: isAllDay,
-      to: {
-        date: this.getFormattedDate(endDate),
-        hours: this.getFormatedTimeArray(endTime)[0],
-        minutes: this.getFormatedTimeArray(endTime)[1],
-        am_pm: this.getFormatedTimeArray(endTime)[2]
-      }
-    };
-    this.props.handleScheduledTimeChange(dateFieldObject);
-  }
-
-  getFormatedTimeArray(date) {
-    // returns an array where the first value is the hour in 12 hour format,
-    // second is minutes, third is a string either AM or PM.
-    // Ex: [9, 53, "PM"]
-    if (date === "") return "";
-
-    let localTimeArray = date
-      .toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true
-      })
-      .split(/[\s:]+/); // split on " " & ":"
-
-    localTimeArray.map((item, i) => {
-      if (i < 2) {
-        return Number(item);
-      }
-    });
-
-    return localTimeArray;
-  }
-
-  getFormattedDate(date) {
-    if (date === "") return "";
-
-    let year = date.getFullYear();
-
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : "0" + month;
-
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : "0" + day;
-
-    return `${month}/${day}/${year}`;
-  }
-
-  render() {
-    return (
-      <div className="form-group">
-        <label htmlFor={this.props.fieldName}>Scheduled Date</label>
-        <div className="d-block">
+const DateTimeRangePicker = ({
+  data,
+  fieldName,
+  handleScheduledTimeChange
+}) => {
+  return (
+    <div className="form-group">
+      <label htmlFor={fieldName}>Scheduled Date</label>
+      <div className="d-block">
+        <DatePicker
+          name="startDate"
+          selected={getFromDateTimeTimestamp(data)}
+          placeholderText="Click to select a date"
+          onChange={e =>
+            handleDateTimeFieldChange(
+              e,
+              "fromDate",
+              data,
+              getDateTimeObject,
+              handleScheduledTimeChange
+            )
+          }
+          className="form-control"
+        />
+        {!getAllDayValue(data) && (
           <DatePicker
-            name="startDate"
-            selected={this.state.startDate}
-            onChange={this.handleChange.bind(this, "startDate")}
+            selected={getFromDateTimeTimestamp(data)}
+            placeholderText="Click to select a time"
+            onChange={e =>
+              handleDateTimeFieldChange(
+                e,
+                "fromTime",
+                data,
+                getDateTimeObject,
+                handleScheduledTimeChange
+              )
+            }
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
             className="form-control"
+            dateFormat="h:mm aa"
+            timeCaption="Time"
+            name="startTime"
           />
-          {!this.state.isAllDay && (
-            <DatePicker
-              selected={this.state.startTime}
-              onChange={this.handleChange.bind(this, "startTime")}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={15}
-              className="form-control"
-              dateFormat="h:mm aa"
-              timeCaption="Time"
-              name="startTime"
-            />
-          )}
-          <span>to</span>
+        )}
+        <span>to</span>
+        <DatePicker
+          name="endDate"
+          selected={getToDateTimeTimestamp(data)}
+          placeholderText="Click to select a date"
+          onChange={e =>
+            handleDateTimeFieldChange(
+              e,
+              "toDate",
+              data,
+              getDateTimeObject,
+              handleScheduledTimeChange
+            )
+          }
+          className="form-control"
+        />
+        {!getAllDayValue(data) && (
           <DatePicker
-            name="endDate"
-            selected={this.state.startDate}
-            onChange={this.handleChange.bind(this, "endDate")}
+            selected={getToDateTimeTimestamp(data)}
+            placeholderText="Click to select a time"
+            onChange={e =>
+              handleDateTimeFieldChange(
+                e,
+                "toTime",
+                data,
+                getDateTimeObject,
+                handleScheduledTimeChange
+              )
+            }
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
             className="form-control"
+            dateFormat="h:mm aa"
+            timeCaption="Time"
+            name="endTime"
           />
-          {!this.state.isAllDay && (
-            <DatePicker
-              selected={this.state.startDate}
-              onChange={this.handleChange.bind(this, "endTime")}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={15}
-              className="form-control"
-              dateFormat="h:mm aa"
-              timeCaption="Time"
-              name="endTime"
-            />
-          )}
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value={this.state.isAllDay}
-              onClick={this.toggleAllDay.bind(this)}
-              id="allDayCheck"
-            />
-            <label className="form-check-label" htmlFor="allDayCheck">
-              All day
-            </label>
-          </div>
+        )}
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            defaultChecked={getAllDayValue(data)}
+            onClick={toggleAllDay.bind(
+              this,
+              data,
+              getDateTimeObject,
+              handleScheduledTimeChange
+            )}
+            id="allDayCheck"
+          />
+          <label className="form-check-label" htmlFor="allDayCheck">
+            All day
+          </label>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default DateTimeRangePicker;

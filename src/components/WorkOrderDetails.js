@@ -8,7 +8,8 @@ import {
   faCamera,
   faBarcode,
   faSpinner,
-  faEdit
+  faEdit,
+  faFlagCheckered
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -86,12 +87,35 @@ class WorkOrderDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}
         </h1>
-        <div className="mb-3">
-          <Link to={`/work-order/edit/${this.props.match.params.workOrderId}`}>
-            <div className="btn btn-secondary">
-              <FontAwesomeIcon icon={faEdit} /> Edit Work Order
+        <div className="container">
+          <div className="row">
+            <div className="mb-3">
+              <Link
+                to={`/work-order/edit/${this.props.match.params.workOrderId}`}
+              >
+                <div className="btn btn-secondary">
+                  <FontAwesomeIcon icon={faEdit} /> Edit Work Order
+                </div>
+              </Link>
             </div>
-          </Link>
+            <div className="ml-2">
+              {this.state.timeLogData.length > 0 ? (
+                <Link
+                  to={`/work-order/submit/${
+                    this.props.match.params.workOrderId
+                  }`}
+                >
+                  <div className={"btn btn-secondary"}>
+                    <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work Order
+                  </div>
+                </Link>
+              ) : (
+                <div className="btn btn-secondary disabled" disabled>
+                  <FontAwesomeIcon icon={faFlagCheckered} /> Submit Work Order
+                </div>
+              )}
+            </div>
+          </div>
         </div>
         <Accordion>
           <AccordionItem>

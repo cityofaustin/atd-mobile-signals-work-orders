@@ -4,6 +4,8 @@ import { faFlagCheckered } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Shared/Header";
 import SubmitButton from "../Form/SubmitButton";
 
+import api from "../../queries/api";
+
 export default class Submit extends Component {
   constructor(props) {
     super(props);
@@ -22,29 +24,30 @@ export default class Submit extends Component {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
 
-    console.log("submitting: ", this.state.updatedFormData);
+    const formData = {
+      field_1354: this.state.field_1354,
+      field_1598: this.state.field_1598
+    };
 
-    // TODO: add endpoint to api file
-    // https://us-api.knack.com/v1/scenes/scene_450/views/view_1280/records/5c7ff1578aa681085e6f084c
-
-    // api
-    //     .workOrder()
-    //     .submit(this.workOrderId, this.state.updatedFormData)
-    //     .then(res => {
-    //         console.log(res);
-    //         this.setState({
-    //             isSubmitting: false,
-    //             isSubmitted: true,
-    //             successfulResponseData: res.data.record
-    //         });
-    //     })
-    //     .catch(error => {
-    //         console.log(error.response.data.errors);
-    //         this.setState({
-    //             errors: error.response.data.errors,
-    //             isSubmitting: false
-    //         });
-    //     });
+    console.log("submitting: ", formData);
+    api
+      .workOrder()
+      .submit(this.workOrderId, formData)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          isSubmitting: false,
+          isSubmitted: true,
+          successfulResponseData: res.data.record
+        });
+      })
+      .catch(error => {
+        console.log(error.response.data.errors);
+        this.setState({
+          errors: error.response.data.errors,
+          isSubmitting: false
+        });
+      });
   };
 
   toggleBoolean = e => {

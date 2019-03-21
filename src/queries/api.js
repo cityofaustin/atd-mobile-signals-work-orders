@@ -17,9 +17,13 @@ const keys = {
     csrFieldId: "field_1235",
     taskOrderId: "field_2634"
   },
+  submitWorkoder: {
+    sceneId: "scene_450",
+    viewId: "view_1280"
+  },
   newWorkOrder: {
-    sceneId: "scene_337",
-    viewId: "view_1672",
+    sceneId: "scene_979",
+    viewId: "view_2466",
     cameraFieldId: "field_1862",
     schoolZoneFieldId: "field_1871",
     signalFieldId: "field_1060",
@@ -118,6 +122,14 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${
             keys.editWorkOrder.sceneId
           }/views/${keys.editWorkOrder.viewId}/records/${id}`,
+          getHeaders()
+        ),
+      submit: (id, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.submitWorkoder.sceneId
+          }/views/${keys.submitWorkoder.viewId}/records/${id}`,
+          data,
           getHeaders()
         ),
       editNewWorkOrder: (id, data) =>

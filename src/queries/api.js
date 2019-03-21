@@ -22,8 +22,8 @@ const keys = {
     viewId: "view_1280"
   },
   newWorkOrder: {
-    sceneId: "scene_337",
-    viewId: "view_1672",
+    sceneId: "scene_979",
+    viewId: "view_2466",
     cameraFieldId: "field_1862",
     schoolZoneFieldId: "field_1871",
     signalFieldId: "field_1060",

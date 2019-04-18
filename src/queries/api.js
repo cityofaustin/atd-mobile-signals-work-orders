@@ -8,7 +8,7 @@ const keys = {
     sceneId: "scene_384",
     viewId: "view_1082",
     formViewId: "view_2474",
-    technicianId: "field_909",
+    technicianId: "field_909"
   },
   editNewWorkOrder: {
     sceneId: "scene_328",
@@ -36,6 +36,11 @@ const keys = {
   newCsrNumber: {
     sceneId: "scene_328",
     viewId: "view_1115"
+  },
+  timeLog: {
+    sceneId: "scene_297",
+    viewId: "view_1252",
+    technicianFieldId: "field_1753"
   },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
@@ -170,6 +175,23 @@ const api = {
           }/views/${
             keys.workOrderTimeLogs.viewId
           }/records?my-work-order-details2_id=${id}`,
+          getHeaders()
+        ),
+      newTimeLog: (id, data) =>
+        axios.post(
+          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${
+            keys.timeLog.viewId
+          }/records/`,
+          data,
+          getHeaders()
+        ),
+      getTimeLogTechnicianOptions: () =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${
+            keys.timeLog.viewId
+          }/connections/${
+            keys.timeLog.technicianFieldId
+          }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
           getHeaders()
         ),
       getInventory: id =>

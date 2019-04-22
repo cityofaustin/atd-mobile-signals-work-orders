@@ -8,7 +8,6 @@ import SubmitButton from "../Form/SubmitButton";
 
 import api from "../../queries/api";
 import { FIELDS } from "./formConfig";
-import { workOrderFields } from "../../queries/fields";
 
 class NewTimeLog extends Component {
   constructor(props) {
@@ -18,6 +17,7 @@ class NewTimeLog extends Component {
 
     this.state = {
       technicianOptions: [],
+      vehicleOptions: [],
       updatedFormData: { field_1424: this.workOrderId }
     };
   }
@@ -112,8 +112,21 @@ class NewTimeLog extends Component {
       });
   };
 
+  getVehicleOptions = () => {
+    api
+      .workOrder()
+      .getVehicleOptions()
+      .then(res => {
+        const vehicleOptions = res.data.records.map(item => {
+          return { label: item.identifier, value: item.id };
+        });
+        this.setState({ vehicleOptions });
+      });
+  };
+
   componentDidMount() {
     this.getTechnicianOptions();
+    this.getVehicleOptions();
   }
 
   render() {
@@ -128,19 +141,42 @@ class NewTimeLog extends Component {
 
         <form onSubmit={this.submitForm}>
           <div className="form-group">
-            <label htmlFor={workOrderFields.timelog.TECHNICIAN}>
-              Technician(s)
-            </label>
+            <label htmlFor={FIELDS.TIMELOG.TECHNICIANS}>Technician(s)</label>
             <Select
               className="basic-multi-select"
               classNamePrefix="select"
               isMulti
               defaultValue={[]}
-              name={workOrderFields.timelog.TECHNICIAN}
+              id={FIELDS.TIMELOG.TECHNICIANS}
+              name={FIELDS.TIMELOG.TECHNICIANS}
+              aria-describedby={`${FIELDS.TIMELOG.TECHNICIANS}-text`}
+              placeholder={"Leave blank for yourself"}
               options={this.state.technicianOptions}
               onChange={this.handleReactMultiSelectChange.bind(
                 this,
-                workOrderFields.timelog.TECHNICIAN
+                FIELDS.TIMELOG.TECHNICIANS
+              )}
+            />
+            {/* <small
+              className="form-text"
+              id={`${FIELDS.TIMELOG.TECHNICIANS}-text`}
+            >
+              Leave blank for yourself
+            </small> */}
+          </div>
+          <div className="form-group">
+            <label htmlFor={FIELDS.TIMELOG.VEHICLES}>Vehicles(s)</label>
+            <Select
+              className="basic-multi-select"
+              classNamePrefix="select"
+              isMulti
+              defaultValue={[]}
+              id={FIELDS.TIMELOG.VEHICLES}
+              name={FIELDS.TIMELOG.VEHICLES}
+              options={this.state.vehicleOptions}
+              onChange={this.handleReactMultiSelectChange.bind(
+                this,
+                FIELDS.TIMELOG.VEHICLES
               )}
             />
           </div>

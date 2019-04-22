@@ -1,3 +1,5 @@
+// TODO: Refactor this file and more field ids over to "formConfig.js"
+
 export const workOrderFields = {
   baseFields: {
     modified: "field_1074",
@@ -17,14 +19,6 @@ export const workOrderFields = {
     { "Reported By": "field_968" }
   ],
   header: "field_211_raw",
-  timelog: {
-    TECHNICIAN: "field_1753",
-    VEHICLE: "field_1427",
-    ISSUE_RECEIVED_TIME: "field_2020",
-    WORKSITE_ARRIVE: "field_1437",
-    WORKSITE_LEAVE: "field_1438",
-    WORKSITE_SHOP_RETURN: "field_1425"
-  },
   inventory: {
     INVENTORY_ITEM: "field_513",
     STATUS: "field_1416",

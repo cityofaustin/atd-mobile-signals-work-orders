@@ -6,7 +6,9 @@ const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
   editWorkOrder: {
     sceneId: "scene_384",
-    viewId: "view_1082"
+    viewId: "view_1082",
+    formViewId: "view_2474",
+    technicianId: "field_909",
   },
   editNewWorkOrder: {
     sceneId: "scene_328",
@@ -77,9 +79,9 @@ const api = {
       technicians: data =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
-            keys.editNewWorkOrder.sceneId
-          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
-            keys.editNewWorkOrder.technicianId
+            keys.editWorkOrder.sceneId
+          }/views/${keys.editWorkOrder.formViewId}/connections/${
+            keys.editWorkOrder.technicianId
           }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
           getHeaders()
         ),

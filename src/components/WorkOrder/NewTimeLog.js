@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import Select from "react-select";
+import DatePicker from "react-datepicker";
 
 import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
+import TimeLogDateTimeFields from "./TimeLogDateTimeFields";
 import SubmitButton from "../Form/SubmitButton";
-
 import api from "../../queries/api";
 import { FIELDS } from "./formConfig";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 class NewTimeLog extends Component {
   constructor(props) {
@@ -124,6 +127,13 @@ class NewTimeLog extends Component {
       });
   };
 
+  handleDateTimeFieldChange = (fieldId, fieldData) => {
+    let formData = this.state.updatedFormData;
+
+    formData[fieldId] = fieldData;
+    this.setState({ updatedFormData: formData });
+  };
+
   componentDidMount() {
     this.getTechnicianOptions();
     this.getVehicleOptions();
@@ -180,6 +190,10 @@ class NewTimeLog extends Component {
               )}
             />
           </div>
+          <TimeLogDateTimeFields
+            data={this.state.updatedFormData}
+            handleTimeChange={this.handleDateTimeFieldChange}
+          />
           <SubmitButton
             text="Add Log Entry"
             isSubmitting={this.state.isSubmitting}

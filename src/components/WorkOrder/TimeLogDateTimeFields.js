@@ -4,6 +4,7 @@ import { FIELDS } from "./formConfig";
 import moment from "moment";
 import { isEmpty } from "lodash";
 
+import { ErrorMessage } from "./Alerts";
 import {
   getHours,
   getAmPm,
@@ -65,8 +66,13 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
     return new Date(momentDate);
   };
 
+  const showError = () => {
+    return true;
+  };
+
   return (
     <div>
+      {showError() && <ErrorMessage error={{ message: "hi" }} />}
       <div className="form-group">
         <label htmlFor={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}>
           Issue received

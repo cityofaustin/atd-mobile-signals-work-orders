@@ -18,11 +18,9 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
     switch (dateOrTime) {
       case "DATE":
         fieldData.date = moment(date).format("MM/DD/YYYY");
-        fieldData.am_pm = isEmpty(data[fieldId]) ? null : data[fieldId].am_pm;
-        fieldData.hours = isEmpty(data[fieldId]) ? null : data[fieldId].hours;
-        fieldData.minutes = isEmpty(data[fieldId])
-          ? null
-          : data[fieldId].minutes;
+        fieldData.am_pm = isEmpty(data[fieldId]) ? "" : data[fieldId].am_pm;
+        fieldData.hours = isEmpty(data[fieldId]) ? "" : data[fieldId].hours;
+        fieldData.minutes = isEmpty(data[fieldId]) ? "" : data[fieldId].minutes;
         break;
 
       case "TIME":
@@ -112,35 +110,35 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
         <DatePicker
           name="ISSUE_RECEIVED_DATE"
           id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}-date`}
-          // selected={getFromDateTimeTimestamp(data)}
+          selected={getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)}
           placeholderText="Select a date"
           className="form-control"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
-              "ISSUE_RECEIVED_DATE",
-              data,
-              getDateTimeObject,
-              handleTimeChange
+              FIELDS.TIMELOG.WORKSITE_ARRIVE,
+              "DATE",
+              data
             )
           }
         />
         <DatePicker
           name="ISSUE_RECEIVED_TIME"
           id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}`}
-          // selected={getFromDateTimeTimestamp(data)}
+          selected={getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)}
           placeholderText="Select a time"
           className="form-control"
           showTimeSelect
           showTimeSelectOnly
           timeIntervals={15}
+          dateFormat="h:mm aa"
+          timeCaption="Time"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
-              "WORKSITE_ARRIVE",
-              data,
-              getDateTimeObject,
-              handleTimeChange
+              FIELDS.TIMELOG.WORKSITE_ARRIVE,
+              "TIME",
+              data
             )
           }
         />
@@ -152,35 +150,35 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
         <DatePicker
           name="ISSUE_RECEIVED_DATE"
           id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}-date`}
-          // selected={getFromDateTimeTimestamp(data)}
+          selected={getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_LEAVE)}
           placeholderText="Select a date"
           className="form-control"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
-              "ISSUE_RECEIVED_DATE",
-              data,
-              getDateTimeObject,
-              handleTimeChange
+              FIELDS.TIMELOG.WORKSITE_LEAVE,
+              "DATE",
+              data
             )
           }
         />
         <DatePicker
           name="WORKSITE_LEAVE"
           id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}`}
-          // selected={getFromDateTimeTimestamp(data)}
+          selected={getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_LEAVE)}
           placeholderText="Select a time"
           className="form-control"
           showTimeSelect
           showTimeSelectOnly
           timeIntervals={15}
+          dateFormat="h:mm aa"
+          timeCaption="Time"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
-              "WORKSITE_LEAVE",
-              data,
-              getDateTimeObject,
-              handleTimeChange
+              FIELDS.TIMELOG.WORKSITE_LEAVE,
+              "TIME",
+              data
             )
           }
         />
@@ -192,35 +190,35 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
         <DatePicker
           name="ISSUE_RECEIVED_DATE"
           id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}-date`}
-          // selected={getFromDateTimeTimestamp(data)}
+          selected={getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)}
           placeholderText="Select a date"
           className="form-control"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
-              "ISSUE_RECEIVED_DATE",
-              data,
-              getDateTimeObject,
-              handleTimeChange
+              FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
+              "DATE",
+              data
             )
           }
         />
         <DatePicker
           name="WORKSITE_SHOP_RETURN"
           id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}`}
-          // selected={getFromDateTimeTimestamp(data)}
+          selected={getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)}
           placeholderText="Select a time"
           className="form-control"
           showTimeSelect
           showTimeSelectOnly
           timeIntervals={15}
+          dateFormat="h:mm aa"
+          timeCaption="Time"
           onChange={e =>
             handleDateTimeFieldChange(
               e,
-              "WORKSITE_SHOP_RETURN",
-              data,
-              getDateTimeObject,
-              handleTimeChange
+              FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
+              "TIME",
+              data
             )
           }
         />

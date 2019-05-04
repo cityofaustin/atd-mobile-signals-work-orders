@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import Select from "react-select";
-import DatePicker from "react-datepicker";
+import { Redirect } from "react-router-dom";
 
 import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
@@ -140,6 +140,11 @@ class NewTimeLog extends Component {
   }
 
   render() {
+    if (!!this.state.successfulResponseData) {
+      console.log(this.state.successfulResponseData);
+      return <Redirect to={`/work-orders/${this.workOrderId}`} />;
+    }
+
     return (
       <div>
         <Header icon={faClock} title="New Time Log" />

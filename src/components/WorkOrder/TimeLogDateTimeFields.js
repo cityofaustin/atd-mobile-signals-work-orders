@@ -67,7 +67,34 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
   };
 
   const showError = () => {
-    return true;
+    const issueRecievedTime = getSelectedTime(
+      data,
+      FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
+    );
+    const workSiteArriveTime = getSelectedTime(
+      data,
+      FIELDS.TIMELOG.WORKSITE_ARRIVE
+    );
+    const workSiteLeaveTime = getSelectedTime(
+      data,
+      FIELDS.TIMELOG.WORKSITE_LEAVE
+    );
+    const worksiteReturnTime = getSelectedTime(
+      data,
+      FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
+    );
+
+    // TODO: Right now, we're checking to make sure times aren't greater than the checkpoint just previous to it. But if some times are left blank, a validation might pass that shouldn't
+    const shouldShowError =
+      (issueRecievedTime > workSiteArriveTime && !!workSiteArriveTime) ||
+      (workSiteArriveTime > workSiteLeaveTime && !!workSiteLeaveTime) ||
+      (workSiteLeaveTime > worksiteReturnTime && !!worksiteReturnTime);
+
+    if (shouldShowError) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (

@@ -56,10 +56,10 @@ export const FIELDS = {
 
 export const ASSET_TYPE_OPTIONS = [
   "Signal",
-  "Camera",
   "School Beacon",
   "Hazard Flasher",
   "Digital Messaging Sign (DMS)",
+  "Camera",
   "Sensor",
   "Other / No Asset"
 ];

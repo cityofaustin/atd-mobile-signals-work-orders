@@ -3,15 +3,15 @@ import DatePicker from "react-datepicker";
 import { FIELDS } from "./formConfig";
 import moment from "moment";
 import { isEmpty } from "lodash";
+import {
+  getHours,
+  getAmPm,
+  getToDateTimeTimestamp,
+  getDateTimeObject,
+  getFromDateTimeTimestamp
+} from "../Shared/dateTimeFieldHelpers.js";
 
 import "react-datepicker/dist/react-datepicker.css";
-
-const getDateTimeObject = data => {
-  let date = data[FIELDS.WORK_SCHEDULED_DATE];
-  let rawDate = data[`${FIELDS.WORK_SCHEDULED_DATE}_raw`];
-
-  return rawDate ? rawDate : date;
-};
 
 const getAllDayValue = data => {
   let date = data[FIELDS.WORK_SCHEDULED_DATE];
@@ -20,37 +20,10 @@ const getAllDayValue = data => {
   return dateRaw ? dateRaw.all_day : date.all_day;
 };
 
-const getFromDateTimeTimestamp = data => {
-  let dateTimeObject = getDateTimeObject(data);
-  return isEmpty(dateTimeObject) ? null : new Date(dateTimeObject.timestamp);
-};
-
-const getToDateTimeTimestamp = data => {
-  let dateTimeObject = getDateTimeObject(data);
-  return isEmpty(dateTimeObject) || dateTimeObject.to === undefined
-    ? null
-    : new Date(dateTimeObject.to.timestamp);
-};
-
 const toggleAllDay = (data, getDateTimeObject, handleScheduledTimeChange) => {
   let updatedData = getDateTimeObject(data);
   updatedData.all_day = !getAllDayValue(data);
   handleScheduledTimeChange(updatedData);
-};
-
-const getHours = date => {
-  let hours = date.getHours();
-  // convert from military hours (13 should be 1, 23 should be 11, etc)
-  hours = hours % 12;
-  // 00 hours should be 12
-  hours = hours ? hours : 12;
-  return hours;
-};
-
-const getAmPm = date => {
-  let hours = date.getHours();
-  let ampm = hours >= 12 ? "PM" : "AM";
-  return ampm;
 };
 
 const handleDateTimeFieldChange = (

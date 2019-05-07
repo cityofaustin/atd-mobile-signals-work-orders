@@ -20,6 +20,7 @@ import {
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
 
+import TimeLog from "./WorkOrder/TimeLog";
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
 import { getWorkOrderDetails, getWorkOrderTitle } from "./WorkOrder/helpers";
@@ -87,36 +88,41 @@ class WorkOrderDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}
         </h1>
-        <div className="container">
-          <div className="row">
-            <div className="mb-3">
-              <div className="col">
-                <Link
-                  to={`/work-order/edit/${this.props.match.params.workOrderId}`}
-                >
-                  <div className="btn btn-secondary">
-                    <FontAwesomeIcon icon={faEdit} /> Edit
-                  </div>
-                </Link>
+        <div className="d-flex flex-row">
+          <div className="mr-2 mb-2">
+            <Link
+              to={`/work-order/edit/${this.props.match.params.workOrderId}`}
+            >
+              <div className="btn btn-secondary">
+                <FontAwesomeIcon icon={faEdit} /> Edit
               </div>
-            </div>
-            <div className="col">
-              {this.state.timeLogData.length > 0 ? (
-                <Link
-                  to={`/work-order/submit/${
-                    this.props.match.params.workOrderId
-                  }`}
-                >
-                  <div className={"btn btn-secondary"}>
-                    <FontAwesomeIcon icon={faFlagCheckered} /> Submit
-                  </div>
-                </Link>
-              ) : (
-                <div className="btn btn-secondary disabled" disabled>
+            </Link>
+          </div>
+          <div className="mr-2 mb-2">
+            <Link
+              to={`/work-order/new-time-log/${
+                this.props.match.params.workOrderId
+              }`}
+            >
+              <div className={"btn btn-secondary"}>
+                <FontAwesomeIcon icon={faClock} /> New Time Log
+              </div>
+            </Link>
+          </div>
+          <div className="mr-2 mb-2">
+            {this.state.timeLogData.length > 0 ? (
+              <Link
+                to={`/work-order/submit/${this.props.match.params.workOrderId}`}
+              >
+                <div className={"btn btn-secondary"}>
                   <FontAwesomeIcon icon={faFlagCheckered} /> Submit
                 </div>
-              )}
-            </div>
+              </Link>
+            ) : (
+              <div className="btn btn-secondary disabled" disabled>
+                <FontAwesomeIcon icon={faFlagCheckered} /> Submit
+              </div>
+            )}
           </div>
         </div>
         <Accordion>
@@ -168,90 +174,7 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              {this.state.timeLogData.length === 0 && <p>No data</p>}
-              {this.state.timeLogData.length > 0 && (
-                <ul className="list-group list-group-flush">
-                  {this.state.timeLogData.map((timeLog, i) => (
-                    <li className="list-group-item d-flex row" key={i}>
-                      <div className="col-7">
-                        <div className="row">
-                          <div className="col-12">
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  timeLog[workOrderFields.timelog.TECHNICIAN]
-                              }}
-                            />
-                          </div>
-                          <div
-                            className="col-12"
-                            dangerouslySetInnerHTML={{
-                              __html: timeLog[workOrderFields.timelog.VEHICLE]
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-5">
-                        <div className="row">
-                          <div className="col-12">
-                            <span>Recieved: </span>
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  timeLog[
-                                    workOrderFields.timelog.ISSUE_RECEIVED_TIME
-                                  ]
-                              }}
-                            />
-                          </div>
-                          <div className="col-12">
-                            <span>Arrived: </span>
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  timeLog[
-                                    workOrderFields.timelog.WORKSITE_ARRIVE
-                                  ]
-                              }}
-                            />
-                          </div>
-                          <div className="col-12">
-                            <span>Left: </span>
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  timeLog[
-                                    workOrderFields.timelog.WORKSITE_LEAVE
-                                  ]
-                              }}
-                            />
-                          </div>
-                          <div className="col-12">
-                            <span>Returned: </span>
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  timeLog[
-                                    workOrderFields.timelog.WORKSITE_SHOP_RETURN
-                                  ]
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {!this.state.timeLogData && (
-                <div>
-                  <FontAwesomeIcon
-                    icon={faSpinner}
-                    size="2x"
-                    className="atd-spinner"
-                  />
-                </div>
-              )}
+              <TimeLog data={this.state.timeLogData} />
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

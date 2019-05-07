@@ -11,7 +11,12 @@ import {
   getDateTimeObject
 } from "../Shared/dateTimeFieldHelpers.js";
 
-const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
+const TimeLogDateTimeFields = ({
+  data,
+  handleTimeChange,
+  handleFormDisable,
+  isFormDisabled
+}) => {
   function handleDateTimeFieldChange(date, fieldId, dateOrTime, data) {
     // set an empty object that will hold the date/time data
     let fieldData = {};
@@ -41,6 +46,7 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
     }
 
     handleTimeChange(fieldId, fieldData);
+    updateErrorState();
   }
 
   const getSelectedDate = (data, field) => {
@@ -66,7 +72,7 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
     return new Date(momentDate);
   };
 
-  const showError = () => {
+  const updateErrorState = () => {
     const issueRecievedTime = getSelectedTime(
       data,
       FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
@@ -84,22 +90,22 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
       FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
     );
 
-    // TODO: Right now, we're checking to make sure times aren't greater than the checkpoint just previous to it. But if some times are left blank, a validation might pass that shouldn't
+    // TODO: Right now, we're checking to make sure times aren't greater than the checkpoint
+    // just previous to it. But if some times are left blank, a validation might pass that shouldn't
     const shouldShowError =
       (issueRecievedTime > workSiteArriveTime && !!workSiteArriveTime) ||
       (workSiteArriveTime > workSiteLeaveTime && !!workSiteLeaveTime) ||
       (workSiteLeaveTime > worksiteReturnTime && !!worksiteReturnTime);
 
     if (shouldShowError) {
-      return true;
+      handleFormDisable(true);
     } else {
-      return false;
+      handleFormDisable(false);
     }
   };
 
   return (
     <div>
-      {showError() && <ErrorMessage error={{ message: "hi" }} />}
       <div className="form-group">
         <label htmlFor={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}>
           Issue received
@@ -297,6 +303,9 @@ const TimeLogDateTimeFields = ({ data, handleTimeChange }) => {
           </div>
         </div>
       </div>
+      {isFormDisabled && (
+        <ErrorMessage error={{ message: "Time logs must be in order." }} />
+      )}
     </div>
   );
 };

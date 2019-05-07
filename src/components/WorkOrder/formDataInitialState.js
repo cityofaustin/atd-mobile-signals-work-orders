@@ -26,7 +26,7 @@ export const newWorkOrderInitialState = {
   field_900: [], // WORK_TYPE_SCHEDULED_WORK
   field_1420: "", // WORK_TYPE_OTHER
   field_909: [], // SUPPORT_TECHNICIANS
-  field_1752: "No", // ASSIGN_TO_SELF
+  field_1752: "Yes", // ASSIGN_TO_SELF
   field_1754: "", // LEAD_TECHNICIAN
   field_463: "", // WORK DESCRIPTION
   field_968: "", // REPORTED_BY

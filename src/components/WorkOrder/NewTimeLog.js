@@ -21,7 +21,8 @@ class NewTimeLog extends Component {
     this.state = {
       technicianOptions: [],
       vehicleOptions: [],
-      updatedFormData: { field_1424: this.workOrderId }
+      updatedFormData: { field_1424: this.workOrderId },
+      isFormDisabled: false
     };
   }
 
@@ -82,6 +83,10 @@ class NewTimeLog extends Component {
     delete updatedAllData[`${fieldId}_raw`];
 
     this.setState({ updatedFormData, rawData: updatedAllData });
+  };
+
+  handleFormDisable = boolean => {
+    this.setState({ isFormDisabled: boolean });
   };
 
   handleReactMultiSelectChange = (name, values) => {
@@ -198,10 +203,13 @@ class NewTimeLog extends Component {
           <TimeLogDateTimeFields
             data={this.state.updatedFormData}
             handleTimeChange={this.handleDateTimeFieldChange}
+            handleFormDisable={this.handleFormDisable}
+            isFormDisabled={this.state.isFormDisabled}
           />
           <SubmitButton
             text="Add Log Entry"
             isSubmitting={this.state.isSubmitting}
+            isFormDisabled={this.state.isFormDisabled}
           />
         </form>
       </div>

@@ -5,7 +5,13 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 export default class SubmitButton extends Component {
   render() {
     return (
-      <button type="submit" className="btn btn-primary">
+      <button
+        type="submit"
+        className={`btn btn-primary ${
+          this.props.isFormDisabled ? "disabled" : ""
+        }`}
+        disabled={this.props.isFormDisabled}
+      >
         {this.props.isSubmitting ? (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
         ) : (

@@ -46,16 +46,6 @@ export default class AssignTechnicianFields extends Component {
   render() {
     return (
       <>
-        <FormGroup
-          label="Assign to Self"
-          defaultValue={this.props.data[FIELDS.ASSIGN_TO_SELF]}
-          fieldId={FIELDS.ASSIGN_TO_SELF}
-          onChangeHandler={this.props.handleAssignToSelfFieldChange}
-          options={YES_NO_OPTIONS}
-          inputType="basicSelect"
-          helpText="Check yes if the work order should be assigned to yourself."
-        />
-
         {this.props.data[FIELDS.ASSIGN_TO_SELF] === "No" && (
           <div className="form-group">
             <label htmlFor={FIELDS.LEAD_TECHNICIAN}>Lead Technician</label>

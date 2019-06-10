@@ -86,7 +86,7 @@ class MyWorkOrders extends Component {
           </ul>
         </div>
       );
-                      }
+    }
     else {
       return (
         <div>
@@ -96,8 +96,7 @@ class MyWorkOrders extends Component {
           <p>You do not have any work orders.</p>
         </div>
       );
-    }
-                      
+    }                  
   }
 }
 

@@ -14,7 +14,8 @@ class AllWorkOrders extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allWorkOrdersData: []
+      allWorkOrdersData: [],
+      location: ""
     };
   }
 
@@ -26,14 +27,24 @@ class AllWorkOrders extends Component {
         this.setState({ allWorkOrdersData: res.data.records });
         console.log(res.data);
       });
-    // api
-    //   .allWorkOrders()
-    //   .searchAll("BURNET")
-    //   .then(res => {
-    //     this.setState({ allWorkOrdersData: res.data.records });
-    //     console.log(res.data);
-    //   });
   }
+
+  handleChange = event => {
+    this.setState({
+      location: event.target.value
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    api
+      .allWorkOrders()
+      .searchAll(this.state.location)
+      .then(res => {
+        this.setState({ allWorkOrdersData: res.data.records });
+        console.log(res.data);
+      });
+  };
 
   render() {
     // make sure the data is not an empty object `{}`
@@ -46,6 +57,14 @@ class AllWorkOrders extends Component {
         <h1>
           <FontAwesomeIcon icon={faTruck} /> All Work Orders
         </h1>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            value={this.state.location}
+            onChange={this.handleChange}
+          />
+          <input type="submit" value="Search" />
+        </form>
         <ul className="list-group list-group-flush">
           {isMyJobsDataLoaded &&
             allWorkOrdersData.map(item => (

@@ -89,6 +89,15 @@ const api = {
             keys.allWorkOrders.sceneId
           }/views/${keys.allWorkOrders.viewId}/records/`,
           getHeaders()
+        ),
+      searchAll: searchValue =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allWorkOrders.sceneId
+          }/views/${
+            keys.allWorkOrders.viewId
+          }/records?rows_per_page=100&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
+          getHeaders()
         )
     };
   },

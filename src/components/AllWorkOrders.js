@@ -26,6 +26,13 @@ class AllWorkOrders extends Component {
         this.setState({ allWorkOrdersData: res.data.records });
         console.log(res.data);
       });
+    // api
+    //   .allWorkOrders()
+    //   .searchAll("BURNET")
+    //   .then(res => {
+    //     this.setState({ allWorkOrdersData: res.data.records });
+    //     console.log(res.data);
+    //   });
   }
 
   render() {

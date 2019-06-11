@@ -4,6 +4,10 @@ import { APP_ID } from "../constants/api";
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
+  allWorkOrders: {
+    sceneId: "scene_243",
+    viewId: "view_713"
+  },
   editWorkOrder: {
     sceneId: "scene_384",
     viewId: "view_1082",
@@ -73,6 +77,17 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${
             keys.allMyWorkOrders.sceneId
           }/views/${keys.allMyWorkOrders.viewId}/records/`,
+          getHeaders()
+        )
+    };
+  },
+  allWorkOrders() {
+    return {
+      getAll: () =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allWorkOrders.sceneId
+          }/views/${keys.allWorkOrders.viewId}/records/`,
           getHeaders()
         )
     };

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
-  faStreetView, 
-  faSpinner,
+  faStreetView,
+  faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../queries/api";
@@ -19,7 +19,7 @@ class MyWorkOrders extends Component {
     super(props);
     this.state = {
       myWorkOrdersData: [],
-      loading: false,
+      loading: false
     };
   }
   componentDidMount() {
@@ -38,17 +38,21 @@ class MyWorkOrders extends Component {
     const myWorkOrdersData = isMyJobsDataLoaded
       ? this.state.myWorkOrdersData
       : [];
-    if(this.state.myWorkOrderData !== []) {
+    if (this.state.myWorkOrderData !== []) {
       return (
         <div>
           <h1>
             <FontAwesomeIcon icon={faStreetView} /> My Work Orders
           </h1>
-          {this.state.loading ? <FontAwesomeIcon
-                    icon={faSpinner}
-                    size="2x"
-                    className="atd-spinner"
-                  /> : ''}
+          {this.state.loading ? (
+            <FontAwesomeIcon
+              icon={faSpinner}
+              size="2x"
+              className="atd-spinner"
+            />
+          ) : (
+            ""
+          )}
           <ul className="list-group list-group-flush">
             {isMyJobsDataLoaded &&
               myWorkOrdersData.map(item => (
@@ -86,8 +90,7 @@ class MyWorkOrders extends Component {
           </ul>
         </div>
       );
-    }
-    else {
+    } else {
       return (
         <div>
           <h1>
@@ -96,7 +99,7 @@ class MyWorkOrders extends Component {
           <p>You do not have any work orders.</p>
         </div>
       );
-    }                  
+    }
   }
 }
 

@@ -22,7 +22,7 @@ import Home from "./Home";
 import Header from "./Header";
 import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
-import AllIssuedJobs from "./AllIssuedJobs";
+import AllWorkOrders from "./AllWorkOrders";
 import NewWorkOrder from "./WorkOrder/New";
 import EditWorkOrder from "./WorkOrder/Edit";
 import SubmitWorkOrder from "./WorkOrder/Submit";
@@ -146,9 +146,9 @@ class App extends Component {
                     component={MyWorkOrders}
                   />
                   <PrivateRoute
-                    path="/all-issued-jobs"
+                    path="/all-work-orders"
                     isAuthenticated={this.state.knackUserToken}
-                    component={AllIssuedJobs}
+                    component={AllWorkOrders}
                   />
                   <PrivateRoute
                     path="/work-order/new"

@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTruck } from "@fortawesome/free-solid-svg-icons";
 
-class AllIssuedJobs extends Component {
+class AllWorkOrders extends Component {
   render() {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faTruck} /> All Issued Jobs
+          <FontAwesomeIcon icon={faTruck} /> All Work Orders
         </h1>
         <code>TODO</code>
       </div>
@@ -15,4 +15,4 @@ class AllIssuedJobs extends Component {
   }
 }
 
-export default AllIssuedJobs;
+export default AllWorkOrders;

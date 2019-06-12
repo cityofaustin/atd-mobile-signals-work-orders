@@ -58,12 +58,20 @@ class AllWorkOrders extends Component {
           <FontAwesomeIcon icon={faTruck} /> All Work Orders
         </h1>
         <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            value={this.state.location}
-            onChange={this.handleChange}
-          />
-          <input type="submit" value="Search" />
+          <div className="form-group row">
+            <div className="col">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter search here"
+                value={this.state.location}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="col">
+              <input type="submit" value="Search" className="btn btn-primary" />
+            </div>
+          </div>
         </form>
         <ul className="list-group list-group-flush">
           {isMyJobsDataLoaded &&

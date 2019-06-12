@@ -15,7 +15,9 @@ class AllWorkOrders extends Component {
     super(props);
     this.state = {
       allWorkOrdersData: [],
-      location: ""
+      location: "",
+      currentPage: 1,
+      lastPage: 1
     };
   }
 
@@ -24,7 +26,10 @@ class AllWorkOrders extends Component {
       .allWorkOrders()
       .getAll()
       .then(res => {
-        this.setState({ allWorkOrdersData: res.data.records });
+        this.setState({
+          allWorkOrdersData: res.data.records,
+          lastPage: res.data.total_pages
+        });
         console.log(res.data);
       });
   }
@@ -39,11 +44,25 @@ class AllWorkOrders extends Component {
     event.preventDefault();
     api
       .allWorkOrders()
-      .searchAll(this.state.location)
+      .searchAll(this.state.location, this.state.currentPage)
       .then(res => {
-        this.setState({ allWorkOrdersData: res.data.records });
+        this.setState({
+          allWorkOrdersData: res.data.records,
+          lastPage: res.data.total_pages
+        });
         console.log(res.data);
       });
+  };
+
+  prevPage = event => {
+    event.preventDefault();
+    console.log("Prev");
+  };
+
+  nextPage = event => {
+    event.preventDefault();
+    let page = this.state.currentPage;
+    console.log("Next");
   };
 
   render() {
@@ -108,6 +127,21 @@ class AllWorkOrders extends Component {
               </Link>
             ))}
         </ul>
+        <form>
+          <div className="form-group row">
+            <div className="col">
+              <button className="btn btn-primary" onClick={this.prevPage}>
+                Prev. Page
+              </button>
+            </div>
+            <div className="col">Page {this.state.currentPage}</div>
+            <div className="col">
+              <button className="btn btn-primary" onClick={this.nextPage}>
+                Next Page
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     );
   }

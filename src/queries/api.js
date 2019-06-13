@@ -172,7 +172,7 @@ const api = {
             keys.workOrderTimeLogs.sceneId
           }/views/${
             keys.workOrderTimeLogs.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          }/records?my-work-order-details_id=${id}`,
           getHeaders()
         ),
       newTimeLog: (id, data) =>

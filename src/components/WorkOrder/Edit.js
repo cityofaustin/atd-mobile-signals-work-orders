@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Redirect } from 'react-router-dom';
 
-import Header from "../Shared/Header";
-import WorkTypeFields from "./WorkTypeFields";
-import ReportedByField from "./ReportedByField";
-import CsrField from "./CsrField";
-import AssetTypeField from "./AssetTypeField";
-import { ErrorMessage, SuccessMessage } from "./Alerts";
+import Header from '../Shared/Header';
+import WorkTypeFields from './WorkTypeFields';
+import ReportedByField from './ReportedByField';
+import CsrField from './CsrField';
+import AssetTypeField from './AssetTypeField';
+import { ErrorMessage, SuccessMessage } from './Alerts';
 
-import { FIELDS } from "./formConfig";
-import AssignTechnicianFields from "./AssignTechnicianFields";
-import SubmitButton from "../Form/SubmitButton";
-import api from "../../queries/api";
-import TaskOrderField from "./TaskOrderField";
-import ScheduleFields from "./ScheduleFields";
+import { FIELDS } from './formConfig';
+import AssignTechnicianFields from './AssignTechnicianFields';
+import SubmitButton from '../Form/SubmitButton';
+import api from '../../queries/api';
+import TaskOrderField from './TaskOrderField';
+import ScheduleFields from './ScheduleFields';
 
 class Edit extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class Edit extends Component {
       isLoading: true,
       isSubmitting: false,
       isSubmitted: false,
-      successfulResponseData: null
+      successfulResponseData: null,
     };
     this.workOrderId = this.props.match.params.workOrderId;
   }
@@ -42,7 +42,7 @@ class Edit extends Component {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
 
-    console.log("submitting: ", this.state.updatedFormData);
+    console.log('submitting: ', this.state.updatedFormData);
 
     api
       .workOrder()
@@ -52,14 +52,14 @@ class Edit extends Component {
         this.setState({
           isSubmitting: false,
           isSubmitted: true,
-          successfulResponseData: res.data.record
+          successfulResponseData: res.data.record,
         });
       })
       .catch(error => {
         console.log(error.response.data.errors);
         this.setState({
           errors: error.response.data.errors,
-          isSubmitting: false
+          isSubmitting: false,
         });
       });
   };
@@ -72,7 +72,7 @@ class Edit extends Component {
       this.state.rawData,
       updatedFormData
     );
-    updatedAllData[`${e.target.name}_raw`] = "";
+    updatedAllData[`${e.target.name}_raw`] = '';
     this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
@@ -115,11 +115,11 @@ class Edit extends Component {
   };
 
   handleReactSelectChange = (fieldId, selected) => {
-    let updatedData = selected ? selected.value : "";
+    let updatedData = selected ? selected.value : '';
 
     // create object of updated data
     let updatedFormData = Object.assign({}, this.state.updatedFormData, {
-      [fieldId]: updatedData
+      [fieldId]: updatedData,
     });
 
     // merge updated data into all data
@@ -166,7 +166,7 @@ class Edit extends Component {
       this.state.rawData,
       updatedFormData
     );
-
+    debugger;
     this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
@@ -229,7 +229,7 @@ class Edit extends Component {
               />
 
               {this.state.rawData[FIELDS.REPORTED_BY] ===
-                "311 Customer Service Request (CSR)" && (
+                '311 Customer Service Request (CSR)' && (
                 <CsrField
                   data={this.state.rawData}
                   handleCsrChange={this.handleCsrChange}

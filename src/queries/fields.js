@@ -4,7 +4,8 @@ export const workOrderFields = {
   baseFields: {
     modified: "field_1074",
     status: "field_459",
-    location: "field_904"
+    location: "field_904",
+    locationAll: "field_211_raw"
   },
   details: [
     { "Problem Reported": "field_976" },

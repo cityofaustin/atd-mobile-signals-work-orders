@@ -1,54 +1,58 @@
-import axios from "axios";
-import Cookies from "js-cookie";
-import { APP_ID } from "../constants/api";
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { APP_ID } from '../constants/api'
 
 const keys = {
-  allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
+  allMyWorkOrders: { sceneId: 'scene_88', viewId: 'view_813' },
+  allWorkOrders: {
+    sceneId: 'scene_243',
+    viewId: 'view_713',
+  },
   editWorkOrder: {
-    sceneId: "scene_384",
-    viewId: "view_1082",
-    formViewId: "view_2474",
-    technicianId: "field_909"
+    sceneId: 'scene_384',
+    viewId: 'view_1082',
+    formViewId: 'view_2474',
+    technicianId: 'field_909',
   },
   editNewWorkOrder: {
-    sceneId: "scene_328",
-    detailsViewId: "view_962",
-    formViewId: "view_958",
-    assignToSelfId: "field_1752",
-    technicianId: "field_1754",
-    csrFieldId: "field_1235",
-    taskOrderId: "field_2634"
+    sceneId: 'scene_328',
+    detailsViewId: 'view_962',
+    formViewId: 'view_958',
+    assignToSelfId: 'field_1752',
+    technicianId: 'field_1754',
+    csrFieldId: 'field_1235',
+    taskOrderId: 'field_2634',
   },
   submitWorkoder: {
-    sceneId: "scene_450",
-    viewId: "view_1280"
+    sceneId: 'scene_450',
+    viewId: 'view_1280',
   },
   newWorkOrder: {
-    sceneId: "scene_979",
-    viewId: "view_2466",
-    cameraFieldId: "field_1862",
-    schoolZoneFieldId: "field_1871",
-    signalFieldId: "field_1060",
-    hazardFlasherFieldId: "field_1864",
-    dmsFieldId: "field_1859",
-    sensorFieldId: "field_1863"
+    sceneId: 'scene_979',
+    viewId: 'view_2466',
+    cameraFieldId: 'field_1862',
+    schoolZoneFieldId: 'field_1871',
+    signalFieldId: 'field_1060',
+    hazardFlasherFieldId: 'field_1864',
+    dmsFieldId: 'field_1859',
+    sensorFieldId: 'field_1863',
   },
   newCsrNumber: {
-    sceneId: "scene_328",
-    viewId: "view_1115"
+    sceneId: 'scene_328',
+    viewId: 'view_1115',
   },
   timeLog: {
-    sceneId: "scene_297",
-    viewId: "view_1252",
-    technicianFieldId: "field_1753",
-    vehicleFieldId: "field_1427"
+    sceneId: 'scene_297',
+    viewId: 'view_1252',
+    technicianFieldId: 'field_1753',
+    vehicleFieldId: 'field_1427',
   },
-  workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
-  workOrderImages: { sceneId: "scene_297", viewId: "view_922" },
-  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
-  workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
-  workOrderTitle: { sceneId: "scene_297", viewId: "view_910" }
-};
+  workOrderDetails: { sceneId: 'scene_297', viewId: 'view_961' },
+  workOrderImages: { sceneId: 'scene_297', viewId: 'view_922' },
+  workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
+  workOrderTimeLogs: { sceneId: 'scene_297', viewId: 'view_1251' },
+  workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
+}
 
 // images
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
@@ -63,8 +67,8 @@ const api = {
           }/views/${keys.newCsrNumber.viewId}/records`,
           data,
           getHeaders()
-        )
-    };
+        ),
+    }
   },
   myWorkOrders() {
     return {
@@ -74,8 +78,28 @@ const api = {
             keys.allMyWorkOrders.sceneId
           }/views/${keys.allMyWorkOrders.viewId}/records/`,
           getHeaders()
-        )
-    };
+        ),
+    }
+  },
+  allWorkOrders() {
+    return {
+      getAll: () =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allWorkOrders.sceneId
+          }/views/${keys.allWorkOrders.viewId}/records/`,
+          getHeaders()
+        ),
+      searchAll: (searchValue, pageNumber) =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allWorkOrders.sceneId
+          }/views/${
+            keys.allWorkOrders.viewId
+          }/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
+          getHeaders()
+        ),
+    }
   },
   workOrder() {
     return {
@@ -272,20 +296,20 @@ const api = {
             keys.newWorkOrder.sensorFieldId
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
-        )
-    };
-  }
-};
+        ),
+    }
+  },
+}
 
 function getHeaders() {
   return {
     headers: {
-      "X-Knack-Application-Id": APP_ID,
-      "X-Knack-REST-API-KEY": "knack",
-      Authorization: Cookies.get("knackUserToken"),
-      "content-type": "application/json"
-    }
-  };
+      'X-Knack-Application-Id': APP_ID,
+      'X-Knack-REST-API-KEY': 'knack',
+      Authorization: Cookies.get('knackUserToken'),
+      'content-type': 'application/json',
+    },
+  }
 }
 
-export default api;
+export default api

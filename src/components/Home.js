@@ -15,8 +15,8 @@ const mainPages = [
     icon: faStreetView
   },
   {
-    title: "All Issued Jobs",
-    link: "/all-issued-jobs",
+    title: "All Work Orders",
+    link: "/all-work-orders",
     icon: faTruck
   },
   {

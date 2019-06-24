@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import AsyncSelect from "react-select/lib/Async";
+import React, { Component } from 'react';
+import AsyncSelect from 'react-select/lib/Async';
 
-import { FIELDS } from "./formConfig";
-import api from "../../queries/api";
+import { FIELDS } from './formConfig';
+import api from '../../queries/api';
 
 export class TaskOrderField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: []
+      options: [],
     };
   }
 
@@ -37,11 +37,15 @@ export class TaskOrderField extends Component {
     let rawData = this.props.data[`${FIELDS.TASK_ORDERS}_raw`];
 
     let values = rawData ? rawData : data;
-    values = values.map(item => {
-      let value = item.id ? item.id : item.value;
-      let label = item.identifier ? item.identifier : item.label;
-      return { value, label };
-    });
+    // handle no Task Orders
+    values =
+      values === ''
+        ? values
+        : values.map(item => {
+            let value = item.id ? item.id : item.value;
+            let label = item.identifier ? item.identifier : item.label;
+            return { value, label };
+          });
 
     return values;
   };
@@ -50,14 +54,14 @@ export class TaskOrderField extends Component {
     let data = {};
     data[FIELDS.TASK_ORDERS] = selection.map(item => ({
       id: item.value,
-      identifier: item.label
+      identifier: item.label,
     }));
 
     this.props.handleFormDataChange(data, FIELDS.TASK_ORDERS);
   };
 
   handleAsyncInputChange = newValue => {
-    const inputValue = newValue.replace(/\W/g, "");
+    const inputValue = newValue.replace(/\W/g, '');
 
     let data = {};
     data[FIELDS.TASK_ORDERS] = inputValue;

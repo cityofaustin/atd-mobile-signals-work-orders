@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 import {
   faWrench,
   faInfoCircle,
@@ -9,21 +9,21 @@ import {
   faBarcode,
   faSpinner,
   faEdit,
-  faFlagCheckered
-} from "@fortawesome/free-solid-svg-icons";
+  faFlagCheckered,
+} from '@fortawesome/free-solid-svg-icons';
 
 import {
   Accordion,
   AccordionItem,
   AccordionItemTitle,
-  AccordionItemBody
-} from "react-accessible-accordion";
-import "react-accessible-accordion/dist/fancy-example.css";
+  AccordionItemBody,
+} from 'react-accessible-accordion';
+import 'react-accessible-accordion/dist/fancy-example.css';
 
-import TimeLog from "./WorkOrder/TimeLog";
-import api from "../queries/api";
-import { workOrderFields } from "../queries/fields";
-import { getWorkOrderDetails, getWorkOrderTitle } from "./WorkOrder/helpers";
+import TimeLog from './WorkOrder/TimeLog';
+import api from '../queries/api';
+import { workOrderFields } from '../queries/fields';
+import { getWorkOrderDetails, getWorkOrderTitle } from './WorkOrder/helpers';
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class WorkOrderDetail extends Component {
       detailsData: false,
       timeLogData: false,
       inventoryData: false,
-      imagesData: false
+      imagesData: false,
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -85,7 +85,7 @@ class WorkOrderDetail extends Component {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faWrench} />{" "}
+          <FontAwesomeIcon icon={faWrench} />{' '}
           {this.state.titleData[workOrderFields.header]}
         </h1>
         <div className="d-flex flex-row">
@@ -104,8 +104,15 @@ class WorkOrderDetail extends Component {
                 this.props.match.params.workOrderId
               }`}
             >
-              <div className={"btn btn-secondary"}>
+              <div className={'btn btn-secondary'}>
                 <FontAwesomeIcon icon={faClock} /> New Time Log
+              </div>
+            </Link>
+          </div>
+          <div className="mr-2 mb-2">
+            <Link to={`/`}>
+              <div className={'btn btn-secondary'}>
+                <FontAwesomeIcon icon={faCamera} /> New Image
               </div>
             </Link>
           </div>
@@ -114,7 +121,7 @@ class WorkOrderDetail extends Component {
               <Link
                 to={`/work-order/submit/${this.props.match.params.workOrderId}`}
               >
-                <div className={"btn btn-secondary"}>
+                <div className={'btn btn-secondary'}>
                   <FontAwesomeIcon icon={faFlagCheckered} /> Submit
                 </div>
               </Link>
@@ -143,7 +150,7 @@ class WorkOrderDetail extends Component {
                         dangerouslySetInnerHTML={{
                           __html: this.state.detailsData[
                             Object.values(field)[0]
-                          ]
+                          ],
                         }}
                       />
                     </dl>
@@ -157,7 +164,7 @@ class WorkOrderDetail extends Component {
                         dangerouslySetInnerHTML={{
                           __html: this.state.detailsData[
                             Object.values(field)[0]
-                          ]
+                          ],
                         }}
                       />
                     </dl>
@@ -196,7 +203,7 @@ class WorkOrderDetail extends Component {
                             __html:
                               inventory[
                                 workOrderFields.inventory.INVENTORY_ITEM
-                              ]
+                              ],
                           }}
                         />
                       </div>
@@ -245,17 +252,17 @@ class WorkOrderDetail extends Component {
                     <li
                       className="list-group-item d-flex row"
                       key={i}
-                      style={{ textAlign: "center" }}
+                      style={{ textAlign: 'center' }}
                     >
                       <div
                         className="col-12"
                         dangerouslySetInnerHTML={{
-                          __html: image[workOrderFields.images.IMAGE]
+                          __html: image[workOrderFields.images.IMAGE],
                         }}
                       />
                       <div className="col-12">
-                        <span style={{ fontStyle: "italic" }}>
-                          Uploaded at:{" "}
+                        <span style={{ fontStyle: 'italic' }}>
+                          Uploaded at:{' '}
                         </span>
                         {image[workOrderFields.images.DATESTAMP]}
                       </div>

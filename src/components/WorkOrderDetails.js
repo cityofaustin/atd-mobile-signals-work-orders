@@ -110,7 +110,11 @@ class WorkOrderDetail extends Component {
             </Link>
           </div>
           <div className="mr-2 mb-2">
-            <Link to={`/`}>
+            <Link
+              to={`/work-order/add-image/${
+                this.props.match.params.workOrderId
+              }`}
+            >
               <div className={'btn btn-secondary'}>
                 <FontAwesomeIcon icon={faCamera} /> New Image
               </div>

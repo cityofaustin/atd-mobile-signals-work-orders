@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Camera } from './Image/Camera';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { APP_ID } from '../../constants/api';
+import api from '../../queries/api';
 import axios from 'axios';
 import Header from '../Shared/Header';
 
@@ -27,6 +29,35 @@ class AddImage extends Component {
       alert('Error getting access to your camera');
     });
   }
+
+  captureImage = async () => {
+    const capturedData = this.webcam.takeBase64Photo({
+      type: 'jpeg',
+      quality: 0.8,
+    });
+    console.log(capturedData);
+    this.setState({
+      captured: true,
+      capturedImage: capturedData.base64,
+    });
+  };
+
+  discardImage = () => {
+    this.setState({
+      captured: false,
+      capturedImage: null,
+    });
+  };
+
+  uploadImage = () => {
+    this.setState({ uploading: true });
+    const url = ``;
+    const image = this.state.capturedImage;
+    api.workOrder().addImage(image);
+    // TODO change to a callback
+    this.setState({ uploading: false });
+  };
+
   render() {
     const imageDisplay = this.state.capturedImage ? (
       <img src={this.state.capturedImage} alt="captured" width="533" />
@@ -44,7 +75,7 @@ class AddImage extends Component {
         </button>{' '}
         <button
           className="captureButton btn btn-primary"
-          onClick={this.uploadImage}
+          onClick={this.uploadImage.bind(this)}
         >
           {'  '}
           <FontAwesomeIcon icon={faUpload} />
@@ -90,40 +121,6 @@ class AddImage extends Component {
       </div>
     );
   }
-
-  captureImage = async () => {
-    const capturedData = this.webcam.takeBase64Photo({
-      type: 'jpeg',
-      quality: 0.8,
-    });
-    console.log(capturedData);
-    this.setState({
-      captured: true,
-      capturedImage: capturedData.base64,
-    });
-  };
-
-  discardImage = () => {
-    this.setState({
-      captured: false,
-      capturedImage: null,
-    });
-  };
-
-  uploadImage = () => {
-    this.setState({ uploading: true });
-    const url = ``;
-    axios
-      .post(url, {
-        file: this.state.capturedImage,
-        upload_preset: process.env.REACT_APP_CLOUD_PRESET,
-      })
-      .then(data => this.checkUploadStatus(data))
-      .catch(error => {
-        alert('Sorry, we encountered an error uploading your image');
-        this.setState({ uploading: false });
-      });
-  };
 }
 
 export default AddImage;

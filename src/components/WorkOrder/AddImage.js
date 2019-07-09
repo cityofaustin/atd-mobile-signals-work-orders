@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Camera } from './Image/Camera';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 import Header from '../Shared/Header';

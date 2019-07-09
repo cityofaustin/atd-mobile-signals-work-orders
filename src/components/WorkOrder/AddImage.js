@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Camera } from './Image/Camera';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Header from '../Shared/Header';
 
@@ -35,20 +36,31 @@ class AddImage extends Component {
 
     const buttons = this.state.captured ? (
       <div>
-        <button className="deleteButton" onClick={this.discardImage}>
-          {' '}
-          Delete Photo{' '}
-        </button>
-        <button className="captureButton" onClick={this.uploadImage}>
-          {' '}
+        <button
+          className="deleteButton btn btn-danger"
+          onClick={this.discardImage}
+        >
+          <FontAwesomeIcon icon={faTrash} /> Delete Photo{' '}
+        </button>{' '}
+        <button
+          className="captureButton btn btn-primary"
+          onClick={this.uploadImage}
+        >
+          {'  '}
+          <FontAwesomeIcon icon={faUpload} />
           Upload Photo{' '}
         </button>
       </div>
     ) : (
-      <button className="captureButton" onClick={this.captureImage}>
-        {' '}
-        Take Picture{' '}
-      </button>
+      <div>
+        <button
+          className="captureButton btn btn-primary"
+          onClick={this.captureImage}
+        >
+          {' '}
+          <FontAwesomeIcon icon={faCamera} /> Take Picture{' '}
+        </button>
+      </div>
     );
 
     const uploading = this.state.uploading ? (

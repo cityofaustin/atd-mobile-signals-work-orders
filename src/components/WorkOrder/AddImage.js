@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+
+import Header from '../Shared/Header';
 
 class AddImage extends Component {
   render() {
     return (
       <div>
-        <p>Hello world!!! </p>
+        <Header icon={faCamera} title="Add Image" />
       </div>
     );
   }

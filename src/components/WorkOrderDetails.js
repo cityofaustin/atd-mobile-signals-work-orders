@@ -79,6 +79,7 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getImages(id)
       .then(res => {
+        console.log(res);
         this.setState({ imagesData: res.data.records });
       });
   };
@@ -260,12 +261,12 @@ class WorkOrderDetail extends Component {
                       key={i}
                       style={{ textAlign: 'center' }}
                     >
-                      <div
-                        className="col-12"
-                        dangerouslySetInnerHTML={{
-                          __html: image[workOrderFields.images.IMAGE],
-                        }}
-                      />
+                      <div className="col-12 img-fluid">
+                        <img
+                          className="img-fluid"
+                          src={image.field_1047_raw.url}
+                        />
+                      </div>
                       <div className="col-12">
                         <span style={{ fontStyle: 'italic' }}>
                           Uploaded at:{' '}

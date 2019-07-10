@@ -52,7 +52,7 @@ const keys = {
     viewId: 'view_2234',
   },
   workOrderDetails: { sceneId: 'scene_297', viewId: 'view_961' },
-  workOrderImages: { sceneId: 'scene_297', viewId: 'view_922' },
+  workOrderImages: { sceneId: 'scene_255', viewId: 'view_2234' },
   workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
   workOrderTimeLogs: { sceneId: 'scene_297', viewId: 'view_1251' },
   workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
@@ -240,11 +240,9 @@ const api = {
         ),
       getImages: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${
-            keys.workOrderImages.sceneId
-          }/views/${
-            keys.workOrderImages.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${
+            keys.addImage.viewId
+          }/records?work-order-details_id=${id}`,
           getHeaders()
         ),
       schoolZones: searchValue =>

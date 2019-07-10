@@ -78,7 +78,9 @@ class WorkOrderDetail extends Component {
     api
       .workOrder()
       .getImages(id)
-      .then(res => this.setState({ imagesData: res.data.records }));
+      .then(res => {
+        this.setState({ imagesData: res.data.records });
+      });
   };
 
   render() {

@@ -305,14 +305,15 @@ const api = {
             getImageHeaders()
           )
           .then(response => {
-            console.log(response);
             const imageId = response.data.id;
-            const data = { field_1047: imageId };
+            const data = {
+              field_1047: imageId,
+              field_1045: id,
+            };
             console.log(id, imageId, data);
             axios
               .post(
-                `https://api.knack.com/v1/scenes/scene_255/views/view_2234/records?work-order-details_id=${id}
-            `,
+                `https://api.knack.com/v1/scenes/scene_255/views/view_2234/records?work-order_id=${id}`,
                 data,
                 getHeaders()
               )

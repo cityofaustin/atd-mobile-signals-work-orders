@@ -51,12 +51,13 @@ class AddImage extends Component {
   uploadImage = () => {
     this.setState({ uploading: true });
     const image = this.state.capturedImage;
+    const id = this.props.match.params.workOrderId;
     const blob = dataURLtoBlob(image); // Convert base64 jpeg captured from canvas to blob
     const form = new FormData();
-    form.append('files', blob, `${this.props.match.params.workOrderId}.jpeg`);
+    form.append('files', blob, `${id}.jpeg`);
     api
       .workOrder()
-      .addImage(form)
+      .addImage(form, id)
       .then(() => {
         this.setState({ uploading: false });
       });

@@ -297,12 +297,29 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
-      addImage: form =>
-        axios.post(
-          `https://api.knack.com/v1/applications/${APP_ID}/assets/image/upload`,
-          form,
-          getImageHeaders()
-        ),
+      addImage: (form, id) =>
+        axios
+          .post(
+            `https://api.knack.com/v1/applications/${APP_ID}/assets/image/upload`,
+            form,
+            getImageHeaders()
+          )
+          .then(response => {
+            console.log(response);
+            const imageId = response.data.id;
+            const data = { field_1047: imageId };
+            console.log(id, imageId, data);
+            axios
+              .post(
+                `https://api.knack.com/v1/scenes/scene_255/views/view_2234/records?work-order-details_id=${id}
+            `,
+                data,
+                getHeaders()
+              )
+              .then(response => {
+                console.log(response);
+              });
+          }),
     };
   },
 };

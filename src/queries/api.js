@@ -299,9 +299,9 @@ const api = {
         ),
       addImage: image =>
         axios.post(
-          `https://api.knack.com/v1/applications/${APP_ID}/assets/file/upload`,
+          `https://api.knack.com/v1/applications/${APP_ID}/assets/image/upload`,
           image,
-          getHeaders()
+          getImageHeaders()
         ),
     };
   },
@@ -314,6 +314,18 @@ function getHeaders() {
       'X-Knack-REST-API-KEY': 'knack',
       Authorization: Cookies.get('knackUserToken'),
       'content-type': 'application/json',
+    },
+  };
+}
+
+function getImageHeaders() {
+  return {
+    processData: false,
+    contentType: false,
+    mimeType: `multipart/form-data`,
+    headers: {
+      'X-Knack-Application-Id': APP_ID,
+      'X-Knack-REST-API-KEY': 'knack',
     },
   };
 }

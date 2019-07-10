@@ -47,6 +47,10 @@ const keys = {
     technicianFieldId: 'field_1753',
     vehicleFieldId: 'field_1427',
   },
+  addImage: {
+    sceneId: 'scene_255',
+    viewId: 'view_2234',
+  },
   workOrderDetails: { sceneId: 'scene_297', viewId: 'view_961' },
   workOrderImages: { sceneId: 'scene_297', viewId: 'view_922' },
   workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
@@ -308,12 +312,13 @@ const api = {
             const imageId = response.data.id;
             const data = {
               field_1047: imageId,
-              field_1045: id,
+              field_1045: id, // Add work order id to post data to associate the image with work order record
             };
-            console.log(id, imageId, data);
             axios
               .post(
-                `https://api.knack.com/v1/scenes/scene_255/views/view_2234/records?work-order_id=${id}`,
+                `https://api.knack.com/v1/scenes/${
+                  keys.addImage.sceneId
+                }/views/${keys.addImage.viewId}/records?work-order_id=${id}`,
                 data,
                 getHeaders()
               )

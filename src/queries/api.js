@@ -299,7 +299,7 @@ const api = {
         ),
       addImage: image =>
         axios.post(
-          `https://us-api.knack.com/v1/scenes/${``}/views/${``}/records`, //TODO add sceneId and viewId for work order
+          `https://api.knack.com/v1/applications/${APP_ID}/assets/file/upload`,
           image,
           getHeaders()
         ),

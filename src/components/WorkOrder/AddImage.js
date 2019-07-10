@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Camera } from './Image/Camera';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
-import { APP_ID } from '../../constants/api';
 import api from '../../queries/api';
-import axios from 'axios';
 import Header from '../Shared/Header';
+import dataURLtoBlob from 'blueimp-canvas-to-blob';
 
 class AddImage extends Component {
   constructor() {
@@ -51,9 +50,11 @@ class AddImage extends Component {
 
   uploadImage = () => {
     this.setState({ uploading: true });
-    const url = ``;
     const image = this.state.capturedImage;
-    api.workOrder().addImage(image);
+    const blob = dataURLtoBlob(image); // Convert base64 jpeg captured from canvas to blob
+    const form = new FormData();
+    form.append('files', blob, 'test.jpeg'); //TODO change test.jpeg to id of record passed down from React Router
+    api.workOrder().addImage(form);
     // TODO change to a callback
     this.setState({ uploading: false });
   };

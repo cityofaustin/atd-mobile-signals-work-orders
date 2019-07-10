@@ -297,10 +297,10 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
-      addImage: image =>
+      addImage: form =>
         axios.post(
           `https://api.knack.com/v1/applications/${APP_ID}/assets/image/upload`,
-          image,
+          form,
           getImageHeaders()
         ),
     };

@@ -5,6 +5,7 @@ import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import api from '../../queries/api';
 import Header from '../Shared/Header';
 import dataURLtoBlob from 'blueimp-canvas-to-blob';
+import { videoParentStyles, videoStyles } from '../../styles/AddImage.css';
 
 class AddImage extends Component {
   constructor() {
@@ -109,18 +110,20 @@ class AddImage extends Component {
     return (
       <div>
         <Header icon={faCamera} title="Add Image" />
-        <div>
+        <div className="text-center">
           {uploading}
-          <video
-            autoPlay
-            playsInline
-            muted
-            id="webcam"
-            width="100%"
-            height="300"
-          />
+          <div className={videoParentStyles}>
+            <video
+              className={videoStyles}
+              autoPlay
+              playsInline
+              muted
+              id="webcam"
+            />
+          </div>
           <br />
           <div className="imageCanvas">{imageDisplay}</div>
+          <br />
           {buttons}
         </div>
       </div>

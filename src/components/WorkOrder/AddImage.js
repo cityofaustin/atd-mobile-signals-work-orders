@@ -127,7 +127,6 @@ class AddImage extends Component {
         <div className="text-center">
           {uploading}
           <div className={videoParentStyles}>
-            {/* TODO Styles here not working in Samsung tablet */}
             <video
               className={videoStyles}
               autoPlay

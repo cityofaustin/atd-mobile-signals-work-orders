@@ -5,7 +5,11 @@ import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import api from '../../queries/api';
 import Header from '../Shared/Header';
 import dataURLtoBlob from 'blueimp-canvas-to-blob';
-import { videoParentStyles, videoStyles } from '../../styles/AddImage.css';
+import {
+  videoParentStyles,
+  videoStyles,
+  pictureButtonStyles,
+} from '../../styles/AddImage.css';
 
 class AddImage extends Component {
   constructor() {
@@ -80,7 +84,7 @@ class AddImage extends Component {
     );
 
     const buttons = this.state.captured ? (
-      <div>
+      <div className={pictureButtonStyles}>
         <button
           className="deleteButton btn btn-danger"
           onClick={this.discardImage}

@@ -61,6 +61,7 @@ class AddImage extends Component {
       .addImage(form, id)
       .then(() => {
         this.setState({ uploading: false });
+        this.props.history.push(`/work-orders/${id}`);
       });
   };
 
@@ -113,6 +114,7 @@ class AddImage extends Component {
         <div className="text-center">
           {uploading}
           <div className={videoParentStyles}>
+            {/* TODO Styles here not working in Samsung tablet */}
             <video
               className={videoStyles}
               autoPlay

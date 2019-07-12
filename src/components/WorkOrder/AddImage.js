@@ -15,6 +15,7 @@ class AddImage extends Component {
       capturedImage: null,
       captured: null,
       uploading: false,
+      hideVideo: false,
     };
   }
 
@@ -39,6 +40,7 @@ class AddImage extends Component {
     this.setState({
       captured: true,
       capturedImage: capturedData.base64,
+      hideVideo: true,
     });
   };
 
@@ -46,6 +48,7 @@ class AddImage extends Component {
     this.setState({
       captured: false,
       capturedImage: null,
+      hideVideo: false,
     });
   };
 
@@ -112,6 +115,8 @@ class AddImage extends Component {
     ) : (
       <span />
     );
+
+    const showOrHideVideo = this.state.hideVideo ? { display: 'none' } : {};
     return (
       <div>
         <Header icon={faCamera} title="Add Image" />
@@ -125,11 +130,10 @@ class AddImage extends Component {
               playsInline
               muted
               id="webcam"
+              style={showOrHideVideo}
             />
           </div>
-          <br />
           <div className="imageCanvas">{imageDisplay}</div>
-          <br />
           {buttons}
         </div>
       </div>

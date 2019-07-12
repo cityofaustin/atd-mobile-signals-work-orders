@@ -91,7 +91,7 @@ class WorkOrderDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{' '}
           {this.state.titleData[workOrderFields.header]}
         </h1>
-        <div className="d-flex flex-row">
+        <div className="d-flex flex-row flex-wrap">
           <div className="mr-2 mb-2">
             <Link
               to={`/work-order/edit/${this.props.match.params.workOrderId}`}

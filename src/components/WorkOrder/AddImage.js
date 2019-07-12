@@ -67,7 +67,11 @@ class AddImage extends Component {
 
   render() {
     const imageDisplay = this.state.capturedImage ? (
-      <img src={this.state.capturedImage} alt="captured" width="533" />
+      <img
+        className={videoStyles}
+        src={this.state.capturedImage}
+        alt="captured"
+      />
     ) : (
       <span />
     );

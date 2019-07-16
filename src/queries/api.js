@@ -1,6 +1,6 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import { APP_ID } from '../constants/api'
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { APP_ID } from '../constants/api';
 
 const keys = {
   allMyWorkOrders: { sceneId: 'scene_88', viewId: 'view_813' },
@@ -52,7 +52,8 @@ const keys = {
   workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
   workOrderTimeLogs: { sceneId: 'scene_297', viewId: 'view_1251' },
   workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
-}
+  workOrderInventoryForm: { scene: 'scene_297', viewId: '889' },
+};
 
 // images
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
@@ -68,7 +69,7 @@ const api = {
           data,
           getHeaders()
         ),
-    }
+    };
   },
   myWorkOrders() {
     return {
@@ -79,7 +80,7 @@ const api = {
           }/views/${keys.allMyWorkOrders.viewId}/records/`,
           getHeaders()
         ),
-    }
+    };
   },
   allWorkOrders() {
     return {
@@ -99,7 +100,7 @@ const api = {
           }/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
           getHeaders()
         ),
-    }
+    };
   },
   workOrder() {
     return {
@@ -297,9 +298,9 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
-    }
+    };
   },
-}
+};
 
 function getHeaders() {
   return {
@@ -309,7 +310,7 @@ function getHeaders() {
       Authorization: Cookies.get('knackUserToken'),
       'content-type': 'application/json',
     },
-  }
+  };
 }
 
-export default api
+export default api;

@@ -248,9 +248,7 @@ const api = {
           }/records?my-work-order-details2_id=${id}`,
           getHeaders()
         ),
-      getInventoryItems: (
-        id //TODO remove id param and create keys for view, scene, and field
-      ) =>
+      getInventoryItems: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.workOrderInventoryItems.sceneId

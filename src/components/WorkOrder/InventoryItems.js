@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import AddInventoryItemsFields from './AddInventoryItemsFields';
+import Header from '../Shared/Header';
+import { faWrench } from '@fortawesome/free-solid-svg-icons';
 
 class InventoryItems extends Component {
   componentDidMount() {
@@ -8,7 +10,7 @@ class InventoryItems extends Component {
   render() {
     return (
       <div>
-        Hello world!
+        <Header icon={faWrench} title="Add Inventory Items" />
         <AddInventoryItemsFields />
       </div>
     );

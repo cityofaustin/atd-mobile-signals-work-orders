@@ -19,11 +19,16 @@ export default class AddInventoryItemsFields extends Component {
     this.getConditionOptions();
   }
 
-  getItemOptions = () => {};
+  getItemOptions = () => {
+    api
+      .workOrder()
+      .getInventoryItems()
+      .then(res => console.log(res));
+  };
 
   getConditionOptions = () => {};
 
   render() {
-    return <></>;
+    return <>Inventory Form</>;
   }
 }

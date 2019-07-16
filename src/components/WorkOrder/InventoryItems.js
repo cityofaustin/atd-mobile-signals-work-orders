@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
+import AddInventoryItemsFields from './AddInventoryItemsFields';
 
 class InventoryItems extends Component {
+  componentDidMount() {
+    console.log('In componentDidMount');
+  }
   render() {
-    return <div>Hello world!</div>;
+    return (
+      <div>
+        Hello world!
+        <AddInventoryItemsFields />
+      </div>
+    );
   }
 }
 

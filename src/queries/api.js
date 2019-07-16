@@ -52,7 +52,11 @@ const keys = {
   workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
   workOrderTimeLogs: { sceneId: 'scene_297', viewId: 'view_1251' },
   workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
-  workOrderInventoryForm: { scene: 'scene_297', viewId: '889' },
+  workOrderInventoryItems: {
+    sceneId: 'scene_297',
+    viewId: 'view_889',
+    fieldId: 'field_513',
+  },
 };
 
 // images
@@ -242,6 +246,17 @@ const api = {
           }/views/${
             keys.workOrderImages.viewId
           }/records?my-work-order-details2_id=${id}`,
+          getHeaders()
+        ),
+      getInventoryItems: (
+        id //TODO remove id param and create keys for view, scene, and field
+      ) =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventoryItems.sceneId
+          }/views/${keys.workOrderInventoryItems.viewId}/connections/${
+            keys.workOrderInventoryItems.fieldId
+          }?rows_per_page=2000`,
           getHeaders()
         ),
       schoolZones: searchValue =>

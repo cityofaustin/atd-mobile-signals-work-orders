@@ -58,16 +58,13 @@ export default class AddInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_CONDITION}
             name={FIELDS.WORK_ORDER_CONDITION}
             defaultValue={''}
+            // onChange={}
           >
             {INVENTORY_ITEMS_CONDITION_OPTIONS.map(option => (
               <option value={option} key={option}>
                 {option}
               </option>
             ))}
-            {/*    onChange={this.props.handleSupportTechniciansFieldChange.bind(
-                 this,
-                 FIELDS.SUPPORT_TECHNICIANS
-               )} */}
           </select>
         </div>
       </>

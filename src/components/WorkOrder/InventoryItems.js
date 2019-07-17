@@ -3,6 +3,8 @@ import AddInventoryItemsFields from './AddInventoryItemsFields';
 import Header from '../Shared/Header';
 import SubmitButton from '../Form/SubmitButton';
 import { faWrench } from '@fortawesome/free-solid-svg-icons';
+import { FIELDS } from './formConfig';
+import api from '../../queries/api';
 
 class InventoryItems extends Component {
   constructor(props) {
@@ -33,7 +35,20 @@ class InventoryItems extends Component {
 
   submitForm = e => {
     e.preventDefault();
-    console.log(e);
+    // TODO compare to Knack app post req which includes work order id
+    const formData = {
+      ...this.state.formData,
+      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: '5d01787f922972000da0a5d8',
+    };
+    console.log(formData);
+    this.setState({ isSubmitting: true });
+    api
+      .workOrder()
+      .submitInventoryItem(formData)
+      .then(res => {
+        console.log(res);
+        this.setState({ isSubmitting: false });
+      });
   };
 
   render() {
@@ -45,7 +60,10 @@ class InventoryItems extends Component {
             handleInventoryItemChange={this.handleInventoryItemChange}
             handleItemPropertyChange={this.handleItemPropertyChange}
           />
-          <SubmitButton isSubmitting={this.state.isSubmitting} />
+          <SubmitButton
+            text="Add Item"
+            isSubmitting={this.state.isSubmitting}
+          />
         </form>
       </div>
     );

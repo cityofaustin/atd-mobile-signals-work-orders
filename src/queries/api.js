@@ -257,6 +257,15 @@ const api = {
           }?rows_per_page=2000`,
           getHeaders()
         ),
+      // TODO figure out correct parameters to submit inventory item
+      submitInventoryItem: data =>
+        axios.post(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventory.sceneId
+          }/views/${keys.workOrderInventory.viewId}/records`,
+          data,
+          getHeaders()
+        ),
       schoolZones: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${

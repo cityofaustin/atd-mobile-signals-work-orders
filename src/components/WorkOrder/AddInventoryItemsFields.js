@@ -30,6 +30,18 @@ export default class AddInventoryItemsFields extends Component {
       });
   };
 
+  handleConditionChange = e => {
+    let data = {};
+
+    data[FIELDS.WORK_ORDER_CONDITION] = e.target.value;
+
+    this.setState({
+      [FIELDS.WORK_ORDER_CONDITION]: e.target.value,
+      updatedFormData: data,
+    });
+    this.props.handleItemConditionChange(data);
+  };
+
   render() {
     return (
       <>
@@ -58,10 +70,7 @@ export default class AddInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_CONDITION}
             name={FIELDS.WORK_ORDER_CONDITION}
             defaultValue={''}
-            onChange={this.props.handleItemConditionChange.bind(
-              this,
-              FIELDS.WORK_ORDER_CONDITION
-            )}
+            onChange={this.handleConditionChange}
           >
             {INVENTORY_ITEMS_CONDITION_OPTIONS.map(option => (
               <option value={option} key={option}>

@@ -17,18 +17,18 @@ class InventoryItems extends Component {
   }
 
   handleInventoryItemChange = (fieldId, selected) => {
-    // TODO mirror handling of Lead Technician in AssignTechnicianFields.js & Edit.js
     console.log(fieldId, selected);
     let item = selected ? selected.value : '';
 
     // Add item to exisiting formData and update state
-    const formData = { ...this.state.formData, [fieldId]: selected };
+    const formData = { ...this.state.formData, [fieldId]: item };
     this.setState({ formData });
   };
 
-  handleItemConditionChange = (condition, field) => {
-    // TODO mirror handling of Asset in AssetTypeField.js & Edit.js
-    console.log(condition, field);
+  handleItemConditionChange = data => {
+    // Add Item Condition to existing formData and update state
+    const formData = { ...this.state.formData, ...data };
+    this.setState({ formData });
   };
 
   submitForm = e => {

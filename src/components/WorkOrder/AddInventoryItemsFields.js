@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 
-import { FIELDS } from './formConfig';
+import { INVENTORY_ITEMS_CONDITION_OPTIONS } from './formConfig';
 import api from '../../queries/api';
 
 export default class AddInventoryItemsFields extends Component {
@@ -9,24 +9,26 @@ export default class AddInventoryItemsFields extends Component {
     super(props);
 
     this.state = {
-      itemsOptions: [],
-      conditionOptions: [],
+      itemOptions: [],
     };
   }
 
   componentDidMount() {
     this.getItemOptions();
-    this.getConditionOptions();
   }
 
   getItemOptions = () => {
     api
       .workOrder()
       .getInventoryItems()
-      .then(res => console.log(res));
+      .then(res => {
+        console.log(res);
+        const itemOptions = res.data.records.map(item => {
+          return { label: item.identifier, value: item.id };
+        });
+        this.setState({ itemOptions });
+      });
   };
-
-  getConditionOptions = () => {};
 
   render() {
     return <>Inventory Form</>;

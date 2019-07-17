@@ -10,7 +10,6 @@ export default class AddInventoryItemsFields extends Component {
 
     this.state = {
       itemOptions: [],
-      condition: 'New',
     };
   }
 
@@ -70,9 +69,11 @@ export default class AddInventoryItemsFields extends Component {
             className="form-control"
             id={FIELDS.WORK_ORDER_ITEM_CONDITION}
             name={FIELDS.WORK_ORDER_ITEM_CONDITION}
-            value={this.state.condition}
             onChange={this.handleConditionChange}
           >
+            <option selected="true" disabled="disabled">
+              Select...
+            </option>
             {INVENTORY_ITEMS_CONDITION_OPTIONS.map(option => (
               <option value={option} key={option}>
                 {option}

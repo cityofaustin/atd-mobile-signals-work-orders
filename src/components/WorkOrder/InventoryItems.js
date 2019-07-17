@@ -19,6 +19,11 @@ class InventoryItems extends Component {
   handleInventoryItemChange = (fieldId, selected) => {
     // TODO mirror handling of Lead Technician in AssignTechnicianFields.js & Edit.js
     console.log(fieldId, selected);
+    let item = selected ? selected.value : '';
+
+    // Add item to exisiting formData and update state
+    const formData = { ...this.state.formData, [fieldId]: selected };
+    this.setState({ formData });
   };
 
   handleItemConditionChange = (condition, field) => {

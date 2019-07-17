@@ -35,10 +35,9 @@ class InventoryItems extends Component {
 
   submitForm = e => {
     e.preventDefault();
-    // TODO compare to Knack app post req which includes work order id
     const formData = {
       ...this.state.formData,
-      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: '5d01787f922972000da0a5d8',
+      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: '5d01787f922972000da0a5d8', // TODO get work order id from React Router
     };
     console.log(formData);
     this.setState({ isSubmitting: true });

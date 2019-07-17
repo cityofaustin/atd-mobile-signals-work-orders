@@ -261,8 +261,8 @@ const api = {
       submitInventoryItem: data =>
         axios.post(
           `https://us-api.knack.com/v1/scenes/${
-            keys.workOrderInventory.sceneId
-          }/views/${keys.workOrderInventory.viewId}/records`,
+            keys.workOrderInventoryItems.sceneId
+          }/views/${keys.workOrderInventoryItems.viewId}/records`,
           data,
           getHeaders()
         ),

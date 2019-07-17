@@ -40,7 +40,7 @@ export const FIELDS = {
   WORK_ORDER_ITEM_CONDITION: 'field_1071',
   WORK_ORDER_ITEM_QUANTITY: 'field_524',
   WORK_ORDER_INVENTORY_ITEMS: 'field_513',
-  WORK_ORDER_ID_FOR_INVENTORY: 'field_524', // POST req requires this field to contain the work order ID
+  WORK_ORDER_ID_FOR_INVENTORY: 'field_514', // POST req requires this field to contain the work order ID
   WORK_TYPE: 'field_1004',
   WORK_TYPE_TROUBLE_CALL: 'field_976',
   WORK_TYPE_SCHEDULED_WORK: 'field_900',

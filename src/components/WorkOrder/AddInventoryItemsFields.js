@@ -10,6 +10,7 @@ export default class AddInventoryItemsFields extends Component {
 
     this.state = {
       itemOptions: [],
+      condition: 'New',
     };
   }
 
@@ -32,14 +33,14 @@ export default class AddInventoryItemsFields extends Component {
 
   handleConditionChange = e => {
     let data = {};
+    data[FIELDS.WORK_ORDER_ITEM_CONDITION] = e.target.value;
+    this.props.handleItemPropertyChange(data);
+  };
 
-    data[FIELDS.WORK_ORDER_CONDITION] = e.target.value;
-
-    this.setState({
-      [FIELDS.WORK_ORDER_CONDITION]: e.target.value,
-      updatedFormData: data,
-    });
-    this.props.handleItemConditionChange(data);
+  handleQuantityChange = e => {
+    let data = {};
+    data[FIELDS.WORK_ORDER_ITEM_QUANTITY] = e.target.value;
+    this.props.handleItemPropertyChange(data);
   };
 
   render() {
@@ -64,12 +65,12 @@ export default class AddInventoryItemsFields extends Component {
           />
         </div>
         <div className="form-group">
-          <label htmlFor={FIELDS.WORK_ORDER_CONDITION}>Condition</label>
+          <label htmlFor={FIELDS.WORK_ORDER_ITEM_CONDITION}>Condition</label>
           <select
             className="form-control"
-            id={FIELDS.WORK_ORDER_CONDITION}
-            name={FIELDS.WORK_ORDER_CONDITION}
-            defaultValue={''}
+            id={FIELDS.WORK_ORDER_ITEM_CONDITION}
+            name={FIELDS.WORK_ORDER_ITEM_CONDITION}
+            value={this.state.condition}
             onChange={this.handleConditionChange}
           >
             {INVENTORY_ITEMS_CONDITION_OPTIONS.map(option => (
@@ -78,6 +79,16 @@ export default class AddInventoryItemsFields extends Component {
               </option>
             ))}
           </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor={FIELDS.WORK_ORDER_ITEM_QUANTITY}>Quantity</label>
+          <input
+            className="form-control"
+            id={FIELDS.WORK_ORDER_ITEM_QUANTITY}
+            name={FIELDS.WORK_ORDER_ITEM_QUANTITY}
+            type="number"
+            onChange={this.handleQuantityChange}
+          />
         </div>
       </>
     );

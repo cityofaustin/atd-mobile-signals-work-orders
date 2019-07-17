@@ -25,7 +25,7 @@ class InventoryItems extends Component {
     this.setState({ formData });
   };
 
-  handleItemConditionChange = data => {
+  handleItemPropertyChange = data => {
     // Add Item Condition to existing formData and update state
     const formData = { ...this.state.formData, ...data };
     this.setState({ formData });
@@ -43,7 +43,7 @@ class InventoryItems extends Component {
         <form onSubmit={this.submitForm}>
           <AddInventoryItemsFields
             handleInventoryItemChange={this.handleInventoryItemChange}
-            handleItemConditionChange={this.handleItemConditionChange}
+            handleItemPropertyChange={this.handleItemPropertyChange}
           />
           <SubmitButton isSubmitting={this.state.isSubmitting} />
         </form>

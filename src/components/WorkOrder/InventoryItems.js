@@ -16,11 +16,13 @@ class InventoryItems extends Component {
     console.log('In componentDidMount');
   }
 
-  handleInventoryItemChange = (item, field) => {
-    console.log(item, field);
+  handleInventoryItemChange = (fieldId, selected) => {
+    // TODO mirror handling of Lead Technician in AssignTechnicianFields.js & Edit.js
+    console.log(fieldId, selected);
   };
 
   handleItemConditionChange = (condition, field) => {
+    // TODO mirror handling of Asset in AssetTypeField.js & Edit.js
     console.log(condition, field);
   };
 

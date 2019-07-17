@@ -45,10 +45,10 @@ export default class AddInventoryItemsFields extends Component {
             isSearchable
             name={FIELDS.WORK_ORDER_INVENTORY_ITEMS}
             options={this.state.itemOptions}
-            //   onChange={this.props.handleSupportTechniciansFieldChange.bind(
-            //     this,
-            //     FIELDS.SUPPORT_TECHNICIANS
-            //   )}
+            onChange={this.props.handleInventoryItemChange.bind(
+              this,
+              FIELDS.WORK_ORDER_INVENTORY_ITEMS
+            )}
           />
         </div>
         <div className="form-group">
@@ -58,7 +58,10 @@ export default class AddInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_CONDITION}
             name={FIELDS.WORK_ORDER_CONDITION}
             defaultValue={''}
-            // onChange={}
+            onChange={this.props.handleItemConditionChange.bind(
+              this,
+              FIELDS.WORK_ORDER_CONDITION
+            )}
           >
             {INVENTORY_ITEMS_CONDITION_OPTIONS.map(option => (
               <option value={option} key={option}>

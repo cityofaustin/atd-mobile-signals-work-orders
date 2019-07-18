@@ -81,7 +81,10 @@ class WorkOrderDetail extends Component {
     api
       .workOrder()
       .getImages(id)
-      .then(res => this.setState({ imagesData: res.data.records }));
+      .then(res => {
+        console.log(res);
+        this.setState({ imagesData: res.data.records });
+      });
   };
 
   render() {
@@ -91,7 +94,7 @@ class WorkOrderDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{' '}
           {this.state.titleData[workOrderFields.header]}
         </h1>
-        <div className="d-flex flex-row">
+        <div className="d-flex flex-row flex-wrap">
           <div className="mr-2 mb-2">
             <Link
               to={`/work-order/edit/${this.props.match.params.workOrderId}`}
@@ -109,6 +112,28 @@ class WorkOrderDetail extends Component {
             >
               <div className={'btn btn-secondary'}>
                 <FontAwesomeIcon icon={faClock} /> New Time Log
+              </div>
+            </Link>
+          </div>
+          <div className="mr-2 mb-2">
+            <Link
+              to={`/work-order/inventory-items/${
+                this.props.match.params.workOrderId
+              }`}
+            >
+              <div className={'btn btn-secondary'}>
+                <FontAwesomeIcon icon={faWrench} /> New Items
+              </div>
+            </Link>
+          </div>
+          <div className="mr-2 mb-2">
+            <Link
+              to={`/work-order/add-image/${
+                this.props.match.params.workOrderId
+              }`}
+            >
+              <div className={'btn btn-secondary'}>
+                <FontAwesomeIcon icon={faCamera} /> New Image
               </div>
             </Link>
           </div>
@@ -250,12 +275,12 @@ class WorkOrderDetail extends Component {
                       key={i}
                       style={{ textAlign: 'center' }}
                     >
-                      <div
-                        className="col-12"
-                        dangerouslySetInnerHTML={{
-                          __html: image[workOrderFields.images.IMAGE],
-                        }}
-                      />
+                      <div className="col-12 img-fluid">
+                        <img
+                          className="img-fluid"
+                          src={image.field_1047_raw.url}
+                        />
+                      </div>
                       <div className="col-12">
                         <span style={{ fontStyle: 'italic' }}>
                           Uploaded at:{' '}

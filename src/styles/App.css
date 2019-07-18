@@ -16,6 +16,7 @@
 
 body {
   box-sizing: inherit;
+  overscroll-behavior: contain;
 }
 .atd-spinner {
   animation: spinner 1s infinite;

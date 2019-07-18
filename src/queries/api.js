@@ -47,8 +47,12 @@ const keys = {
     technicianFieldId: 'field_1753',
     vehicleFieldId: 'field_1427',
   },
+  addImage: {
+    sceneId: 'scene_255',
+    viewId: 'view_2234',
+  },
   workOrderDetails: { sceneId: 'scene_297', viewId: 'view_961' },
-  workOrderImages: { sceneId: 'scene_297', viewId: 'view_922' },
+  workOrderImages: { sceneId: 'scene_255', viewId: 'view_2234' },
   workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
   workOrderTimeLogs: { sceneId: 'scene_297', viewId: 'view_1251' },
   workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
@@ -241,11 +245,9 @@ const api = {
         ),
       getImages: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${
-            keys.workOrderImages.sceneId
-          }/views/${
-            keys.workOrderImages.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${
+            keys.addImage.viewId
+          }/records?work-order-details_id=${id}`,
           getHeaders()
         ),
       getInventoryItems: () =>
@@ -319,6 +321,31 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
+      addImage: (form, id) =>
+        axios
+          .post(
+            `https://api.knack.com/v1/applications/${APP_ID}/assets/image/upload`,
+            form,
+            getImageHeaders()
+          )
+          .then(response => {
+            const imageId = response.data.id;
+            const data = {
+              field_1047: imageId,
+              field_1045: id, // Add work order id to post data to associate the image with work order record
+            };
+            axios
+              .post(
+                `https://api.knack.com/v1/scenes/${
+                  keys.addImage.sceneId
+                }/views/${keys.addImage.viewId}/records?work-order_id=${id}`,
+                data,
+                getHeaders()
+              )
+              .then(response => {
+                console.log(response);
+              });
+          }),
     };
   },
 };
@@ -330,6 +357,18 @@ function getHeaders() {
       'X-Knack-REST-API-KEY': 'knack',
       Authorization: Cookies.get('knackUserToken'),
       'content-type': 'application/json',
+    },
+  };
+}
+
+function getImageHeaders() {
+  return {
+    processData: false,
+    contentType: false,
+    mimeType: `multipart/form-data`,
+    headers: {
+      'X-Knack-Application-Id': APP_ID,
+      'X-Knack-REST-API-KEY': 'knack',
     },
   };
 }

@@ -78,5 +78,11 @@ export class Camera {
   render() {
     return <div />;
   }
+
+  stop() {
+    this.webcamElement.srcObject.getTracks().map(function(val) {
+      val.stop();
+    });
+  }
 }
 export default Camera;

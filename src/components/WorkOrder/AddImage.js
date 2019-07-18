@@ -35,6 +35,10 @@ class AddImage extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.webcam.stop();
+  }
+
   captureImage = async () => {
     const capturedData = this.webcam.takeBase64Photo({
       type: 'jpeg',

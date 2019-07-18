@@ -1,6 +1,6 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import { APP_ID } from '../constants/api'
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { APP_ID } from '../constants/api';
 
 const keys = {
   allMyWorkOrders: { sceneId: 'scene_88', viewId: 'view_813' },
@@ -47,12 +47,16 @@ const keys = {
     technicianFieldId: 'field_1753',
     vehicleFieldId: 'field_1427',
   },
+  addImage: {
+    sceneId: 'scene_255',
+    viewId: 'view_2234',
+  },
   workOrderDetails: { sceneId: 'scene_297', viewId: 'view_961' },
-  workOrderImages: { sceneId: 'scene_297', viewId: 'view_922' },
+  workOrderImages: { sceneId: 'scene_255', viewId: 'view_2234' },
   workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
   workOrderTimeLogs: { sceneId: 'scene_297', viewId: 'view_1251' },
   workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
-}
+};
 
 // images
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
@@ -68,7 +72,7 @@ const api = {
           data,
           getHeaders()
         ),
-    }
+    };
   },
   myWorkOrders() {
     return {
@@ -79,7 +83,7 @@ const api = {
           }/views/${keys.allMyWorkOrders.viewId}/records/`,
           getHeaders()
         ),
-    }
+    };
   },
   allWorkOrders() {
     return {
@@ -99,7 +103,7 @@ const api = {
           }/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
           getHeaders()
         ),
-    }
+    };
   },
   workOrder() {
     return {
@@ -236,11 +240,9 @@ const api = {
         ),
       getImages: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${
-            keys.workOrderImages.sceneId
-          }/views/${
-            keys.workOrderImages.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${
+            keys.addImage.viewId
+          }/records?work-order-details_id=${id}`,
           getHeaders()
         ),
       schoolZones: searchValue =>
@@ -297,9 +299,34 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
-    }
+      addImage: (form, id) =>
+        axios
+          .post(
+            `https://api.knack.com/v1/applications/${APP_ID}/assets/image/upload`,
+            form,
+            getImageHeaders()
+          )
+          .then(response => {
+            const imageId = response.data.id;
+            const data = {
+              field_1047: imageId,
+              field_1045: id, // Add work order id to post data to associate the image with work order record
+            };
+            axios
+              .post(
+                `https://api.knack.com/v1/scenes/${
+                  keys.addImage.sceneId
+                }/views/${keys.addImage.viewId}/records?work-order_id=${id}`,
+                data,
+                getHeaders()
+              )
+              .then(response => {
+                console.log(response);
+              });
+          }),
+    };
   },
-}
+};
 
 function getHeaders() {
   return {
@@ -309,7 +336,19 @@ function getHeaders() {
       Authorization: Cookies.get('knackUserToken'),
       'content-type': 'application/json',
     },
-  }
+  };
 }
 
-export default api
+function getImageHeaders() {
+  return {
+    processData: false,
+    contentType: false,
+    mimeType: `multipart/form-data`,
+    headers: {
+      'X-Knack-Application-Id': APP_ID,
+      'X-Knack-REST-API-KEY': 'knack',
+    },
+  };
+}
+
+export default api;

@@ -14,6 +14,7 @@ class InventoryItems extends Component {
       formData: {},
       isSubmitting: false,
       isSubmitted: false,
+      errors: [],
     };
   }
   componentDidMount() {
@@ -67,6 +68,11 @@ class InventoryItems extends Component {
         {this.state.isSubmitted && (
           <SuccessMessage formType="Inventory Item" formVerb="adde" />
         )}
+
+        {this.state.errors &&
+          this.state.errors.map(error => (
+            <ErrorMessage error={error} key={error.field} />
+          ))}
 
         <form onSubmit={this.submitForm.bind(this)}>
           <AddInventoryItemsFields

@@ -61,6 +61,7 @@ export default class AddInventoryItemsFields extends Component {
               this,
               FIELDS.WORK_ORDER_INVENTORY_ITEMS
             )}
+            required // Prevent blank item from adding to DB since Knack does not require these fields
           />
         </div>
         <div className="form-group">
@@ -71,6 +72,7 @@ export default class AddInventoryItemsFields extends Component {
             name={FIELDS.WORK_ORDER_ITEM_CONDITION}
             onChange={this.handleConditionChange}
             defaultValue={'DEFAULT'}
+            required // Prevent blank item from adding to DB since Knack does not require these fields
           >
             <option value="DEFAULT" disabled>
               Select...
@@ -90,6 +92,7 @@ export default class AddInventoryItemsFields extends Component {
             name={FIELDS.WORK_ORDER_ITEM_QUANTITY}
             type="number"
             onChange={this.handleQuantityChange}
+            required // Prevent blank item from adding to DB since Knack does not require these fields
           />
         </div>
       </>

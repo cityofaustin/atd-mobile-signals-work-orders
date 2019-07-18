@@ -117,17 +117,6 @@ class WorkOrderDetail extends Component {
           </div>
           <div className="mr-2 mb-2">
             <Link
-              to={`/work-order/inventory-items/${
-                this.props.match.params.workOrderId
-              }`}
-            >
-              <div className={'btn btn-secondary'}>
-                <FontAwesomeIcon icon={faWrench} /> New Items
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
-            <Link
               to={`/work-order/add-image/${
                 this.props.match.params.workOrderId
               }`}
@@ -213,6 +202,17 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
+              <div className="mr-2 mb-2">
+                <Link
+                  to={`/work-order/inventory-items/${
+                    this.props.match.params.workOrderId
+                  }`}
+                >
+                  <div className={'btn btn-secondary'}>
+                    <FontAwesomeIcon icon={faWrench} /> New Item
+                  </div>
+                </Link>
+              </div>
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">

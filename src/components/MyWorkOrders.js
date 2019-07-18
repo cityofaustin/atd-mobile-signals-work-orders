@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
   faStreetView,
   faSpinner,
   faWrench,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
-import api from '../queries/api';
-import { workOrderFields } from '../queries/fields';
-import { signalsWorkOrderStatuses } from '../constants/statuses';
+import api from "../queries/api";
+import { workOrderFields } from "../queries/fields";
+import { signalsWorkOrderStatuses } from "../constants/statuses";
 
 const fields = workOrderFields.baseFields;
 const statuses = signalsWorkOrderStatuses;
@@ -61,7 +61,7 @@ class MyWorkOrders extends Component {
               className="atd-spinner"
             />
           ) : (
-            ''
+            ""
           )}
           <ul className="list-group list-group-flush">
             {isMyJobsDataLoaded &&
@@ -77,7 +77,7 @@ class MyWorkOrders extends Component {
                   >
                     {/* Location */}
                     <div className="col-12">
-                      <FontAwesomeIcon icon={faMapMarkerAlt} />{' '}
+                      <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
                       <span>{item[fields.location]}</span>
                     </div>
                     {/* Status */}

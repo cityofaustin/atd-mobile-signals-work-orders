@@ -7,7 +7,7 @@ import { FIELDS, YES_NO_OPTIONS } from "./formConfig";
 const ScheduleFields = ({
   data,
   toggleScheduleChange,
-  handleScheduledTimeChange
+  handleScheduledTimeChange,
 }) => {
   function getDefaultValue() {
     let value = data ? data[FIELDS.SCHEDULE_IMMEDIATELY] : "";

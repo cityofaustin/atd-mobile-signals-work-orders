@@ -1,6 +1,6 @@
-import styled from 'react-emotion';
+import styled from "react-emotion";
 
-const StyledHeader = styled('header')`
+const StyledHeader = styled("header")`
   display: flex;
   justify-content: space-between;
   align-items: center;

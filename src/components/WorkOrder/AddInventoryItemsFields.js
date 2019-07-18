@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Select from 'react-select';
+import React, { Component } from "react";
+import Select from "react-select";
 
-import { INVENTORY_ITEMS_CONDITION_OPTIONS, FIELDS } from './formConfig';
-import api from '../../queries/api';
+import { INVENTORY_ITEMS_CONDITION_OPTIONS, FIELDS } from "./formConfig";
+import api from "../../queries/api";
 
 export default class AddInventoryItemsFields extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ export default class AddInventoryItemsFields extends Component {
           <Select
             className="basic-single"
             classNamePrefix="select"
-            defaultValue={''}
+            defaultValue={""}
             isClearable
             isSearchable
             name={FIELDS.WORK_ORDER_INVENTORY_ITEMS}
@@ -71,7 +71,7 @@ export default class AddInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_ITEM_CONDITION}
             name={FIELDS.WORK_ORDER_ITEM_CONDITION}
             onChange={this.handleConditionChange}
-            defaultValue={'DEFAULT'}
+            defaultValue={"DEFAULT"}
             required // Prevent blank item from adding to DB since Knack does not require these fields
           >
             <option value="DEFAULT" disabled>

@@ -7,7 +7,7 @@ const FormGroup = ({
   options,
   inputType,
   defaultValue,
-  helpText
+  helpText,
 }) => {
   if (inputType === "basicSelect") {
     return (

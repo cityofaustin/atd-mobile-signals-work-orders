@@ -8,14 +8,14 @@ import { ErrorMessage } from "./Alerts";
 import {
   getHours,
   getAmPm,
-  getDateTimeObject
+  getDateTimeObject,
 } from "../Shared/dateTimeFieldHelpers.js";
 
 const TimeLogDateTimeFields = ({
   data,
   handleTimeChange,
   handleFormDisable,
-  isFormDisabled
+  isFormDisabled,
 }) => {
   function handleDateTimeFieldChange(date, fieldId, dateOrTime, data) {
     // set an empty object that will hold the date/time data

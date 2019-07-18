@@ -7,7 +7,7 @@ import {
   buttonStyles,
   inputStyles,
   labelStyles,
-  errorMessageStyles
+  errorMessageStyles,
 } from "../styles/Login.css";
 
 class Login extends Component {
@@ -17,7 +17,7 @@ class Login extends Component {
       requestMade: false,
       email: "",
       password: "",
-      loginError: false
+      loginError: false,
     };
   }
 

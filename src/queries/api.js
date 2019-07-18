@@ -1,65 +1,65 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { APP_ID } from '../constants/api';
+import axios from "axios";
+import Cookies from "js-cookie";
+import { APP_ID } from "../constants/api";
 
 const keys = {
-  allMyWorkOrders: { sceneId: 'scene_88', viewId: 'view_813' },
+  allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
   allWorkOrders: {
-    sceneId: 'scene_243',
-    viewId: 'view_713',
+    sceneId: "scene_243",
+    viewId: "view_713",
   },
   editWorkOrder: {
-    sceneId: 'scene_384',
-    viewId: 'view_1082',
-    formViewId: 'view_2474',
-    technicianId: 'field_909',
+    sceneId: "scene_384",
+    viewId: "view_1082",
+    formViewId: "view_2474",
+    technicianId: "field_909",
   },
   editNewWorkOrder: {
-    sceneId: 'scene_328',
-    detailsViewId: 'view_962',
-    formViewId: 'view_958',
-    assignToSelfId: 'field_1752',
-    technicianId: 'field_1754',
-    csrFieldId: 'field_1235',
-    taskOrderId: 'field_2634',
+    sceneId: "scene_328",
+    detailsViewId: "view_962",
+    formViewId: "view_958",
+    assignToSelfId: "field_1752",
+    technicianId: "field_1754",
+    csrFieldId: "field_1235",
+    taskOrderId: "field_2634",
   },
   submitWorkoder: {
-    sceneId: 'scene_450',
-    viewId: 'view_1280',
+    sceneId: "scene_450",
+    viewId: "view_1280",
   },
   newWorkOrder: {
-    sceneId: 'scene_979',
-    viewId: 'view_2466',
-    cameraFieldId: 'field_1862',
-    schoolZoneFieldId: 'field_1871',
-    signalFieldId: 'field_1060',
-    hazardFlasherFieldId: 'field_1864',
-    dmsFieldId: 'field_1859',
-    sensorFieldId: 'field_1863',
+    sceneId: "scene_979",
+    viewId: "view_2466",
+    cameraFieldId: "field_1862",
+    schoolZoneFieldId: "field_1871",
+    signalFieldId: "field_1060",
+    hazardFlasherFieldId: "field_1864",
+    dmsFieldId: "field_1859",
+    sensorFieldId: "field_1863",
   },
   newCsrNumber: {
-    sceneId: 'scene_328',
-    viewId: 'view_1115',
+    sceneId: "scene_328",
+    viewId: "view_1115",
   },
   timeLog: {
-    sceneId: 'scene_297',
-    viewId: 'view_1252',
-    technicianFieldId: 'field_1753',
-    vehicleFieldId: 'field_1427',
+    sceneId: "scene_297",
+    viewId: "view_1252",
+    technicianFieldId: "field_1753",
+    vehicleFieldId: "field_1427",
   },
   addImage: {
-    sceneId: 'scene_255',
-    viewId: 'view_2234',
+    sceneId: "scene_255",
+    viewId: "view_2234",
   },
-  workOrderDetails: { sceneId: 'scene_297', viewId: 'view_961' },
-  workOrderImages: { sceneId: 'scene_255', viewId: 'view_2234' },
-  workOrderInventory: { sceneId: 'scene_297', viewId: 'view_885' },
-  workOrderTimeLogs: { sceneId: 'scene_297', viewId: 'view_1251' },
-  workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
+  workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
+  workOrderImages: { sceneId: "scene_255", viewId: "view_2234" },
+  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
+  workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
+  workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   workOrderInventoryItems: {
-    sceneId: 'scene_297',
-    viewId: 'view_889',
-    fieldId: 'field_513',
+    sceneId: "scene_297",
+    viewId: "view_889",
+    fieldId: "field_513",
   },
 };
 
@@ -353,10 +353,10 @@ const api = {
 function getHeaders() {
   return {
     headers: {
-      'X-Knack-Application-Id': APP_ID,
-      'X-Knack-REST-API-KEY': 'knack',
-      Authorization: Cookies.get('knackUserToken'),
-      'content-type': 'application/json',
+      "X-Knack-Application-Id": APP_ID,
+      "X-Knack-REST-API-KEY": "knack",
+      Authorization: Cookies.get("knackUserToken"),
+      "content-type": "application/json",
     },
   };
 }
@@ -367,8 +367,8 @@ function getImageHeaders() {
     contentType: false,
     mimeType: `multipart/form-data`,
     headers: {
-      'X-Knack-Application-Id': APP_ID,
-      'X-Knack-REST-API-KEY': 'knack',
+      "X-Knack-Application-Id": APP_ID,
+      "X-Knack-REST-API-KEY": "knack",
     },
   };
 }

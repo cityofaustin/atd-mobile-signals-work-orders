@@ -13,7 +13,7 @@ export default class WorkTypeFields extends Component {
       workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
         window.Knack
       ),
-      updatedFormData: {}
+      updatedFormData: {},
     };
     this.handleWorkTypeChange = this.handleWorkTypeChange.bind(this);
   }
@@ -37,7 +37,7 @@ export default class WorkTypeFields extends Component {
       updatedFormData: data,
       workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
         window.Knack
-      )
+      ),
     });
 
     this.handleChange(e);
@@ -60,7 +60,7 @@ export default class WorkTypeFields extends Component {
 
     return defaultValueObject.map(item => ({
       value: item,
-      label: item
+      label: item,
     }));
   };
 

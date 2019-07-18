@@ -6,6 +6,7 @@ import {
   faTruck,
   faStreetView,
   faWrench,
+  faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 const mainPages = [
@@ -23,6 +24,11 @@ const mainPages = [
     title: 'New Work Order',
     link: '/work-order/new',
     icon: faWrench,
+  },
+  {
+    title: 'Asset Details',
+    link: '/assets',
+    icon: faMapMarkerAlt,
   },
 ];
 

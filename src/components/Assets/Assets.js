@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faTruck,
-  faMapMarkerAlt,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import api from '../../queries/api';
 import { workOrderFields } from '../../queries/fields';
 import { signalsWorkOrderStatuses } from '../../constants/statuses';
+import { getAllAssets } from '../WorkOrder/helpers';
 
 const fields = workOrderFields.baseFields;
 const statuses = signalsWorkOrderStatuses;
@@ -19,6 +16,7 @@ class Assets extends Component {
     super(props);
     this.state = {
       assetsData: [],
+      signalsOptions: [],
       loading: false,
       location: '',
       currentPage: 1,
@@ -27,17 +25,11 @@ class Assets extends Component {
   }
 
   componentDidMount() {
-    // this.setState({ loading: true });
-    // api
-    //   .allWorkOrders()
-    //   .getAll()
-    //   .then(res => {
-    //     this.setState({
-    //       assetsData: res.data.records,
-    //       lastPage: res.data.total_pages,
-    //       loading: false,
-    //     });
-    //   });
+    getAllAssets().then(data => {
+      this.setState({
+        signalOptions: data.signalOptions,
+      });
+    });
   }
 
   handleChange = event => {
@@ -106,7 +98,7 @@ class Assets extends Component {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faTruck} /> Assets
+          <FontAwesomeIcon icon={faMapMarkerAlt} /> Assets
         </h1>
         <form onSubmit={this.handleSearch}>
           <div className="form-group row">

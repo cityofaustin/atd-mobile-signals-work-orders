@@ -70,8 +70,9 @@ export default class AddInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_ITEM_CONDITION}
             name={FIELDS.WORK_ORDER_ITEM_CONDITION}
             onChange={this.handleConditionChange}
+            defaultValue={'DEFAULT'}
           >
-            <option selected="true" disabled="disabled">
+            <option value="DEFAULT" disabled>
               Select...
             </option>
             {INVENTORY_ITEMS_CONDITION_OPTIONS.map(option => (

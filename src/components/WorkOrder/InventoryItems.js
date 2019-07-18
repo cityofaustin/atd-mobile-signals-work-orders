@@ -37,7 +37,7 @@ class InventoryItems extends Component {
     e.preventDefault();
     const formData = {
       ...this.state.formData,
-      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: '5d01787f922972000da0a5d8', // TODO get work order id from React Router
+      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: this.props.match.params.workOrderId,
     };
     console.log(formData);
     this.setState({ isSubmitting: true });
@@ -54,7 +54,7 @@ class InventoryItems extends Component {
     return (
       <div>
         <Header icon={faWrench} title="Add Inventory Items" />
-        <form onSubmit={this.submitForm}>
+        <form onSubmit={this.submitForm.bind(this)}>
           <AddInventoryItemsFields
             handleInventoryItemChange={this.handleInventoryItemChange}
             handleItemPropertyChange={this.handleItemPropertyChange}

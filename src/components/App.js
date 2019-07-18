@@ -28,6 +28,7 @@ import EditWorkOrder from './WorkOrder/Edit';
 import SubmitWorkOrder from './WorkOrder/Submit';
 import NewTimeLog from './WorkOrder/NewTimeLog';
 import AddImage from './WorkOrder/AddImage';
+import Assets from './Assets/Assets';
 import { APP_ID } from '../constants/api';
 
 import '../styles/App.css';
@@ -184,6 +185,11 @@ class App extends Component {
                   <PrivateRoute
                     path="/work-orders/:workOrderId"
                     component={WorkOrderDetails}
+                    isAuthenticated={this.state.knackUserToken}
+                  />
+                  <PrivateRoute
+                    path="/assets/"
+                    component={Assets}
                     isAuthenticated={this.state.knackUserToken}
                   />
                 </div>

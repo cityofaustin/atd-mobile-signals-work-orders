@@ -1,29 +1,29 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
   faTruck,
   faStreetView,
-  faWrench
-} from "@fortawesome/free-solid-svg-icons";
+  faWrench,
+} from '@fortawesome/free-solid-svg-icons';
 
 const mainPages = [
   {
-    title: "My Work Orders",
-    link: "/my-work-orders",
-    icon: faStreetView
+    title: 'My Work Orders',
+    link: '/my-work-orders',
+    icon: faStreetView,
   },
   {
-    title: "All Work Orders",
-    link: "/all-work-orders",
-    icon: faTruck
+    title: 'All Work Orders',
+    link: '/all-work-orders',
+    icon: faTruck,
   },
   {
-    title: "New Work Order",
-    link: "/work-order/new",
-    icon: faWrench
-  }
+    title: 'New Work Order',
+    link: '/work-order/new',
+    icon: faWrench,
+  },
 ];
 
 class Home extends Component {

@@ -236,7 +236,7 @@ const api = {
             keys.workOrderInventory.sceneId
           }/views/${
             keys.workOrderInventory.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          }/records?my-work-order-details_id=${id}`,
           getHeaders()
         ),
       getImages: id =>
@@ -257,7 +257,6 @@ const api = {
           }?rows_per_page=2000`,
           getHeaders()
         ),
-      // TODO figure out correct parameters to submit inventory item
       submitInventoryItem: data =>
         axios.post(
           `https://us-api.knack.com/v1/scenes/${

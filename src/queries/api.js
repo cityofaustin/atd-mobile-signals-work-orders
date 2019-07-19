@@ -53,11 +53,13 @@ const keys = {
   },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_255", viewId: "view_2234" },
-  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
+  workOrderInventory: { sceneId: "sscene_297", viewId: "view_885" },
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   assets: {
-    workOrder: { sceneId: "scene_446", viewId: "view_1550" },
+    details: { sceneId: "scene_446", viewId: "view_1261" },
+    workOrders: { sceneId: "scene_446", viewId: "view_1550" },
+    serviceRequests: { sceneId: "scene_446", viewId: "view_1701" },
   },
 };
 
@@ -331,12 +333,28 @@ const api = {
   },
   assets() {
     return {
+      details: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.details.sceneId
+          }/views/${keys.assets.details.viewId}/records/${id}`,
+          getHeaders()
+        ),
       workOrders: id =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
-            keys.assets.workOrder.sceneId
+            keys.assets.workOrders.sceneId
           }/views/${
-            keys.assets.workOrder.viewId
+            keys.assets.workOrders.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      serviceRequests: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.serviceRequests.sceneId
+          }/views/${
+            keys.assets.serviceRequests.viewId
           }/records?signal-details_id=${id}`,
           getHeaders()
         ),

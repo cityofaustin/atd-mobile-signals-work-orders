@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from "react";
+import Autocomplete from "react-autocomplete";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapMarkerAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-import api from '../../queries/api';
-import { workOrderFields } from '../../queries/fields';
-import { signalsWorkOrderStatuses } from '../../constants/statuses';
-import { getAllAssets } from '../WorkOrder/helpers';
+import api from "../../queries/api";
+import { workOrderFields } from "../../queries/fields";
+import { signalsWorkOrderStatuses } from "../../constants/statuses";
+import { getAllAssets } from "../WorkOrder/helpers";
 
 const fields = workOrderFields.baseFields;
 const statuses = signalsWorkOrderStatuses;
@@ -16,18 +17,43 @@ class Assets extends Component {
     super(props);
     this.state = {
       assetsData: [],
-      signalsOptions: [],
+      assetOptions: [],
       loading: false,
-      location: '',
+      location: "",
       currentPage: 1,
       lastPage: 1,
+      updatedFormData: {},
+      signal: "",
+    };
+
+    this.renderItem = (item, isHighlighted) => (
+      <div
+        key={item.id}
+        style={{
+          background: isHighlighted ? "lightgray" : "white",
+          padding: "2px 5px",
+        }}
+      >
+        {item.identifier}
+      </div>
+    );
+
+    this.shouldItemRender = (item, value) =>
+      item.identifier.toLowerCase().indexOf(value.toLowerCase()) > -1;
+
+    this.inputProps = field => {
+      return {
+        className: "form-control",
+        name: "asset",
+        placeholder: "Type to search...",
+      };
     };
   }
 
   componentDidMount() {
     getAllAssets().then(data => {
       this.setState({
-        signalOptions: data.signalOptions,
+        assetOptions: data.signalOptions, // Keep naming of options from imported helper
       });
     });
   }
@@ -91,6 +117,19 @@ class Assets extends Component {
     }
   };
 
+  handleAutocompleteChange = (assetTypeString, e) => {
+    e.persist();
+    let data = this.state.updatedFormData;
+
+    this.setState({ [assetTypeString]: e.target.value, updatedFormData: data });
+  };
+
+  onAssetSelect = (value, item) => {
+    // TODO API call for signal data
+    console.log(value, item);
+    this.setState({ signal: item.identifier });
+  };
+
   render() {
     // make sure the data is not an empty object `{}`
     const isJobsDataLoaded = this.state.assetsData.length > 0;
@@ -101,25 +140,34 @@ class Assets extends Component {
           <FontAwesomeIcon icon={faMapMarkerAlt} /> Assets
         </h1>
         <form onSubmit={this.handleSearch}>
-          <div className="form-group row">
-            <div className="col">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter search here"
-                value={this.state.location}
-                onChange={this.handleChange}
+          {this.state.assetOptions.length > 0 && (
+            <div className="form-group row">
+              <label htmlFor={"Asset"}>{"Asset"}</label>
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.assetOptions}
+                inputProps={this.inputProps("Type to search...")}
+                wrapperStyle={this.wrapperStyle}
+                menuStyle={this.menuStyle}
+                renderItem={(item, isHighlighted) =>
+                  this.renderItem(item, isHighlighted)
+                }
+                shouldItemRender={(item, value) =>
+                  this.shouldItemRender(item, value)
+                }
+                value={this.state.signal}
+                onChange={this.handleAutocompleteChange.bind(this, "signal")}
+                onSelect={(value, item) => this.onAssetSelect(value, item)}
               />
-            </div>
-            <div className="col">
+
               <input type="submit" value="Search" className="btn btn-primary" />
             </div>
-          </div>
+          )}
         </form>
         {this.state.loading ? (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
         ) : (
-          ''
+          ""
         )}
         <ul className="list-group list-group-flush">
           {isJobsDataLoaded &&
@@ -135,7 +183,7 @@ class Assets extends Component {
                 >
                   {/* Location */}
                   <div className="col-12">
-                    <FontAwesomeIcon icon={faMapMarkerAlt} />{' '}
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
                     <span>{item[fields.locationAll]}</span>
                   </div>
                   {/* Status */}

@@ -51,9 +51,11 @@ class Assets extends Component {
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
     getAllAssets().then(data => {
       this.setState({
-        assetOptions: data.signalOptions, // Keep naming of options from imported helper
+        assetOptions: data.signalOptions,
+        loading: false, // Keep naming of options from imported helper
       });
     });
   }
@@ -137,12 +139,14 @@ class Assets extends Component {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faMapMarkerAlt} /> Assets
+          <FontAwesomeIcon icon={faMapMarkerAlt} /> Asset Details
         </h1>
-        <form onSubmit={this.handleSearch}>
-          {this.state.assetOptions.length > 0 && (
-            <div className="form-group row">
-              <label htmlFor={"Asset"}>{"Asset"}</label>
+
+        {this.state.assetOptions.length > 0 && (
+          <form onSubmit={this.handleSearch}>
+            <div className="form-group">
+              <label htmlFor={"asset"}>{"Search Assets"}</label>
+              <br />
               <Autocomplete
                 getItemValue={item => item.id}
                 items={this.state.assetOptions}
@@ -159,11 +163,11 @@ class Assets extends Component {
                 onChange={this.handleAutocompleteChange.bind(this, "signal")}
                 onSelect={(value, item) => this.onAssetSelect(value, item)}
               />
-
-              <input type="submit" value="Search" className="btn btn-primary" />
             </div>
-          )}
-        </form>
+            <input type="submit" value="Search" className="btn btn-primary" />
+          </form>
+        )}
+
         {this.state.loading ? (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
         ) : (

@@ -129,6 +129,10 @@ class Assets extends Component {
   onAssetSelect = (value, item) => {
     // TODO API call for signal data
     console.log(value, item);
+    api
+      .assets()
+      .workOrders(item.id)
+      .then(res => console.log(res));
     this.setState({ signal: item.identifier });
   };
 

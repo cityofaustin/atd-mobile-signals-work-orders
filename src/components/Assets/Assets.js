@@ -141,6 +141,14 @@ class Assets extends Component {
       .assets()
       .details(item.id)
       .then(res => console.log(res));
+    api
+      .assets()
+      .cameras(item.id)
+      .then(res => console.log(res));
+    api
+      .assets()
+      .preventativeMaint(item.id)
+      .then(res => console.log(res));
     this.setState({ signal: item.identifier });
   };
 

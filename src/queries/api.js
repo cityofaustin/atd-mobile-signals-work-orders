@@ -58,8 +58,10 @@ const keys = {
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   assets: {
     details: { sceneId: "scene_446", viewId: "view_1261" },
+    cameras: { sceneId: "scene_446", viewId: "view_1291" },
     workOrders: { sceneId: "scene_446", viewId: "view_1550" },
     serviceRequests: { sceneId: "scene_446", viewId: "view_1701" },
+    preventativeMaint: { sceneId: "scene_446", viewId: "view_1282" },
   },
 };
 
@@ -340,6 +342,15 @@ const api = {
           }/views/${keys.assets.details.viewId}/records/${id}`,
           getHeaders()
         ),
+      cameras: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.cameras.sceneId
+          }/views/${
+            keys.assets.cameras.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
       workOrders: id =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -355,6 +366,15 @@ const api = {
             keys.assets.serviceRequests.sceneId
           }/views/${
             keys.assets.serviceRequests.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      preventativeMaint: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.preventativeMaint.sceneId
+          }/views/${
+            keys.assets.preventativeMaint.viewId
           }/records?signal-details_id=${id}`,
           getHeaders()
         ),

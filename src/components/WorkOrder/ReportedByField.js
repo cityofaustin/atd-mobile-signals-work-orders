@@ -13,14 +13,14 @@ const ReportedByField = ({ data, handleReactSelectChange }) => {
         classNamePrefix="select"
         defaultValue={{
           value: data[FIELDS.REPORTED_BY],
-          label: data[FIELDS.REPORTED_BY]
+          label: data[FIELDS.REPORTED_BY],
         }}
         isClearable
         isSearchable
         name={FIELDS.REPORTED_BY}
         options={REPORTED_BY_OPTIONS.map(item => ({
           value: item,
-          label: item
+          label: item,
         }))}
         onChange={e => handleReactSelectChange(FIELDS.REPORTED_BY, e)}
       />

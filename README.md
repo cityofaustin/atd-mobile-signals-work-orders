@@ -20,6 +20,8 @@ Run development server
 
 `npm start`
 
+In development, this project uses [Prettier](https://prettier.io/) for code formatting which is set in .prettierrc. Visit link for installation or install the [extension for VSCode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+
 ## License
 
 As a work of the City of Austin, this project is in the public domain within the United States.

@@ -8,7 +8,7 @@ import {
   getAmPm,
   getToDateTimeTimestamp,
   getDateTimeObject,
-  getFromDateTimeTimestamp
+  getFromDateTimeTimestamp,
 } from "../Shared/dateTimeFieldHelpers.js";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -103,7 +103,7 @@ const handleDateTimeFieldChange = (
 const DateTimeRangePicker = ({
   data,
   fieldName,
-  handleScheduledTimeChange
+  handleScheduledTimeChange,
 }) => {
   return (
     <div className="form-group">

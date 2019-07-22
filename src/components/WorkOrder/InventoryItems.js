@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import AddInventoryItemsFields from './AddInventoryItemsFields';
-import Header from '../Shared/Header';
-import SubmitButton from '../Form/SubmitButton';
-import { faWrench } from '@fortawesome/free-solid-svg-icons';
-import { FIELDS } from './formConfig';
-import { ErrorMessage, SuccessMessage } from './Alerts';
-import api from '../../queries/api';
+import React, { Component } from "react";
+import AddInventoryItemsFields from "./AddInventoryItemsFields";
+import Header from "../Shared/Header";
+import SubmitButton from "../Form/SubmitButton";
+import { faWrench } from "@fortawesome/free-solid-svg-icons";
+import { FIELDS } from "./formConfig";
+import { ErrorMessage, SuccessMessage } from "./Alerts";
+import api from "../../queries/api";
 
 class InventoryItems extends Component {
   constructor(props) {
@@ -18,12 +18,12 @@ class InventoryItems extends Component {
     };
   }
   componentDidMount() {
-    console.log('In componentDidMount');
+    console.log("In componentDidMount");
   }
 
   handleInventoryItemChange = (fieldId, selected) => {
     console.log(fieldId, selected);
-    let item = selected ? selected.value : '';
+    let item = selected ? selected.value : "";
 
     // Add item to exisiting formData and update state
     const formData = { ...this.state.formData, [fieldId]: item };

@@ -5,7 +5,7 @@ export const workOrderFields = {
     modified: "field_1074",
     status: "field_459",
     location: "field_904",
-    locationAll: "field_211_raw"
+    locationAll: "field_211_raw",
   },
   details: [
     { "Problem Reported": "field_976" },
@@ -17,17 +17,17 @@ export const workOrderFields = {
     { "Modified Date": "field_1074" },
     { Status: "field_459" },
     { "Work Order ID": "field_1209" },
-    { "Reported By": "field_968" }
+    { "Reported By": "field_968" },
   ],
   header: "field_211_raw",
   inventory: {
     INVENTORY_ITEM: "field_513",
     STATUS: "field_1416",
     QUANTITY: "field_524",
-    CONDITION: "field_1071"
+    CONDITION: "field_1071",
   },
   images: {
     IMAGE: "field_1047",
-    DATESTAMP: "field_1046"
-  }
+    DATESTAMP: "field_1046",
+  },
 };

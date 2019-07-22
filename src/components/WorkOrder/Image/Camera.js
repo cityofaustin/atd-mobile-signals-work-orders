@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export class Camera {
   constructor(webcamElement, canvasElement) {
@@ -21,17 +21,17 @@ export class Camera {
         navigator.mediaDevices
           .getUserMedia({
             audio: false,
-            video: { facingMode: 'environment' },
+            video: { facingMode: "environment" },
           })
           .then(mediaStream => {
-            if ('srcObject' in this.webcamElement) {
+            if ("srcObject" in this.webcamElement) {
               this.webcamElement.srcObject = mediaStream;
             } else {
               // For older browsers without the srcObject.
               this.webcamElement.src = window.URL.createObjectURL(mediaStream);
             }
             this.webcamElement.addEventListener(
-              'loadeddata',
+              "loadeddata",
               async () => {
                 this.adjustVideoSize(
                   this.webcamElement.videoWidth,
@@ -52,7 +52,7 @@ export class Camera {
     const imageWidth = this.webcamElement.videoWidth;
     const imageHeight = this.webcamElement.videoHeight;
 
-    const context = this.canvasElement.getContext('2d');
+    const context = this.canvasElement.getContext("2d");
     this.canvasElement.width = imageWidth;
     this.canvasElement.height = imageHeight;
 
@@ -69,9 +69,9 @@ export class Camera {
     });
   }
 
-  takeBase64Photo({ type, quality } = { type: 'png', quality: 1 }) {
+  takeBase64Photo({ type, quality } = { type: "png", quality: 1 }) {
     const { imageHeight, imageWidth } = this._drawImage();
-    const base64 = this.canvasElement.toDataURL('image/' + type, quality);
+    const base64 = this.canvasElement.toDataURL("image/" + type, quality);
     return { base64, imageHeight, imageWidth };
   }
 

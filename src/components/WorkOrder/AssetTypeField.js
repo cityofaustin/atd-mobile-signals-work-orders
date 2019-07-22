@@ -32,7 +32,7 @@ export default class AssetTypeField extends Component {
       hazardFlasher: this.setInitalAssetName("hazardFlasher"),
       dms: this.setInitalAssetName("dms"),
       sensor: this.setInitalAssetName("sensor"),
-      updatedFormData: {}
+      updatedFormData: {},
     };
 
     this.menuStyle = {
@@ -44,7 +44,7 @@ export default class AssetTypeField extends Component {
       position: "fixed",
       overflow: "auto",
       zIndex: "999",
-      maxHeight: "50%"
+      maxHeight: "50%",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -52,7 +52,7 @@ export default class AssetTypeField extends Component {
         key={item.id}
         style={{
           background: isHighlighted ? "lightgray" : "white",
-          padding: "2px 5px"
+          padding: "2px 5px",
         }}
       >
         {item.identifier}
@@ -68,7 +68,7 @@ export default class AssetTypeField extends Component {
       return {
         className: "form-control",
         name: FIELDS.ASSETS[field].fieldId,
-        placeholder: "Type to search..."
+        placeholder: "Type to search...",
       };
     };
   }
@@ -85,7 +85,7 @@ export default class AssetTypeField extends Component {
         cameraOptions: data.cameraOptions,
         hazardFlasherOptions: data.hazardFlasherOptions,
         dmsOptions: data.dmsOptions,
-        sensorOptions: data.sensorOptions
+        sensorOptions: data.sensorOptions,
       });
     });
   }
@@ -124,7 +124,7 @@ export default class AssetTypeField extends Component {
 
     this.setState({
       [FIELDS.ASSET_TYPE.fieldId]: e.target.value,
-      updatedFormData: data
+      updatedFormData: data,
     });
     this.props.handleAssetChange(data);
   };

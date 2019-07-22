@@ -77,6 +77,6 @@ export async function getAllAssets() {
     cameraOptions,
     hazardFlasherOptions,
     dmsOptions,
-    sensorOptions
+    sensorOptions,
   };
 }

@@ -102,28 +102,6 @@ class WorkOrderDetail extends Component {
             </Link>
           </div>
           <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/new-time-log/${
-                this.props.match.params.workOrderId
-              }`}
-            >
-              <div className={'btn btn-secondary'}>
-                <FontAwesomeIcon icon={faClock} /> New Time Log
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/add-image/${
-                this.props.match.params.workOrderId
-              }`}
-            >
-              <div className={'btn btn-secondary'}>
-                <FontAwesomeIcon icon={faCamera} /> New Image
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
             {this.state.timeLogData.length > 0 ? (
               <Link
                 to={`/work-order/submit/${this.props.match.params.workOrderId}`}
@@ -188,6 +166,17 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
+              <div className="mr-2 mb-2">
+                <Link
+                  to={`/work-order/new-time-log/${
+                    this.props.match.params.workOrderId
+                  }`}
+                >
+                  <div className={'btn btn-secondary'}>
+                    <FontAwesomeIcon icon={faClock} /> New Time Log
+                  </div>
+                </Link>
+              </div>
               <TimeLog data={this.state.timeLogData} />
             </AccordionItemBody>
           </AccordionItem>
@@ -252,6 +241,17 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
+              <div className="mr-2 mb-2">
+                <Link
+                  to={`/work-order/add-image/${
+                    this.props.match.params.workOrderId
+                  }`}
+                >
+                  <div className={'btn btn-secondary'}>
+                    <FontAwesomeIcon icon={faCamera} /> New Image
+                  </div>
+                </Link>
+              </div>
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">

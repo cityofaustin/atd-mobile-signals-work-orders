@@ -238,8 +238,8 @@ class Edit extends Component {
               )}
             </>
           )}
+          <Footer body={submitButton} />
         </form>
-        <Footer body={submitButton} />
       </div>
     );
   }

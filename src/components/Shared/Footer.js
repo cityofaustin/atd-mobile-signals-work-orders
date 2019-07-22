@@ -1,10 +1,10 @@
-import React from 'react';
-import StyledFooter from '../styles/Footer.css.js';
+import React from "react";
+import StyledFooter from "../../styles/Footer.css.js";
 
-const Footer = () => {
+const Footer = ({ body }) => {
   return (
     <div className={StyledFooter}>
-      <footer className="bg-light card-footer">Hello World!</footer>
+      <footer className="card-footer bg-light text-center">{body}</footer>
     </div>
   );
 };

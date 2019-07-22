@@ -9,7 +9,7 @@ const Header = props => {
     <StyledHeader>
       {isNotHomePath && (
         <button onClick={() => props.history.goBack()}>
-          <FontAwesomeIcon icon={faArrowLeft} />
+          <FontAwesomeIcon icon={faArrowLeft} size="2x" />
         </button>
       )}
       <h2>{props.currentPage}</h2>

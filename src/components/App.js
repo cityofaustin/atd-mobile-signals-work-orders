@@ -135,6 +135,7 @@ class App extends Component {
                           {...props}
                           revokeKnackUserToken={this.revokeKnackUserToken}
                         />
+                        {/* TODO prevent NavFooter from showing if on Home route */}
                         <NavFooter />
                       </>
                     )}

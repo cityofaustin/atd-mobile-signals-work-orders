@@ -1,50 +1,51 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Route,
   BrowserRouter as Router,
   Switch,
   Redirect,
-} from 'react-router-dom';
-import { ThemeProvider } from 'emotion-theming';
-import Cookies from 'js-cookie';
-import Script from 'react-load-script';
+} from "react-router-dom";
+import { ThemeProvider } from "emotion-theming";
+import Cookies from "js-cookie";
+import Script from "react-load-script";
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStroopwafel, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStroopwafel, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 // Add bootstrap v4 for styling, layouts, CSS utilites, etc
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-import PrivateRoute from './PrivateRoute';
-import Login from './Login';
-import Home from './Home';
-import Header from './Header';
-import WorkOrderDetails from './WorkOrderDetails';
-import MyWorkOrders from './MyWorkOrders';
-import AllWorkOrders from './AllWorkOrders';
-import NewWorkOrder from './WorkOrder/New';
-import EditWorkOrder from './WorkOrder/Edit';
-import SubmitWorkOrder from './WorkOrder/Submit';
-import NewTimeLog from './WorkOrder/NewTimeLog';
-import AddImage from './WorkOrder/AddImage';
-import { APP_ID } from '../constants/api';
+import PrivateRoute from "./PrivateRoute";
+import Login from "./Login";
+import Home from "./Home";
+import Header from "./Header";
+import NavFooter from "./Shared/NavFooter";
+import WorkOrderDetails from "./WorkOrderDetails";
+import MyWorkOrders from "./MyWorkOrders";
+import AllWorkOrders from "./AllWorkOrders";
+import NewWorkOrder from "./WorkOrder/New";
+import EditWorkOrder from "./WorkOrder/Edit";
+import SubmitWorkOrder from "./WorkOrder/Submit";
+import NewTimeLog from "./WorkOrder/NewTimeLog";
+import AddImage from "./WorkOrder/AddImage";
+import { APP_ID } from "../constants/api";
 
-import '../styles/App.css';
+import "../styles/App.css";
 
 // Load Font Awesome v5 SVG / JS version
 // https://github.com/FortAwesome/react-fontawesome
 library.add(faStroopwafel);
 
 const theme = {
-  colorWhite: '#fff',
-  colorBlue: '#377eb8',
-  colorGrey: '#aeaeae',
-  colorGreen: '#4daf4a',
-  colorRed: '#e41a1c',
-  colorBlack: '#220e01',
-  inputBackgroundColor: 'rgba(238, 238, 238, .6)',
-  inputBorderColor: 'rgba(0, 0, 0, .38)',
+  colorWhite: "#fff",
+  colorBlue: "#377eb8",
+  colorGrey: "#aeaeae",
+  colorGreen: "#4daf4a",
+  colorRed: "#e41a1c",
+  colorBlack: "#220e01",
+  inputBackgroundColor: "rgba(238, 238, 238, .6)",
+  inputBorderColor: "rgba(0, 0, 0, .38)",
 };
 
 class App extends Component {
@@ -54,11 +55,11 @@ class App extends Component {
     // These are config variables that knack.js expects to find on the global
     // window element
     window.app_id = APP_ID;
-    window.distribution_key = 'dist_2';
+    window.distribution_key = "dist_2";
     const cookieToken =
-      Cookies.get('knackUserToken') === 'false'
+      Cookies.get("knackUserToken") === "false"
         ? false
-        : Cookies.get('knackUserToken');
+        : Cookies.get("knackUserToken");
 
     this.state = {
       appId: APP_ID,
@@ -74,12 +75,12 @@ class App extends Component {
     this.setState({ knackUserToken: token });
     // set a cookie to expire in 48 hrs according to Knack documentation:
     // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
-    Cookies.set('knackUserToken', token, { expires: 2 });
+    Cookies.set("knackUserToken", token, { expires: 2 });
   };
 
   revokeKnackUserToken = () => {
     this.setState({ knackUserToken: false });
-    Cookies.set('knackUserToken', false);
+    Cookies.set("knackUserToken", false);
   };
 
   handleScriptCreate = () => this.setState({ knackJsLoading: true });
@@ -129,10 +130,13 @@ class App extends Component {
                   <Route
                     path="/"
                     render={props => (
-                      <Header
-                        {...props}
-                        revokeKnackUserToken={this.revokeKnackUserToken}
-                      />
+                      <>
+                        <Header
+                          {...props}
+                          revokeKnackUserToken={this.revokeKnackUserToken}
+                        />
+                        <NavFooter />
+                      </>
                     )}
                   />
                   <PrivateRoute

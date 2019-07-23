@@ -36,20 +36,27 @@ const navPages = [
 ];
 
 const NavFooter = props => {
-  //  inactive link #6C757C
-  //  active link #307BFF
-  console.log(props);
+  const inactiveLinkColor = "#6C757C";
+  const activeLinkColor = "#307BFF";
+  let iconColor = "";
   return (
     <StyledNavFooter>
       <ul className="nav nav-fill justify-content-center">
-        {navPages.map((page, i) => (
-          <li key={i} className={`${StyledNavFooterButtons} nav-item`}>
-            <Link to={page.link} className="nav-link">
-              {/* TODO set color based on current url props.location.pathname */}
-              <FontAwesomeIcon color="" icon={page.icon} size="3x" />
-            </Link>
-          </li>
-        ))}
+        {navPages.map((page, i) => {
+          // Set icon color based on whether current path is equal to link path
+          iconColor =
+            page.link === props.location.pathname
+              ? activeLinkColor
+              : inactiveLinkColor;
+
+          return (
+            <li key={i} className={`${StyledNavFooterButtons} nav-item`}>
+              <Link to={page.link} className="nav-link">
+                <FontAwesomeIcon color={iconColor} icon={page.icon} size="3x" />
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </StyledNavFooter>
   );

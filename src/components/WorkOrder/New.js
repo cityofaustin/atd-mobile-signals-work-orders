@@ -7,6 +7,7 @@ import { newWorkOrderInitialState } from "./formDataInitialState";
 import { FIELDS } from "./formConfig";
 
 import Header from "../Shared/Header";
+import FormFooter from "../Shared/FormFooter";
 import { ErrorMessage, SuccessMessage } from "./Alerts";
 import WorkTypeFields from "./WorkTypeFields";
 import AssetTypeField from "./AssetTypeField";
@@ -173,6 +174,10 @@ class NewWorkOrder extends Component {
       return <Redirect to={`/work-orders/${this.state.newWorkOrder.id}`} />;
     }
 
+    const submitButton = (
+      <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
+    );
+
     return (
       <div>
         <Header icon={faWrench} title="New Work Order" />
@@ -240,7 +245,7 @@ class NewWorkOrder extends Component {
             handleFormDataChange={this.handleFormDataChange}
           />
 
-          <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
+          <FormFooter body={submitButton} />
         </form>
       </div>
     );

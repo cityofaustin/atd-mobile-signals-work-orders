@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Redirect, Link } from "react-router-dom";
+
+import Header from "../Shared/Header";
+import FormFooter from "../Shared/FormFooter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
-import Header from "../Shared/Header";
 import WorkTypeFields from "./WorkTypeFields";
 import ReportedByField from "./ReportedByField";
 import CsrField from "./CsrField";
@@ -178,6 +180,10 @@ class Edit extends Component {
       );
     }
 
+    const submitButton = (
+      <SubmitButton text="Update" isSubmitting={this.state.isSubmitting} />
+    );
+
     return (
       <div>
         <Header icon={faEdit} title="Edit Work Order" />
@@ -185,7 +191,9 @@ class Edit extends Component {
         <div className="d-flex flex-row flex-wrap">
           <div className="mr-2 mb-2">
             <Link
-              to={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
+              to={`/work-order/new-time-log/${
+                this.props.match.params.workOrderId
+              }`}
             >
               <div className={"btn btn-secondary"}>
                 <FontAwesomeIcon icon={faClock} /> New Time Log
@@ -197,12 +205,10 @@ class Edit extends Component {
         {this.state.isSubmitted && (
           <SuccessMessage formType="Work Order" formVerb="update" />
         )}
-
         {this.state.errors &&
           this.state.errors.map(error => (
             <ErrorMessage error={error} key={error.field} />
           ))}
-
         <form onSubmit={this.submitForm}>
           {!this.state.isLoading && (
             <>
@@ -248,13 +254,9 @@ class Edit extends Component {
                   handleCsrChange={this.handleCsrChange}
                 />
               )}
-
-              <SubmitButton
-                text="Update"
-                isSubmitting={this.state.isSubmitting}
-              />
             </>
           )}
+          <FormFooter body={submitButton} />
         </form>
       </div>
     );

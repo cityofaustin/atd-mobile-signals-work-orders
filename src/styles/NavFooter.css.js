@@ -1,7 +1,8 @@
 import styled from "react-emotion";
 import { css } from "react-emotion";
 
-// The bottom padding here is related to the body padding-bottom in App.css to stack sticky FormFooter and App Navigation Footer
+// The bottom padding here is related to the body padding-bottom
+// in App.css to stack sticky FormFooter and NavFooter components
 export const StyledNavFooter = styled("div")`
   position: fixed;
   bottom: 0;

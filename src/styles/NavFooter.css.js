@@ -5,9 +5,9 @@ const StyledFooter = styled("div")`
   position: fixed;
   bottom: 0;
   left: 0;
-  background-color: red;
   width: 100%;
-  z-index: 10;
+  background-color: white;
+  z-index: 2;
 `;
 
 export default StyledFooter;

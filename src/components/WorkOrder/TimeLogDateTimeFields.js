@@ -50,16 +50,30 @@ const TimeLogDateTimeFields = ({
   }
 
   const getSelectedDate = (data, field) => {
-    if (isEmpty(data[field])) return null;
+    // When the form first loads, autofill current date & time
+    // on certain fields to mirror Knack data validation.
+    const today = new Date();
+    const shouldReturnCurrentDate =
+      (isEmpty(data[field]) && field === "field_1437") ||
+      (isEmpty(data[field]) && field === "field_2020");
 
-    let today = new Date();
+    if (shouldReturnCurrentDate) return today;
+    if (isEmpty(data[field])) return null;
 
     let date = data[field].date ? new Date(data[field].date) : today;
     return date;
   };
 
   const getSelectedTime = (data, field) => {
-    if (isEmpty(data[field])) return null;
+    // When the form first loads, autofill current date & time
+    // on certain fields to mirror Knack data validation.
+    const today = new Date();
+    const shouldReturnCurrentDate =
+      (isEmpty(data[field]) && field === "field_1437") ||
+      (isEmpty(data[field]) && field === "field_2020");
+
+    if (shouldReturnCurrentDate) return today; // default to current time for certain fields
+    if (isEmpty(data[field])) return null; // let value start as blank if there's no exisiting data
 
     let date = data[field].date
       ? data[field].date

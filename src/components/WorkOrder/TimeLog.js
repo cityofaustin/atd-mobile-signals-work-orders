@@ -16,14 +16,14 @@ const TimeLog = ({ data }) => {
                   <div className="col-12">
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: timeLog[FIELDS.TIMELOG.TECHNICIANS]
+                        __html: timeLog[FIELDS.TIMELOG.TECHNICIANS],
                       }}
                     />
                   </div>
                   <div
                     className="col-12"
                     dangerouslySetInnerHTML={{
-                      __html: timeLog[FIELDS.TIMELOG.VEHICLES]
+                      __html: timeLog[FIELDS.TIMELOG.VEHICLES],
                     }}
                   />
                 </div>
@@ -34,7 +34,7 @@ const TimeLog = ({ data }) => {
                     <span>Recieved: </span>
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: timeLog[FIELDS.TIMELOG.ISSUE_RECEIVED_TIME]
+                        __html: timeLog[FIELDS.TIMELOG.ISSUE_RECEIVED_TIME],
                       }}
                     />
                   </div>
@@ -42,7 +42,7 @@ const TimeLog = ({ data }) => {
                     <span>Arrived: </span>
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: timeLog[FIELDS.TIMELOG.WORKSITE_ARRIVE]
+                        __html: timeLog[FIELDS.TIMELOG.WORKSITE_ARRIVE],
                       }}
                     />
                   </div>
@@ -50,7 +50,7 @@ const TimeLog = ({ data }) => {
                     <span>Left: </span>
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: timeLog[FIELDS.TIMELOG.WORKSITE_LEAVE]
+                        __html: timeLog[FIELDS.TIMELOG.WORKSITE_LEAVE],
                       }}
                     />
                   </div>
@@ -58,7 +58,7 @@ const TimeLog = ({ data }) => {
                     <span>Returned: </span>
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: timeLog[FIELDS.TIMELOG.WORKSITE_SHOP_RETURN]
+                        __html: timeLog[FIELDS.TIMELOG.WORKSITE_SHOP_RETURN],
                       }}
                     />
                   </div>

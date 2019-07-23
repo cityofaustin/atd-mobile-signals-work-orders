@@ -22,7 +22,7 @@ class NewTimeLog extends Component {
       technicianOptions: [],
       vehicleOptions: [],
       updatedFormData: { field_1424: this.workOrderId },
-      isFormDisabled: false
+      isFormDisabled: false,
     };
   }
 
@@ -41,14 +41,14 @@ class NewTimeLog extends Component {
         this.setState({
           isSubmitting: false,
           isSubmitted: true,
-          successfulResponseData: res.data.record
+          successfulResponseData: res.data.record,
         });
       })
       .catch(error => {
         console.log(error.response.data.errors);
         this.setState({
           errors: error.response.data.errors,
-          isSubmitting: false
+          isSubmitting: false,
         });
       });
   };
@@ -70,7 +70,7 @@ class NewTimeLog extends Component {
 
     // create object of updated data
     let updatedFormData = Object.assign({}, this.state.updatedFormData, {
-      [fieldId]: updatedData
+      [fieldId]: updatedData,
     });
 
     // merge updated data into all data

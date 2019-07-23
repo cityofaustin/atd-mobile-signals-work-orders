@@ -16,7 +16,7 @@ export default class Submit extends Component {
       isSubmitted: false,
       successfulResponseData: null,
       field_1354: false,
-      field_1598: ""
+      field_1598: "",
     };
     this.workOrderId = this.props.match.params.workOrderId;
   }
@@ -27,7 +27,7 @@ export default class Submit extends Component {
 
     const formData = {
       field_1354: this.state.field_1354,
-      field_1598: this.state.field_1598
+      field_1598: this.state.field_1598,
     };
 
     console.log("submitting: ", formData);
@@ -39,14 +39,14 @@ export default class Submit extends Component {
         this.setState({
           isSubmitting: false,
           isSubmitted: true,
-          successfulResponseData: res.data.record
+          successfulResponseData: res.data.record,
         });
       })
       .catch(error => {
         console.log(error.response.data.errors);
         this.setState({
           errors: error.response.data.errors,
-          isSubmitting: false
+          isSubmitting: false,
         });
       });
   };

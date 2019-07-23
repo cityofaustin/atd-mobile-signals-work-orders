@@ -1,33 +1,33 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTruck,
   faMapMarkerAlt,
   faSpinner,
-} from '@fortawesome/free-solid-svg-icons'
+} from "@fortawesome/free-solid-svg-icons";
 
-import api from '../queries/api'
-import { workOrderFields } from '../queries/fields'
-import { signalsWorkOrderStatuses } from '../constants/statuses'
+import api from "../queries/api";
+import { workOrderFields } from "../queries/fields";
+import { signalsWorkOrderStatuses } from "../constants/statuses";
 
-const fields = workOrderFields.baseFields
-const statuses = signalsWorkOrderStatuses
+const fields = workOrderFields.baseFields;
+const statuses = signalsWorkOrderStatuses;
 
 class AllWorkOrders extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       allWorkOrdersData: [],
       loading: false,
-      location: '',
+      location: "",
       currentPage: 1,
       lastPage: 1,
-    }
+    };
   }
 
   componentDidMount() {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     api
       .allWorkOrders()
       .getAll()
@@ -36,19 +36,19 @@ class AllWorkOrders extends Component {
           allWorkOrdersData: res.data.records,
           lastPage: res.data.total_pages,
           loading: false,
-        })
-      })
+        });
+      });
   }
 
   handleChange = event => {
     this.setState({
       location: event.target.value,
-    })
-  }
+    });
+  };
 
   handleSearch = event => {
-    event.preventDefault()
-    this.setState({ allWorkOrdersData: [], loading: true })
+    event.preventDefault();
+    this.setState({ allWorkOrdersData: [], loading: true });
     api
       .allWorkOrders()
       .searchAll(this.state.location, 1)
@@ -58,16 +58,16 @@ class AllWorkOrders extends Component {
           loading: false,
           lastPage: res.data.total_pages,
           currentPage: 1,
-        })
-      })
-  }
+        });
+      });
+  };
 
   updatePage = pageNumber => {
     this.setState({
       allWorkOrdersData: [],
       loading: true,
       currentPage: pageNumber,
-    })
+    });
     api
       .allWorkOrders()
       .searchAll(this.state.location, pageNumber)
@@ -76,35 +76,35 @@ class AllWorkOrders extends Component {
           allWorkOrdersData: res.data.records,
           lastPage: res.data.total_pages,
           loading: false,
-        })
-      })
-    window.scrollTo(0, 0)
-  }
+        });
+      });
+    window.scrollTo(0, 0);
+  };
 
   prevPage = event => {
-    event.preventDefault()
+    event.preventDefault();
     // if currentPage !== 1, API call for prev page
     if (this.state.currentPage !== 1) {
-      const prevPage = this.state.currentPage - 1
-      this.updatePage(prevPage)
+      const prevPage = this.state.currentPage - 1;
+      this.updatePage(prevPage);
     }
-  }
+  };
 
   nextPage = event => {
-    event.preventDefault()
+    event.preventDefault();
     // if currentPage === lastPage, nothing, else API call for next page
     if (this.state.currentPage !== this.state.lastPage) {
-      const nextPage = this.state.currentPage + 1
-      this.updatePage(nextPage)
+      const nextPage = this.state.currentPage + 1;
+      this.updatePage(nextPage);
     }
-  }
+  };
 
   render() {
     // make sure the data is not an empty object `{}`
-    const isJobsDataLoaded = this.state.allWorkOrdersData.length > 0
+    const isJobsDataLoaded = this.state.allWorkOrdersData.length > 0;
     const allWorkOrdersData = isJobsDataLoaded
       ? this.state.allWorkOrdersData
-      : []
+      : [];
     return (
       <div>
         <h1>
@@ -129,7 +129,7 @@ class AllWorkOrders extends Component {
         {this.state.loading ? (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
         ) : (
-          ''
+          ""
         )}
         <ul className="list-group list-group-flush">
           {isJobsDataLoaded &&
@@ -145,7 +145,7 @@ class AllWorkOrders extends Component {
                 >
                   {/* Location */}
                   <div className="col-12">
-                    <FontAwesomeIcon icon={faMapMarkerAlt} />{' '}
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
                     <span>{item[fields.locationAll]}</span>
                   </div>
                   {/* Status */}
@@ -185,8 +185,8 @@ class AllWorkOrders extends Component {
           </div>
         </form>
       </div>
-    )
+    );
   }
 }
 
-export default AllWorkOrders
+export default AllWorkOrders;

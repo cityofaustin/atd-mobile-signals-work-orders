@@ -27,7 +27,7 @@ class NewWorkOrder extends Component {
       isSubmitting: false,
       isSubmitted: false,
       newWorkOrder: null,
-      workTypeScheduledWorkOptions: []
+      workTypeScheduledWorkOptions: [],
     };
   }
 
@@ -122,7 +122,7 @@ class NewWorkOrder extends Component {
 
   handleTaskOrderChange = selection => {
     this.setState({
-      [FIELDS.TASK_ORDERS]: selection
+      [FIELDS.TASK_ORDERS]: selection,
     });
   };
 
@@ -131,7 +131,7 @@ class NewWorkOrder extends Component {
 
     // create object of updated data
     let updatedFormData = Object.assign({}, this.state.updatedFormData, {
-      [fieldId]: updatedData
+      [fieldId]: updatedData,
     });
 
     // merge updated data into all data
@@ -156,14 +156,14 @@ class NewWorkOrder extends Component {
         this.setState({
           isSubmitting: false,
           isSubmitted: true,
-          newWorkOrder: res.data.record
+          newWorkOrder: res.data.record,
         });
       })
       .catch(error => {
         console.log(error.response.data.errors);
         this.setState({
           errors: error.response.data.errors,
-          isSubmitting: false
+          isSubmitting: false,
         });
       });
   };

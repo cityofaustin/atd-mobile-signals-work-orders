@@ -1,4 +1,4 @@
-import { css } from 'react-emotion';
+import { css } from "react-emotion";
 
 export const videoParentStyles = css`
   object-fit: contain;

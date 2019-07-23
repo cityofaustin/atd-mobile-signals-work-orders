@@ -3,28 +3,28 @@ export const FIELDS = {
   ASSETS: {
     signal: {
       fieldId: "field_1060",
-      label: "Signal"
+      label: "Signal",
     },
     camera: {
       fieldId: "field_1862",
-      label: "Camera"
+      label: "Camera",
     },
     schoolBeacon: {
       fieldId: "field_1871",
-      label: "School Zone"
+      label: "School Zone",
     },
     hazardFlasher: {
       fieldId: "field_1864",
-      label: "Hazard Flasher"
+      label: "Hazard Flasher",
     },
     dms: {
       fieldId: "field_1859",
-      label: "DMS"
+      label: "DMS",
     },
     sensor: {
       fieldId: "field_1863",
-      label: "Sensor"
-    }
+      label: "Sensor",
+    },
   },
   ASSIGN_TO_SELF: "field_1752",
   CSR: "field_1235",
@@ -37,6 +37,10 @@ export const FIELDS = {
   SCHEDULED_DATE: "field_460",
   LOCATION_NAME_RAW: "field_211_raw",
   WORK_DESCRIPTION: "field_463",
+  WORK_ORDER_ITEM_CONDITION: "field_1071",
+  WORK_ORDER_ITEM_QUANTITY: "field_524",
+  WORK_ORDER_INVENTORY_ITEMS: "field_513",
+  WORK_ORDER_ID_FOR_INVENTORY: "field_514", // POST req requires this field to contain the work order ID
   WORK_TYPE: "field_1004",
   WORK_TYPE_TROUBLE_CALL: "field_976",
   WORK_TYPE_SCHEDULED_WORK: "field_900",
@@ -50,8 +54,8 @@ export const FIELDS = {
     ISSUE_RECEIVED_TIME: "field_2020",
     WORKSITE_ARRIVE: "field_1437",
     WORKSITE_LEAVE: "field_1438",
-    WORKSITE_SHOP_RETURN: "field_1425"
-  }
+    WORKSITE_SHOP_RETURN: "field_1425",
+  },
 };
 
 export const ASSET_TYPE_OPTIONS = [
@@ -61,7 +65,7 @@ export const ASSET_TYPE_OPTIONS = [
   "Digital Messaging Sign (DMS)",
   "Camera",
   "Sensor",
-  "Other / No Asset"
+  "Other / No Asset",
 ];
 
 export const YES_NO_OPTIONS = ["Yes", "No"];
@@ -70,7 +74,7 @@ export const REPORTED_BY_OPTIONS = [
   "Austin Transportation Staff",
   "311 Customer Service Request (CSR)",
   "TMC",
-  "Other"
+  "Other",
 ];
 
 export const WORK_TYPE_TROUBLE_CALL_OPTIONS = [
@@ -83,7 +87,7 @@ export const WORK_TYPE_TROUBLE_CALL_OPTIONS = [
   "Signal Out or on Flash",
   "Timing Issue",
   "Visibility Issue",
-  "Other"
+  "Other",
 ];
 
 export const WORK_TYPE_SCHEDULED_WORK_OPTIONS = [
@@ -119,5 +123,7 @@ export const WORK_TYPE_SCHEDULED_WORK_OPTIONS = [
   "Repair - Detection - Video",
   "Repair - Preemption",
   "Repair - UPS Issues (Batteries)",
-  "Knockdown Follow-Up"
+  "Knockdown Follow-Up",
 ];
+
+export const INVENTORY_ITEMS_CONDITION_OPTIONS = ["New", "Used"];

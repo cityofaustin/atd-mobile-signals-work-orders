@@ -33,14 +33,17 @@ const navPages = [
   },
 ];
 
-const NavFooter = () => {
+const NavFooter = props => {
+  //  inactive link #6C757C
+  //  active link #307BFF
   return (
     <StyledNavFooter>
       <ul className="nav justify-content-center">
         {navPages.map((page, i) => (
           <li key={i} className="nav-item">
             <Link to={page.link} className="nav-link">
-              <FontAwesomeIcon icon={page.icon} size="2x" />
+              {/* TODO set color based on current url */}
+              <FontAwesomeIcon color="" icon={page.icon} size="2x" />
             </Link>
           </li>
         ))}

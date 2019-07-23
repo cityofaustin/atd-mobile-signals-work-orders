@@ -5,28 +5,29 @@ import {
   faHome,
   faTruck,
   faStreetView,
-  faWrench
+  faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 
 const mainPages = [
   {
     title: "My Work Orders",
     link: "/my-work-orders",
-    icon: faStreetView
+    icon: faStreetView,
   },
   {
     title: "All Work Orders",
     link: "/all-work-orders",
-    icon: faTruck
+    icon: faTruck,
   },
   {
     title: "New Work Order",
     link: "/work-order/new",
-    icon: faWrench
-  }
+    icon: faWrench,
+  },
 ];
 
 class Home extends Component {
+  debugger;
   render() {
     return (
       <div>

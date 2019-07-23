@@ -48,7 +48,7 @@ class MyWorkOrders extends Component {
           <div className="d-flex flex-row">
             <div className="mr-2 mb-2">
               <Link to={`/work-order/new/`}>
-                <div className="btn btn-secondary">
+                <div className="btn btn-secondary btn-lg">
                   <FontAwesomeIcon icon={faWrench} /> New Work Order
                 </div>
               </Link>

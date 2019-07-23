@@ -191,9 +191,7 @@ class Edit extends Component {
         <div className="d-flex flex-row flex-wrap">
           <div className="mr-2 mb-2">
             <Link
-              to={`/work-order/new-time-log/${
-                this.props.match.params.workOrderId
-              }`}
+              to={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
             >
               <div className={"btn btn-secondary"}>
                 <FontAwesomeIcon icon={faClock} /> New Time Log

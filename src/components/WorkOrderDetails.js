@@ -171,11 +171,9 @@ class WorkOrderDetail extends Component {
             <AccordionItemBody>
               <div className="mr-2 mb-2">
                 <Link
-                  to={`/work-order/new-time-log/${
-                    this.props.match.params.workOrderId
-                  }`}
+                  to={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
                 >
-                  <div className={'btn btn-secondary'}>
+                  <div className={"btn btn-secondary"}>
                     <FontAwesomeIcon icon={faClock} /> New Time Log
                   </div>
                 </Link>
@@ -193,9 +191,7 @@ class WorkOrderDetail extends Component {
             <AccordionItemBody>
               <div className="mr-2 mb-2">
                 <Link
-                  to={`/work-order/inventory-items/${
-                    this.props.match.params.workOrderId
-                  }`}
+                  to={`/work-order/inventory-items/${this.props.match.params.workOrderId}`}
                 >
                   <div className={"btn btn-secondary"}>
                     <FontAwesomeIcon icon={faWrench} /> New Item
@@ -257,11 +253,9 @@ class WorkOrderDetail extends Component {
             <AccordionItemBody>
               <div className="mr-2 mb-2">
                 <Link
-                  to={`/work-order/add-image/${
-                    this.props.match.params.workOrderId
-                  }`}
+                  to={`/work-order/add-image/${this.props.match.params.workOrderId}`}
                 >
-                  <div className={'btn btn-secondary'}>
+                  <div className={"btn btn-secondary"}>
                     <FontAwesomeIcon icon={faCamera} /> New Image
                   </div>
                 </Link>

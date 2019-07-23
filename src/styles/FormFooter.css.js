@@ -8,6 +8,7 @@ const StyledFooter = styled("div")`
   padding: 5px 0 50px 0;
   background-color: #e6e6e6;
   width: 100%;
+  box-shadow: 0px 0px 13px #212529;
 `;
 
 export default StyledFooter;

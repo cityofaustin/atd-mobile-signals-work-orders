@@ -7,7 +7,6 @@ import {
   faTruck,
   faStreetView,
   faWrench,
-  faVectorSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 const navPages = [
@@ -36,13 +35,14 @@ const navPages = [
 const NavFooter = props => {
   //  inactive link #6C757C
   //  active link #307BFF
+  console.log(props);
   return (
     <StyledNavFooter>
       <ul className="nav justify-content-center">
         {navPages.map((page, i) => (
           <li key={i} className="nav-item">
             <Link to={page.link} className="nav-link">
-              {/* TODO set color based on current url */}
+              {/* TODO set color based on current url props.location.pathname */}
               <FontAwesomeIcon color="" icon={page.icon} size="2x" />
             </Link>
           </li>

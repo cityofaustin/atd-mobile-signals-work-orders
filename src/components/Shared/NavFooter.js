@@ -1,5 +1,8 @@
 import React from "react";
-import StyledNavFooter from "../../styles/NavFooter.css.js";
+import {
+  StyledNavFooter,
+  StyledNavFooterButtons,
+} from "../../styles/NavFooter.css.js";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -38,12 +41,12 @@ const NavFooter = props => {
   console.log(props);
   return (
     <StyledNavFooter>
-      <ul className="nav justify-content-center">
+      <ul className="nav nav-fill justify-content-center">
         {navPages.map((page, i) => (
-          <li key={i} className="nav-item">
+          <li key={i} className={`${StyledNavFooterButtons} nav-item`}>
             <Link to={page.link} className="nav-link">
               {/* TODO set color based on current url props.location.pathname */}
-              <FontAwesomeIcon color="" icon={page.icon} size="2x" />
+              <FontAwesomeIcon color="" icon={page.icon} size="3x" />
             </Link>
           </li>
         ))}

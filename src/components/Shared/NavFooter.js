@@ -35,9 +35,12 @@ const navPages = [
   },
 ];
 
+const linkColors = {
+  inactive: "#6C757C",
+  active: "#307BFF",
+};
+
 const NavFooter = props => {
-  const inactiveLinkColor = "#6C757C";
-  const activeLinkColor = "#307BFF";
   let iconColor = "";
   return (
     <StyledNavFooter>
@@ -46,8 +49,8 @@ const NavFooter = props => {
           // Set icon color based on whether current path is equal to link path
           iconColor =
             page.link === props.location.pathname
-              ? activeLinkColor
-              : inactiveLinkColor;
+              ? linkColors.active
+              : linkColors.inactive;
 
           return (
             <li key={i} className={`${StyledNavFooterButtons} nav-item`}>

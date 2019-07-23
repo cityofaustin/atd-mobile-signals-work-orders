@@ -5,11 +5,7 @@ import moment from "moment";
 import { isEmpty } from "lodash";
 
 import { ErrorMessage } from "./Alerts";
-import {
-  getHours,
-  getAmPm,
-  getDateTimeObject,
-} from "../Shared/dateTimeFieldHelpers.js";
+import { getHours, getAmPm } from "../Shared/dateTimeFieldHelpers.js";
 
 const TimeLogDateTimeFields = ({
   data,

@@ -175,7 +175,7 @@ class WorkOrderDetail extends Component {
                     this.props.match.params.workOrderId
                   }`}
                 >
-                  <div className={'btn btn-secondary'}>
+                  <div className={"btn btn-secondary"}>
                     <FontAwesomeIcon icon={faClock} /> New Time Log
                   </div>
                 </Link>
@@ -261,7 +261,7 @@ class WorkOrderDetail extends Component {
                     this.props.match.params.workOrderId
                   }`}
                 >
-                  <div className={'btn btn-secondary'}>
+                  <div className={"btn btn-secondary"}>
                     <FontAwesomeIcon icon={faCamera} /> New Image
                   </div>
                 </Link>

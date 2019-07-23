@@ -14,7 +14,5 @@ export const StyledNavFooter = styled("div")`
 
 export const StyledNavFooterButtons = css`
   border: #e5e5e5 solid 1px;
-  line-height: 50%;
-  overflow: visible;
   background-color: #f4f4f4;
 `;

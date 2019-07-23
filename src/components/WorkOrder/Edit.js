@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 import Header from "../Shared/Header";
 import WorkTypeFields from "./WorkTypeFields";
@@ -179,6 +181,20 @@ class Edit extends Component {
     return (
       <div>
         <Header icon={faEdit} title="Edit Work Order" />
+
+        <div className="d-flex flex-row flex-wrap">
+          <div className="mr-2 mb-2">
+            <Link
+              to={`/work-order/new-time-log/${
+                this.props.match.params.workOrderId
+              }`}
+            >
+              <div className={"btn btn-secondary"}>
+                <FontAwesomeIcon icon={faClock} /> New Time Log
+              </div>
+            </Link>
+          </div>
+        </div>
 
         {this.state.isSubmitted && (
           <SuccessMessage formType="Work Order" formVerb="update" />

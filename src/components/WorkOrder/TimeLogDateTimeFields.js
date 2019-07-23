@@ -54,8 +54,8 @@ const TimeLogDateTimeFields = ({
     // on certain fields to mirror Knack data validation.
     const today = new Date();
     const shouldReturnCurrentDate =
-      (isEmpty(data[field]) && field === "field_1437") ||
-      (isEmpty(data[field]) && field === "field_2020");
+      (isEmpty(data[field]) && field === FIELDS.TIMELOG.ISSUE_RECEIVED_TIME) ||
+      (isEmpty(data[field]) && field === FIELDS.TIMELOG.WORKSITE_ARRIVE);
 
     if (shouldReturnCurrentDate) return today;
     if (isEmpty(data[field])) return null;
@@ -69,8 +69,8 @@ const TimeLogDateTimeFields = ({
     // on certain fields to mirror Knack data validation.
     const today = new Date();
     const shouldReturnCurrentDate =
-      (isEmpty(data[field]) && field === "field_1437") ||
-      (isEmpty(data[field]) && field === "field_2020");
+      (isEmpty(data[field]) && field === FIELDS.TIMELOG.ISSUE_RECEIVED_TIME) ||
+      (isEmpty(data[field]) && field === FIELDS.TIMELOG.WORKSITE_ARRIVE);
 
     if (shouldReturnCurrentDate) return today; // default to current time for certain fields
     if (isEmpty(data[field])) return null; // let value start as blank if there's no exisiting data

@@ -10,7 +10,7 @@ export const editWorkOrderInitialState = {
   field_1871: "", // SCHOOL_ZONE
   field_1864: "", // HAZARD_FLASHER
   field_1859: "", // DMS
-  field_1863: "" // SENSOR
+  field_1863: "", // SENSOR
 };
 
 export const newWorkOrderInitialState = {
@@ -34,5 +34,5 @@ export const newWorkOrderInitialState = {
   field_1235_raw: [], // CSR_NUMBER_RAW
   field_1006: "No", // SCHEDULE_IMMEDIATELY
   field_460: {}, // WORK_SCHEDULED_DATE
-  field_2634: [] // TASK_ORDERS
+  field_2634: [], // TASK_ORDERS
 };

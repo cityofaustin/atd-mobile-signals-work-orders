@@ -28,6 +28,7 @@ import NewWorkOrder from "./WorkOrder/New";
 import EditWorkOrder from "./WorkOrder/Edit";
 import SubmitWorkOrder from "./WorkOrder/Submit";
 import NewTimeLog from "./WorkOrder/NewTimeLog";
+import InventoryItems from "./WorkOrder/InventoryItems";
 import AddImage from "./WorkOrder/AddImage";
 import { APP_ID } from "../constants/api";
 
@@ -177,6 +178,12 @@ class App extends Component {
                   <PrivateRoute
                     path="/work-order/new-time-log/:workOrderId"
                     component={NewTimeLog}
+                    isAuthenticated={this.state.knackUserToken}
+                    knackObject={this.state.knackObject}
+                  />
+                  <PrivateRoute
+                    path="/work-order/inventory-items/:workOrderId"
+                    component={InventoryItems}
                     isAuthenticated={this.state.knackUserToken}
                     knackObject={this.state.knackObject}
                   />

@@ -9,7 +9,7 @@ export const getWorkTypeScheduledWorkOptions = knack => {
       )
       .format.options.map(option => ({
         label: option,
-        value: option
+        value: option,
       }));
   }
 };

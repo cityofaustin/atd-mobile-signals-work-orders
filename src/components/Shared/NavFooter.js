@@ -7,6 +7,7 @@ import {
   faTruck,
   faStreetView,
   faWrench,
+  faVectorSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 const navPages = [
@@ -38,9 +39,8 @@ const NavFooter = () => {
       <ul className="nav justify-content-center">
         {navPages.map((page, i) => (
           <li key={i} className="nav-item">
-            <Link to={page.link}>
+            <Link to={page.link} className="nav-link">
               <FontAwesomeIcon icon={page.icon} size="2x" />
-              {i !== navPages.length - 1 && <span>{""}</span>}
             </Link>
           </li>
         ))}

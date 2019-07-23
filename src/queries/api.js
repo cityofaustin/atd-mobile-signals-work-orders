@@ -58,6 +58,10 @@ const keys = {
   workOrderTitle: { sceneId: 'scene_297', viewId: 'view_910' },
 };
 
+const filters = {
+  technicians: [{ value: "active", operator: "is", field: "field_897" }],
+};
+
 // images
 // https://us-api.knack.com/v1/scenes/scene_297/views/view_922/records?format=both&page=1&rows_per_page=25&my-work-order-details2_id=5bb3b798b7748a2d06a4e87b&sort_field=field_1044&sort_order=asc&_=1538676399108
 
@@ -113,7 +117,7 @@ const api = {
             keys.editWorkOrder.sceneId
           }/views/${keys.editWorkOrder.formViewId}/connections/${
             keys.editWorkOrder.technicianId
-          }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
+          }?rows_per_page=2000&filters=${JSON.stringify(filters.technicians)}`,
           getHeaders()
         ),
       csr: searchValue =>

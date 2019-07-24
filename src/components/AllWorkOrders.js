@@ -122,7 +122,11 @@ class AllWorkOrders extends Component {
               />
             </div>
             <div className="col">
-              <input type="submit" value="Search" className="btn btn-primary" />
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary btn-lg"
+              />
             </div>
           </div>
         </form>
@@ -170,7 +174,10 @@ class AllWorkOrders extends Component {
           <br />
           <div className="form-group row justify-content-center">
             <div className="col-auto">
-              <button className="btn btn-primary" onClick={this.prevPage}>
+              <button
+                className="btn btn-primary btn-lg"
+                onClick={this.prevPage}
+              >
                 Prev. Page
               </button>
             </div>
@@ -178,7 +185,10 @@ class AllWorkOrders extends Component {
               Page {this.state.currentPage} of {this.state.lastPage}
             </div>
             <div className="col-auto">
-              <button className="btn btn-primary" onClick={this.nextPage}>
+              <button
+                className="btn btn-primary btn-lg"
+                onClick={this.nextPage}
+              >
                 Next Page
               </button>
             </div>

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import Select from "react-select";
 
-import FormGroup from "../Form/FormGroup";
-
-import { FIELDS, YES_NO_OPTIONS } from "./formConfig";
+import { FIELDS } from "./formConfig";
 import api from "../../queries/api";
 
 export default class AssignTechnicianFields extends Component {

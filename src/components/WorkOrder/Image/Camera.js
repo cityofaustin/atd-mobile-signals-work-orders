@@ -82,6 +82,7 @@ export class Camera {
   stop() {
     this.webcamElement.srcObject.getTracks().map(function(val) {
       val.stop();
+      return true;
     });
   }
 }

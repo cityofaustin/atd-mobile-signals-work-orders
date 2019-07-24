@@ -109,7 +109,6 @@ class WorkOrderDetail extends Component {
               }`}
             />
           ) : (
-            // TODO add logic to Button component for link/ no link
             <div className="mr-2 mb-2">
               <div className="btn btn-secondary btn-lg disabled" disabled>
                 <FontAwesomeIcon icon={faFlagCheckered} /> Submit

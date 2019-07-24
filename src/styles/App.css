@@ -17,8 +17,8 @@
 body {
   box-sizing: inherit;
   overscroll-behavior: contain;
-  /* Padding for Sticky Navigation footer and Sticky SubmitButton component in forms */
-  padding-bottom: 100px;
+  /* Padding for stacked Sticky NavFooter and FormFooter components */
+  padding-bottom: 130px;
 }
 .atd-spinner {
   animation: spinner 1s infinite;

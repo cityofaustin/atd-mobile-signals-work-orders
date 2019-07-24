@@ -20,6 +20,7 @@ import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import Home from "./Home";
 import Header from "./Header";
+import NavFooter from "./Shared/NavFooter";
 import WorkOrderDetails from "./WorkOrderDetails";
 import MyWorkOrders from "./MyWorkOrders";
 import AllWorkOrders from "./AllWorkOrders";
@@ -130,10 +131,13 @@ class App extends Component {
                   <Route
                     path="/"
                     render={props => (
-                      <Header
-                        {...props}
-                        revokeKnackUserToken={this.revokeKnackUserToken}
-                      />
+                      <>
+                        <Header
+                          {...props}
+                          revokeKnackUserToken={this.revokeKnackUserToken}
+                        />
+                        <NavFooter {...props} />
+                      </>
                     )}
                   />
                   <PrivateRoute

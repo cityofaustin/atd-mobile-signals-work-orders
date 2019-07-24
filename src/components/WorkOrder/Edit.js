@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { Redirect, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Redirect } from "react-router-dom";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 import Header from "../Shared/Header";
@@ -14,6 +13,7 @@ import { ErrorMessage, SuccessMessage } from "./Alerts";
 import { FIELDS } from "./formConfig";
 import AssignTechnicianFields from "./AssignTechnicianFields";
 import SubmitButton from "../Form/SubmitButton";
+import Button from "../Form/Button";
 import api from "../../queries/api";
 import TaskOrderField from "./TaskOrderField";
 import ScheduleFields from "./ScheduleFields";
@@ -183,17 +183,13 @@ class Edit extends Component {
         <Header icon={faEdit} title="Edit Work Order" />
 
         <div className="d-flex flex-row flex-wrap">
-          <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/new-time-log/${
-                this.props.match.params.workOrderId
-              }`}
-            >
-              <div className={"btn btn-secondary"}>
-                <FontAwesomeIcon icon={faClock} /> New Time Log
-              </div>
-            </Link>
-          </div>
+          <Button
+            icon={faClock}
+            text={"New Time Log"}
+            linkPath={`/work-order/new-time-log/${
+              this.props.match.params.workOrderId
+            }`}
+          />
         </div>
 
         {this.state.isSubmitted && (

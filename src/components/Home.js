@@ -27,7 +27,6 @@ const mainPages = [
 ];
 
 class Home extends Component {
-  debugger;
   render() {
     return (
       <div>

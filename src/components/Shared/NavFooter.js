@@ -9,7 +9,7 @@ import {
   faHome,
   faTruck,
   faStreetView,
-  faWrench,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 const navPages = [
@@ -31,7 +31,7 @@ const navPages = [
   {
     title: "New Work Order",
     link: "/work-order/new",
-    icon: faWrench,
+    icon: faPlus,
   },
 ];
 

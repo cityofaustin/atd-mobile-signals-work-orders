@@ -271,6 +271,7 @@ class WorkOrderDetail extends Component {
                     >
                       <div className="col-12 img-fluid">
                         <img
+                          alt="capture from webcam"
                           className="img-fluid"
                           src={image.field_1047_raw.url}
                         />

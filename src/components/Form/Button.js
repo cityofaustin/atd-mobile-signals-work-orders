@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Button = ({
   icon = "",
-  text = "Button",
+  text = "Click me!",
   spacingModifierClass = "mr-2 mb-2",
   linkPath,
+  size = "btn-lg",
 }) => (
   <div className={spacingModifierClass}>
     <Link to={linkPath}>
-      <div className="btn btn-secondary btn-lg">
+      <div className={`btn btn-secondary ${size}`}>
         <FontAwesomeIcon icon={icon} /> {text}
       </div>
     </Link>

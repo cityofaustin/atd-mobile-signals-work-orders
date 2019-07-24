@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Button from "./Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -95,30 +96,27 @@ class WorkOrderDetail extends Component {
           {this.state.titleData[workOrderFields.header]}
         </h1>
         <div className="d-flex flex-row flex-wrap">
-          <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/edit/${this.props.match.params.workOrderId}`}
-            >
-              <div className="btn btn-secondary">
-                <FontAwesomeIcon icon={faEdit} /> Edit
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
-            {this.state.timeLogData.length > 0 ? (
-              <Link
-                to={`/work-order/submit/${this.props.match.params.workOrderId}`}
-              >
-                <div className={"btn btn-secondary"}>
-                  <FontAwesomeIcon icon={faFlagCheckered} /> Submit
-                </div>
-              </Link>
-            ) : (
-              <div className="btn btn-secondary disabled" disabled>
+          <Button
+            icon={faEdit}
+            text={"Edit"}
+            linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
+          />
+          {this.state.timeLogData.length > 0 ? (
+            <Button
+              icon={faFlagCheckered}
+              text={"Submit"}
+              linkPath={`/work-order/submit/${
+                this.props.match.params.workOrderId
+              }`}
+            />
+          ) : (
+            // TODO add logic to Button component for link/ no link
+            <div className="mr-2 mb-2">
+              <div className="btn btn-secondary btn-lg disabled" disabled>
                 <FontAwesomeIcon icon={faFlagCheckered} /> Submit
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <Accordion>
           <AccordionItem>
@@ -175,7 +173,7 @@ class WorkOrderDetail extends Component {
                     this.props.match.params.workOrderId
                   }`}
                 >
-                  <div className={'btn btn-secondary'}>
+                  <div className={"btn btn-secondary"}>
                     <FontAwesomeIcon icon={faClock} /> New Time Log
                   </div>
                 </Link>
@@ -261,7 +259,7 @@ class WorkOrderDetail extends Component {
                     this.props.match.params.workOrderId
                   }`}
                 >
-                  <div className={'btn btn-secondary'}>
+                  <div className={"btn btn-secondary"}>
                     <FontAwesomeIcon icon={faCamera} /> New Image
                   </div>
                 </Link>

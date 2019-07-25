@@ -78,6 +78,8 @@ export default class AssetTypeField extends Component {
     // before providing any options to the user. Perhaps it would be better if we first
     // queried the current asset type (ex: signals), set those options to state,
     // and then query the rest. 🤔
+
+    // TODO sort assets by proximity
     getAllAssets().then(data => {
       this.setState({
         signalOptions: data.signalOptions,

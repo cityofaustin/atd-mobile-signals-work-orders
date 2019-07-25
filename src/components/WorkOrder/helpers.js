@@ -46,6 +46,7 @@ export function getSchoolBeaconOptions(userPosition) {
     )
     .then(res => {
       console.log(res);
+      // TODO transform response into object w/ id and location_name
     });
   // return api
   //   .workOrder()

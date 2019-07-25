@@ -1,4 +1,5 @@
 import api from "../../queries/api";
+import axios from "axios";
 
 export function getWorkOrderDetails(id) {
   return api
@@ -35,11 +36,21 @@ export function getCameraOptions(searchValue) {
     .then(res => res.data.records);
 }
 
-export function getSchoolBeaconOptions() {
-  return api
-    .workOrder()
-    .schoolZones()
-    .then(res => res.data.records);
+export function getSchoolBeaconOptions(userPosition) {
+  console.log(userPosition, "in helpers.js");
+  return axios
+    .get(
+      `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+        userPosition.lat
+      },${userPosition.lon},100)`
+    )
+    .then(res => {
+      console.log(res);
+    });
+  // return api
+  //   .workOrder()
+  //   .schoolZones()
+  //   .then(res => res.data.records);
 }
 
 export function getHazardFlasherOptions() {
@@ -63,8 +74,8 @@ export function getSensorOptions() {
     .then(res => res.data.records);
 }
 
-export async function getAllAssets() {
-  const schoolBeaconOptions = await getSchoolBeaconOptions();
+export async function getAllAssets(userPosition) {
+  const schoolBeaconOptions = await getSchoolBeaconOptions(userPosition);
   const signalOptions = await getSignalsOptions("");
   const cameraOptions = await getCameraOptions("");
   const hazardFlasherOptions = await getHazardFlasherOptions();

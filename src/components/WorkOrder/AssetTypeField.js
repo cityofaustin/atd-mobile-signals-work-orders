@@ -80,14 +80,21 @@ export default class AssetTypeField extends Component {
     // and then query the rest. 🤔
 
     // TODO sort assets by proximity
-    getAllAssets().then(data => {
-      this.setState({
-        signalOptions: data.signalOptions,
-        schoolBeaconOptions: data.schoolBeaconOptions,
-        cameraOptions: data.cameraOptions,
-        hazardFlasherOptions: data.hazardFlasherOptions,
-        dmsOptions: data.dmsOptions,
-        sensorOptions: data.sensorOptions,
+    let userPosition = {};
+    navigator.geolocation.getCurrentPosition(pos => {
+      userPosition["lat"] = pos.coords.latitude;
+      userPosition["lon"] = pos.coords.longitude;
+
+      getAllAssets(userPosition).then(data => {
+        console.log(data);
+        this.setState({
+          signalOptions: data.signalOptions,
+          schoolBeaconOptions: data.schoolBeaconOptions,
+          cameraOptions: data.cameraOptions,
+          hazardFlasherOptions: data.hazardFlasherOptions,
+          dmsOptions: data.dmsOptions,
+          sensorOptions: data.sensorOptions,
+        });
       });
     });
   }

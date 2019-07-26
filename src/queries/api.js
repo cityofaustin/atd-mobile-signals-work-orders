@@ -75,7 +75,9 @@ const api = {
     return {
       new: data =>
         axios.post(
-          `https://us-api.knack.com/v1/scenes/${keys.newCsrNumber.sceneId}/views/${keys.newCsrNumber.viewId}/records`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newCsrNumber.sceneId
+          }/views/${keys.newCsrNumber.viewId}/records`,
           data,
           getHeaders()
         ),
@@ -85,7 +87,9 @@ const api = {
     return {
       getAll: () =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.allMyWorkOrders.sceneId}/views/${keys.allMyWorkOrders.viewId}/records/`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allMyWorkOrders.sceneId
+          }/views/${keys.allMyWorkOrders.viewId}/records/`,
           getHeaders()
         ),
     };
@@ -94,12 +98,18 @@ const api = {
     return {
       getAll: () =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.allWorkOrders.sceneId}/views/${keys.allWorkOrders.viewId}/records/`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allWorkOrders.sceneId
+          }/views/${keys.allWorkOrders.viewId}/records/`,
           getHeaders()
         ),
       searchAll: (searchValue, pageNumber) =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.allWorkOrders.sceneId}/views/${keys.allWorkOrders.viewId}/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allWorkOrders.sceneId
+          }/views/${
+            keys.allWorkOrders.viewId
+          }/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
           getHeaders()
         ),
     };
@@ -117,128 +127,214 @@ const api = {
         ),
       csr: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.editNewWorkOrder.sceneId}/views/${keys.editNewWorkOrder.formViewId}/connections/${keys.editNewWorkOrder.csrFieldId}?rows_per_page=2000&filters=[{"field":"field_1887","operator":"contains","value":"${searchValue}"}]`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.csrFieldId
+          }?rows_per_page=2000&filters=[{"field":"field_1887","operator":"contains","value":"${searchValue}"}]`,
           getHeaders()
         ),
       taskOrder: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.editNewWorkOrder.sceneId}/views/${keys.editNewWorkOrder.formViewId}/connections/${keys.editNewWorkOrder.taskOrderId}?rows_per_page=2000&filters=[{"field":"field_2633","operator":"is","value":"Yes"},{"field":"field_1278","operator":"contains","value":"${searchValue}"}]`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/connections/${
+            keys.editNewWorkOrder.taskOrderId
+          }?rows_per_page=2000&filters=[{"field":"field_2633","operator":"is","value":"Yes"},{"field":"field_1278","operator":"contains","value":"${searchValue}"}]`,
           getHeaders()
         ),
       new: data =>
         axios.post(
-          `https://us-api.knack.com/v1/scenes/${keys.newWorkOrder.sceneId}/views/${keys.newWorkOrder.viewId}/records`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/records`,
           data,
           getHeaders()
         ),
       edit: (id, data) =>
         axios.put(
-          `https://us-api.knack.com/v1/scenes/${keys.editWorkOrder.sceneId}/views/${keys.editWorkOrder.viewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editWorkOrder.sceneId
+          }/views/${keys.editWorkOrder.viewId}/records/${id}`,
           data,
           getHeaders()
         ),
       getEditPageDetails: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.editWorkOrder.sceneId}/views/${keys.editWorkOrder.viewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editWorkOrder.sceneId
+          }/views/${keys.editWorkOrder.viewId}/records/${id}`,
           getHeaders()
         ),
       submit: (id, data) =>
         axios.put(
-          `https://us-api.knack.com/v1/scenes/${keys.submitWorkoder.sceneId}/views/${keys.submitWorkoder.viewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.submitWorkoder.sceneId
+          }/views/${keys.submitWorkoder.viewId}/records/${id}`,
           data,
           getHeaders()
         ),
       editNewWorkOrder: (id, data) =>
         axios.put(
-          `https://us-api.knack.com/v1/scenes/${keys.editNewWorkOrder.sceneId}/views/${keys.editNewWorkOrder.formViewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.formViewId}/records/${id}`,
           data,
           getHeaders()
         ),
       getEditNewWorkOrderDetails: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.editNewWorkOrder.sceneId}/views/${keys.editNewWorkOrder.detailsViewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editNewWorkOrder.sceneId
+          }/views/${keys.editNewWorkOrder.detailsViewId}/records/${id}`,
           getHeaders()
         ),
       getTitle: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.workOrderTitle.sceneId}/views/${keys.workOrderTitle.viewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderTitle.sceneId
+          }/views/${keys.workOrderTitle.viewId}/records/${id}`,
           getHeaders()
         ),
       getDetails: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.workOrderDetails.sceneId}/views/${keys.workOrderDetails.viewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderDetails.sceneId
+          }/views/${keys.workOrderDetails.viewId}/records/${id}`,
           getHeaders()
         ),
       getTimeLogs: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.workOrderTimeLogs.sceneId}/views/${keys.workOrderTimeLogs.viewId}/records?my-work-order-details_id=${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderTimeLogs.sceneId
+          }/views/${
+            keys.workOrderTimeLogs.viewId
+          }/records?my-work-order-details_id=${id}`,
           getHeaders()
         ),
       newTimeLog: (id, data) =>
         axios.post(
-          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${keys.timeLog.viewId}/records/`,
+          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${
+            keys.timeLog.viewId
+          }/records/`,
           data,
           getHeaders()
         ),
       getTimeLogTechnicianOptions: () =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${keys.timeLog.viewId}/connections/${keys.timeLog.technicianFieldId}?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
+          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${
+            keys.timeLog.viewId
+          }/connections/${
+            keys.timeLog.technicianFieldId
+          }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
           getHeaders()
         ),
       getVehicleOptions: () =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${keys.timeLog.viewId}/connections/${keys.timeLog.vehicleFieldId}?rows_per_page=2000&filters=[{"field":"field_2360","operator":"is","value":"ARTERIAL MANAGEMENT"}]`,
+          `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${
+            keys.timeLog.viewId
+          }/connections/${
+            keys.timeLog.vehicleFieldId
+          }?rows_per_page=2000&filters=[{"field":"field_2360","operator":"is","value":"ARTERIAL MANAGEMENT"}]`,
           getHeaders()
         ),
       getInventory: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.workOrderInventory.sceneId}/views/${keys.workOrderInventory.viewId}/records?my-work-order-details_id=${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventory.sceneId
+          }/views/${
+            keys.workOrderInventory.viewId
+          }/records?my-work-order-details_id=${id}`,
           getHeaders()
         ),
       getImages: id =>
         axios.get(
-          `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${keys.addImage.viewId}/records?work-order-details_id=${id}`,
+          `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${
+            keys.addImage.viewId
+          }/records?work-order-details_id=${id}`,
           getHeaders()
         ),
       getInventoryItems: () =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.workOrderInventoryItems.sceneId}/views/${keys.workOrderInventoryItems.viewId}/connections/${keys.workOrderInventoryItems.fieldId}?rows_per_page=2000`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventoryItems.sceneId
+          }/views/${keys.workOrderInventoryItems.viewId}/connections/${
+            keys.workOrderInventoryItems.fieldId
+          }?rows_per_page=2000`,
           getHeaders()
         ),
       submitInventoryItem: data =>
         axios.post(
-          `https://us-api.knack.com/v1/scenes/${keys.workOrderInventoryItems.sceneId}/views/${keys.workOrderInventoryItems.viewId}/records`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventoryItems.sceneId
+          }/views/${keys.workOrderInventoryItems.viewId}/records`,
           data,
           getHeaders()
         ),
       schoolZones: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.newWorkOrder.sceneId}/views/${keys.newWorkOrder.viewId}/connections/${keys.newWorkOrder.schoolZoneFieldId}?rows_per_page=2000`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.schoolZoneFieldId
+          }?rows_per_page=2000`,
           getHeaders()
         ),
       signals: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.newWorkOrder.sceneId}/views/${keys.newWorkOrder.viewId}/connections/${keys.newWorkOrder.signalFieldId}?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.signalFieldId
+          }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
           getHeaders()
+        ),
+      signalsNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},2000)`
         ),
       cameras: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.newWorkOrder.sceneId}/views/${keys.newWorkOrder.viewId}/connections/${keys.newWorkOrder.cameraFieldId}?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.cameraFieldId
+          }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
           getHeaders()
+        ),
+      camerasNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/fs3c-45ge.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},2000)`
         ),
       hazardFlashers: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.newWorkOrder.sceneId}/views/${keys.newWorkOrder.viewId}/connections/${keys.newWorkOrder.hazardFlasherFieldId}?rows_per_page=2000&filters=[]&limit_return=true`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.hazardFlasherFieldId
+          }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
       dmses: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.newWorkOrder.sceneId}/views/${keys.newWorkOrder.viewId}/connections/${keys.newWorkOrder.dmsFieldId}?rows_per_page=2000&filters=[]&limit_return=true`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.dmsFieldId
+          }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
       sensors: searchValue =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.newWorkOrder.sceneId}/views/${keys.newWorkOrder.viewId}/connections/${keys.newWorkOrder.sensorFieldId}?rows_per_page=2000&filters=[]&limit_return=true`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.newWorkOrder.sceneId
+          }/views/${keys.newWorkOrder.viewId}/connections/${
+            keys.newWorkOrder.sensorFieldId
+          }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
       addImage: (form, id) =>
@@ -256,7 +352,9 @@ const api = {
             };
             axios
               .post(
-                `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${keys.addImage.viewId}/records?work-order_id=${id}`,
+                `https://api.knack.com/v1/scenes/${
+                  keys.addImage.sceneId
+                }/views/${keys.addImage.viewId}/records?work-order_id=${id}`,
                 data,
                 getHeaders()
               )

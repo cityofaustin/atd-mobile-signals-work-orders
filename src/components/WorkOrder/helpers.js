@@ -27,15 +27,12 @@ export function getSignalsOptions(searchValue, userPosition) {
   //   .workOrder()
   //   .signals(searchValue)
   //   .then(res => res.data.records);
-  return axios
-    .get(
-      `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
-        userPosition.lat
-      },${userPosition.lon},2000)`
-    )
+  return api
+    .workOrder()
+    .signalsNear(userPosition)
     .then(res => {
       console.log(res);
-      // TODO move API call to api.js, sort by distance? decide on a distance parameter for API call
+      // TODO sort by distance? decide on a distance parameter for API call
       return res.data.map(beacon => ({
         id: beacon.id,
         identifier: beacon.location_name,
@@ -43,11 +40,22 @@ export function getSignalsOptions(searchValue, userPosition) {
     });
 }
 
-export function getCameraOptions(searchValue) {
+export function getCameraOptions(searchValue, userPosition) {
+  // return api
+  //   .workOrder()
+  //   .cameras(searchValue)
+  //   .then(res => res.data.records);
   return api
     .workOrder()
-    .cameras(searchValue)
-    .then(res => res.data.records);
+    .camerasNear(userPosition)
+    .then(res => {
+      console.log(res);
+      // TODO figure out how to handle no Knack id in open dataset
+      return res.data.map(beacon => ({
+        id: beacon.id,
+        identifier: beacon.location_name,
+      }));
+    });
 }
 
 export function getSchoolBeaconOptions(userPosition) {
@@ -81,7 +89,7 @@ export function getSensorOptions() {
 export async function getAllAssets(userPosition) {
   const schoolBeaconOptions = await getSchoolBeaconOptions();
   const signalOptions = await getSignalsOptions("", userPosition);
-  const cameraOptions = await getCameraOptions("");
+  const cameraOptions = await getCameraOptions("", userPosition);
   const hazardFlasherOptions = await getHazardFlasherOptions();
   const dmsOptions = await getDmsOptions();
   const sensorOptions = await getSensorOptions();

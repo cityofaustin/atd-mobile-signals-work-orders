@@ -22,11 +22,25 @@ export async function getWorkOrderDetailsAndTitle(id) {
   return Object.assign({}, details, title);
 }
 
-export function getSignalsOptions(searchValue) {
-  return api
-    .workOrder()
-    .signals(searchValue)
-    .then(res => res.data.records);
+export function getSignalsOptions(searchValue, userPosition) {
+  // return api
+  //   .workOrder()
+  //   .signals(searchValue)
+  //   .then(res => res.data.records);
+  return axios
+    .get(
+      `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+        userPosition.lat
+      },${userPosition.lon},2000)`
+    )
+    .then(res => {
+      console.log(res);
+      // TODO move API call to api.js, sort by distance? decide on a distance parameter for API call
+      return res.data.map(beacon => ({
+        id: beacon.id,
+        identifier: beacon.location_name,
+      }));
+    });
 }
 
 export function getCameraOptions(searchValue) {
@@ -37,25 +51,10 @@ export function getCameraOptions(searchValue) {
 }
 
 export function getSchoolBeaconOptions(userPosition) {
-  console.log(userPosition, "in helpers.js");
-  return axios
-    .get(
-      `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
-        userPosition.lat
-      },${userPosition.lon},100)`
-    )
-    .then(res => {
-      console.log(res);
-      // TODO transform response into object w/ id and location_name
-      res.data.map(beacon => ({
-        id: beacon.id,
-        identifier: beacon.location_name,
-      }));
-    });
-  // return api
-  //   .workOrder()
-  //   .schoolZones()
-  //   .then(res => res.data.records);
+  return api
+    .workOrder()
+    .schoolZones()
+    .then(res => res.data.records);
 }
 
 export function getHazardFlasherOptions() {
@@ -80,8 +79,8 @@ export function getSensorOptions() {
 }
 
 export async function getAllAssets(userPosition) {
-  const schoolBeaconOptions = await getSchoolBeaconOptions(userPosition);
-  const signalOptions = await getSignalsOptions("");
+  const schoolBeaconOptions = await getSchoolBeaconOptions();
+  const signalOptions = await getSignalsOptions("", userPosition);
   const cameraOptions = await getCameraOptions("");
   const hazardFlasherOptions = await getHazardFlasherOptions();
   const dmsOptions = await getDmsOptions();

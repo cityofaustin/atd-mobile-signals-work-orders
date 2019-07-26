@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import Button from "./Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -95,30 +95,26 @@ class WorkOrderDetail extends Component {
           {this.state.titleData[workOrderFields.header]}
         </h1>
         <div className="d-flex flex-row flex-wrap">
-          <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/edit/${this.props.match.params.workOrderId}`}
-            >
-              <div className="btn btn-secondary">
-                <FontAwesomeIcon icon={faEdit} /> Edit
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
-            {this.state.timeLogData.length > 0 ? (
-              <Link
-                to={`/work-order/submit/${this.props.match.params.workOrderId}`}
-              >
-                <div className={"btn btn-secondary"}>
-                  <FontAwesomeIcon icon={faFlagCheckered} /> Submit
-                </div>
-              </Link>
-            ) : (
-              <div className="btn btn-secondary disabled" disabled>
+          <Button
+            icon={faEdit}
+            text={"Edit"}
+            linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
+          />
+          {this.state.timeLogData.length > 0 ? (
+            <Button
+              icon={faFlagCheckered}
+              text={"Submit"}
+              linkPath={`/work-order/submit/${
+                this.props.match.params.workOrderId
+              }`}
+            />
+          ) : (
+            <div className="mr-2 mb-2">
+              <div className="btn btn-secondary btn-lg disabled" disabled>
                 <FontAwesomeIcon icon={faFlagCheckered} /> Submit
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <Accordion>
           <AccordionItem>
@@ -169,15 +165,13 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <div className="mr-2 mb-2">
-                <Link
-                  to={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
-                >
-                  <div className={"btn btn-secondary"}>
-                    <FontAwesomeIcon icon={faClock} /> New Time Log
-                  </div>
-                </Link>
-              </div>
+              <Button
+                icon={faClock}
+                text={"New Time Log"}
+                linkPath={`/work-order/new-time-log/${
+                  this.props.match.params.workOrderId
+                }`}
+              />
               <TimeLog data={this.state.timeLogData} />
             </AccordionItemBody>
           </AccordionItem>
@@ -189,15 +183,13 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <div className="mr-2 mb-2">
-                <Link
-                  to={`/work-order/inventory-items/${this.props.match.params.workOrderId}`}
-                >
-                  <div className={"btn btn-secondary"}>
-                    <FontAwesomeIcon icon={faWrench} /> New Item
-                  </div>
-                </Link>
-              </div>
+              <Button
+                icon={faWrench}
+                text={"New Item"}
+                linkPath={`/work-order/inventory-items/${
+                  this.props.match.params.workOrderId
+                }`}
+              />
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
@@ -251,15 +243,13 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <div className="mr-2 mb-2">
-                <Link
-                  to={`/work-order/add-image/${this.props.match.params.workOrderId}`}
-                >
-                  <div className={"btn btn-secondary"}>
-                    <FontAwesomeIcon icon={faCamera} /> New Image
-                  </div>
-                </Link>
-              </div>
+              <Button
+                icon={faCamera}
+                text={"New Image"}
+                linkPath={`/work-order/add-image/${
+                  this.props.match.params.workOrderId
+                }`}
+              />
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "./Form/Button";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -46,13 +47,11 @@ class MyWorkOrders extends Component {
             <FontAwesomeIcon icon={faStreetView} /> My Work Orders
           </h1>
           <div className="d-flex flex-row">
-            <div className="mr-2 mb-2">
-              <Link to={`/work-order/new/`}>
-                <div className="btn btn-secondary">
-                  <FontAwesomeIcon icon={faPlus} /> New Work Order
-                </div>
-              </Link>
-            </div>
+            <Button
+              icon={faPlus}
+              text={"New Work Order"}
+              linkPath={"/work-order/new/"}
+            />
           </div>
           {this.state.loading ? (
             <FontAwesomeIcon

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { faWrench } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
 import { newWorkOrderInitialState } from "./formDataInitialState";
@@ -180,7 +180,7 @@ class NewWorkOrder extends Component {
 
     return (
       <div>
-        <Header icon={faWrench} title="New Work Order" />
+        <Header icon={faPlus} title="New Work Order" />
 
         {this.state.isSubmitted && (
           <SuccessMessage formVerb="create" formType="New Work Order" />

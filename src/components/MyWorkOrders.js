@@ -6,7 +6,7 @@ import {
   faMapMarkerAlt,
   faStreetView,
   faSpinner,
-  faWrench,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../queries/api";

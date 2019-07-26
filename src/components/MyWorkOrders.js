@@ -6,7 +6,7 @@ import {
   faMapMarkerAlt,
   faStreetView,
   faSpinner,
-  faWrench,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../queries/api";
@@ -48,7 +48,7 @@ class MyWorkOrders extends Component {
           </h1>
           <div className="d-flex flex-row">
             <Button
-              icon={faWrench}
+              icon={faPlus}
               text={"New Work Order"}
               linkPath={"/work-order/new/"}
             />

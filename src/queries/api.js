@@ -61,6 +61,13 @@ const keys = {
     viewId: "view_889",
     fieldId: "field_513",
   },
+  assets: {
+    details: { sceneId: "scene_446", viewId: "view_1261" },
+    workOrders: { sceneId: "scene_446", viewId: "view_1550" },
+    serviceRequests: { sceneId: "scene_446", viewId: "view_1701" },
+    cameras: { sceneId: "scene_446", viewId: "view_1291" },
+    preventativeMaint: { sceneId: "scene_446", viewId: "view_1282" },
+  },
 };
 
 const filters = {

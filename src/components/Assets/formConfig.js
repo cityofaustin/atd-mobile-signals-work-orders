@@ -28,6 +28,11 @@ export const FIELDS = {
     cabinetType: "field_1788_raw", // field_1788 is HTML
     UPS: "field_1785", // HTML, field_1785 is boolean
   },
+  ASSETS_MAP: {
+    name: "field_1058",
+    lat: "field_182_raw.latitude",
+    lon: "field_182_raw.longitude",
+  },
   // ASSIGN_TO_SELF: "field_1752",
 };
 

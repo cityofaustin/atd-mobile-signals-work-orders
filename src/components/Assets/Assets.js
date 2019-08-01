@@ -132,23 +132,23 @@ class Assets extends Component {
     api
       .assets()
       .workOrders(item.id)
-      .then(res => console.log(res));
+      .then(res => console.log("in workOrders response", res));
     api
       .assets()
       .serviceRequests(item.id)
-      .then(res => console.log(res));
+      .then(res => console.log("in serviceRequests response", res));
     api
       .assets()
       .details(item.id)
-      .then(res => console.log(res));
+      .then(res => console.log("in details response", res));
     api
       .assets()
       .cameras(item.id)
-      .then(res => console.log(res));
+      .then(res => console.log("in cameras response", res));
     api
       .assets()
       .preventativeMaint(item.id)
-      .then(res => console.log(res));
+      .then(res => console.log("in preventativeMaint response", res));
     this.setState({ signal: item.identifier });
   };
 

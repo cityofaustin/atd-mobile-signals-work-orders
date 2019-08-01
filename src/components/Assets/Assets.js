@@ -149,6 +149,14 @@ class Assets extends Component {
       .assets()
       .preventativeMaint(item.id)
       .then(res => console.log("in preventativeMaint response", res));
+    api
+      .assets()
+      .map(item.id)
+      .then(res => console.log("in map response", res));
+    api
+      .assets()
+      .detectors(item.id)
+      .then(res => console.log("in detectors response", res));
     this.setState({ signal: item.identifier });
   };
 

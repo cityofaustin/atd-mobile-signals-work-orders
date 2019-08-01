@@ -8,7 +8,7 @@ import {
   getAmPm,
   getToDateTimeTimestamp,
   getDateTimeObject,
-  getFromDateTimeTimestamp
+  getFromDateTimeTimestamp,
 } from "../Shared/dateTimeFieldHelpers.js";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -60,18 +60,14 @@ const handleDateTimeFieldChange = (
     }
     updatedDateField.date = moment(date).format("MM/DD/YYYY");
     updatedDateField.timestamp = moment(
-      `${updatedDateField.date} ${previousDateField.hours}:${
-        previousDateField.minutes
-      } ${previousDateField.am_pm}`
+      `${updatedDateField.date} ${previousDateField.hours}:${previousDateField.minutes} ${previousDateField.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "fromTime") {
     updatedDateField.hours = getHours(date);
     updatedDateField.minutes = date.getMinutes();
     updatedDateField.am_pm = getAmPm(date);
     updatedDateField.timestamp = moment(
-      `${previousDateField.date} ${updatedDateField.hours}:${
-        updatedDateField.minutes
-      } ${updatedDateField.am_pm}`
+      `${previousDateField.date} ${updatedDateField.hours}:${updatedDateField.minutes} ${updatedDateField.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "toDate") {
     if (isEmpty(previousDateField.to)) {
@@ -82,18 +78,14 @@ const handleDateTimeFieldChange = (
     }
     updatedDateField.to.date = moment(date).format("MM/DD/YYYY");
     updatedDateField.to.timestamp = moment(
-      `${updatedDateField.to.date} ${previousDateField.to.hours}:${
-        previousDateField.to.minutes
-      } ${previousDateField.to.am_pm}`
+      `${updatedDateField.to.date} ${previousDateField.to.hours}:${previousDateField.to.minutes} ${previousDateField.to.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "toTime") {
     updatedDateField.to.hours = getHours(date);
     updatedDateField.to.minutes = date.getMinutes();
     updatedDateField.to.am_pm = getAmPm(date);
     updatedDateField.to.timestamp = moment(
-      `${previousDateField.to.date} ${updatedDateField.to.hours}:${
-        updatedDateField.to.minutes
-      } ${updatedDateField.to.am_pm}`
+      `${previousDateField.to.date} ${updatedDateField.to.hours}:${updatedDateField.to.minutes} ${updatedDateField.to.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   }
 
@@ -103,7 +95,7 @@ const handleDateTimeFieldChange = (
 const DateTimeRangePicker = ({
   data,
   fieldName,
-  handleScheduledTimeChange
+  handleScheduledTimeChange,
 }) => {
   return (
     <div className="form-group">

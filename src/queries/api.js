@@ -53,16 +53,18 @@ const keys = {
   },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_255", viewId: "view_2234" },
-  workOrderInventory: { sceneId: "sscene_297", viewId: "view_885" },
+  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
-  assets: {
-    details: { sceneId: "scene_446", viewId: "view_1261" },
-    cameras: { sceneId: "scene_446", viewId: "view_1291" },
-    workOrders: { sceneId: "scene_446", viewId: "view_1550" },
-    serviceRequests: { sceneId: "scene_446", viewId: "view_1701" },
-    preventativeMaint: { sceneId: "scene_446", viewId: "view_1282" },
+  workOrderInventoryItems: {
+    sceneId: "scene_297",
+    viewId: "view_889",
+    fieldId: "field_513",
   },
+};
+
+const filters = {
+  technicians: [{ value: "active", operator: "is", field: "field_897" }],
 };
 
 // images
@@ -120,7 +122,7 @@ const api = {
             keys.editWorkOrder.sceneId
           }/views/${keys.editWorkOrder.formViewId}/connections/${
             keys.editWorkOrder.technicianId
-          }?rows_per_page=2000&filters=[{"value":"profile_65","operator":"contains","field":"field_171"}]`,
+          }?rows_per_page=2000&filters=${JSON.stringify(filters.technicians)}`,
           getHeaders()
         ),
       csr: searchValue =>
@@ -242,7 +244,7 @@ const api = {
             keys.workOrderInventory.sceneId
           }/views/${
             keys.workOrderInventory.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          }/records?my-work-order-details_id=${id}`,
           getHeaders()
         ),
       getImages: id =>
@@ -250,6 +252,23 @@ const api = {
           `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${
             keys.addImage.viewId
           }/records?work-order-details_id=${id}`,
+          getHeaders()
+        ),
+      getInventoryItems: () =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventoryItems.sceneId
+          }/views/${keys.workOrderInventoryItems.viewId}/connections/${
+            keys.workOrderInventoryItems.fieldId
+          }?rows_per_page=2000`,
+          getHeaders()
+        ),
+      submitInventoryItem: data =>
+        axios.post(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventoryItems.sceneId
+          }/views/${keys.workOrderInventoryItems.viewId}/records`,
+          data,
           getHeaders()
         ),
       schoolZones: searchValue =>

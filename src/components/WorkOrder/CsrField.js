@@ -24,15 +24,15 @@ class CsrField extends Component {
     this.state = {
       formData: {
         field_1232: "", // NEW_CSR_NUMBER
-        field_1235: this.getInitialFormData()
+        field_1235: this.getInitialFormData(),
       },
       selectedOption: this.getInitialFormData().map(item => ({
         label: item.identifier,
-        value: item.id
+        value: item.id,
       })),
       csrUiDisplayNew: false,
       hasError: false,
-      errorText: ""
+      errorText: "",
     };
   }
 
@@ -56,16 +56,16 @@ class CsrField extends Component {
       .then(res => {
         let newSelectedCsrOption = {
           label: res.data.record[FIELDS.CSR_LABEL],
-          value: res.data.record.id
+          value: res.data.record.id,
         };
         this.setState({
           hasError: false,
           csrUiDisplayNew: false,
           formData: {
-            field_1232: res.data.record.id
+            field_1232: res.data.record.id,
           },
           csrOptions: [newSelectedCsrOption],
-          selectedOption: newSelectedCsrOption
+          selectedOption: newSelectedCsrOption,
         });
         this.props.handleCsrChange(newSelectedCsrOption);
       })
@@ -79,7 +79,7 @@ class CsrField extends Component {
         );
         this.setState({
           hasError: true,
-          errorText: errorsList
+          errorText: errorsList,
         });
       });
   };
@@ -98,7 +98,7 @@ class CsrField extends Component {
     if (csrNumbersArray.length !== 2) {
       this.setState({
         hasError: true,
-        errorText
+        errorText,
       });
       return false;
     }
@@ -122,7 +122,7 @@ class CsrField extends Component {
     // coerce that null value to a object with a "value" attribute set equal to
     // an empty string "".
     this.setState({
-      selectedOption: selection
+      selectedOption: selection,
     });
 
     if (selection === null) {

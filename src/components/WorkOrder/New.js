@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { faWrench } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
 import { newWorkOrderInitialState } from "./formDataInitialState";
 import { FIELDS } from "./formConfig";
 
 import Header from "../Shared/Header";
+import FormFooter from "../Shared/FormFooter";
 import { ErrorMessage, SuccessMessage } from "./Alerts";
 import WorkTypeFields from "./WorkTypeFields";
 import AssetTypeField from "./AssetTypeField";
@@ -27,7 +28,7 @@ class NewWorkOrder extends Component {
       isSubmitting: false,
       isSubmitted: false,
       newWorkOrder: null,
-      workTypeScheduledWorkOptions: []
+      workTypeScheduledWorkOptions: [],
     };
   }
 
@@ -122,7 +123,7 @@ class NewWorkOrder extends Component {
 
   handleTaskOrderChange = selection => {
     this.setState({
-      [FIELDS.TASK_ORDERS]: selection
+      [FIELDS.TASK_ORDERS]: selection,
     });
   };
 
@@ -131,7 +132,7 @@ class NewWorkOrder extends Component {
 
     // create object of updated data
     let updatedFormData = Object.assign({}, this.state.updatedFormData, {
-      [fieldId]: updatedData
+      [fieldId]: updatedData,
     });
 
     // merge updated data into all data
@@ -156,14 +157,14 @@ class NewWorkOrder extends Component {
         this.setState({
           isSubmitting: false,
           isSubmitted: true,
-          newWorkOrder: res.data.record
+          newWorkOrder: res.data.record,
         });
       })
       .catch(error => {
         console.log(error.response.data.errors);
         this.setState({
           errors: error.response.data.errors,
-          isSubmitting: false
+          isSubmitting: false,
         });
       });
   };
@@ -173,9 +174,13 @@ class NewWorkOrder extends Component {
       return <Redirect to={`/work-orders/${this.state.newWorkOrder.id}`} />;
     }
 
+    const submitButton = (
+      <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
+    );
+
     return (
       <div>
-        <Header icon={faWrench} title="New Work Order" />
+        <Header icon={faPlus} title="New Work Order" />
 
         {this.state.isSubmitted && (
           <SuccessMessage formVerb="create" formType="New Work Order" />
@@ -240,7 +245,7 @@ class NewWorkOrder extends Component {
             handleFormDataChange={this.handleFormDataChange}
           />
 
-          <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
+          <FormFooter body={submitButton} />
         </form>
       </div>
     );

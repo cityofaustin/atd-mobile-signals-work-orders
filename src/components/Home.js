@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faTruck,
   faStreetView,
-  faWrench,
+  faPlus,
   faMapMarkerAlt,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 const mainPages = [
   {
-    title: 'My Work Orders',
-    link: '/my-work-orders',
+    title: "My Work Orders",
+    link: "/my-work-orders",
     icon: faStreetView,
   },
   {
-    title: 'All Work Orders',
-    link: '/all-work-orders',
+    title: "All Work Orders",
+    link: "/all-work-orders",
     icon: faTruck,
   },
   {
-    title: 'New Work Order',
-    link: '/work-order/new',
-    icon: faWrench,
+    title: "New Work Order",
+    link: "/work-order/new",
+    icon: faPlus,
   },
   {
-    title: 'Asset Details',
-    link: '/assets',
+    title: "Asset Details",
+    link: "/assets",
     icon: faMapMarkerAlt,
   },
 ];

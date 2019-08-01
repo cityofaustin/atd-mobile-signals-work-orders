@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import Select from 'react-select';
+import React, { Component } from "react";
+import Select from "react-select";
 
-import FormGroup from '../Form/FormGroup';
-
-import { FIELDS, YES_NO_OPTIONS } from './formConfig';
-import api from '../../queries/api';
+import { FIELDS } from "./formConfig";
+import api from "../../queries/api";
 
 export default class AssignTechnicianFields extends Component {
   constructor(props) {
@@ -38,7 +36,7 @@ export default class AssignTechnicianFields extends Component {
     let currentData = rawData ? rawData : data;
     // handle no assigned Technicians
     currentData =
-      currentData === ''
+      currentData === ""
         ? currentData
         : currentData.map(item => ({
             value: item.id,
@@ -50,7 +48,7 @@ export default class AssignTechnicianFields extends Component {
   render() {
     return (
       <>
-        {this.props.data[FIELDS.ASSIGN_TO_SELF] === 'No' && (
+        {this.props.data[FIELDS.ASSIGN_TO_SELF] === "No" && (
           <div className="form-group">
             <label htmlFor={FIELDS.LEAD_TECHNICIAN}>Lead Technician</label>
             <Select

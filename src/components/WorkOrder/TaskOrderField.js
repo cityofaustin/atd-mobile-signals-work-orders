@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import AsyncSelect from 'react-select/lib/Async';
+import React, { Component } from "react";
+import AsyncSelect from "react-select/lib/Async";
 
-import { FIELDS } from './formConfig';
-import api from '../../queries/api';
+import { FIELDS } from "./formConfig";
+import api from "../../queries/api";
 
 export class TaskOrderField extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ export class TaskOrderField extends Component {
     let values = rawData ? rawData : data;
     // handle no Task Orders
     values =
-      values === ''
+      values === ""
         ? values
         : values.map(item => {
             let value = item.id ? item.id : item.value;
@@ -61,7 +61,7 @@ export class TaskOrderField extends Component {
   };
 
   handleAsyncInputChange = newValue => {
-    const inputValue = newValue.replace(/\W/g, '');
+    const inputValue = newValue.replace(/\W/g, "");
 
     let data = {};
     data[FIELDS.TASK_ORDERS] = inputValue;

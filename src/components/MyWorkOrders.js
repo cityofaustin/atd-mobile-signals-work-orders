@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from "react";
+import Button from "./Form/Button";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
   faStreetView,
   faSpinner,
-  faWrench,
-} from '@fortawesome/free-solid-svg-icons';
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
-import api from '../queries/api';
-import { workOrderFields } from '../queries/fields';
-import { signalsWorkOrderStatuses } from '../constants/statuses';
+import api from "../queries/api";
+import { workOrderFields } from "../queries/fields";
+import { signalsWorkOrderStatuses } from "../constants/statuses";
 
 const fields = workOrderFields.baseFields;
 const statuses = signalsWorkOrderStatuses;
@@ -46,13 +47,11 @@ class MyWorkOrders extends Component {
             <FontAwesomeIcon icon={faStreetView} /> My Work Orders
           </h1>
           <div className="d-flex flex-row">
-            <div className="mr-2 mb-2">
-              <Link to={`/work-order/new/`}>
-                <div className="btn btn-secondary">
-                  <FontAwesomeIcon icon={faWrench} /> New Work Order
-                </div>
-              </Link>
-            </div>
+            <Button
+              icon={faPlus}
+              text={"New Work Order"}
+              linkPath={"/work-order/new/"}
+            />
           </div>
           {this.state.loading ? (
             <FontAwesomeIcon
@@ -61,7 +60,7 @@ class MyWorkOrders extends Component {
               className="atd-spinner"
             />
           ) : (
-            ''
+            ""
           )}
           <ul className="list-group list-group-flush">
             {isMyJobsDataLoaded &&
@@ -77,7 +76,7 @@ class MyWorkOrders extends Component {
                   >
                     {/* Location */}
                     <div className="col-12">
-                      <FontAwesomeIcon icon={faMapMarkerAlt} />{' '}
+                      <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
                       <span>{item[fields.location]}</span>
                     </div>
                     {/* Status */}

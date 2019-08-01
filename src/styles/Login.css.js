@@ -1,9 +1,9 @@
-import { css } from 'react-emotion';
+import { css } from "react-emotion";
 
-const colorBlue = '#2196F3';
-const colorWhite = '#fff'
-const inputBackgroundColor = 'rgba(238, 238, 238, .6)';
-const inputBorderColor = 'rgba(0, 0, 0, .38)';
+const colorBlue = "#2196F3";
+const colorWhite = "#fff";
+const inputBackgroundColor = "rgba(238, 238, 238, .6)";
+const inputBorderColor = "rgba(0, 0, 0, .38)";
 
 export const pageStyles = css`
   min-width: 320px;
@@ -41,7 +41,7 @@ export const errorMessageStyles = css`
   color: red;
 `;
 export const labelStyles = css`
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   align-self: flex-start;
 `;
 
@@ -58,5 +58,4 @@ export const inputStyles = css`
       opacity: 0;
     }
   }
-
 `;

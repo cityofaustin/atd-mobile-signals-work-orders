@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import React, { Component } from "react";
+import Button from "./Form/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 import {
   faWrench,
   faInfoCircle,
@@ -10,20 +10,20 @@ import {
   faSpinner,
   faEdit,
   faFlagCheckered,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 import {
   Accordion,
   AccordionItem,
   AccordionItemTitle,
   AccordionItemBody,
-} from 'react-accessible-accordion';
-import 'react-accessible-accordion/dist/fancy-example.css';
+} from "react-accessible-accordion";
+import "react-accessible-accordion/dist/fancy-example.css";
 
-import TimeLog from './WorkOrder/TimeLog';
-import api from '../queries/api';
-import { workOrderFields } from '../queries/fields';
-import { getWorkOrderDetails, getWorkOrderTitle } from './WorkOrder/helpers';
+import TimeLog from "./WorkOrder/TimeLog";
+import api from "../queries/api";
+import { workOrderFields } from "../queries/fields";
+import { getWorkOrderDetails, getWorkOrderTitle } from "./WorkOrder/helpers";
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -71,7 +71,10 @@ class WorkOrderDetail extends Component {
     api
       .workOrder()
       .getInventory(id)
-      .then(res => this.setState({ inventoryData: res.data.records }));
+      .then(res => {
+        console.log(res);
+        this.setState({ inventoryData: res.data.records });
+      });
   };
 
   requestImages = id => {
@@ -88,56 +91,30 @@ class WorkOrderDetail extends Component {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faWrench} />{' '}
+          <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}
         </h1>
         <div className="d-flex flex-row flex-wrap">
-          <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/edit/${this.props.match.params.workOrderId}`}
-            >
-              <div className="btn btn-secondary">
-                <FontAwesomeIcon icon={faEdit} /> Edit
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/new-time-log/${
+          <Button
+            icon={faEdit}
+            text={"Edit"}
+            linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
+          />
+          {this.state.timeLogData.length > 0 ? (
+            <Button
+              icon={faFlagCheckered}
+              text={"Submit"}
+              linkPath={`/work-order/submit/${
                 this.props.match.params.workOrderId
               }`}
-            >
-              <div className={'btn btn-secondary'}>
-                <FontAwesomeIcon icon={faClock} /> New Time Log
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
-            <Link
-              to={`/work-order/add-image/${
-                this.props.match.params.workOrderId
-              }`}
-            >
-              <div className={'btn btn-secondary'}>
-                <FontAwesomeIcon icon={faCamera} /> New Image
-              </div>
-            </Link>
-          </div>
-          <div className="mr-2 mb-2">
-            {this.state.timeLogData.length > 0 ? (
-              <Link
-                to={`/work-order/submit/${this.props.match.params.workOrderId}`}
-              >
-                <div className={'btn btn-secondary'}>
-                  <FontAwesomeIcon icon={faFlagCheckered} /> Submit
-                </div>
-              </Link>
-            ) : (
-              <div className="btn btn-secondary disabled" disabled>
+            />
+          ) : (
+            <div className="mr-2 mb-2">
+              <div className="btn btn-secondary btn-lg disabled" disabled>
                 <FontAwesomeIcon icon={faFlagCheckered} /> Submit
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <Accordion>
           <AccordionItem>
@@ -188,6 +165,13 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
+              <Button
+                icon={faClock}
+                text={"New Time Log"}
+                linkPath={`/work-order/new-time-log/${
+                  this.props.match.params.workOrderId
+                }`}
+              />
               <TimeLog data={this.state.timeLogData} />
             </AccordionItemBody>
           </AccordionItem>
@@ -199,6 +183,13 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
+              <Button
+                icon={faWrench}
+                text={"New Item"}
+                linkPath={`/work-order/inventory-items/${
+                  this.props.match.params.workOrderId
+                }`}
+              />
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
@@ -252,6 +243,13 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
+              <Button
+                icon={faCamera}
+                text={"New Image"}
+                linkPath={`/work-order/add-image/${
+                  this.props.match.params.workOrderId
+                }`}
+              />
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">
@@ -259,17 +257,18 @@ class WorkOrderDetail extends Component {
                     <li
                       className="list-group-item d-flex row"
                       key={i}
-                      style={{ textAlign: 'center' }}
+                      style={{ textAlign: "center" }}
                     >
                       <div className="col-12 img-fluid">
                         <img
+                          alt="capture from webcam"
                           className="img-fluid"
                           src={image.field_1047_raw.url}
                         />
                       </div>
                       <div className="col-12">
-                        <span style={{ fontStyle: 'italic' }}>
-                          Uploaded at:{' '}
+                        <span style={{ fontStyle: "italic" }}>
+                          Uploaded at:{" "}
                         </span>
                         {image[workOrderFields.images.DATESTAMP]}
                       </div>

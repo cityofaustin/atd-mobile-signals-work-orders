@@ -20,7 +20,7 @@ export const FIELDS = {
       { firmware: "field_1563" },
       { firmwareStatusDate: "field_1564" },
     ],
-    locations: [
+    location: [
       { locationId: "field_209" }, // HTML url
       { signalEngineerArea: "field_188_raw" }, // field_188 is HTML
       { councilDistrict: "field_189_raw" }, // raw is an Array, field_189 is HTML
@@ -29,8 +29,10 @@ export const FIELDS = {
     communications: [
       { commStatus: "field_1491" },
       { commStatusDatetime: "field_1492" },
+    ],
+    cabinet: [
       { cabinetType: "field_1788_raw" }, // field_1788 is HTML
-      { UPS: "field_1785" }, // HTML, field_1785 is boolean
+      { UPS: "field_1785" }, // HTML, field_1785 is boolean]
     ],
   },
   ASSETS_MAP: {

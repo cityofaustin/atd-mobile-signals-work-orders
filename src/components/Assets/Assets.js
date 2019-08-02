@@ -222,16 +222,13 @@ class Assets extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <AssetDetailsSection
-                sectionName="details"
-                data={this.state.assetDetailsData}
-                fields={FIELDS.ASSETS_DETAILS}
-              />
-              <AssetDetailsSection
-                sectionName="components"
-                data={this.state.assetDetailsData}
-                fields={FIELDS.ASSETS_DETAILS}
-              />
+              {Object.keys(FIELDS.ASSETS_DETAILS).map(section => (
+                <AssetDetailsSection
+                  sectionName={section}
+                  data={this.state.assetDetailsData}
+                  fields={FIELDS.ASSETS_DETAILS}
+                />
+              ))}
             </AccordionItemBody>
           </AccordionItem>
         </Accordion>

@@ -38,6 +38,7 @@ class Assets extends Component {
       assetDetailsData: "",
       assetServiceRequestsData: "",
       assetDetectorsData: "",
+      assetPreventativeMaintenanceData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -164,7 +165,9 @@ class Assets extends Component {
     api
       .assets()
       .preventativeMaint(item.id)
-      .then(res => console.log("in preventativeMaint response", res));
+      .then(res =>
+        this.setState({ assetPreventativeMaintenanceData: res.data.records })
+      );
     api
       .assets()
       .map(item.id)
@@ -262,6 +265,20 @@ class Assets extends Component {
               <AssetTable
                 data={this.state.assetDetectorsData}
                 fields={FIELDS.ASSETS_DETECTORS}
+              />
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3 className="u-position-relative">
+                <FontAwesomeIcon icon={faInfoCircle} /> Preventative Maintenance
+                <div className="accordion__arrow" role="presentation" />
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <AssetTable
+                data={this.state.assetPreventativeMaintenanceData}
+                fields={FIELDS.ASSETS_PREVENTATIVE_MAINTENANCE}
               />
             </AccordionItemBody>
           </AccordionItem>

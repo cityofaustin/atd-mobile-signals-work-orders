@@ -56,6 +56,14 @@ export const FIELDS = {
     { port: "field_1999" },
     { comment: "field_1547" },
   ],
+  ASSETS_PREVENTATIVE_MAINTENANCE: [
+    { fiscalYear: "field_1252" },
+    { completedBy: "field_2076" },
+    { createdBy: "field_2077" },
+    { workOrder: "field_1243" },
+    { completedDate: "field_1241" },
+    { status: "field_1244" },
+  ],
   ASSETS_MAP: {
     name: "field_1058",
     latitude: "field_182_raw.latitude",

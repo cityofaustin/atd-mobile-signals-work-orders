@@ -32,10 +32,8 @@ class Assets extends Component {
       assetOptions: [],
       loading: false,
       location: "",
-      currentPage: 1,
-      lastPage: 1,
-      updatedFormData: {},
-      signal: "",
+      selectedAsset: "",
+      assetDetailsData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -152,7 +150,7 @@ class Assets extends Component {
     api
       .assets()
       .details(item.id)
-      .then(res => console.log("in details response", res));
+      .then(res => this.setState({ assetDetailsData: res.data }));
     api
       .assets()
       .cameras(item.id)
@@ -169,7 +167,7 @@ class Assets extends Component {
       .assets()
       .detectors(item.id)
       .then(res => console.log("in detectors response", res));
-    this.setState({ signal: item.identifier });
+    this.setState({ selectedAsset: item.identifier });
   };
 
   render() {
@@ -199,7 +197,7 @@ class Assets extends Component {
                 shouldItemRender={(item, value) =>
                   this.shouldItemRender(item, value)
                 }
-                value={this.state.signal}
+                value={this.state.selectedAsset}
                 onChange={this.handleAutocompleteChange.bind(this, "signal")}
                 onSelect={(value, item) => this.onAssetSelect(value, item)}
               />
@@ -223,7 +221,7 @@ class Assets extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <AssetDetails />
+              <AssetDetails assetDetails={this.state.assetDetailsData} />
             </AccordionItemBody>
           </AccordionItem>
         </Accordion>

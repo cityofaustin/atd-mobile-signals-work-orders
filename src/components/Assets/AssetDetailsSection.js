@@ -13,11 +13,10 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
       <div className="row">
         <div className="col-6">
           {sectionFields.map((field, i) => {
-            console.log(firstColumnLength);
             const fieldId = Object.values(field)[0];
             if (i < firstColumnLength) {
               return (
-                <dl>
+                <dl key={i}>
                   <dt>{changeCase.titleCase(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
@@ -26,6 +25,8 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
                   />
                 </dl>
               );
+            } else {
+              return null;
             }
           })}
         </div>
@@ -34,7 +35,7 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
             const fieldId = Object.values(field)[0];
             if (i >= firstColumnLength) {
               return (
-                <dl>
+                <dl key={i}>
                   <dt>{changeCase.titleCase(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
@@ -43,6 +44,8 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
                   />
                 </dl>
               );
+            } else {
+              return null;
             }
           })}
         </div>

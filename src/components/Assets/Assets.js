@@ -16,7 +16,8 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../../queries/api";
-import AssetDetailsSection from "./AssetDetails";
+import AssetDetailsSection from "./AssetDetailsSection";
+import AssetServiceRequests from "./AssetServiceRequests";
 import { workOrderFields } from "../../queries/fields";
 import { FIELDS } from "./formConfig";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";
@@ -35,6 +36,7 @@ class Assets extends Component {
       location: "",
       selectedAsset: "",
       assetDetailsData: "",
+      assetServiceRequestsData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -147,7 +149,7 @@ class Assets extends Component {
     api
       .assets()
       .serviceRequests(item.id)
-      .then(res => console.log("in serviceRequests response", res));
+      .then(res => this.setState({ assetSerivceRequestsData: res.data }));
     api
       .assets()
       .details(item.id)
@@ -222,13 +224,28 @@ class Assets extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              {Object.keys(FIELDS.ASSETS_DETAILS).map(section => (
+              {Object.keys(FIELDS.ASSETS_DETAILS).map((section, i) => (
                 <AssetDetailsSection
+                  key={i}
                   sectionName={section}
                   data={this.state.assetDetailsData}
                   fields={FIELDS.ASSETS_DETAILS}
                 />
               ))}
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3 className="u-position-relative">
+                <FontAwesomeIcon icon={faInfoCircle} /> Service Requests
+                <div className="accordion__arrow" role="presentation" />
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <AssetServiceRequests
+                data={this.state.assetServiceRequestsData}
+                fields={FIELDS.ASSETS_SERVICE_REQUESTS}
+              />
             </AccordionItemBody>
           </AccordionItem>
         </Accordion>

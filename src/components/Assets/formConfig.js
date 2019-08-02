@@ -35,6 +35,16 @@ export const FIELDS = {
       { UPS: "field_1785" }, // HTML, field_1785 is boolean]
     ],
   },
+  ASSETS_SERVICE_REQUESTS: [
+    { issueId: "field_1678" },
+    { issue: "field_1663" },
+    { issueReported: "field_1556" },
+    { details: "field_1446" },
+    { source: "field_1690" },
+    { created: "field_1517" },
+    { updated: "field_1385" },
+    { status: "field_1636" },
+  ],
   ASSETS_MAP: {
     name: "field_1058",
     latitude: "field_182_raw.latitude",

@@ -51,36 +51,14 @@ class WorkOrderDetail extends Component {
     const label = Object.keys(field)[0];
     const value = this.state.detailsData[Object.values(field)[0]];
 
-    if (typeof value === "object") {
-      const fieldId = Object.values(field)[0];
-      let multipleValueSet = new Set();
-
-      value.map(item => {
-        const leValues = item[fieldId + "_raw"];
-        leValues.forEach(vals => multipleValueSet.add(vals.identifier));
-      });
-
-      const stringOfMultipleValues = Array.from(multipleValueSet);
-      this.multiValueString = stringOfMultipleValues.join(", ");
-    }
-
     return (
       <dl key={key}>
         <dt>{label}</dt>
-        {typeof value === "string" && (
-          <dd
-            dangerouslySetInnerHTML={{
-              __html: value,
-            }}
-          />
-        )}
-        {typeof value === "object" && (
-          <dd
-            dangerouslySetInnerHTML={{
-              __html: this.multiValueString,
-            }}
-          />
-        )}
+        <dd
+          dangerouslySetInnerHTML={{
+            __html: value,
+          }}
+        />
       </dl>
     );
   }
@@ -171,7 +149,6 @@ class WorkOrderDetail extends Component {
                     this.renderDetailItem(field)
                   )}
                 </div>
-                {/* TODO Add vehicles and support techs from time logs here */}
               </div>
             </AccordionItemBody>
           </AccordionItem>

@@ -25,7 +25,38 @@ export async function getWorkOrderDetailAndTimeLogs(id) {
   const details = await getWorkOrderDetails(id);
   const timelogs = await getTimeLogs(id);
 
-  return Object.assign({}, details, { field_1753: timelogs });
+  // The following section does data munging. It takes in the
+  // timelog results from the Knack API and returns a deduped list
+  // of identifiers as a comma separated string.
+  //
+  // These strings get assigned to field id numbers and merged into
+  // the Work Order details return object.
+  let techs = "";
+  let techniciansSet = new Set();
+  let vehicles = "";
+  let vehicleSet = new Set();
+
+  timelogs.forEach(timelog => {
+    timelog.field_1753_raw.forEach(technician => {
+      techniciansSet.add(technician.identifier);
+    });
+    timelog.field_1427_raw.forEach(vehicle => {
+      vehicleSet.add(vehicle.identifier);
+    });
+  });
+  techs =
+    techniciansSet.size > 0
+      ? Array.from(techniciansSet).join(", ")
+      : "No Technicians Logged";
+  vehicles =
+    vehicleSet.size > 0
+      ? Array.from(vehicleSet).join(", ")
+      : "No Vehicles Logged";
+
+  return Object.assign({}, details, {
+    field_1753: techs,
+    field_1427: vehicles,
+  });
 }
 
 export function getTimeLogs(id) {

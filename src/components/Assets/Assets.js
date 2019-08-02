@@ -17,7 +17,7 @@ import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../../queries/api";
 import AssetDetailsSection from "./AssetDetailsSection";
-import AssetServiceRequests from "./AssetServiceRequests";
+import AssetTable from "./AssetTable";
 import { workOrderFields } from "../../queries/fields";
 import { FIELDS } from "./formConfig";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";
@@ -37,6 +37,7 @@ class Assets extends Component {
       selectedAsset: "",
       assetDetailsData: "",
       assetServiceRequestsData: "",
+      assetDetectorsData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -171,7 +172,7 @@ class Assets extends Component {
     api
       .assets()
       .detectors(item.id)
-      .then(res => console.log("in detectors response", res));
+      .then(res => this.setState({ assetDetectorsData: res.data.records }));
     this.setState({ selectedAsset: item.identifier });
   };
 
@@ -244,9 +245,23 @@ class Assets extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <AssetServiceRequests
+              <AssetTable
                 data={this.state.assetServiceRequestsData}
                 fields={FIELDS.ASSETS_SERVICE_REQUESTS}
+              />
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3 className="u-position-relative">
+                <FontAwesomeIcon icon={faInfoCircle} /> Detectors
+                <div className="accordion__arrow" role="presentation" />
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <AssetTable
+                data={this.state.assetDetectorsData}
+                fields={FIELDS.ASSETS_DETECTORS}
               />
             </AccordionItemBody>
           </AccordionItem>

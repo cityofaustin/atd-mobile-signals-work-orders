@@ -1,7 +1,7 @@
 import React from "react";
 import changeCase from "change-case";
 
-const AssetServiceRequests = props => {
+const AssetTable = props => {
   const tableHeaders = props.fields.map(field =>
     changeCase.titleCase(Object.keys(field))
   );
@@ -24,6 +24,7 @@ const AssetServiceRequests = props => {
         </thead>
         <tbody>
           {props.data &&
+            props.data !== "" &&
             props.data.map(record => (
               <tr>
                 {fieldIds.map(fieldId => (
@@ -41,4 +42,4 @@ const AssetServiceRequests = props => {
   );
 };
 
-export default AssetServiceRequests;
+export default AssetTable;

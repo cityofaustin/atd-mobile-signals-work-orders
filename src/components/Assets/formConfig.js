@@ -45,6 +45,17 @@ export const FIELDS = {
     { updated: "field_1385" },
     { status: "field_1636" },
   ],
+  ASSETS_DETECTORS: [
+    { detectorId: "field_1526" },
+    { direction: "field_1525" },
+    { movement: "field_1524" },
+    { type: "field_1527" },
+    { statusDate: "field_1587" },
+    { status: "field_1529" },
+    { detectorIP: "field_1570" },
+    { port: "field_1999" },
+    { comment: "field_1547" },
+  ],
   ASSETS_MAP: {
     name: "field_1058",
     latitude: "field_182_raw.latitude",

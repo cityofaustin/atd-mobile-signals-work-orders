@@ -149,7 +149,9 @@ class Assets extends Component {
     api
       .assets()
       .serviceRequests(item.id)
-      .then(res => this.setState({ assetSerivceRequestsData: res.data }));
+      .then(res =>
+        this.setState({ assetServiceRequestsData: res.data.records })
+      );
     api
       .assets()
       .details(item.id)

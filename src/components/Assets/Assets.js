@@ -16,8 +16,9 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../../queries/api";
-import AssetDetails from "./AssetDetails";
+import AssetDetailsSection from "./AssetDetails";
 import { workOrderFields } from "../../queries/fields";
+import { FIELDS } from "./formConfig";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";
 import { getAllAssets } from "../WorkOrder/helpers";
 
@@ -221,7 +222,16 @@ class Assets extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <AssetDetails assetDetails={this.state.assetDetailsData} />
+              <AssetDetailsSection
+                sectionName="details"
+                data={this.state.assetDetailsData}
+                fields={FIELDS.ASSETS_DETAILS}
+              />
+              <AssetDetailsSection
+                sectionName="components"
+                data={this.state.assetDetailsData}
+                fields={FIELDS.ASSETS_DETAILS}
+              />
             </AccordionItemBody>
           </AccordionItem>
         </Accordion>

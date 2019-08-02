@@ -1,17 +1,18 @@
 import React from "react";
 import changeCase from "change-case";
-import { FIELDS } from "./formConfig";
 
-const AssetDetails = props => {
-  const details = props.assetDetails;
-  const fields = FIELDS.ASSETS_DETAILS;
+const AssetDetailsSection = ({ data, sectionName, fields }) => {
+  const sectionDetails = data;
+  const sectionFields = fields[sectionName];
+  const assetDetailsSectionTitle = changeCase.titleCase(sectionName);
+  const firstColumnLength = Math.ceil(sectionFields.length / 2);
 
-  const firstColumnLength = Math.ceil(fields.details.length / 2);
   return (
     <div>
+      <h4>{assetDetailsSectionTitle}</h4>
       <div className="row">
         <div className="col-6">
-          {fields.details.map((field, i) => {
+          {sectionFields.map((field, i) => {
             console.log(firstColumnLength);
             const fieldId = Object.values(field)[0];
             if (i < firstColumnLength) {
@@ -20,7 +21,7 @@ const AssetDetails = props => {
                   <dt>{changeCase.titleCase(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
-                      __html: details[fieldId],
+                      __html: sectionDetails[fieldId],
                     }}
                   />
                 </dl>
@@ -29,7 +30,7 @@ const AssetDetails = props => {
           })}
         </div>
         <div className="col-6">
-          {fields.details.map((field, i) => {
+          {sectionFields.map((field, i) => {
             const fieldId = Object.values(field)[0];
             if (i >= firstColumnLength) {
               return (
@@ -37,7 +38,7 @@ const AssetDetails = props => {
                   <dt>{changeCase.titleCase(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
-                      __html: details[fieldId],
+                      __html: sectionDetails[fieldId],
                     }}
                   />
                 </dl>
@@ -50,4 +51,4 @@ const AssetDetails = props => {
   );
 };
 
-export default AssetDetails;
+export default AssetDetailsSection;

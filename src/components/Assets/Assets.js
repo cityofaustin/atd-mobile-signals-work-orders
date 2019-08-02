@@ -1,10 +1,22 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMapMarkerAlt,
+  faSpinner,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemTitle,
+  AccordionItemBody,
+} from "react-accessible-accordion";
+import "react-accessible-accordion/dist/fancy-example.css";
 
 import api from "../../queries/api";
+import AssetDetails from "./AssetDetails";
 import { workOrderFields } from "../../queries/fields";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";
 import { getAllAssets } from "../WorkOrder/helpers";
@@ -167,7 +179,7 @@ class Assets extends Component {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faMapMarkerAlt} /> Asset Details
+          <FontAwesomeIcon icon={faMapMarkerAlt} /> Assets
         </h1>
 
         {this.state.assetOptions.length > 0 && (
@@ -201,61 +213,20 @@ class Assets extends Component {
         ) : (
           ""
         )}
-        <ul className="list-group list-group-flush">
-          {isJobsDataLoaded &&
-            allWorkOrdersData.map(item => (
-              <Link to={`/work-orders/${item.id}`} key={item.id}>
-                <li
-                  className="list-group-item d-flex row"
-                  style={{
-                    backgroundColor:
-                      statuses[item[fields.status]].backgroundColor,
-                    color: statuses[item[fields.status]].textColor,
-                  }}
-                >
-                  {/* Location */}
-                  <div className="col-12">
-                    <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
-                    <span>{item[fields.locationAll]}</span>
-                  </div>
-                  {/* Status */}
-                  <div className="col-6">
-                    <FontAwesomeIcon
-                      icon={
-                        item[fields.status] &&
-                        statuses[item[fields.status]].icon
-                      }
-                    />
-                    <span> {item[fields.status]}</span>
-                  </div>
-                  {/* Modified at Datetime */}
-                  <div className="col-6">
-                    <span>{item[fields.modified]}</span>
-                  </div>
-                </li>
-              </Link>
-            ))}
-        </ul>
-        <form>
-          <br />
-          {this.state.assetsData.length > 0 && (
-            <div className="form-group row justify-content-center">
-              <div className="col-auto">
-                <button className="btn btn-primary" onClick={this.prevPage}>
-                  Prev. Page
-                </button>
-              </div>
-              <div className="col-auto">
-                Page {this.state.currentPage} of {this.state.lastPage}
-              </div>
-              <div className="col-auto">
-                <button className="btn btn-primary" onClick={this.nextPage}>
-                  Next Page
-                </button>
-              </div>
-            </div>
-          )}
-        </form>
+        <br />
+        <Accordion>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3 className="u-position-relative">
+                <FontAwesomeIcon icon={faInfoCircle} /> Asset Details
+                <div className="accordion__arrow" role="presentation" />
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <AssetDetails />
+            </AccordionItemBody>
+          </AccordionItem>
+        </Accordion>
       </div>
     );
   }

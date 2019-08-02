@@ -1,7 +1,5 @@
-import React from 'react';
+import React from "react";
 
-const AssetDetails = (props) => (
-            
-    );
+const AssetDetails = props => <div>Hello world!</div>;
 
 export default AssetDetails;

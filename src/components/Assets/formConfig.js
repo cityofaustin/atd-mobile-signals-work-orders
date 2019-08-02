@@ -5,7 +5,7 @@ export const FIELDS = {
       { signalsId: "field_199" },
       { control: "field_208" },
       { secondarySignals: "field_1329" }, // HTML url, Link in Knack app
-      { modifiedBy: "field_703_raw" }, // field_703 is HTML
+      { modifiedBy: "field_703" }, // field_703 is HTML
       { modified: "field_205" },
       { type: "field_201" },
       { owner: "field_202" },
@@ -13,7 +13,7 @@ export const FIELDS = {
       { bikeSignal: "field_1877" },
       { status: "field_491" },
       { turnOnDate: "field_204" },
-      { map: "field_210_raw" }, // Link in Knack app, field_210 is HTML <a>
+      { map: "field_210" }, // field_210 is HTML <a>
     ],
     components: [
       { pedestrianSignal: "field_1322" },

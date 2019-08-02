@@ -154,6 +154,7 @@ class WorkOrderDetail extends Component {
                     </dl>
                   ))}
                 </div>
+                {/* TODO Add vehicles and support techs from time logs here */}
               </div>
             </AccordionItemBody>
           </AccordionItem>

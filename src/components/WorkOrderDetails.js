@@ -23,7 +23,10 @@ import "react-accessible-accordion/dist/fancy-example.css";
 import TimeLog from "./WorkOrder/TimeLog";
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
-import { getWorkOrderDetails, getWorkOrderTitle } from "./WorkOrder/helpers";
+import {
+  getWorkOrderTitle,
+  getWorkOrderDetailAndTimeLogs,
+} from "./WorkOrder/helpers";
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -40,9 +43,45 @@ class WorkOrderDetail extends Component {
     // save some screen real estate
     this.halfDetails = Math.ceil(workOrderFields.details.length / 2);
     this.detailsFirstHalf = workOrderFields.details.slice(0, this.halfDetails);
-    this.detailsSecondHalf = workOrderFields.details.slice(
-      this.halfDetails,
-      -1
+    this.detailsSecondHalf = workOrderFields.details.slice(this.halfDetails);
+  }
+
+  renderDetailItem(field) {
+    const key = Object.values(field)[0];
+    const label = Object.keys(field)[0];
+    const value = this.state.detailsData[Object.values(field)[0]];
+
+    if (typeof value === "object") {
+      const fieldId = Object.values(field)[0];
+      let multipleValueSet = new Set();
+
+      value.map(item => {
+        const leValues = item[fieldId + "_raw"];
+        leValues.forEach(vals => multipleValueSet.add(vals.identifier));
+      });
+
+      const stringOfMultipleValues = Array.from(multipleValueSet);
+      this.multiValueString = stringOfMultipleValues.join(", ");
+    }
+
+    return (
+      <dl key={key}>
+        <dt>{label}</dt>
+        {typeof value === "string" && (
+          <dd
+            dangerouslySetInnerHTML={{
+              __html: value,
+            }}
+          />
+        )}
+        {typeof value === "object" && (
+          <dd
+            dangerouslySetInnerHTML={{
+              __html: this.multiValueString,
+            }}
+          />
+        )}
+      </dl>
     );
   }
 
@@ -51,7 +90,7 @@ class WorkOrderDetail extends Component {
     getWorkOrderTitle(workOrderId).then(data => {
       this.setState({ titleData: data });
     });
-    getWorkOrderDetails(workOrderId).then(data => {
+    getWorkOrderDetailAndTimeLogs(workOrderId).then(data => {
       this.setState({ detailsData: data });
     });
     // Stagger the calls to Knack API so we don't get rate limited.
@@ -72,7 +111,6 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getInventory(id)
       .then(res => {
-        console.log(res);
         this.setState({ inventoryData: res.data.records });
       });
   };
@@ -82,7 +120,6 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getImages(id)
       .then(res => {
-        console.log(res);
         this.setState({ imagesData: res.data.records });
       });
   };
@@ -127,32 +164,14 @@ class WorkOrderDetail extends Component {
             <AccordionItemBody>
               <div className="row">
                 <div className="col-6">
-                  {this.detailsFirstHalf.map(field => (
-                    <dl key={Object.values(field)[0]}>
-                      <dt>{Object.keys(field)[0]}</dt>
-                      <dd
-                        dangerouslySetInnerHTML={{
-                          __html: this.state.detailsData[
-                            Object.values(field)[0]
-                          ],
-                        }}
-                      />
-                    </dl>
-                  ))}
+                  {this.detailsFirstHalf.map(field =>
+                    this.renderDetailItem(field)
+                  )}
                 </div>
                 <div className="col-6">
-                  {this.detailsSecondHalf.map(field => (
-                    <dl key={Object.values(field)[0]}>
-                      <dt>{Object.keys(field)[0]}</dt>
-                      <dd
-                        dangerouslySetInnerHTML={{
-                          __html: this.state.detailsData[
-                            Object.values(field)[0]
-                          ],
-                        }}
-                      />
-                    </dl>
-                  ))}
+                  {this.detailsSecondHalf.map(field =>
+                    this.renderDetailItem(field)
+                  )}
                 </div>
                 {/* TODO Add vehicles and support techs from time logs here */}
               </div>

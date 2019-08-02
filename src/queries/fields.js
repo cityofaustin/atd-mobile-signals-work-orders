@@ -18,6 +18,7 @@ export const workOrderFields = {
     { Status: "field_459" },
     { "Work Order ID": "field_1209" },
     { "Reported By": "field_968" },
+    { "Logged Technicians": "field_1753" },
   ],
   header: "field_211_raw",
   inventory: {

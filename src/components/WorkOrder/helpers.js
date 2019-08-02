@@ -21,6 +21,20 @@ export async function getWorkOrderDetailsAndTitle(id) {
   return Object.assign({}, details, title);
 }
 
+export async function getWorkOrderDetailAndTimeLogs(id) {
+  const details = await getWorkOrderDetails(id);
+  const timelogs = await getTimeLogs(id);
+
+  return Object.assign({}, details, { field_1753: timelogs });
+}
+
+export function getTimeLogs(id) {
+  return api
+    .workOrder()
+    .getTimeLogs(id)
+    .then(res => res.data.records);
+}
+
 export function getSignalsOptions(searchValue) {
   return api
     .workOrder()

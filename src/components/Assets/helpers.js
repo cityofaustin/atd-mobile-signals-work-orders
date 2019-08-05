@@ -1,9 +1,13 @@
 import React from "react";
 import ReadMoreAndLess from "react-read-more-less";
 
-export function handleTableDataStringLength(tableDataString, i) {
+const removeBreakTagsFromString = string => string.replace(/(<br \/>)/gm, "");
+
+const isStringAnchorTag = string => (string.match(/(<a href)/) ? true : false);
+
+export const handleTableDataStringLength = (tableDataString, i) => {
   const stringLengthLimit = 75;
-  if (tableDataString.length > stringLengthLimit) {
+  if (tableDataString.length > stringLengthLimit && !isStringAnchorTag) {
     return (
       <td>
         <ReadMoreAndLess
@@ -12,7 +16,7 @@ export function handleTableDataStringLength(tableDataString, i) {
           readMoreText="Read more"
           readLessText="Read less"
         >
-          {tableDataString}
+          {removeBreakTagsFromString(tableDataString)}
         </ReadMoreAndLess>
       </td>
     );
@@ -26,4 +30,4 @@ export function handleTableDataStringLength(tableDataString, i) {
       />
     );
   }
-}
+};

@@ -1,13 +1,22 @@
 import React from "react";
 import ReadMoreAndLess from "react-read-more-less";
 
-const removeBreakTagsFromString = string => string.replace(/(<br \/>)/gm, "");
+const removeBreakTagsFromString = string => string.replace(/(<br \/>)/gm, " ");
 
-const isStringAnchorTag = string => (string.match(/(<a href)/) ? true : false);
+const isStringAnchorTag = string => {
+  try {
+    return !!string.match(/^(<a href)/gm);
+  } catch {
+    return null;
+  }
+};
 
 export const handleTableDataStringLength = (tableDataString, i) => {
   const stringLengthLimit = 75;
-  if (tableDataString.length > stringLengthLimit && !isStringAnchorTag) {
+  if (
+    !isStringAnchorTag(tableDataString) &&
+    tableDataString.length > stringLengthLimit
+  ) {
     return (
       <td>
         <ReadMoreAndLess

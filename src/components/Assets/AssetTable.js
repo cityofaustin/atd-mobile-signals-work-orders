@@ -10,7 +10,7 @@ const AssetTable = props => {
     return Object.values(field)[0];
   });
   // TODO add responsive font size (or rely on side-scroll?)
-  // TODO fix whitespaec text node console warning
+  // TODO fix whitespace text node console warning
   // TODO handle URLs returned from Knack - make URLs set state to change current asset?
   return (
     <div className="table-responsive">

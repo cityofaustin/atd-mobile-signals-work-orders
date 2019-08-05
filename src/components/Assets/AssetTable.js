@@ -10,6 +10,8 @@ const AssetTable = props => {
   });
 
   // TODO add "Read more" to Details and add responsive font size
+  // TODO fix whitespaec text node console warning
+  // TODO handle URLs returned from Knack - make URLs set state to change current asset?
   return (
     <div className="table-responsive">
       <table className="table">

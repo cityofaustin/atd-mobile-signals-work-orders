@@ -64,6 +64,16 @@ export const FIELDS = {
     { completedDate: "field_1241" },
     { status: "field_1244" },
   ],
+  ASSETS_WORK_ORDERS: [
+    { status: "field_459" },
+    { workTypeTroubleCall: "field_976" },
+    { workTypeScheduled: "field_900" },
+    { problemFound: "field_1351" },
+    { actionTaken: "field_1352" },
+    { lead: "field_1754" },
+    { createdDate: "field_849" },
+    { id: "field_1209" },
+  ],
   ASSETS_MAP: {
     name: "field_1058",
     latitude: "field_182_raw.latitude",

@@ -39,6 +39,7 @@ class Assets extends Component {
       assetServiceRequestsData: "",
       assetDetectorsData: "",
       assetPreventativeMaintenanceData: "",
+      assetWorkOrdersData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -147,7 +148,7 @@ class Assets extends Component {
     api
       .assets()
       .workOrders(item.id)
-      .then(res => console.log("in workOrders response", res));
+      .then(res => this.setState({ assetWorkOrdersData: res.data.records }));
     api
       .assets()
       .serviceRequests(item.id)
@@ -257,14 +258,14 @@ class Assets extends Component {
           <AccordionItem>
             <AccordionItemTitle>
               <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Detectors
+                <FontAwesomeIcon icon={faInfoCircle} /> Work Orders
                 <div className="accordion__arrow" role="presentation" />
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
               <AssetTable
-                data={this.state.assetDetectorsData}
-                fields={FIELDS.ASSETS_DETECTORS}
+                data={this.state.assetWorkOrdersData}
+                fields={FIELDS.ASSETS_WORK_ORDERS}
               />
             </AccordionItemBody>
           </AccordionItem>
@@ -279,6 +280,20 @@ class Assets extends Component {
               <AssetTable
                 data={this.state.assetPreventativeMaintenanceData}
                 fields={FIELDS.ASSETS_PREVENTATIVE_MAINTENANCE}
+              />
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3 className="u-position-relative">
+                <FontAwesomeIcon icon={faInfoCircle} /> Detectors
+                <div className="accordion__arrow" role="presentation" />
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <AssetTable
+                data={this.state.assetDetectorsData}
+                fields={FIELDS.ASSETS_DETECTORS}
               />
             </AccordionItemBody>
           </AccordionItem>

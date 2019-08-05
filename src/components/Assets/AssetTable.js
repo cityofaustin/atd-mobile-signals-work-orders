@@ -11,7 +11,7 @@ const AssetTable = props => {
 
   // TODO add "Read more" to Details and add responsive font size
   return (
-    <div className="container">
+    <div className="table-responsive">
       <table className="table">
         <thead>
           <tr>

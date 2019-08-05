@@ -76,8 +76,7 @@ export const FIELDS = {
   ],
   ASSETS_MAP: {
     name: "field_1058",
-    latitude: "field_182_raw.latitude",
-    longitude: "field_182_raw.longitude",
+    location: "field_182_raw",
   },
   // ASSIGN_TO_SELF: "field_1752",
 };

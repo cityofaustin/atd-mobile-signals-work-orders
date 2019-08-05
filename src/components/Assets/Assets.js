@@ -18,6 +18,7 @@ import "react-accessible-accordion/dist/fancy-example.css";
 import api from "../../queries/api";
 import AssetDetailsSection from "./AssetDetailsSection";
 import AssetTable from "./AssetTable";
+import AssetMap from "./AssetMap";
 import { workOrderFields } from "../../queries/fields";
 import { FIELDS } from "./formConfig";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";
@@ -40,6 +41,7 @@ class Assets extends Component {
       assetDetectorsData: "",
       assetPreventativeMaintenanceData: "",
       assetWorkOrdersData: "",
+      assetMapData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -172,7 +174,7 @@ class Assets extends Component {
     api
       .assets()
       .map(item.id)
-      .then(res => console.log("in map response", res));
+      .then(res => this.setState({ assetMapData: res.data }));
     api
       .assets()
       .detectors(item.id)
@@ -222,6 +224,7 @@ class Assets extends Component {
           ""
         )}
         <br />
+        <AssetMap data={this.state.assetMapData} />
         <Accordion>
           <AccordionItem>
             <AccordionItemTitle>

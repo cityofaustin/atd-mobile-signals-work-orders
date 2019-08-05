@@ -16,6 +16,8 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
+    "pigeon-maps": "^0.13.0",
+    "pigeon-marker": "^0.3.4",
     "react": "^16.5.2",
     "react-accessible-accordion": "^2.4.4",
     "react-autocomplete": "^1.8.1",

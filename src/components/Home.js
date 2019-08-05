@@ -26,7 +26,7 @@ const mainPages = [
     icon: faPlus,
   },
   {
-    title: "Asset Details",
+    title: "Assets",
     link: "/assets",
     icon: faMapMarkerAlt,
   },

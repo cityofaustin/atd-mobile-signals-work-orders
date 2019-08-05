@@ -60,7 +60,7 @@ class Assets extends Component {
     this.shouldItemRender = (item, value) =>
       item.identifier.toLowerCase().indexOf(value.toLowerCase()) > -1;
 
-    this.inputProps = field => {
+    this.inputProps = () => {
       return {
         className: "form-control",
         name: "asset",
@@ -85,69 +85,12 @@ class Assets extends Component {
     });
   };
 
-  handleSearch = event => {
-    event.preventDefault();
-    this.setState({ allWorkOrdersData: [], loading: true });
-    api
-      .allWorkOrders()
-      .searchAll(this.state.location, 1)
-      .then(res => {
-        this.setState({
-          allWorkOrdersData: res.data.records,
-          loading: false,
-          lastPage: res.data.total_pages,
-          currentPage: 1,
-        });
-      });
-  };
-
-  updatePage = pageNumber => {
-    this.setState({
-      allWorkOrdersData: [],
-      loading: true,
-      currentPage: pageNumber,
-    });
-    api
-      .allWorkOrders()
-      .searchAll(this.state.location, pageNumber)
-      .then(res => {
-        this.setState({
-          allWorkOrdersData: res.data.records,
-          lastPage: res.data.total_pages,
-          loading: false,
-        });
-      });
-    window.scrollTo(0, 0);
-  };
-
-  prevPage = event => {
-    event.preventDefault();
-    // if currentPage !== 1, API call for prev page
-    if (this.state.currentPage !== 1) {
-      const prevPage = this.state.currentPage - 1;
-      this.updatePage(prevPage);
-    }
-  };
-
-  nextPage = event => {
-    event.preventDefault();
-    // if currentPage === lastPage, nothing, else API call for next page
-    if (this.state.currentPage !== this.state.lastPage) {
-      const nextPage = this.state.currentPage + 1;
-      this.updatePage(nextPage);
-    }
-  };
-
-  handleAutocompleteChange = (assetTypeString, e) => {
+  handleAutocompleteChange = e => {
     e.persist();
-    let data = this.state.updatedFormData;
-
-    this.setState({ [assetTypeString]: e.target.value, updatedFormData: data });
+    this.setState({ selectedAsset: e.target.value });
   };
 
   onAssetSelect = (value, item) => {
-    // TODO move API calls to separate methods and pass in props to view components
-    console.log(value, item);
     api
       .assets()
       .workOrders(item.id)
@@ -183,6 +126,10 @@ class Assets extends Component {
     this.setState({ selectedAsset: item.identifier });
   };
 
+  clearAssetSearch = () => {
+    this.setState({ selectedAsset: "" });
+  };
+
   render() {
     return (
       <div>
@@ -191,14 +138,14 @@ class Assets extends Component {
         </h1>
 
         {this.state.assetOptions.length > 0 && (
-          <form onSubmit={this.handleSearch}>
+          <form>
             <div className="form-group">
               <label htmlFor={"asset"}>{"Search Assets"}</label>
               <br />
               <Autocomplete
                 getItemValue={item => item.id}
                 items={this.state.assetOptions}
-                inputProps={this.inputProps("Type to search...")}
+                inputProps={this.inputProps}
                 wrapperStyle={this.wrapperStyle}
                 menuStyle={this.menuStyle}
                 renderItem={(item, isHighlighted) =>
@@ -212,7 +159,13 @@ class Assets extends Component {
                 onSelect={(value, item) => this.onAssetSelect(value, item)}
               />
             </div>
-            <input type="submit" value="Search" className="btn btn-primary" />
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={this.clearAssetSearch}
+            >
+              Clear
+            </button>
           </form>
         )}
 

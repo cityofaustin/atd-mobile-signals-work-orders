@@ -8,7 +8,6 @@ const AssetTable = props => {
   const fieldIds = props.fields.map(field => {
     return Object.values(field)[0];
   });
-
   // TODO add "Read more" to Details and add responsive font size
   // TODO fix whitespaec text node console warning
   // TODO handle URLs returned from Knack - make URLs set state to change current asset?
@@ -27,10 +26,11 @@ const AssetTable = props => {
         <tbody>
           {props.data &&
             props.data !== "" &&
-            props.data.map(record => (
-              <tr>
-                {fieldIds.map(fieldId => (
+            props.data.map((record, i) => (
+              <tr key={i}>
+                {fieldIds.map((fieldId, i) => (
                   <td
+                    key={i}
                     dangerouslySetInnerHTML={{
                       __html: record[fieldId],
                     }}

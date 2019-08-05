@@ -42,6 +42,7 @@ class Assets extends Component {
       assetPreventativeMaintenanceData: "",
       assetWorkOrdersData: "",
       assetMapData: "",
+      assetCamerasData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -164,7 +165,7 @@ class Assets extends Component {
     api
       .assets()
       .cameras(item.id)
-      .then(res => console.log("in cameras response", res));
+      .then(res => this.setState({ assetCamerasData: res.data.records }));
     api
       .assets()
       .preventativeMaint(item.id)
@@ -242,6 +243,20 @@ class Assets extends Component {
                   fields={FIELDS.ASSETS_DETAILS}
                 />
               ))}
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3 className="u-position-relative">
+                <FontAwesomeIcon icon={faInfoCircle} /> Cameras
+                <div className="accordion__arrow" role="presentation" />
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <AssetTable
+                data={this.state.assetCamerasData}
+                fields={FIELDS.ASSETS_CAMERAS}
+              />
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

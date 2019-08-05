@@ -74,6 +74,12 @@ export const FIELDS = {
     { createdDate: "field_849" },
     { id: "field_1209" },
   ],
+  ASSETS_CAMERAS: [
+    { id: "field_947" },
+    { status: "field_877" },
+    { cameraIp: "field_638" },
+    { cameraType: "field_639" },
+  ],
   ASSETS_MAP: {
     name: "field_1058",
     location: "field_182_raw",

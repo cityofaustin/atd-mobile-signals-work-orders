@@ -39,6 +39,8 @@ class Assets extends Component {
       assetWorkOrdersData: "",
       assetMapData: "",
       assetCamerasData: "",
+      assetSignalPriorityData: "",
+      assetPoleAttachmentsData: "",
     };
 
     this.renderItem = (item, isHighlighted) => (
@@ -119,6 +121,18 @@ class Assets extends Component {
       .assets()
       .detectors(item.id)
       .then(res => this.setState({ assetDetectorsData: res.data.records }));
+    api
+      .assets()
+      .signalPriority(item.id)
+      .then(res =>
+        this.setState({ assetSignalPriorityData: res.data.records })
+      );
+    api
+      .assets()
+      .poleAttachments(item.id)
+      .then(res =>
+        this.setState({ assetPoleAttachmentsData: res.data.records })
+      );
     this.setState({
       selectedAsset: item.identifier,
       typedAsset: item.identifier,
@@ -264,6 +278,34 @@ class Assets extends Component {
                   <AssetTable
                     data={this.state.assetDetectorsData}
                     fields={FIELDS.ASSETS_DETECTORS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Signal Priority
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetSignalPriorityData}
+                    fields={FIELDS.ASSETS_SIGNAL_PRIORITY}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Pole Attachments
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetPoleAttachmentsData}
+                    fields={FIELDS.ASSETS_POLE_ATTACHMENTS}
                   />
                 </AccordionItemBody>
               </AccordionItem>

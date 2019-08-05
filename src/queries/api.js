@@ -69,6 +69,8 @@ const keys = {
     preventativeMaint: { sceneId: "scene_446", viewId: "view_1282" },
     detectors: { sceneId: "scene_446", viewId: "view_1310" },
     map: { sceneId: "scene_446", viewId: "view_1260" },
+    signalPriority: { sceneId: "scene_446", viewId: "view_2406" },
+    poleAttachments: { sceneId: "scene_446", viewId: "view_1590" },
   },
 };
 
@@ -420,6 +422,24 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${
             keys.assets.map.sceneId
           }/views/${keys.assets.map.viewId}/records/${id}`,
+          getHeaders()
+        ),
+      signalPriority: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.signalPriority.sceneId
+          }/views/${
+            keys.assets.signalPriority.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      poleAttachments: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.poleAttachments.sceneId
+          }/views/${
+            keys.assets.poleAttachments.viewId
+          }/records?signal-details_id=${id}`,
           getHeaders()
         ),
     };

@@ -80,6 +80,22 @@ export const FIELDS = {
     { cameraIp: "field_638" },
     { cameraType: "field_639" },
   ],
+  ASSETS_SIGNAL_PRIORITY: [
+    { priorityId: "field_2906" },
+    { priorityDirection: "field_2908" },
+    { priorityMovement: "field_2910" },
+    { phases: "field_2914" },
+    { priorityType: "field_2911" },
+    { priorityDetectorStatus: "field_2909" },
+    { comments: "field_2912" },
+  ],
+  ASSETS_POLE_ATTACHMENTS: [
+    { description: "field_1807" },
+    { provider: "field_1808" },
+    { intQuadrant: "field_1814" },
+    { installDate: "field_1815" },
+    { status: "field_1817" },
+  ],
   ASSETS_MAP: {
     name: "field_1058",
     location: "field_182_raw",

@@ -23,7 +23,10 @@ import "react-accessible-accordion/dist/fancy-example.css";
 import TimeLog from "./WorkOrder/TimeLog";
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
-import { getWorkOrderDetails, getWorkOrderTitle } from "./WorkOrder/helpers";
+import {
+  getWorkOrderTitle,
+  getWorkOrderDetailAndTimeLogs,
+} from "./WorkOrder/helpers";
 
 class WorkOrderDetail extends Component {
   constructor(props) {
@@ -40,9 +43,23 @@ class WorkOrderDetail extends Component {
     // save some screen real estate
     this.halfDetails = Math.ceil(workOrderFields.details.length / 2);
     this.detailsFirstHalf = workOrderFields.details.slice(0, this.halfDetails);
-    this.detailsSecondHalf = workOrderFields.details.slice(
-      this.halfDetails,
-      -1
+    this.detailsSecondHalf = workOrderFields.details.slice(this.halfDetails);
+  }
+
+  renderDetailItem(field) {
+    const key = Object.values(field)[0];
+    const label = Object.keys(field)[0];
+    const value = this.state.detailsData[Object.values(field)[0]];
+
+    return (
+      <dl key={key}>
+        <dt>{label}</dt>
+        <dd
+          dangerouslySetInnerHTML={{
+            __html: value,
+          }}
+        />
+      </dl>
     );
   }
 
@@ -51,7 +68,7 @@ class WorkOrderDetail extends Component {
     getWorkOrderTitle(workOrderId).then(data => {
       this.setState({ titleData: data });
     });
-    getWorkOrderDetails(workOrderId).then(data => {
+    getWorkOrderDetailAndTimeLogs(workOrderId).then(data => {
       this.setState({ detailsData: data });
     });
     // Stagger the calls to Knack API so we don't get rate limited.
@@ -72,7 +89,6 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getInventory(id)
       .then(res => {
-        console.log(res);
         this.setState({ inventoryData: res.data.records });
       });
   };
@@ -82,7 +98,6 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getImages(id)
       .then(res => {
-        console.log(res);
         this.setState({ imagesData: res.data.records });
       });
   };
@@ -104,9 +119,7 @@ class WorkOrderDetail extends Component {
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
-              linkPath={`/work-order/submit/${
-                this.props.match.params.workOrderId
-              }`}
+              linkPath={`/work-order/submit/${this.props.match.params.workOrderId}`}
             />
           ) : (
             <div className="mr-2 mb-2">
@@ -127,32 +140,14 @@ class WorkOrderDetail extends Component {
             <AccordionItemBody>
               <div className="row">
                 <div className="col-6">
-                  {this.detailsFirstHalf.map(field => (
-                    <dl key={Object.values(field)[0]}>
-                      <dt>{Object.keys(field)[0]}</dt>
-                      <dd
-                        dangerouslySetInnerHTML={{
-                          __html: this.state.detailsData[
-                            Object.values(field)[0]
-                          ],
-                        }}
-                      />
-                    </dl>
-                  ))}
+                  {this.detailsFirstHalf.map(field =>
+                    this.renderDetailItem(field)
+                  )}
                 </div>
                 <div className="col-6">
-                  {this.detailsSecondHalf.map(field => (
-                    <dl key={Object.values(field)[0]}>
-                      <dt>{Object.keys(field)[0]}</dt>
-                      <dd
-                        dangerouslySetInnerHTML={{
-                          __html: this.state.detailsData[
-                            Object.values(field)[0]
-                          ],
-                        }}
-                      />
-                    </dl>
-                  ))}
+                  {this.detailsSecondHalf.map(field =>
+                    this.renderDetailItem(field)
+                  )}
                 </div>
               </div>
             </AccordionItemBody>
@@ -168,9 +163,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faClock}
                 text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
               />
               <TimeLog data={this.state.timeLogData} />
             </AccordionItemBody>
@@ -186,9 +179,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faWrench}
                 text={"New Item"}
-                linkPath={`/work-order/inventory-items/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/inventory-items/${this.props.match.params.workOrderId}`}
               />
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
@@ -246,9 +237,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faCamera}
                 text={"New Image"}
-                linkPath={`/work-order/add-image/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/add-image/${this.props.match.params.workOrderId}`}
               />
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (

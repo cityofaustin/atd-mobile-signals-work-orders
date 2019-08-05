@@ -21,14 +21,14 @@ const mainPages = [
     icon: faTruck,
   },
   {
-    title: "New Work Order",
-    link: "/work-order/new",
-    icon: faPlus,
-  },
-  {
     title: "Assets",
     link: "/assets",
     icon: faMapMarkerAlt,
+  },
+  {
+    title: "New Work Order",
+    link: "/work-order/new",
+    icon: faPlus,
   },
 ];
 

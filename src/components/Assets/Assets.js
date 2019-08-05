@@ -126,7 +126,7 @@ class Assets extends Component {
   };
 
   clearAssetSearch = () => {
-    this.setState({ selectedAsset: "" });
+    this.setState({ selectedAsset: "", typedAsset: "" });
   };
 
   render() {

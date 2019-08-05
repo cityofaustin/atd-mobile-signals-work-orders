@@ -1,10 +1,10 @@
 import React from "react";
-import changeCase from "change-case";
+import { formatDataTitles } from "./helpers";
 
 const AssetDetailsSection = ({ data, sectionName, fields }) => {
   const sectionDetails = data;
   const sectionFields = fields[sectionName];
-  const assetDetailsSectionTitle = changeCase.titleCase(sectionName);
+  const assetDetailsSectionTitle = formatDataTitles(sectionName);
   const firstColumnLength = Math.ceil(sectionFields.length / 2);
 
   return (
@@ -17,7 +17,7 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
             if (i < firstColumnLength) {
               return (
                 <dl key={i}>
-                  <dt>{changeCase.titleCase(Object.keys(field))}</dt>
+                  <dt>{formatDataTitles(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
                       __html: sectionDetails[fieldId],
@@ -36,7 +36,7 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
             if (i >= firstColumnLength) {
               return (
                 <dl key={i}>
-                  <dt>{changeCase.titleCase(Object.keys(field))}</dt>
+                  <dt>{formatDataTitles(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
                       __html: sectionDetails[fieldId],

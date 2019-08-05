@@ -1,10 +1,9 @@
 import React from "react";
-import changeCase from "change-case";
-import { handleTableDataStringLength } from "./helpers";
+import { handleTableDataStringLength, formatDataTitles } from "./helpers";
 
 const AssetTable = props => {
   const tableHeaders = props.fields.map(field =>
-    changeCase.titleCase(Object.keys(field))
+    formatDataTitles(Object.keys(field))
   );
   const fieldIds = props.fields.map(field => {
     return Object.values(field)[0];
@@ -31,7 +30,7 @@ const AssetTable = props => {
               <tr key={i}>
                 {fieldIds.map((fieldId, i) => {
                   const tableDataString = record[fieldId];
-                  return handleTableDataStringLength(tableDataString);
+                  return handleTableDataStringLength(tableDataString, i);
                 })}
               </tr>
             ))}

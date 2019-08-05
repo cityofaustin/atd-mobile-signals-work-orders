@@ -19,13 +19,8 @@ import api from "../../queries/api";
 import AssetDetailsSection from "./AssetDetailsSection";
 import AssetTable from "./AssetTable";
 import AssetMap from "./AssetMap";
-import { workOrderFields } from "../../queries/fields";
 import { FIELDS } from "./formConfig";
-import { signalsWorkOrderStatuses } from "../../constants/statuses";
 import { getAllAssets } from "../WorkOrder/helpers";
-
-const fields = workOrderFields.baseFields;
-const statuses = signalsWorkOrderStatuses;
 
 class Assets extends Component {
   constructor(props) {
@@ -35,6 +30,7 @@ class Assets extends Component {
       assetOptions: [],
       loading: false,
       location: "",
+      typedAsset: "",
       selectedAsset: "",
       assetDetailsData: "",
       assetServiceRequestsData: "",
@@ -60,7 +56,7 @@ class Assets extends Component {
     this.shouldItemRender = (item, value) =>
       item.identifier.toLowerCase().indexOf(value.toLowerCase()) > -1;
 
-    this.inputProps = () => {
+    this.inputProps = field => {
       return {
         className: "form-control",
         name: "asset",
@@ -87,7 +83,7 @@ class Assets extends Component {
 
   handleAutocompleteChange = e => {
     e.persist();
-    this.setState({ selectedAsset: e.target.value });
+    this.setState({ typedAsset: e.target.value });
   };
 
   onAssetSelect = (value, item) => {
@@ -123,7 +119,10 @@ class Assets extends Component {
       .assets()
       .detectors(item.id)
       .then(res => this.setState({ assetDetectorsData: res.data.records }));
-    this.setState({ selectedAsset: item.identifier });
+    this.setState({
+      selectedAsset: item.identifier,
+      typedAsset: item.identifier,
+    });
   };
 
   clearAssetSearch = () => {
@@ -145,7 +144,7 @@ class Assets extends Component {
               <Autocomplete
                 getItemValue={item => item.id}
                 items={this.state.assetOptions}
-                inputProps={this.inputProps}
+                inputProps={this.inputProps("asset")}
                 wrapperStyle={this.wrapperStyle}
                 menuStyle={this.menuStyle}
                 renderItem={(item, isHighlighted) =>
@@ -154,8 +153,8 @@ class Assets extends Component {
                 shouldItemRender={(item, value) =>
                   this.shouldItemRender(item, value)
                 }
-                value={this.state.selectedAsset}
-                onChange={this.handleAutocompleteChange.bind(this, "signal")}
+                value={this.state.typedAsset}
+                onChange={this.handleAutocompleteChange}
                 onSelect={(value, item) => this.onAssetSelect(value, item)}
               />
             </div>

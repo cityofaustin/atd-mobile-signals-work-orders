@@ -1,5 +1,6 @@
 import React from "react";
 import changeCase from "change-case";
+import { handleTableDataStringLength } from "./helpers";
 
 const AssetTable = props => {
   const tableHeaders = props.fields.map(field =>
@@ -28,14 +29,10 @@ const AssetTable = props => {
             props.data !== "" &&
             props.data.map((record, i) => (
               <tr key={i}>
-                {fieldIds.map((fieldId, i) => (
-                  <td
-                    key={i}
-                    dangerouslySetInnerHTML={{
-                      __html: record[fieldId],
-                    }}
-                  />
-                ))}
+                {fieldIds.map((fieldId, i) => {
+                  const tableDataString = record[fieldId];
+                  return handleTableDataStringLength(tableDataString);
+                })}
               </tr>
             ))}
         </tbody>

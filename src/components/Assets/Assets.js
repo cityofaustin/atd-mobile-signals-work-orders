@@ -184,9 +184,6 @@ class Assets extends Component {
   };
 
   render() {
-    // make sure the data is not an empty object `{}`
-    const isJobsDataLoaded = this.state.assetsData.length > 0;
-    const allWorkOrdersData = isJobsDataLoaded ? this.state.assetsData : [];
     return (
       <div>
         <h1>
@@ -225,97 +222,102 @@ class Assets extends Component {
           ""
         )}
         <br />
-        <AssetMap data={this.state.assetMapData} />
-        <Accordion>
-          <AccordionItem>
-            <AccordionItemTitle>
-              <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Asset Details
-                <div className="accordion__arrow" role="presentation" />
-              </h3>
-            </AccordionItemTitle>
-            <AccordionItemBody>
-              {Object.keys(FIELDS.ASSETS_DETAILS).map((section, i) => (
-                <AssetDetailsSection
-                  key={i}
-                  sectionName={section}
-                  data={this.state.assetDetailsData}
-                  fields={FIELDS.ASSETS_DETAILS}
-                />
-              ))}
-            </AccordionItemBody>
-          </AccordionItem>
-          <AccordionItem>
-            <AccordionItemTitle>
-              <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Cameras
-                <div className="accordion__arrow" role="presentation" />
-              </h3>
-            </AccordionItemTitle>
-            <AccordionItemBody>
-              <AssetTable
-                data={this.state.assetCamerasData}
-                fields={FIELDS.ASSETS_CAMERAS}
-              />
-            </AccordionItemBody>
-          </AccordionItem>
-          <AccordionItem>
-            <AccordionItemTitle>
-              <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Service Requests
-                <div className="accordion__arrow" role="presentation" />
-              </h3>
-            </AccordionItemTitle>
-            <AccordionItemBody>
-              <AssetTable
-                data={this.state.assetServiceRequestsData}
-                fields={FIELDS.ASSETS_SERVICE_REQUESTS}
-              />
-            </AccordionItemBody>
-          </AccordionItem>
-          <AccordionItem>
-            <AccordionItemTitle>
-              <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Work Orders
-                <div className="accordion__arrow" role="presentation" />
-              </h3>
-            </AccordionItemTitle>
-            <AccordionItemBody>
-              <AssetTable
-                data={this.state.assetWorkOrdersData}
-                fields={FIELDS.ASSETS_WORK_ORDERS}
-              />
-            </AccordionItemBody>
-          </AccordionItem>
-          <AccordionItem>
-            <AccordionItemTitle>
-              <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Preventative Maintenance
-                <div className="accordion__arrow" role="presentation" />
-              </h3>
-            </AccordionItemTitle>
-            <AccordionItemBody>
-              <AssetTable
-                data={this.state.assetPreventativeMaintenanceData}
-                fields={FIELDS.ASSETS_PREVENTATIVE_MAINTENANCE}
-              />
-            </AccordionItemBody>
-          </AccordionItem>
-          <AccordionItem>
-            <AccordionItemTitle>
-              <h3 className="u-position-relative">
-                <FontAwesomeIcon icon={faInfoCircle} /> Detectors
-                <div className="accordion__arrow" role="presentation" />
-              </h3>
-            </AccordionItemTitle>
-            <AccordionItemBody>
-              <AssetTable
-                data={this.state.assetDetectorsData}
-                fields={FIELDS.ASSETS_DETECTORS}
-              />
-            </AccordionItemBody>
-          </AccordionItem>
-        </Accordion>
+        {this.state.selectedAsset !== "" && (
+          <>
+            <AssetMap data={this.state.assetMapData} />
+            <Accordion>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Asset Details
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  {Object.keys(FIELDS.ASSETS_DETAILS).map((section, i) => (
+                    <AssetDetailsSection
+                      key={i}
+                      sectionName={section}
+                      data={this.state.assetDetailsData}
+                      fields={FIELDS.ASSETS_DETAILS}
+                    />
+                  ))}
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Cameras
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetCamerasData}
+                    fields={FIELDS.ASSETS_CAMERAS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Service Requests
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetServiceRequestsData}
+                    fields={FIELDS.ASSETS_SERVICE_REQUESTS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Work Orders
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetWorkOrdersData}
+                    fields={FIELDS.ASSETS_WORK_ORDERS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Preventative
+                    Maintenance
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetPreventativeMaintenanceData}
+                    fields={FIELDS.ASSETS_PREVENTATIVE_MAINTENANCE}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Detectors
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetDetectorsData}
+                    fields={FIELDS.ASSETS_DETECTORS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+            </Accordion>
+          </>
+        )}
       </div>
     );
   }

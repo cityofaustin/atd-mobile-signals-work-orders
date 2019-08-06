@@ -73,6 +73,14 @@ const formatSocrataResponseToKnackFormat = resArray =>
     identifier: "📍 " + beacon.location_name,
   }));
 
+const combineKnackAndSocrataAssetResponses = (
+  allAssetsResponse,
+  nearbyAssetsResponse
+) => [
+  ...formatSocrataResponseToKnackFormat(nearbyAssetsResponse),
+  ...allAssetsResponse.data.records,
+];
+
 export function getSignalsOptions(searchValue, userPosition) {
   return axios
     .all([
@@ -80,11 +88,11 @@ export function getSignalsOptions(searchValue, userPosition) {
       api.workOrder().signalsNear(userPosition),
     ])
     .then(
-      axios.spread(function(allSignalsRes, nearbySignalsRes) {
-        const nearbySignals = formatSocrataResponseToKnackFormat(
-          nearbySignalsRes
+      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        return combineKnackAndSocrataAssetResponses(
+          allAssetsResponse,
+          nearbyAssetsResponse
         );
-        return [...nearbySignals, ...allSignalsRes.data.records];
       })
     );
 }

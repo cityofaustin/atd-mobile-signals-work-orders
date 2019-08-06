@@ -85,7 +85,6 @@ export default class AssetTypeField extends Component {
       userPosition["lon"] = pos.coords.longitude;
 
       getAllAssets(userPosition).then(data => {
-        console.log(data);
         this.setState({
           signalOptions: data.signalOptions,
           schoolBeaconOptions: data.schoolBeaconOptions,

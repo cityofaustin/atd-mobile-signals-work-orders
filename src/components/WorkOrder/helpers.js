@@ -95,7 +95,9 @@ const unifyKnackAndSocrataIdentifiers = (
         identifierMatch = allAsset.identifier;
         nearbyAsset["location_name"] = identifierMatch;
       }
+      return allAsset;
     });
+    return nearbyAsset;
   });
   return combineKnackAndSocrataAssetResponses(allAssets, nearbyAssets);
 };

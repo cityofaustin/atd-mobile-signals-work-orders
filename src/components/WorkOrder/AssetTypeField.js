@@ -79,7 +79,6 @@ export default class AssetTypeField extends Component {
     // queried the current asset type (ex: signals), set those options to state,
     // and then query the rest. 🤔
 
-    // TODO sort assets by proximity
     let userPosition = {};
     navigator.geolocation.getCurrentPosition(pos => {
       userPosition["lat"] = pos.coords.latitude;

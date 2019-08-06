@@ -81,6 +81,27 @@ const combineKnackAndSocrataAssetResponses = (
   ...allAssetsResponse.data.records,
 ];
 
+const unifyKnackAndSocrataIdentifiers = (
+  allAssetsResponse,
+  nearbyAssetsResponse
+) => {
+  const allAssets = allAssetsResponse;
+  const nearbyAssets = nearbyAssetsResponse;
+  nearbyAssetsResponse.data.map(nearbyAsset => {
+    let identifierMatch = "";
+    allAssets.data.records.map(allAsset => {
+      const pattern = `^(${nearbyAsset.atd_flasher_id}:)`;
+      if (allAsset.identifier.match(pattern)) {
+        identifierMatch = allAsset.identifier;
+        nearbyAsset["location_name"] = identifierMatch;
+      }
+    });
+  });
+  return combineKnackAndSocrataAssetResponses(allAssets, nearbyAssets);
+};
+
+// TODO remove duplicates helper
+
 export function getSignalsOptions(searchValue, userPosition) {
   return axios
     .all([
@@ -137,25 +158,34 @@ export function getHazardFlasherOptions(userPosition) {
     ])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
-        return combineKnackAndSocrataAssetResponses(
+        return unifyKnackAndSocrataIdentifiers(
           allAssetsResponse,
           nearbyAssetsResponse
         );
+        // return combineKnackAndSocrataAssetResponses(
+        //   allAssetsResponse,
+        //   nearbyAssetsResponse
+        // );
       })
     );
 }
 
 export function getDmsOptions(userPosition) {
-  return axios
-    .all([api.workOrder().dmses(), api.workOrder().dmsesNear(userPosition)])
-    .then(
-      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
-        return combineKnackAndSocrataAssetResponses(
-          allAssetsResponse,
-          nearbyAssetsResponse
-        );
-      })
-    );
+  // DMS SODA table does not have a location column for withinCircle() for the code below to work
+  // return axios
+  //   .all([api.workOrder().dmses(), api.workOrder().dmsesNear(userPosition)])
+  //   .then(
+  //     axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+  //       return combineKnackAndSocrataAssetResponses(
+  //         allAssetsResponse,
+  //         nearbyAssetsResponse
+  //       );
+  //     })
+  //   );
+  return api
+    .workOrder()
+    .dmses()
+    .then(res => res.data.records);
 }
 
 export function getSensorOptions(userPosition) {

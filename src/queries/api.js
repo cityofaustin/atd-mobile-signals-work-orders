@@ -284,9 +284,9 @@ const api = {
         ),
       schoolZonesNear: userPosition =>
         axios.get(
-          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+          `https://data.austintexas.gov/resource/v6kq-45cf.json?$where=within_circle(location,${
             userPosition.lat
-          },${userPosition.lon},2000)`
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       signals: searchValue =>
         axios.get(
@@ -301,7 +301,7 @@ const api = {
         axios.get(
           `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
             userPosition.lat
-          },${userPosition.lon},2000)`
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       cameras: searchValue =>
         axios.get(
@@ -329,9 +329,9 @@ const api = {
         ),
       hazardFlashersNear: userPosition =>
         axios.get(
-          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+          `https://data.austintexas.gov/resource/cnyg-vcb6.json?$where=within_circle(location,${
             userPosition.lat
-          },${userPosition.lon},2000)`
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       dmses: searchValue =>
         axios.get(
@@ -344,9 +344,9 @@ const api = {
         ),
       dmsesNear: userPosition =>
         axios.get(
-          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+          `https://data.austintexas.gov/resource/uhyc-pwfy.json?$where=within_circle(point,${
             userPosition.lat
-          },${userPosition.lon},2000)`
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       sensors: searchValue =>
         axios.get(
@@ -359,9 +359,9 @@ const api = {
         ),
       sensorsNear: userPosition =>
         axios.get(
-          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+          `https://data.austintexas.gov/resource/wakh-bdjq.json?$where=within_circle(location,${
             userPosition.lat
-          },${userPosition.lon},2000)`
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       addImage: (form, id) =>
         axios

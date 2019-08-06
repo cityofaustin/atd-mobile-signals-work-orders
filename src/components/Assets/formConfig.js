@@ -96,6 +96,17 @@ export const FIELDS = {
     { installDate: "field_1815" },
     { status: "field_1817" },
   ],
+  ASSETS_TRAVEL_SENSORS: [
+    { sensorIp: "field_687" },
+    { status: "field_882" },
+    { sensorType: "field_884" },
+    { commStatus: "field_1478" },
+    { commStatusDatetime: "field_1480" },
+  ],
+  APS_BUTTON_REQUESTS: [
+    { requestDate: "field_2739" },
+    { requestStatus: "field_2740" },
+  ],
   ASSETS_MAP: {
     name: "field_1058",
     location: "field_182_raw",

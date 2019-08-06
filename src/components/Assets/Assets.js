@@ -41,6 +41,8 @@ class Assets extends Component {
       assetCamerasData: "",
       assetSignalPriorityData: "",
       assetPoleAttachmentsData: "",
+      assetTravelSensorData: "",
+      assetApsButtonRequestsData: "",
     };
 
     this.menuStyle = {
@@ -145,6 +147,16 @@ class Assets extends Component {
       .then(res =>
         this.setState({ assetPoleAttachmentsData: res.data.records })
       );
+    api
+      .assets()
+      .travelSensor(item.id)
+      .then(res => this.setState({ assetTravelSensorData: res.data.records }));
+    api
+      .assets()
+      .apsButtonRequests(item.id)
+      .then(res =>
+        this.setState({ assetApsButtonRequestsData: res.data.records })
+      );
     this.setState({
       selectedAsset: item.identifier,
       typedAsset: item.identifier,
@@ -183,14 +195,14 @@ class Assets extends Component {
                 onChange={this.handleAutocompleteChange}
                 onSelect={(value, item) => this.onAssetSelect(value, item)}
               />
+              <button
+                type="button"
+                className="btn btn-danger ml-2 btn-lg"
+                onClick={this.clearAssetSearch}
+              >
+                Clear
+              </button>
             </div>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={this.clearAssetSearch}
-            >
-              Clear
-            </button>
           </form>
         )}
 
@@ -318,6 +330,34 @@ class Assets extends Component {
                   <AssetTable
                     data={this.state.assetPoleAttachmentsData}
                     fields={FIELDS.ASSETS_POLE_ATTACHMENTS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> Travel Sensors
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetTravelSensorData}
+                    fields={FIELDS.ASSETS_TRAVEL_SENSORS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> APS Button Requests
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetTable
+                    data={this.state.assetApsButtonRequestsData}
+                    fields={FIELDS.APS_BUTTON_REQUESTS}
                   />
                 </AccordionItemBody>
               </AccordionItem>

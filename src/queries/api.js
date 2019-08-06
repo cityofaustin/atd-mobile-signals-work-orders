@@ -71,6 +71,8 @@ const keys = {
     map: { sceneId: "scene_446", viewId: "view_1260" },
     signalPriority: { sceneId: "scene_446", viewId: "view_2406" },
     poleAttachments: { sceneId: "scene_446", viewId: "view_1590" },
+    travelSensor: { sceneId: "scene_446", viewId: "view_1373" },
+    apsButtonRequests: { sceneId: "scene_446", viewId: "view_2326" },
   },
 };
 
@@ -439,6 +441,24 @@ const api = {
             keys.assets.poleAttachments.sceneId
           }/views/${
             keys.assets.poleAttachments.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      travelSensor: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.travelSensor.sceneId
+          }/views/${
+            keys.assets.travelSensor.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      apsButtonRequests: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.apsButtonRequests.sceneId
+          }/views/${
+            keys.assets.apsButtonRequests.viewId
           }/records?signal-details_id=${id}`,
           getHeaders()
         ),

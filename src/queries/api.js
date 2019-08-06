@@ -88,6 +88,11 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${keys.allMyWorkOrders.sceneId}/views/${keys.allMyWorkOrders.viewId}/records/`,
           getHeaders()
         ),
+      search: (searchValue, pageNumber) =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${keys.allMyWorkOrders.sceneId}/views/${keys.allMyWorkOrders.viewId}/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
+          getHeaders()
+        ),
     };
   },
   allWorkOrders() {

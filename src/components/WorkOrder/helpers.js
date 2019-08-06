@@ -125,3 +125,31 @@ export async function getAllAssets() {
     sensorOptions,
   };
 }
+
+export function getMyWorkOrders() {
+  return api
+    .myWorkOrders()
+    .getAll()
+    .then(res => res.data);
+}
+
+export function searchMyWorkOrders(searchValue, pageNumber) {
+  return api
+    .myWorkOrders()
+    .search(searchValue, pageNumber)
+    .then(res => res.data);
+}
+
+export function getAllWorkOrders() {
+  return api
+    .allWorkOrders()
+    .getAll()
+    .then(res => res.data);
+}
+
+export function searchAllWorkOrders(searchValue, pageNumber) {
+  return api
+    .allWorkOrders()
+    .searchAll(searchValue, pageNumber)
+    .then(res => res.data);
+}

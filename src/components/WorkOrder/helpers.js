@@ -67,18 +67,26 @@ export function getTimeLogs(id) {
     .then(res => res.data.records);
 }
 
-export function getSignalsOptions(searchValue) {
-  return api
-    .workOrder()
-    .signalsNear(userPosition)
-    .then(res => {
-      console.log(res);
-      // TODO sort by distance? decide on a distance parameter for API call
-      return res.data.map(beacon => ({
-        id: beacon.id,
-        identifier: beacon.location_name,
-      }));
-    });
+const formatSocrataResponseToKnackFormat = resArray =>
+  resArray.data.map(beacon => ({
+    id: beacon.id,
+    identifier: "📍 " + beacon.location_name,
+  }));
+
+export function getSignalsOptions(searchValue, userPosition) {
+  return axios
+    .all([
+      api.workOrder().signals(searchValue),
+      api.workOrder().signalsNear(userPosition),
+    ])
+    .then(
+      axios.spread(function(allSignalsRes, nearbySignalsRes) {
+        const nearbySignals = formatSocrataResponseToKnackFormat(
+          nearbySignalsRes
+        );
+        return [...nearbySignals, ...allSignalsRes.data.records];
+      })
+    );
 }
 
 export function getCameraOptions(searchValue, userPosition) {

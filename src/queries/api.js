@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { APP_ID } from "../constants/api";
 
+const ASSETS_WITHIN_DISTANCE = 100; // Distance in meters for nearby asset queries
+
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
   allWorkOrders: {
@@ -308,7 +310,7 @@ const api = {
         axios.get(
           `https://data.austintexas.gov/resource/fs3c-45ge.json?$where=within_circle(location,${
             userPosition.lat
-          },${userPosition.lon},2000)`
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       hazardFlashers: searchValue =>
         axios.get(

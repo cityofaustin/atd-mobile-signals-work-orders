@@ -46,8 +46,11 @@ const uppercaseIdInString = string => string.replace(/(Id)/gm, "ID");
 
 const uppercaseIpInString = string => string.replace(/(Ip)/gm, "IP");
 
+const capitalizeCadInString = string => string.replace(/(Cad)/gm, "CAD");
+
 export const formatDataTitles = dataTitle => {
   let formattedTitle = changeCase.titleCase(dataTitle);
   formattedTitle = uppercaseIdInString(formattedTitle);
+  formattedTitle = capitalizeCadInString(formattedTitle);
   return uppercaseIpInString(formattedTitle);
 };

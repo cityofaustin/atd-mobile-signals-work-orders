@@ -282,6 +282,12 @@ const api = {
           }?rows_per_page=2000`,
           getHeaders()
         ),
+      schoolZonesNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},2000)`
+        ),
       signals: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -321,6 +327,12 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
+      hazardFlashersNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},2000)`
+        ),
       dmses: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -330,6 +342,12 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
+      dmsesNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},2000)`
+        ),
       sensors: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -338,6 +356,12 @@ const api = {
             keys.newWorkOrder.sensorFieldId
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
+        ),
+      sensorsNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},2000)`
         ),
       addImage: (form, id) =>
         axios

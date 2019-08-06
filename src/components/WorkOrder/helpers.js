@@ -98,58 +98,86 @@ export function getSignalsOptions(searchValue, userPosition) {
 }
 
 export function getCameraOptions(searchValue, userPosition) {
-  // return api
-  //   .workOrder()
-  //   .cameras(searchValue)
-  //   .then(res => res.data.records);
-  return api
-    .workOrder()
-    .camerasNear(userPosition)
-    .then(res => {
-      console.log(res);
-      // TODO figure out how to handle no Knack id in open dataset
-      return res.data.map(beacon => ({
-        id: beacon.id,
-        identifier: beacon.location_name,
-      }));
-    });
+  return axios
+    .all([
+      api.workOrder().cameras(searchValue),
+      api.workOrder().camerasNear(userPosition),
+    ])
+    .then(
+      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        return combineKnackAndSocrataAssetResponses(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
+      })
+    );
 }
 
 export function getSchoolBeaconOptions(userPosition) {
-  return api
-    .workOrder()
-    .schoolZones()
-    .then(res => res.data.records);
+  return axios
+    .all([
+      api.workOrder().schoolZones(),
+      api.workOrder().schoolZonesNear(userPosition),
+    ])
+    .then(
+      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        return combineKnackAndSocrataAssetResponses(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
+      })
+    );
 }
 
-export function getHazardFlasherOptions() {
-  return api
-    .workOrder()
-    .hazardFlashers()
-    .then(res => res.data.records);
+export function getHazardFlasherOptions(userPosition) {
+  return axios
+    .all([
+      api.workOrder().hazardFlashers(),
+      api.workOrder().hazardFlashersNear(userPosition),
+    ])
+    .then(
+      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        return combineKnackAndSocrataAssetResponses(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
+      })
+    );
 }
 
-export function getDmsOptions() {
-  return api
-    .workOrder()
-    .dmses()
-    .then(res => res.data.records);
+export function getDmsOptions(userPosition) {
+  return axios
+    .all([api.workOrder().dmses(), api.workOrder().dmsesNear(userPosition)])
+    .then(
+      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        return combineKnackAndSocrataAssetResponses(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
+      })
+    );
 }
 
-export function getSensorOptions() {
-  return api
-    .workOrder()
-    .sensors()
-    .then(res => res.data.records);
+export function getSensorOptions(userPosition) {
+  return axios
+    .all([api.workOrder().sensors(), api.workOrder().sensorsNear(userPosition)])
+    .then(
+      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        return combineKnackAndSocrataAssetResponses(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
+      })
+    );
 }
 
 export async function getAllAssets(userPosition) {
-  const schoolBeaconOptions = await getSchoolBeaconOptions();
+  const schoolBeaconOptions = await getSchoolBeaconOptions(userPosition);
   const signalOptions = await getSignalsOptions("", userPosition);
   const cameraOptions = await getCameraOptions("", userPosition);
-  const hazardFlasherOptions = await getHazardFlasherOptions();
-  const dmsOptions = await getDmsOptions();
-  const sensorOptions = await getSensorOptions();
+  const hazardFlasherOptions = await getHazardFlasherOptions(userPosition);
+  const dmsOptions = await getDmsOptions(userPosition);
+  const sensorOptions = await getSensorOptions(userPosition);
 
   return {
     schoolBeaconOptions,

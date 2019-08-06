@@ -18,6 +18,8 @@ export const workOrderFields = {
     { Status: "field_459" },
     { "Work Order ID": "field_1209" },
     { "Reported By": "field_968" },
+    { "Technicians Logged": "field_1753" },
+    { "Vehicles Logged": "field_1427" },
   ],
   header: "field_211_raw",
   inventory: {

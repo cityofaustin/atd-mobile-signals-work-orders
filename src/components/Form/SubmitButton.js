@@ -7,7 +7,7 @@ export default class SubmitButton extends Component {
     return (
       <button
         type="submit"
-        className={`btn btn-primary ${
+        className={`btn btn-primary btn-lg ${
           this.props.isFormDisabled ? "disabled" : ""
         }`}
         disabled={this.props.isFormDisabled}

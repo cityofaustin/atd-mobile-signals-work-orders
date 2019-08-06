@@ -90,13 +90,13 @@ class AddImage extends Component {
     const buttons = this.state.captured ? (
       <div className={pictureButtonStyles}>
         <button
-          className="deleteButton btn btn-danger"
+          className="deleteButton btn btn-danger btn-lg"
           onClick={this.discardImage}
         >
           <FontAwesomeIcon icon={faTrash} /> Delete Photo{" "}
         </button>{" "}
         <button
-          className="captureButton btn btn-primary"
+          className="captureButton btn btn-primary btn-lg"
           onClick={this.uploadImage.bind(this)}
         >
           {"  "}
@@ -107,7 +107,7 @@ class AddImage extends Component {
     ) : (
       <div>
         <button
-          className="captureButton btn btn-primary"
+          className="captureButton btn btn-primary btn-lg"
           onClick={this.captureImage}
         >
           {" "}

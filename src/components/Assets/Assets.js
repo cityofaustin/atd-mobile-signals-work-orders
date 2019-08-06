@@ -43,6 +43,7 @@ class Assets extends Component {
       assetPoleAttachmentsData: "",
       assetTravelSensorData: "",
       assetApsButtonRequestsData: "",
+      assetCadStatusData: "",
     };
 
     this.menuStyle = {
@@ -157,6 +158,10 @@ class Assets extends Component {
       .then(res =>
         this.setState({ assetApsButtonRequestsData: res.data.records })
       );
+    api
+      .assets()
+      .cadStatus(item.id)
+      .then(res => this.setState({ assetCadStatusData: res.data }));
     this.setState({
       selectedAsset: item.identifier,
       typedAsset: item.identifier,
@@ -358,6 +363,21 @@ class Assets extends Component {
                   <AssetTable
                     data={this.state.assetApsButtonRequestsData}
                     fields={FIELDS.APS_BUTTON_REQUESTS}
+                  />
+                </AccordionItemBody>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemTitle>
+                  <h3 className="u-position-relative">
+                    <FontAwesomeIcon icon={faInfoCircle} /> CAD Status
+                    <div className="accordion__arrow" role="presentation" />
+                  </h3>
+                </AccordionItemTitle>
+                <AccordionItemBody>
+                  <AssetDetailsSection
+                    sectionName={"cadStatus"}
+                    data={this.state.assetCadStatusData}
+                    fields={FIELDS.CAD}
                   />
                 </AccordionItemBody>
               </AccordionItem>

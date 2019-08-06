@@ -73,6 +73,7 @@ const keys = {
     poleAttachments: { sceneId: "scene_446", viewId: "view_1590" },
     travelSensor: { sceneId: "scene_446", viewId: "view_1373" },
     apsButtonRequests: { sceneId: "scene_446", viewId: "view_2326" },
+    cadStatus: { sceneId: "scene_446", viewId: "view_1543" },
   },
 };
 
@@ -460,6 +461,13 @@ const api = {
           }/views/${
             keys.assets.apsButtonRequests.viewId
           }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      cadStatus: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.cadStatus.sceneId
+          }/views/${keys.assets.cadStatus.viewId}/records/${id}`,
           getHeaders()
         ),
     };

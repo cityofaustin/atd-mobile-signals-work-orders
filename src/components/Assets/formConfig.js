@@ -4,8 +4,8 @@ export const FIELDS = {
     details: [
       { signalsId: "field_199" },
       { control: "field_208" },
-      { secondarySignals: "field_1329" }, // HTML url, Link in Knack app
-      { modifiedBy: "field_703" }, // field_703 is HTML
+      { secondarySignals: "field_1329" },
+      { modifiedBy: "field_703" },
       { modified: "field_205" },
       { type: "field_201" },
       { owner: "field_202" },
@@ -13,7 +13,7 @@ export const FIELDS = {
       { bikeSignal: "field_1877" },
       { status: "field_491" },
       { turnOnDate: "field_204" },
-      { map: "field_210" }, // field_210 is HTML <a>
+      { map: "field_210" },
     ],
     components: [
       { pedestrianSignal: "field_1322" },
@@ -21,19 +21,16 @@ export const FIELDS = {
       { firmwareStatusDate: "field_1564" },
     ],
     location: [
-      { locationId: "field_209" }, // HTML url
-      { signalEngineerArea: "field_188_raw" }, // field_188 is HTML
-      { councilDistrict: "field_189_raw" }, // raw is an Array, field_189 is HTML
+      { locationId: "field_209" },
+      { signalEngineerArea: "field_188_raw" },
+      { councilDistrict: "field_189_raw" },
       { jurisdiction: "field_209.field_190_raw" },
     ],
     communications: [
       { commStatus: "field_1491" },
       { commStatusDatetime: "field_1492" },
     ],
-    cabinet: [
-      { cabinetType: "field_1788_raw" }, // field_1788 is HTML
-      { UPS: "field_1785" }, // HTML, field_1785 is boolean]
-    ],
+    cabinet: [{ cabinetType: "field_1788_raw" }, { UPS: "field_1785" }],
   },
   ASSETS_SERVICE_REQUESTS: [
     { issueId: "field_1678" },
@@ -111,15 +108,17 @@ export const FIELDS = {
     name: "field_1058",
     location: "field_182_raw",
   },
-  // ASSIGN_TO_SELF: "field_1752",
+  CAD: {
+    cadStatus: [
+      { cadId: "field_1750" },
+      { drawingsAsBuilt: "field_1746" },
+      { existingDrawing: "field_1742" },
+      { phasingDrawing: "field_1743" },
+      { signsAndMarkingsDrawing: "field_1744" },
+      { cadDrawing: "field_1735" },
+      { engineerSigned: "field_1749" },
+      { quantity: "field_1745" },
+      { constructionDrawing: "field_1741" },
+    ],
+  },
 };
-
-// export const ASSET_TYPE_OPTIONS = [
-//   "Signal",
-//   "School Beacon",
-//   "Hazard Flasher",
-//   "Digital Messaging Sign (DMS)",
-//   "Camera",
-//   "Sensor",
-//   "Other / No Asset",
-// ];

@@ -68,9 +68,9 @@ export function getTimeLogs(id) {
 }
 
 const formatSocrataResponseToKnackFormat = resArray =>
-  resArray.data.map(beacon => ({
-    id: beacon.id,
-    identifier: "📍 " + beacon.location_name,
+  resArray.data.map(asset => ({
+    id: asset.id,
+    identifier: "📍 " + asset.location_name,
   }));
 
 const combineKnackAndSocrataAssetResponses = (
@@ -85,11 +85,10 @@ const unifyKnackAndSocrataIdentifiers = (
   allAssetsResponse,
   nearbyAssetsResponse
 ) => {
-  const allAssets = allAssetsResponse;
-  const nearbyAssets = nearbyAssetsResponse;
+  // Socrata records only have Hazard Flasher number, add full name from Knack records
   nearbyAssetsResponse.data.map(nearbyAsset => {
     let identifierMatch = "";
-    allAssets.data.records.map(allAsset => {
+    allAssetsResponse.data.records.map(allAsset => {
       const pattern = `^(${nearbyAsset.atd_flasher_id}:)`;
       if (allAsset.identifier.match(pattern)) {
         identifierMatch = allAsset.identifier;
@@ -99,10 +98,17 @@ const unifyKnackAndSocrataIdentifiers = (
     });
     return nearbyAsset;
   });
-  return combineKnackAndSocrataAssetResponses(allAssets, nearbyAssets);
+  return combineKnackAndSocrataAssetResponses(
+    allAssetsResponse,
+    nearbyAssetsResponse
+  );
 };
 
-// TODO remove duplicates helper
+// TODO Decide whether to dedupe or not
+// const removeDuplicateAssetRecords = assetsArray =>
+//   Array.from(new Set(assetsArray.map(asset => asset.id))).map(id => {
+//     return assetsArray.find(asset => asset.id === id);
+//   });
 
 export function getSignalsOptions(searchValue, userPosition) {
   return axios
@@ -137,19 +143,25 @@ export function getCameraOptions(searchValue, userPosition) {
 }
 
 export function getSchoolBeaconOptions(userPosition) {
-  return axios
-    .all([
-      api.workOrder().schoolZones(),
-      api.workOrder().schoolZonesNear(userPosition),
-    ])
-    .then(
-      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
-        return combineKnackAndSocrataAssetResponses(
-          allAssetsResponse,
-          nearbyAssetsResponse
-        );
-      })
-    );
+  // SODA School Beacon table provides all beacons, original form only lists School Zones
+  // SODA Source DB column in School Beacon table is blank
+  // return axios
+  //   .all([
+  //     api.workOrder().schoolZones(),
+  //     api.workOrder().schoolZonesNear(userPosition),
+  //   ])
+  //   .then(
+  //     axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+  //       return combineKnackAndSocrataAssetResponses(
+  //         allAssetsResponse,
+  //         nearbyAssetsResponse
+  //       );
+  //     })
+  //   );
+  return api
+    .workOrder()
+    .schoolZones()
+    .then(res => res.data.records);
 }
 
 export function getHazardFlasherOptions(userPosition) {
@@ -164,10 +176,6 @@ export function getHazardFlasherOptions(userPosition) {
           allAssetsResponse,
           nearbyAssetsResponse
         );
-        // return combineKnackAndSocrataAssetResponses(
-        //   allAssetsResponse,
-        //   nearbyAssetsResponse
-        // );
       })
     );
 }

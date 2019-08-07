@@ -39,7 +39,7 @@ class MyWorkOrders extends Component {
           data={this.state.myWorkOrdersData}
           lastPage={this.state.lastPage}
           searchQuery={searchMyWorkOrders}
-          titleField={fields.location}
+          titleFieldId={fields.location}
         />
       </div>
     );

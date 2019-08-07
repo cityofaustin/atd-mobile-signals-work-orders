@@ -129,7 +129,7 @@ class ListWithSearchAndPage extends Component {
                   {/* Location */}
                   <div className="col-12">
                     <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
-                    <span>{item[this.props.titleField]}</span>
+                    <span>{item[this.props.titleFieldId]}</span>
                   </div>
                   {/* Status */}
                   <div className="col-6">

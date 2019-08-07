@@ -1,11 +1,11 @@
 import React from "react";
 import { handleTableDataStringLength, formatDataTitles } from "./helpers";
 
-const AssetTable = props => {
-  const tableHeaders = props.fields.map(field =>
+const AssetTable = ({ fields, data }) => {
+  const tableHeaders = fields.map(field =>
     formatDataTitles(Object.keys(field))
   );
-  const fieldIds = props.fields.map(field => {
+  const fieldIds = fields.map(field => {
     return Object.values(field)[0];
   });
   // TODO add responsive font size (or rely on side-scroll?)
@@ -24,9 +24,9 @@ const AssetTable = props => {
           </tr>
         </thead>
         <tbody>
-          {props.data &&
-            props.data !== "" &&
-            props.data.map((record, i) => (
+          {data &&
+            data !== "" &&
+            data.map((record, i) => (
               <tr key={i}>
                 {fieldIds.map((fieldId, i) => {
                   const tableDataString = record[fieldId];

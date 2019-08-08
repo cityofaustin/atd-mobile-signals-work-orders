@@ -100,6 +100,25 @@ const addKnackAssetNameToSocrataIdentifier = (
   });
 };
 
+const addKnackAssetNumberToSocrataIdentifier = (
+  allAssetsResponse,
+  nearbyAssetsResponse
+) => {
+  // Socrata records only have Hazard Flasher number, add full name from Knack records
+  nearbyAssetsResponse.data.map(nearbyAsset => {
+    let identifierMatch = "";
+    allAssetsResponse.data.records.map(allAsset => {
+      const pattern = nearbyAsset.location_name;
+      if (allAsset.identifier.match(pattern)) {
+        identifierMatch = allAsset.identifier;
+        nearbyAsset["location_name"] = identifierMatch;
+      }
+      return allAsset;
+    });
+    return nearbyAsset;
+  });
+};
+
 // TODO Decide whether to dedupe all results or not
 // If so, dedupe needs to retain nearbyAssets over allAssets
 const removeDuplicateAssetRecords = assetsArray =>
@@ -115,6 +134,10 @@ export function getSignalsOptions(searchValue, userPosition) {
     ])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        addKnackAssetNumberToSocrataIdentifier(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
         return combineKnackAndSocrataAssetResponses(
           allAssetsResponse,
           nearbyAssetsResponse
@@ -131,6 +154,10 @@ export function getCameraOptions(searchValue, userPosition) {
     ])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        addKnackAssetNumberToSocrataIdentifier(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
         return combineKnackAndSocrataAssetResponses(
           allAssetsResponse,
           nearbyAssetsResponse

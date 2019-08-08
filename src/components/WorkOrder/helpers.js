@@ -81,7 +81,7 @@ const combineKnackAndSocrataAssetResponses = (
   ...allAssetsResponse.data.records,
 ];
 
-const unifyKnackAndSocrataIdentifiers = (
+const addKnackAssetNumberToSocrataIdentifier = (
   allAssetsResponse,
   nearbyAssetsResponse
 ) => {
@@ -172,7 +172,7 @@ export function getHazardFlasherOptions(userPosition) {
     ])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
-        return unifyKnackAndSocrataIdentifiers(
+        return addKnackAssetNumberToSocrataIdentifier(
           allAssetsResponse,
           nearbyAssetsResponse
         );

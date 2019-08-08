@@ -104,11 +104,12 @@ const addKnackAssetNumberToSocrataIdentifier = (
   );
 };
 
-// TODO Decide whether to dedupe or not
-// const removeDuplicateAssetRecords = assetsArray =>
-//   Array.from(new Set(assetsArray.map(asset => asset.id))).map(id => {
-//     return assetsArray.find(asset => asset.id === id);
-//   });
+// TODO Decide whether to dedupe all results or not
+// If so, dedupe needs to retain nearbyAssets over allAssets
+const removeDuplicateAssetRecords = assetsArray =>
+  Array.from(new Set(assetsArray.map(asset => asset.id))).map(id => {
+    return assetsArray.find(asset => asset.id === id);
+  });
 
 export function getSignalsOptions(searchValue, userPosition) {
   return axios
@@ -143,25 +144,33 @@ export function getCameraOptions(searchValue, userPosition) {
 }
 
 export function getSchoolBeaconOptions(userPosition) {
-  // SODA School Beacon table provides all beacons, original form only lists School Zones
   // SODA Source DB column in School Beacon table is blank
-  // return axios
-  //   .all([
-  //     api.workOrder().schoolZones(),
-  //     api.workOrder().schoolZonesNear(userPosition),
-  //   ])
-  //   .then(
-  //     axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
-  //       return combineKnackAndSocrataAssetResponses(
-  //         allAssetsResponse,
-  //         nearbyAssetsResponse
-  //       );
-  //     })
-  //   );
-  return api
-    .workOrder()
-    .schoolZones()
-    .then(res => res.data.records);
+  return axios
+    .all([
+      api.workOrder().schoolZones(),
+      api.workOrder().schoolZonesNear(userPosition),
+    ])
+    .then(
+      axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
+        // Form expects School Zone and Socrata returns school zone beacons
+        // Find first School Zone match from Socrata and add Knack ID and identifier to record
+        // Then remove duplicates
+        nearbyAssetsResponse.data.map(nearbyAsset => {
+          const firstMatch = allAssetsResponse.data.records.find(
+            allAsset => allAsset.identifier === nearbyAsset.zone_name
+          );
+          nearbyAsset["id"] = firstMatch.id;
+          nearbyAsset["location_name"] = firstMatch.identifier;
+        });
+        nearbyAssetsResponse.data = removeDuplicateAssetRecords(
+          nearbyAssetsResponse.data
+        );
+        return combineKnackAndSocrataAssetResponses(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
+      })
+    );
 }
 
 export function getHazardFlasherOptions(userPosition) {

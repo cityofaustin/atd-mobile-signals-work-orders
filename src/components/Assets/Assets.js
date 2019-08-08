@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+import AssetTable from "./AssetTable";
+import AssetMap from "./AssetMap";
+import AssetDetailsSection from "./AssetDetailsSection";
+import { FIELDS } from "./formConfig";
+import { getAllAssets } from "../WorkOrder/helpers";
+import { getAllAssetDetails } from "./helpers";
+
 import Autocomplete from "react-autocomplete";
 import changeCase from "change-case";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +14,6 @@ import {
   faSpinner,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
-
 import {
   Accordion,
   AccordionItem,
@@ -15,13 +21,6 @@ import {
   AccordionItemBody,
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
-
-import api from "../../queries/api";
-import AssetDetailsSection from "./AssetDetailsSection";
-import AssetTable from "./AssetTable";
-import AssetMap from "./AssetMap";
-import { FIELDS } from "./formConfig";
-import { getAllAssets } from "../WorkOrder/helpers";
 
 class Assets extends Component {
   constructor(props) {
@@ -93,76 +92,29 @@ class Assets extends Component {
     });
   }
 
-  handleChange = event => {
-    this.setState({
-      location: event.target.value,
-    });
-  };
-
   handleAutocompleteChange = e => {
     e.persist();
     this.setState({ typedAsset: e.target.value });
   };
 
   onAssetSelect = (value, item) => {
-    api
-      .assets()
-      .workOrders(item.id)
-      .then(res => this.setState({ assetWorkOrdersData: res.data.records }));
-    api
-      .assets()
-      .serviceRequests(item.id)
-      .then(res =>
-        this.setState({ assetServiceRequestsData: res.data.records })
-      );
-    api
-      .assets()
-      .details(item.id)
-      .then(res => this.setState({ assetDetailsData: res.data }));
-    api
-      .assets()
-      .cameras(item.id)
-      .then(res => this.setState({ assetCamerasData: res.data.records }));
-    api
-      .assets()
-      .preventativeMaint(item.id)
-      .then(res =>
-        this.setState({ assetPreventativeMaintenanceData: res.data.records })
-      );
-    api
-      .assets()
-      .map(item.id)
-      .then(res => this.setState({ assetMapData: res.data }));
-    api
-      .assets()
-      .detectors(item.id)
-      .then(res => this.setState({ assetDetectorsData: res.data.records }));
-    api
-      .assets()
-      .signalPriority(item.id)
-      .then(res =>
-        this.setState({ assetSignalPriorityData: res.data.records })
-      );
-    api
-      .assets()
-      .poleAttachments(item.id)
-      .then(res =>
-        this.setState({ assetPoleAttachmentsData: res.data.records })
-      );
-    api
-      .assets()
-      .travelSensor(item.id)
-      .then(res => this.setState({ assetTravelSensorData: res.data.records }));
-    api
-      .assets()
-      .apsButtonRequests(item.id)
-      .then(res =>
-        this.setState({ assetApsButtonRequestsData: res.data.records })
-      );
-    api
-      .assets()
-      .cadStatus(item.id)
-      .then(res => this.setState({ assetCadStatusData: res.data }));
+    getAllAssetDetails(item).then(data => {
+      this.setState({
+        assetWorkOrdersData: data.workOrdersResponse.data.records,
+        assetServiceRequestsData: data.serviceRequestsResponse.data.records,
+        assetDetailsData: data.detailsResponse.data,
+        assetCamerasData: data.camerasResponse.data.records,
+        assetPreventativeMaintenanceData:
+          data.preventativeMaintResponse.data.records,
+        assetMapData: data.mapResponse.data,
+        assetDetectorsData: data.detectorsResponse.data.records,
+        assetSignalPriorityData: data.signalPriorityResponse.data.records,
+        assetPoleAttachmentsData: data.poleAttachmentsResponse.data.records,
+        assetTravelSensorData: data.travelSensorResponse.data.records,
+        assetApsButtonRequestsData: data.apsButtonRequestsResponse.data.records,
+        assetCadStatusData: data.cadStatusResponse.data,
+      });
+    });
     this.setState({
       selectedAsset: item.identifier,
       typedAsset: item.identifier,

@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { APP_ID } from "../constants/api";
 
-const ASSETS_WITHIN_DISTANCE = 100; // Distance in meters for nearby asset queries
+const ASSETS_WITHIN_DISTANCE = 2000; // Distance in meters for nearby asset queries
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },

@@ -90,7 +90,10 @@ const addKnackAssetNameToSocrataIdentifier = (
     let identifierMatch = "";
     allAssetsResponse.data.records.map(allAsset => {
       const pattern = `^(${nearbyAsset.atd_flasher_id}:)`;
-      if (allAsset.identifier.match(pattern)) {
+      if (
+        allAsset.identifier.match(pattern) &&
+        allAsset.id === nearbyAsset.id
+      ) {
         identifierMatch = allAsset.identifier;
         nearbyAsset["location_name"] = identifierMatch;
       }
@@ -109,7 +112,10 @@ const addKnackAssetNumberToSocrataIdentifier = (
     let identifierMatch = "";
     allAssetsResponse.data.records.map(allAsset => {
       const pattern = nearbyAsset.location_name;
-      if (allAsset.identifier.match(pattern)) {
+      if (
+        allAsset.identifier.match(pattern) &&
+        allAsset.id === nearbyAsset.id
+      ) {
         identifierMatch = allAsset.identifier;
         nearbyAsset["location_name"] = identifierMatch;
       }

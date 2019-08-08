@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
+import changeCase from "change-case";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
@@ -239,133 +240,28 @@ class Assets extends Component {
                   ))}
                 </AccordionItemBody>
               </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Cameras
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetCamerasData}
-                    fields={FIELDS.ASSETS_CAMERAS}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Service Requests
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetServiceRequestsData}
-                    fields={FIELDS.ASSETS_SERVICE_REQUESTS}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Work Orders
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetWorkOrdersData}
-                    fields={FIELDS.ASSETS_WORK_ORDERS}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Preventative
-                    Maintenance
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetPreventativeMaintenanceData}
-                    fields={FIELDS.ASSETS_PREVENTATIVE_MAINTENANCE}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Detectors
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetDetectorsData}
-                    fields={FIELDS.ASSETS_DETECTORS}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Signal Priority
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetSignalPriorityData}
-                    fields={FIELDS.ASSETS_SIGNAL_PRIORITY}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Pole Attachments
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetPoleAttachmentsData}
-                    fields={FIELDS.ASSETS_POLE_ATTACHMENTS}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> Travel Sensors
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetTravelSensorData}
-                    fields={FIELDS.ASSETS_TRAVEL_SENSORS}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionItemTitle>
-                  <h3 className="u-position-relative">
-                    <FontAwesomeIcon icon={faInfoCircle} /> APS Button Requests
-                    <div className="accordion__arrow" role="presentation" />
-                  </h3>
-                </AccordionItemTitle>
-                <AccordionItemBody>
-                  <AssetTable
-                    data={this.state.assetApsButtonRequestsData}
-                    fields={FIELDS.APS_BUTTON_REQUESTS}
-                  />
-                </AccordionItemBody>
-              </AccordionItem>
+              {FIELDS.TABLES.map((table, i) => {
+                const tableKey = Object.keys(table)[0];
+                const stateName = `asset${changeCase.pascalCase(tableKey)}Data`;
+                const title = changeCase.titleCase(tableKey);
+                return (
+                  <AccordionItem key={i}>
+                    <AccordionItemTitle>
+                      <h3 className="u-position-relative">
+                        <FontAwesomeIcon icon={faInfoCircle} /> {title}
+                        <div className="accordion__arrow" role="presentation" />
+                      </h3>
+                    </AccordionItemTitle>
+                    <AccordionItemBody>
+                      <AssetTable
+                        data={this.state[stateName]}
+                        fields={table[tableKey]}
+                      />
+                    </AccordionItemBody>
+                  </AccordionItem>
+                );
+              })}
+
               <AccordionItem>
                 <AccordionItemTitle>
                   <h3 className="u-position-relative">

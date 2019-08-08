@@ -2,7 +2,6 @@ import React from "react";
 import { formatDataTitles } from "./helpers";
 
 const AssetDetailsSection = ({ data, sectionName, fields }) => {
-  const sectionDetails = data;
   const sectionFields = fields[sectionName];
   const assetDetailsSectionTitle = formatDataTitles(sectionName);
   const firstColumnLength = Math.ceil(sectionFields.length / 2);
@@ -20,7 +19,7 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
                   <dt>{formatDataTitles(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
-                      __html: sectionDetails[fieldId],
+                      __html: data[fieldId],
                     }}
                   />
                 </dl>
@@ -39,7 +38,7 @@ const AssetDetailsSection = ({ data, sectionName, fields }) => {
                   <dt>{formatDataTitles(Object.keys(field))}</dt>
                   <dd
                     dangerouslySetInnerHTML={{
-                      __html: sectionDetails[fieldId],
+                      __html: data[fieldId],
                     }}
                   />
                 </dl>

@@ -81,7 +81,7 @@ const combineKnackAndSocrataAssetResponses = (
   ...allAssetsResponse.data.records,
 ];
 
-const addKnackAssetNumberToSocrataIdentifier = (
+const addKnackAssetNameToSocrataIdentifier = (
   allAssetsResponse,
   nearbyAssetsResponse
 ) => {
@@ -98,10 +98,6 @@ const addKnackAssetNumberToSocrataIdentifier = (
     });
     return nearbyAsset;
   });
-  return combineKnackAndSocrataAssetResponses(
-    allAssetsResponse,
-    nearbyAssetsResponse
-  );
 };
 
 // TODO Decide whether to dedupe all results or not
@@ -144,7 +140,6 @@ export function getCameraOptions(searchValue, userPosition) {
 }
 
 export function getSchoolBeaconOptions(userPosition) {
-  // SODA Source DB column in School Beacon table is blank
   return axios
     .all([
       api.workOrder().schoolZones(),
@@ -155,7 +150,7 @@ export function getSchoolBeaconOptions(userPosition) {
         // Form expects School Zone and Socrata returns school zone beacons
         // Find first School Zone match from Socrata and add Knack ID and identifier to record
         // Then remove duplicates
-        nearbyAssetsResponse.data.map(nearbyAsset => {
+        nearbyAssetsResponse.data.forEach(nearbyAsset => {
           const firstMatch = allAssetsResponse.data.records.find(
             allAsset => allAsset.identifier === nearbyAsset.zone_name
           );
@@ -181,7 +176,11 @@ export function getHazardFlasherOptions(userPosition) {
     ])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
-        return addKnackAssetNumberToSocrataIdentifier(
+        addKnackAssetNameToSocrataIdentifier(
+          allAssetsResponse,
+          nearbyAssetsResponse
+        );
+        return combineKnackAndSocrataAssetResponses(
           allAssetsResponse,
           nearbyAssetsResponse
         );

@@ -50,10 +50,13 @@ const uppercaseIpInString = string => string.replace(/(Ip)/gm, "IP");
 
 const uppercaseCadInString = string => string.replace(/(Cad)/gm, "CAD");
 
+const uppercaseApsInString = string => string.replace(/(Aps)/gm, "APS");
+
 export const formatDataTitles = dataTitle => {
   let formattedTitle = changeCase.titleCase(dataTitle);
   formattedTitle = uppercaseIdInString(formattedTitle);
   formattedTitle = uppercaseCadInString(formattedTitle);
+  formattedTitle = uppercaseApsInString(formattedTitle);
   return uppercaseIpInString(formattedTitle);
 };
 

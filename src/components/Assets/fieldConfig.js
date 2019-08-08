@@ -117,10 +117,12 @@ export const FIELDS = {
         { commStatusDatetime: "field_1480" },
       ],
     },
-  ],
-  APS_BUTTON_REQUESTS: [
-    { requestDate: "field_2739" },
-    { requestStatus: "field_2740" },
+    {
+      APS_BUTTON_REQUESTS: [
+        { requestDate: "field_2739" },
+        { requestStatus: "field_2740" },
+      ],
+    },
   ],
   ASSETS_MAP: {
     name: "field_1058",

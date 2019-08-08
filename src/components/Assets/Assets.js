@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import AssetTable from "./AssetTable";
 import AssetMap from "./AssetMap";
 import AssetDetailsSection from "./AssetDetailsSection";
-import { FIELDS } from "./formConfig";
+import { FIELDS } from "./fieldConfig";
 import { getAllAssets } from "../WorkOrder/helpers";
-import { getAllAssetDetails } from "./helpers";
+import { getAllAssetDetails, formatDataTitles } from "./helpers";
 
 import Autocomplete from "react-autocomplete";
 import changeCase from "change-case";
@@ -195,7 +195,7 @@ class Assets extends Component {
               {FIELDS.TABLES.map((table, i) => {
                 const tableKey = Object.keys(table)[0];
                 const stateName = `asset${changeCase.pascalCase(tableKey)}Data`;
-                const title = changeCase.titleCase(tableKey);
+                const title = formatDataTitles(changeCase.titleCase(tableKey));
                 return (
                   <AccordionItem key={i}>
                     <AccordionItemTitle>

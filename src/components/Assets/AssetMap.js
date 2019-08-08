@@ -1,7 +1,7 @@
 import React from "react";
 import Map from "pigeon-maps";
 import Marker from "pigeon-marker";
-import { FIELDS } from "./formConfig";
+import { FIELDS } from "./fieldConfig";
 
 const AssetMap = props => {
   const fields = FIELDS.ASSETS_MAP;

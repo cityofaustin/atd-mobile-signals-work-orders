@@ -73,10 +73,10 @@ class App extends Component {
   }
 
   setKnackUserToken = token => {
+    Cookies.set("knackUserToken", token, { expires: 2 });
     this.setState({ knackUserToken: token });
     // set a cookie to expire in 48 hrs according to Knack documentation:
     // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
-    Cookies.set("knackUserToken", token, { expires: 2 });
   };
 
   revokeKnackUserToken = () => {

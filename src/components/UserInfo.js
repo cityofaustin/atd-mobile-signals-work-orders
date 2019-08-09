@@ -46,7 +46,12 @@ class UserInfo extends Component {
               <button className="dropdown-item" type="button">
                 {userInfo[email].email}
               </button>
-              <button onClick={this.props.revokeKnackUserToken}>Log out</button>
+              <button
+                className="btn btn-danger ml-4 mt-1"
+                onClick={this.props.revokeKnackUserToken}
+              >
+                Log out
+              </button>
             </div>
           </div>
         )}

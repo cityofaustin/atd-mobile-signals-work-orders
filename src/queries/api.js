@@ -61,7 +61,7 @@ const keys = {
     viewId: "view_889",
     fieldId: "field_513",
   },
-  userSettings: { sceneId: "scene_461", viewId: "view_1306" },
+  userInfo: { sceneId: "scene_461", viewId: "view_1306" },
   userPassword: { sceneId: "scene_461", viewId: "view_1307" },
 };
 
@@ -365,11 +365,18 @@ const api = {
   },
   user() {
     return {
-      getSettings: () =>
+      getInfo: () =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${keys.userInfo.sceneId}/views/${
+            keys.userInfo.viewId
+          }/records`,
+          getHeaders()
+        ),
+      getPassword: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
-            keys.userSettings.sceneId
-          }/views/${keys.userSettings.viewId}/records`,
+            keys.userPassword.sceneId
+          }/views/${keys.userPassword.viewId}/records`,
           getHeaders()
         ),
     };

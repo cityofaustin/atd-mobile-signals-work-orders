@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import api from "../queries/api";
+import { userFields } from "../queries/fields";
 
+const fields = userFields;
 class UserInfo extends Component {
   constructor(props) {
     super(props);
@@ -17,28 +19,37 @@ class UserInfo extends Component {
   }
 
   render() {
+    const { name, role, email } = fields.info;
+    const userInfo = this.state.userInfo;
+    const fullName = userInfo[name];
+
     return (
       <div>
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn btn-secondary dropdown-toggle"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Right-aligned menu
-          </button>
-          <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item" type="button">
-              User First and Last Name
+        {this.state.userInfo !== "" && (
+          <div className="btn-group">
+            <button
+              type="button"
+              className="btn btn-secondary dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {fullName.first[0] + fullName.last[0]}
             </button>
-            <button class="dropdown-item" type="button">
-              Role
-            </button>
-            <button onClick={this.props.revokeKnackUserToken}>Log out</button>
+            <div className="dropdown-menu dropdown-menu-right">
+              <button className="dropdown-item" type="button">
+                {fullName.first} {fullName.last}
+              </button>
+              <button className="dropdown-item" type="button">
+                {userInfo[role]}
+              </button>
+              <button className="dropdown-item" type="button">
+                {userInfo[email].email}
+              </button>
+              <button onClick={this.props.revokeKnackUserToken}>Log out</button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

@@ -35,10 +35,10 @@ export const workOrderFields = {
 };
 
 export const userFields = {
-  info: [
-    { role: "field_167" },
-    { email: "field_168_raw" }, // contains object with email key
-    { name: "field_167_raw" }, // contains object with first and last keys
-  ],
-  password: [{ currentPassword: "field_169" }],
+  info: {
+    role: "field_167",
+    email: "field_168_raw", // contains object with email key
+    name: "field_167_raw",
+  }, // contains object with first and last keys
+  password: { currentPassword: "field_169" },
 };

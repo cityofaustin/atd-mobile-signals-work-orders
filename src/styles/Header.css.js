@@ -16,15 +16,6 @@ const StyledHeader = styled("header")`
     cursor: pointer;
     font-size: 24px;
   }
-  /* button {
-    height: 40px;
-    padding: 0 10px;
-    border: none;
-    color: ${({ theme }) => theme.colorBlack};
-    background-color: ${props => props.theme.colorWhite};
-    border-radius: 2px;
-    cursor: pointer; 
-  }*/
 
   .btn-circle {
     width: 50px;

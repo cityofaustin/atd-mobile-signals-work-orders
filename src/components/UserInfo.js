@@ -22,14 +22,14 @@ class UserInfo extends Component {
     const { name, role, email } = fields.info;
     const userInfo = this.state.userInfo;
     const fullName = userInfo[name];
-
+    console.log(userInfo);
     return (
       <div>
         {this.state.userInfo !== "" && (
           <div className="btn-group">
             <button
               type="button"
-              className="btn btn-secondary dropdown-toggle btn-circle"
+              className="btn btn-secondary dropdown-toggle btn-circle font-weight-bold"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
@@ -37,15 +37,13 @@ class UserInfo extends Component {
               {fullName.first[0] + fullName.last[0]}
             </button>
             <div className="dropdown-menu dropdown-menu-right">
-              <button className="dropdown-item" type="button">
+              <div className="dropdown-item font-weight-bold">
                 {fullName.first} {fullName.last}
-              </button>
-              <button className="dropdown-item" type="button">
-                {userInfo[role]}
-              </button>
-              <button className="dropdown-item" type="button">
+              </div>
+              <div className="dropdown-item">{userInfo[role]}</div>
+              <div className="dropdown-item font-weight-light">
                 {userInfo[email].email}
-              </button>
+              </div>
               <button
                 className="btn btn-danger ml-4 mt-1"
                 onClick={this.props.revokeKnackUserToken}

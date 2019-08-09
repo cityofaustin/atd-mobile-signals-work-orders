@@ -13,6 +13,7 @@ const Header = props => {
         </button>
       )}
       <h2>{props.currentPage}</h2>
+      {/* TODO add user info/settings dropdown or avatar here */}
       <button onClick={props.revokeKnackUserToken}>Log out</button>
     </StyledHeader>
   );

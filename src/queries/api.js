@@ -365,12 +365,11 @@ const api = {
   },
   user() {
     return {
-      getSettings: data =>
+      getSettings: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.userSettings.sceneId
           }/views/${keys.userSettings.viewId}/records`,
-          data,
           getHeaders()
         ),
     };

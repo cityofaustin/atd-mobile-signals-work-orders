@@ -11,8 +11,8 @@ class UserInfo extends Component {
     api
       .user()
       .getSettings()
-      .then(() => {
-        debugger;
+      .then(res => {
+        this.setState({ userInfo: res.data });
       });
   }
 

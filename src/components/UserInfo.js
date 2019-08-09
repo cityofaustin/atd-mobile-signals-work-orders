@@ -29,7 +29,7 @@ class UserInfo extends Component {
           <div className="btn-group">
             <button
               type="button"
-              className="btn btn-secondary dropdown-toggle"
+              className="btn btn-secondary dropdown-toggle btn-circle"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"

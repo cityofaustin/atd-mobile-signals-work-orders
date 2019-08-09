@@ -14,10 +14,13 @@ class ListWithSearchAndPage extends Component {
     super(props);
     this.state = {
       knackData: [],
+      filteredData: [],
+      isFiltered: false,
       loading: true,
       location: "",
       currentPage: 1,
       lastPage: 1,
+      status: "All",
     };
   }
 
@@ -84,6 +87,14 @@ class ListWithSearchAndPage extends Component {
     }
   };
 
+  filterWorkOrdersBy = (e, type) => {
+    const data = this.state.knackData;
+    const filteredData = data.filter(item => {
+      return item[fields.status] === type;
+    });
+    this.setState({ status: type, isFiltered: true, filteredData });
+  };
+
   render() {
     // make sure the data is not an empty object `{}`
     const isDataLoaded = this.state.knackData.length > 0;
@@ -114,8 +125,63 @@ class ListWithSearchAndPage extends Component {
         {this.state.loading && (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
         )}
+        <div className="btn-group" role="group" aria-label="Basic example">
+          <button type="button" className="btn btn-secondary">
+            All
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={e => this.filterWorkOrdersBy(e, "Assigned")}
+          >
+            Assigned
+          </button>
+          <button type="button" className="btn btn-secondary">
+            In Progress
+          </button>
+          <button type="button" className="btn btn-secondary">
+            Submitted
+          </button>
+          <button type="button" className="btn btn-secondary">
+            Closed
+          </button>
+        </div>
         <ul className="list-group list-group-flush">
+          {this.state.isFiltered &&
+            this.state.filteredData.map(item => (
+              <Link to={`/work-orders/${item.id}`} key={item.id}>
+                <li
+                  className="list-group-item d-flex row"
+                  style={{
+                    backgroundColor:
+                      statuses[item[fields.status]].backgroundColor,
+                    color: statuses[item[fields.status]].textColor,
+                  }}
+                >
+                  {/* Location */}
+                  <div className="col-12">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
+                    <span>{item[this.props.titleFieldId]}</span>
+                  </div>
+                  {/* Status */}
+                  <div className="col-6">
+                    <FontAwesomeIcon
+                      icon={
+                        item[fields.status] &&
+                        statuses[item[fields.status]].icon
+                      }
+                    />
+                    <span> {item[fields.status]}</span>
+                  </div>
+                  {/* Modified at Datetime */}
+                  <div className="col-6">
+                    <span>{item[fields.modified]}</span>
+                  </div>
+                </li>
+              </Link>
+            ))}
           {isDataLoaded &&
+            !this.state.isFiltered &&
             knackData.map(item => (
               <Link to={`/work-orders/${item.id}`} key={item.id}>
                 <li

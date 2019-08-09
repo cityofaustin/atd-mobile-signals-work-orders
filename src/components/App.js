@@ -73,6 +73,7 @@ class App extends Component {
   }
 
   setKnackUserToken = token => {
+    // Set cookie first to prevent API call in UserInfo from failing to auth
     Cookies.set("knackUserToken", token, { expires: 2 });
     this.setState({ knackUserToken: token });
     // set a cookie to expire in 48 hrs according to Knack documentation:

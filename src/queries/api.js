@@ -372,13 +372,6 @@ const api = {
           }/records`,
           getHeaders()
         ),
-      getPassword: () =>
-        axios.get(
-          `https://us-api.knack.com/v1/scenes/${
-            keys.userPassword.sceneId
-          }/views/${keys.userPassword.viewId}/records`,
-          getHeaders()
-        ),
     };
   },
 };

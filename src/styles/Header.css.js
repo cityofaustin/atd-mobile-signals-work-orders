@@ -17,6 +17,7 @@ const StyledHeader = styled("header")`
     font-size: 24px;
   }
 
+  /* Turn Bootstrap button into circle and disable dropdown arrow icon */
   .btn-circle {
     width: 50px;
     height: 50px;

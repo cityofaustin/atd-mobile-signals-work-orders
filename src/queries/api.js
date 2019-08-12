@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { APP_ID } from "../constants/api";
 
+const ASSETS_WITHIN_DISTANCE = 2000; // Distance in meters for nearby asset queries
+
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
   allWorkOrders: {
@@ -291,6 +293,12 @@ const api = {
           }?rows_per_page=2000`,
           getHeaders()
         ),
+      schoolZonesNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/v6kq-45cf.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
+        ),
       signals: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -299,6 +307,12 @@ const api = {
             keys.newWorkOrder.signalFieldId
           }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
           getHeaders()
+        ),
+      signalsNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/xwqn-2f78.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       cameras: searchValue =>
         axios.get(
@@ -309,6 +323,12 @@ const api = {
           }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
           getHeaders()
         ),
+      camerasNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/fs3c-45ge.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
+        ),
       hazardFlashers: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -317,6 +337,12 @@ const api = {
             keys.newWorkOrder.hazardFlasherFieldId
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
+        ),
+      hazardFlashersNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/cnyg-vcb6.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       dmses: searchValue =>
         axios.get(
@@ -327,6 +353,12 @@ const api = {
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
         ),
+      dmsesNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/uhyc-pwfy.json?$where=within_circle(point,${
+            userPosition.lat
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
+        ),
       sensors: searchValue =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
@@ -335,6 +367,12 @@ const api = {
             keys.newWorkOrder.sensorFieldId
           }?rows_per_page=2000&filters=[]&limit_return=true`,
           getHeaders()
+        ),
+      sensorsNear: userPosition =>
+        axios.get(
+          `https://data.austintexas.gov/resource/wakh-bdjq.json?$where=within_circle(location,${
+            userPosition.lat
+          },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
       addImage: (form, id) =>
         axios

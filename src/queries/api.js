@@ -96,7 +96,11 @@ const api = {
         ),
       search: (searchValue, pageNumber) =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.allMyWorkOrders.sceneId}/views/${keys.allMyWorkOrders.viewId}/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allMyWorkOrders.sceneId
+          }/views/${
+            keys.allMyWorkOrders.viewId
+          }/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
           getHeaders()
         ),
     };
@@ -278,7 +282,7 @@ const api = {
           data,
           getHeaders()
         ),
-      schoolZones: searchValue =>
+      schoolZones: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
@@ -293,13 +297,14 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      signals: searchValue =>
+      signals: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.signalFieldId
-          }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
+            // }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
+          }?rows_per_page=2000`,
           getHeaders()
         ),
       signalsNear: userPosition =>
@@ -308,13 +313,14 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      cameras: searchValue =>
+      cameras: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.cameraFieldId
-          }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
+            // }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
+          }?rows_per_page=2000`,
           getHeaders()
         ),
       camerasNear: userPosition =>
@@ -323,7 +329,7 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      hazardFlashers: searchValue =>
+      hazardFlashers: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId

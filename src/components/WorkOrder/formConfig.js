@@ -68,6 +68,15 @@ export const ASSET_TYPE_OPTIONS = [
   "Other / No Asset",
 ];
 
+export const ASSET_TYPE_TITLES = {
+  Signal: "signal",
+  "School Beacon": "schoolBeacon",
+  "Hazard Flasher": "hazardFlasher",
+  "Digital Messaging Sign (DMS)": "dms",
+  Camera: "camera",
+  Sensor: "sensor",
+};
+
 export const YES_NO_OPTIONS = ["Yes", "No"];
 
 export const REPORTED_BY_OPTIONS = [

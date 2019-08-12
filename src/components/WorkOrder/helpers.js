@@ -283,5 +283,6 @@ export const getAssetsByType = (type, userPosition) => {
     Camera: getCameraOptions,
     Sensor: getSensorOptions,
   };
+  // Call API function based on asset type
   return typeNameToFunctionName[type](userPosition);
 };

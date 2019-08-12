@@ -40,7 +40,7 @@ class AllWorkOrders extends Component {
           data={this.state.allWorkOrdersData}
           lastPage={this.state.lastPage}
           searchQuery={searchAllWorkOrders}
-          titleField={fields.locationAll}
+          titleFieldId={fields.locationAll}
         />
       </div>
     );

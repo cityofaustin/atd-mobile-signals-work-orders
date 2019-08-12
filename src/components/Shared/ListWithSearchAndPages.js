@@ -47,6 +47,8 @@ class ListWithSearchAndPage extends Component {
         loading: false,
         lastPage: data.total_pages,
         currentPage: 1,
+        isFiltered: false,
+        status: "All",
       });
     });
   };
@@ -59,6 +61,9 @@ class ListWithSearchAndPage extends Component {
     });
 
     this.props.searchQuery(this.state.location, pageNumber).then(data => {
+      if (this.state.isFiltered) {
+        this.filterWorkOrders(this.state.status, data.records);
+      }
       this.setState({
         knackData: data.records,
         lastPage: data.total_pages,
@@ -87,13 +92,58 @@ class ListWithSearchAndPage extends Component {
     }
   };
 
-  filterWorkOrdersBy = (e, type) => {
-    const data = this.state.knackData;
+  filterWorkOrders = (type, records) => {
+    const data = records;
+    if (type === "All") {
+      this.setState({ isFiltered: false, status: type, filteredData: [] });
+      return true;
+    }
     const filteredData = data.filter(item => {
       return item[fields.status] === type;
     });
     this.setState({ status: type, isFiltered: true, filteredData });
   };
+
+  renderFilterButton = status => (
+    <button
+      type="button"
+      className={`btn ${
+        this.state.status === status ? "btn-primary" : "btn-outline-primary"
+      }`}
+      onClick={e => this.filterWorkOrders(status, this.state.knackData)}
+    >
+      {status}
+    </button>
+  );
+
+  renderListItem = item => (
+    <Link to={`/work-orders/${item.id}`} key={item.id}>
+      <li
+        className="list-group-item d-flex row"
+        style={{
+          backgroundColor: statuses[item[fields.status]].backgroundColor,
+          color: statuses[item[fields.status]].textColor,
+        }}
+      >
+        {/* Location */}
+        <div className="col-12">
+          <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
+          <span>{item[this.props.titleFieldId]}</span>
+        </div>
+        {/* Status */}
+        <div className="col-6">
+          <FontAwesomeIcon
+            icon={item[fields.status] && statuses[item[fields.status]].icon}
+          />
+          <span> {item[fields.status]}</span>
+        </div>
+        {/* Modified at Datetime */}
+        <div className="col-6">
+          <span>{item[fields.modified]}</span>
+        </div>
+      </li>
+    </Link>
+  );
 
   render() {
     // make sure the data is not an empty object `{}`
@@ -125,95 +175,19 @@ class ListWithSearchAndPage extends Component {
         {this.state.loading && (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
         )}
-        <div className="btn-group" role="group" aria-label="Basic example">
-          <button type="button" className="btn btn-secondary">
-            All
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={e => this.filterWorkOrdersBy(e, "Assigned")}
-          >
-            Assigned
-          </button>
-          <button type="button" className="btn btn-secondary">
-            In Progress
-          </button>
-          <button type="button" className="btn btn-secondary">
-            Submitted
-          </button>
-          <button type="button" className="btn btn-secondary">
-            Closed
-          </button>
+        <div className="btn-group mb-3" role="group" aria-label="Basic example">
+          {this.renderFilterButton("All")}
+          {this.renderFilterButton("Assigned")}
+          {this.renderFilterButton("In Progress")}
+          {this.renderFilterButton("Submitted")}
+          {this.renderFilterButton("Closed")}
         </div>
         <ul className="list-group list-group-flush">
           {this.state.isFiltered &&
-            this.state.filteredData.map(item => (
-              <Link to={`/work-orders/${item.id}`} key={item.id}>
-                <li
-                  className="list-group-item d-flex row"
-                  style={{
-                    backgroundColor:
-                      statuses[item[fields.status]].backgroundColor,
-                    color: statuses[item[fields.status]].textColor,
-                  }}
-                >
-                  {/* Location */}
-                  <div className="col-12">
-                    <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
-                    <span>{item[this.props.titleFieldId]}</span>
-                  </div>
-                  {/* Status */}
-                  <div className="col-6">
-                    <FontAwesomeIcon
-                      icon={
-                        item[fields.status] &&
-                        statuses[item[fields.status]].icon
-                      }
-                    />
-                    <span> {item[fields.status]}</span>
-                  </div>
-                  {/* Modified at Datetime */}
-                  <div className="col-6">
-                    <span>{item[fields.modified]}</span>
-                  </div>
-                </li>
-              </Link>
-            ))}
+            this.state.filteredData.map(item => this.renderListItem(item))}
           {isDataLoaded &&
             !this.state.isFiltered &&
-            knackData.map(item => (
-              <Link to={`/work-orders/${item.id}`} key={item.id}>
-                <li
-                  className="list-group-item d-flex row"
-                  style={{
-                    backgroundColor:
-                      statuses[item[fields.status]].backgroundColor,
-                    color: statuses[item[fields.status]].textColor,
-                  }}
-                >
-                  {/* Location */}
-                  <div className="col-12">
-                    <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
-                    <span>{item[this.props.titleFieldId]}</span>
-                  </div>
-                  {/* Status */}
-                  <div className="col-6">
-                    <FontAwesomeIcon
-                      icon={
-                        item[fields.status] &&
-                        statuses[item[fields.status]].icon
-                      }
-                    />
-                    <span> {item[fields.status]}</span>
-                  </div>
-                  {/* Modified at Datetime */}
-                  <div className="col-6">
-                    <span>{item[fields.modified]}</span>
-                  </div>
-                </li>
-              </Link>
-            ))}
+            knackData.map(item => this.renderListItem(item))}
         </ul>
         <form>
           <br />

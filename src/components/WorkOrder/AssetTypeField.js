@@ -4,6 +4,9 @@ import Autocomplete from "react-autocomplete";
 import { FIELDS, ASSET_TYPE_OPTIONS } from "./formConfig";
 import { getAllAssets } from "./helpers";
 
+const placeholderMessage = "Type to search...";
+const loadingMessage = "Loading...";
+
 export default class AssetTypeField extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +36,7 @@ export default class AssetTypeField extends Component {
       dms: this.setInitalAssetName("dms"),
       sensor: this.setInitalAssetName("sensor"),
       updatedFormData: {},
+      loading: false,
     };
 
     this.menuStyle = {
@@ -68,7 +72,7 @@ export default class AssetTypeField extends Component {
       return {
         className: "form-control",
         name: FIELDS.ASSETS[field].fieldId,
-        placeholder: "Type to search...",
+        placeholder: this.state.loading ? loadingMessage : placeholderMessage,
       };
     };
   }
@@ -78,7 +82,7 @@ export default class AssetTypeField extends Component {
     // before providing any options to the user. Perhaps it would be better if we first
     // queried the current asset type (ex: signals), set those options to state,
     // and then query the rest. 🤔
-
+    this.setState({ loading: true });
     let userPosition = {};
     navigator.geolocation.getCurrentPosition(pos => {
       userPosition["lat"] = pos.coords.latitude;
@@ -92,6 +96,7 @@ export default class AssetTypeField extends Component {
           hazardFlasherOptions: data.hazardFlasherOptions,
           dmsOptions: data.dmsOptions,
           sensorOptions: data.sensorOptions,
+          loading: false,
         });
       });
     });

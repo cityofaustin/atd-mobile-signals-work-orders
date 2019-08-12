@@ -44,7 +44,7 @@ class UserInfo extends Component {
                 {userInfo[email].email}
               </div>
               <button
-                className="btn btn-danger ml-4 mt-1"
+                className="btn btn-danger btn-lg ml-4 mt-1"
                 onClick={this.props.revokeKnackUserToken}
               >
                 Log out

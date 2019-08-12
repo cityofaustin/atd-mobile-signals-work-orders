@@ -282,7 +282,6 @@ export const getAssetsByType = (type, userPosition) => {
     "Digital Messaging Sign (DMS)": getDmsOptions,
     Camera: getCameraOptions,
     Sensor: getSensorOptions,
-    "Other / No Asset": null,
   };
   return typeNameToFunctionName[type](userPosition);
 };

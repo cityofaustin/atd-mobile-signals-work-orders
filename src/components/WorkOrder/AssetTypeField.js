@@ -129,10 +129,12 @@ export default class AssetTypeField extends Component {
   handleAssetTypeChange = e => {
     const assetType = e.target.value;
     this.setState({ loading: true });
-    getAssetsByType(assetType, this.state.userPosition).then(data => {
-      debugger;
-      this.setState({ schoolBeaconOptions: data, loading: false });
-    });
+    if (assetType !== "Other / No Asset") {
+      getAssetsByType(assetType, this.state.userPosition).then(data => {
+        // TODO set state based on asset type
+        this.setState({ schoolBeaconOptions: data, loading: false });
+      });
+    }
 
     let data = {};
 

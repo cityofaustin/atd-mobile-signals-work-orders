@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
 
 import { FIELDS, ASSET_TYPE_OPTIONS } from "./formConfig";
-import { getAllAssets } from "./helpers";
+import { getSignalsOptions, getAssetsByType } from "./helpers";
 
 const placeholderMessage = "Type to search...";
 const loadingMessage = "Loading...";
@@ -37,6 +37,7 @@ export default class AssetTypeField extends Component {
       sensor: this.setInitalAssetName("sensor"),
       updatedFormData: {},
       loading: false,
+      userPosition: "",
     };
 
     this.menuStyle = {
@@ -88,15 +89,11 @@ export default class AssetTypeField extends Component {
       userPosition["lat"] = pos.coords.latitude;
       userPosition["lon"] = pos.coords.longitude;
 
-      getAllAssets(userPosition).then(data => {
+      getSignalsOptions("", userPosition).then(data => {
         this.setState({
-          signalOptions: data.signalOptions,
-          schoolBeaconOptions: data.schoolBeaconOptions,
-          cameraOptions: data.cameraOptions,
-          hazardFlasherOptions: data.hazardFlasherOptions,
-          dmsOptions: data.dmsOptions,
-          sensorOptions: data.sensorOptions,
+          signalOptions: data,
           loading: false,
+          userPosition: userPosition,
         });
       });
     });
@@ -130,6 +127,12 @@ export default class AssetTypeField extends Component {
   };
 
   handleAssetTypeChange = e => {
+    const assetType = e.target.value;
+    this.setState({ loading: true });
+    getAssetsByType(assetType, this.state.userPosition).then(data => {
+      this.setState({ schoolBeaconOptions: data, loading: false });
+    });
+
     let data = {};
 
     data[FIELDS.ASSET_TYPE] = e.target.value;

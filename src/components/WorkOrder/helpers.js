@@ -297,3 +297,17 @@ export function searchAllWorkOrders(searchValue, pageNumber) {
     .searchAll(searchValue, pageNumber)
     .then(res => res.data);
 }
+
+export const getAssetsByType = (type, userPosition) => {
+  const typeNameToFunctionName = {
+    Signal: "Signal",
+    "School Beacon": "SchoolBeacon",
+    "Hazard Flasher": "HazardFlasher",
+    "Digital Messaging Sign (DMS)": "Dms",
+    Camera: "Camera",
+    Sensor: "Sensor",
+    "Other / No Asset": null,
+  };
+
+  return getSchoolBeaconOptions(userPosition);
+};

@@ -175,7 +175,11 @@ class ListWithSearchAndPage extends Component {
         {this.state.loading && (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
         )}
-        <div className="btn-group mb-3" role="group" aria-label="Basic example">
+        <div
+          className="btn-group btn-group-lg mb-3"
+          role="group"
+          aria-label="Basic example"
+        >
           {this.renderFilterButton("All")}
           {this.renderFilterButton("Assigned")}
           {this.renderFilterButton("In Progress")}

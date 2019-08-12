@@ -22,7 +22,6 @@ class UserInfo extends Component {
     const { name, role, email } = fields.info;
     const userInfo = this.state.userInfo;
     const fullName = userInfo[name];
-    console.log(userInfo);
     return (
       <div>
         {this.state.userInfo !== "" && (

@@ -132,12 +132,9 @@ const removeDuplicateAssetRecords = assetsArray =>
     return assetsArray.find(asset => asset.id === id);
   });
 
-export function getSignalsOptions(searchValue, userPosition) {
+export function getSignalsOptions(userPosition) {
   return axios
-    .all([
-      api.workOrder().signals(searchValue),
-      api.workOrder().signalsNear(userPosition),
-    ])
+    .all([api.workOrder().signals(), api.workOrder().signalsNear(userPosition)])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
         addKnackAssetNumberToSocrataIdentifier(
@@ -152,12 +149,9 @@ export function getSignalsOptions(searchValue, userPosition) {
     );
 }
 
-export function getCameraOptions(searchValue, userPosition) {
+export function getCameraOptions(userPosition) {
   return axios
-    .all([
-      api.workOrder().cameras(searchValue),
-      api.workOrder().camerasNear(userPosition),
-    ])
+    .all([api.workOrder().cameras(), api.workOrder().camerasNear(userPosition)])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
         addKnackAssetNumberToSocrataIdentifier(
@@ -252,24 +246,6 @@ export function getSensorOptions(userPosition) {
     );
 }
 
-export async function getAllAssets(userPosition) {
-  const schoolBeaconOptions = await getSchoolBeaconOptions(userPosition);
-  const signalOptions = await getSignalsOptions("", userPosition);
-  const cameraOptions = await getCameraOptions("", userPosition);
-  const hazardFlasherOptions = await getHazardFlasherOptions(userPosition);
-  const dmsOptions = await getDmsOptions(userPosition);
-  const sensorOptions = await getSensorOptions(userPosition);
-
-  return {
-    schoolBeaconOptions,
-    signalOptions,
-    cameraOptions,
-    hazardFlasherOptions,
-    dmsOptions,
-    sensorOptions,
-  };
-}
-
 export function getMyWorkOrders() {
   return api
     .myWorkOrders()
@@ -300,14 +276,13 @@ export function searchAllWorkOrders(searchValue, pageNumber) {
 
 export const getAssetsByType = (type, userPosition) => {
   const typeNameToFunctionName = {
-    Signal: "Signal",
-    "School Beacon": "SchoolBeacon",
-    "Hazard Flasher": "HazardFlasher",
-    "Digital Messaging Sign (DMS)": "Dms",
-    Camera: "Camera",
-    Sensor: "Sensor",
+    Signal: getSignalsOptions,
+    "School Beacon": getSchoolBeaconOptions,
+    "Hazard Flasher": getHazardFlasherOptions,
+    "Digital Messaging Sign (DMS)": getDmsOptions,
+    Camera: getCameraOptions,
+    Sensor: getSensorOptions,
     "Other / No Asset": null,
   };
-
-  return getSchoolBeaconOptions(userPosition);
+  return typeNameToFunctionName[type](userPosition);
 };

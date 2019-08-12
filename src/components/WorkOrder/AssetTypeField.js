@@ -89,7 +89,7 @@ export default class AssetTypeField extends Component {
       userPosition["lat"] = pos.coords.latitude;
       userPosition["lon"] = pos.coords.longitude;
 
-      getSignalsOptions("", userPosition).then(data => {
+      getSignalsOptions(userPosition).then(data => {
         this.setState({
           signalOptions: data,
           loading: false,
@@ -130,6 +130,7 @@ export default class AssetTypeField extends Component {
     const assetType = e.target.value;
     this.setState({ loading: true });
     getAssetsByType(assetType, this.state.userPosition).then(data => {
+      debugger;
       this.setState({ schoolBeaconOptions: data, loading: false });
     });
 

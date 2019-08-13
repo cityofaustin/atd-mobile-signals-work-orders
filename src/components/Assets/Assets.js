@@ -177,10 +177,8 @@ class Assets extends Component {
             </form>
           )}
 
-        {this.state.loading ? (
+        {this.state.loading && (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
-        ) : (
-          ""
         )}
         <br />
         {this.state.selectedAsset !== "" && (

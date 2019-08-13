@@ -88,10 +88,18 @@ class WorkOrderDetail extends Component {
       });
   };
 
+  getAssetIdFromKnackLink = () => {
+    const assetUrlFromKnack = this.state.detailsData[
+      workOrderFields.assetIdFromDetails
+    ];
+    const assetId = assetUrlFromKnack.match(/href="#(.*?)">/)[1];
+    return assetId;
+  };
+
   renderWorkOrderTitle = () =>
     // Only render link if asset type is Signal
     this.state.detailsData["field_977"] === "Signal" ? (
-      <Link to={`/assets/${this.state.titleData[workOrderFields.id]}`}>
+      <Link to={`/assets/${this.getAssetIdFromKnackLink()}`}>
         {this.state.titleData[workOrderFields.header]}
       </Link>
     ) : (

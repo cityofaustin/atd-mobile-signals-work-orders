@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Button from "./Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -87,12 +88,21 @@ class WorkOrderDetail extends Component {
       });
   };
 
+  renderWorkOrderTitle = () =>
+    // Only render link if asset type is Signal
+    this.state.detailsData["field_977"] === "Signal" ? (
+      <Link to={`/assets/${this.state.titleData[workOrderFields.id]}`}>
+        {this.state.titleData[workOrderFields.header]}
+      </Link>
+    ) : (
+      this.state.titleData[workOrderFields.header]
+    );
+
   render() {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faWrench} />{" "}
-          {this.state.titleData[workOrderFields.header]}
+          <FontAwesomeIcon icon={faWrench} /> {this.renderWorkOrderTitle()}
         </h1>
         <div className="d-flex flex-row flex-wrap">
           <Button

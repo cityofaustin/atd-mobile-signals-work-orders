@@ -199,7 +199,13 @@ class App extends Component {
                     isAuthenticated={this.state.knackUserToken}
                   />
                   <PrivateRoute
+                    path="/assets/:assetId"
+                    component={Assets}
+                    isAuthenticated={this.state.knackUserToken}
+                  />
+                  <PrivateRoute
                     path="/assets/"
+                    exact
                     component={Assets}
                     isAuthenticated={this.state.knackUserToken}
                   />

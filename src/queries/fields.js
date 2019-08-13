@@ -20,6 +20,7 @@ export const workOrderFields = {
     { "Reported By": "field_968" },
   ],
   header: "field_211_raw",
+  id: "id",
   inventory: {
     INVENTORY_ITEM: "field_513",
     STATUS: "field_1416",

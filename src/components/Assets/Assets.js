@@ -32,6 +32,7 @@ class Assets extends Component {
       location: "",
       typedAsset: "",
       selectedAsset: "",
+      viewedAsset: "",
       assetDetailsData: "",
       assetServiceRequestsData: "",
       assetDetectorsData: "",
@@ -83,6 +84,11 @@ class Assets extends Component {
   }
 
   componentDidMount() {
+    if (this.props.match.params.assetId) {
+      const viewAsset = { id: this.props.match.params.assetId };
+      this.setState({ viewedAsset: viewAsset });
+      this.onAssetSelect("", viewAsset);
+    }
     this.setState({ loading: true });
     getAllAssets().then(data => {
       this.setState({
@@ -138,37 +144,38 @@ class Assets extends Component {
           <FontAwesomeIcon icon={faMapMarkerAlt} /> Assets
         </h1>
 
-        {this.state.assetOptions.length > 0 && (
-          <form>
-            <div className="form-group">
-              <label htmlFor={"asset"}>{"Search Assets"}</label>
-              <br />
-              <Autocomplete
-                getItemValue={item => item.id}
-                items={this.state.assetOptions}
-                inputProps={this.inputProps("asset")}
-                wrapperStyle={this.wrapperStyle}
-                menuStyle={this.menuStyle}
-                renderItem={(item, isHighlighted) =>
-                  this.renderItem(item, isHighlighted)
-                }
-                shouldItemRender={(item, value) =>
-                  this.shouldItemRender(item, value)
-                }
-                value={this.state.typedAsset}
-                onChange={this.handleAutocompleteChange}
-                onSelect={(value, item) => this.onAssetSelect(value, item)}
-              />
-              <button
-                type="button"
-                className="btn btn-danger ml-2 btn-lg"
-                onClick={this.clearAssetSearch}
-              >
-                Clear
-              </button>
-            </div>
-          </form>
-        )}
+        {this.state.assetOptions.length > 0 &&
+          this.state.viewedAsset === "" && (
+            <form>
+              <div className="form-group">
+                <label htmlFor={"asset"}>{"Search Assets"}</label>
+                <br />
+                <Autocomplete
+                  getItemValue={item => item.id}
+                  items={this.state.assetOptions}
+                  inputProps={this.inputProps("asset")}
+                  wrapperStyle={this.wrapperStyle}
+                  menuStyle={this.menuStyle}
+                  renderItem={(item, isHighlighted) =>
+                    this.renderItem(item, isHighlighted)
+                  }
+                  shouldItemRender={(item, value) =>
+                    this.shouldItemRender(item, value)
+                  }
+                  value={this.state.typedAsset}
+                  onChange={this.handleAutocompleteChange}
+                  onSelect={(value, item) => this.onAssetSelect(value, item)}
+                />
+                <button
+                  type="button"
+                  className="btn btn-danger ml-2 btn-lg"
+                  onClick={this.clearAssetSearch}
+                >
+                  Clear
+                </button>
+              </div>
+            </form>
+          )}
 
         {this.state.loading ? (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />

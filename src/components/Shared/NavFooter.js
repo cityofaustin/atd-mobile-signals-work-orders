@@ -10,7 +10,6 @@ import {
   faTruck,
   faStreetView,
   faPlus,
-  faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 const navPages = [
@@ -28,11 +27,6 @@ const navPages = [
     title: "All Work Orders",
     link: "/all-work-orders",
     icon: faTruck,
-  },
-  {
-    title: "Assets",
-    link: "/assets",
-    icon: faMapMarkerAlt,
   },
   {
     title: "New Work Order",

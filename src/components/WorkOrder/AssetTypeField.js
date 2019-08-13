@@ -79,10 +79,6 @@ export default class AssetTypeField extends Component {
   }
 
   componentDidMount() {
-    // It might not be ideal UX for us to wait for all 6 assets type options to return
-    // before providing any options to the user. Perhaps it would be better if we first
-    // queried the current asset type (ex: signals), set those options to state,
-    // and then query the rest. 🤔
     this.setState({ loading: true });
     let userPosition = {};
     navigator.geolocation.getCurrentPosition(pos => {
@@ -128,8 +124,8 @@ export default class AssetTypeField extends Component {
 
   handleAssetTypeChange = e => {
     const assetType = e.target.value;
-    this.setState({ loading: true });
     if (assetType !== "Other / No Asset") {
+      this.setState({ loading: true });
       getAssetsByType(assetType, this.state.userPosition).then(data => {
         const stateToUpdate = `${ASSET_TYPE_TO_STATE[assetType]}Options`;
         this.setState({ [stateToUpdate]: data, loading: false });

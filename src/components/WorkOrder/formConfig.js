@@ -68,7 +68,7 @@ export const ASSET_TYPE_OPTIONS = [
   "Other / No Asset",
 ];
 
-export const ASSET_TYPE_TITLES = {
+export const ASSET_TYPE_TO_STATE = {
   Signal: "signal",
   "School Beacon": "schoolBeacon",
   "Hazard Flasher": "hazardFlasher",

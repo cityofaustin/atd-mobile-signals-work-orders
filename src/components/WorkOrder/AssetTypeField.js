@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Autocomplete from "react-autocomplete";
 
-import { FIELDS, ASSET_TYPE_OPTIONS, ASSET_TYPE_TITLES } from "./formConfig";
+import { FIELDS, ASSET_TYPE_OPTIONS, ASSET_TYPE_TO_STATE } from "./formConfig";
 import { getSignalsOptions, getAssetsByType } from "./helpers";
 
 const placeholderMessage = "Type to search...";
@@ -131,7 +131,7 @@ export default class AssetTypeField extends Component {
     this.setState({ loading: true });
     if (assetType !== "Other / No Asset") {
       getAssetsByType(assetType, this.state.userPosition).then(data => {
-        const stateToUpdate = `${ASSET_TYPE_TITLES[assetType]}Options`;
+        const stateToUpdate = `${ASSET_TYPE_TO_STATE[assetType]}Options`;
         this.setState({ [stateToUpdate]: data, loading: false });
       });
     }

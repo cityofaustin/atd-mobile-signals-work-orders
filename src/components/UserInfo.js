@@ -14,7 +14,7 @@ class UserInfo extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
+    // this.toggle = this.toggle.bind(this);
     this.state = { userInfo: "", dropdownOpen: false };
   }
 
@@ -27,11 +27,11 @@ class UserInfo extends Component {
       });
   }
 
-  toggle() {
+  toggle = () => {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen,
     }));
-  }
+  };
 
   render() {
     const { name, role, email } = fields.info;
@@ -44,7 +44,7 @@ class UserInfo extends Component {
             <DropdownToggle className="btn-circle font-weight-bold">
               {fullName.first[0] + fullName.last[0]}
             </DropdownToggle>
-            <DropdownMenu right positionFixed={true}>
+            <DropdownMenu right positionfixed="true">
               <DropdownItem className="font-weight-bold">
                 {fullName.first} {fullName.last}
               </DropdownItem>

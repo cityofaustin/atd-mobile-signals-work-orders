@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import api from "../queries/api";
 import { userFields } from "../queries/fields";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "reactstrap";
 
 const fields = userFields;
 class UserInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = { userInfo: "" };
+
+    this.toggle = this.toggle.bind(this);
+    this.state = { userInfo: "", dropdownOpen: false };
   }
 
   componentDidMount() {
@@ -18,6 +27,12 @@ class UserInfo extends Component {
       });
   }
 
+  toggle() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen,
+    }));
+  }
+
   render() {
     const { name, role, email } = fields.info;
     const userInfo = this.state.userInfo;
@@ -25,32 +40,27 @@ class UserInfo extends Component {
     return (
       <div>
         {this.state.userInfo !== "" && (
-          <div className="btn-group">
-            <button
-              type="button"
-              className="btn btn-secondary dropdown-toggle btn-circle font-weight-bold"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
+          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+            <DropdownToggle className="btn-circle font-weight-bold">
               {fullName.first[0] + fullName.last[0]}
-            </button>
-            <div className="dropdown-menu dropdown-menu-right">
-              <div className="dropdown-item font-weight-bold">
+            </DropdownToggle>
+            <DropdownMenu right positionFixed={true}>
+              <DropdownItem className="font-weight-bold">
                 {fullName.first} {fullName.last}
-              </div>
-              <div className="dropdown-item">{userInfo[role]}</div>
-              <div className="dropdown-item font-weight-light">
+              </DropdownItem>
+              <DropdownItem>{userInfo[role]}</DropdownItem>
+              <DropdownItem className="font-weight-light">
                 {userInfo[email].email}
-              </div>
-              <button
-                className="btn btn-danger btn-lg ml-4 mt-1"
+              </DropdownItem>
+              <Button
+                color="danger"
                 onClick={this.props.revokeKnackUserToken}
+                className="btn-lg ml-4 mt-1"
               >
                 Log out
-              </button>
-            </div>
-          </div>
+              </Button>
+            </DropdownMenu>
+          </Dropdown>
         )}
       </div>
     );

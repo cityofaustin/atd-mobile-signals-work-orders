@@ -73,7 +73,6 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getInventory(id)
       .then(res => {
-        console.log(res);
         this.setState({ inventoryData: res.data.records });
       });
   };
@@ -83,7 +82,6 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getImages(id)
       .then(res => {
-        console.log(res);
         this.setState({ imagesData: res.data.records });
       });
   };

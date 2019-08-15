@@ -3,8 +3,8 @@ import AssetTable from "./AssetTable";
 import AssetMap from "./AssetMap";
 import AssetDetailsSection from "./AssetDetailsSection";
 import { FIELDS } from "./fieldConfig";
-import { getAllAssets } from "../WorkOrder/helpers";
 import { getAllAssetDetails, formatDataTitles } from "./helpers";
+import api from "../../queries/api";
 
 import Autocomplete from "react-autocomplete";
 import changeCase from "change-case";
@@ -26,6 +26,7 @@ class Assets extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pageHeading: "Search Signals",
       assetsData: [],
       assetOptions: [],
       loading: false,
@@ -86,16 +87,19 @@ class Assets extends Component {
   componentDidMount() {
     if (this.props.match.params.assetId) {
       const viewAsset = { id: this.props.match.params.assetId };
-      this.setState({ viewedAsset: viewAsset });
+      this.setState({ viewedAsset: viewAsset, pageHeading: "Signals Details" });
       this.onAssetSelect("", viewAsset);
     }
     this.setState({ loading: true });
-    getAllAssets().then(data => {
-      this.setState({
-        assetOptions: data.signalOptions,
-        loading: false, // Keep naming of options from imported helper
+    api
+      .workOrder()
+      .signals()
+      .then(res => {
+        this.setState({
+          assetOptions: res.data.records,
+          loading: false,
+        });
       });
-    });
   }
 
   handleAutocompleteChange = e => {
@@ -141,14 +145,13 @@ class Assets extends Component {
     return (
       <div>
         <h1>
-          <FontAwesomeIcon icon={faMapMarkerAlt} /> Assets
+          <FontAwesomeIcon icon={faMapMarkerAlt} /> {this.state.pageHeading}
         </h1>
 
         {this.state.assetOptions.length > 0 &&
           this.state.viewedAsset === "" && (
             <form>
               <div className="form-group">
-                <label htmlFor={"asset"}>{"Search Assets"}</label>
                 <br />
                 <Autocomplete
                   getItemValue={item => item.id}

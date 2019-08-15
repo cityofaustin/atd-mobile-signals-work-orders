@@ -21,7 +21,7 @@ const mainPages = [
     icon: faTruck,
   },
   {
-    title: "Assets",
+    title: "Search Signals",
     link: "/assets",
     icon: faMapMarkerAlt,
   },

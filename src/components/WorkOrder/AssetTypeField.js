@@ -78,14 +78,21 @@ export default class AssetTypeField extends Component {
     // before providing any options to the user. Perhaps it would be better if we first
     // queried the current asset type (ex: signals), set those options to state,
     // and then query the rest. 🤔
-    getAllAssets().then(data => {
-      this.setState({
-        signalOptions: data.signalOptions,
-        schoolBeaconOptions: data.schoolBeaconOptions,
-        cameraOptions: data.cameraOptions,
-        hazardFlasherOptions: data.hazardFlasherOptions,
-        dmsOptions: data.dmsOptions,
-        sensorOptions: data.sensorOptions,
+
+    let userPosition = {};
+    navigator.geolocation.getCurrentPosition(pos => {
+      userPosition["lat"] = pos.coords.latitude;
+      userPosition["lon"] = pos.coords.longitude;
+
+      getAllAssets(userPosition).then(data => {
+        this.setState({
+          signalOptions: data.signalOptions,
+          schoolBeaconOptions: data.schoolBeaconOptions,
+          cameraOptions: data.cameraOptions,
+          hazardFlasherOptions: data.hazardFlasherOptions,
+          dmsOptions: data.dmsOptions,
+          sensorOptions: data.sensorOptions,
+        });
       });
     });
   }

@@ -18,6 +18,8 @@ export const workOrderFields = {
     { Status: "field_459" },
     { "Work Order ID": "field_1209" },
     { "Reported By": "field_968" },
+    { "Technicians Logged": "field_1753" },
+    { "Vehicles Logged": "field_1427" },
   ],
   header: "field_211_raw",
   id: "id",
@@ -31,5 +33,13 @@ export const workOrderFields = {
   images: {
     IMAGE: "field_1047",
     DATESTAMP: "field_1046",
+  },
+};
+
+export const userFields = {
+  info: {
+    role: "profile_keys",
+    email: "field_168_raw", // contains object with email key
+    name: "field_167_raw", // contains object with first and last keys
   },
 };

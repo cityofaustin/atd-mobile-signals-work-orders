@@ -38,13 +38,20 @@ export async function getWorkOrderDetailAndTimeLogs(id) {
   let vehicleSet = new Set();
 
   timelogs.forEach(timelog => {
-    timelog.field_1753_raw.forEach(technician => {
-      techniciansSet.add(technician.identifier);
-    });
-    timelog.field_1427_raw.forEach(vehicle => {
-      vehicleSet.add(vehicle.identifier);
-    });
+    const techniciansForLogs = timelog.field_1753_raw;
+    const vehiclesForLogs = timelog.field_1427_raw;
+
+    techniciansForLogs &&
+      techniciansForLogs.forEach(technician => {
+        techniciansSet.add(technician.identifier);
+      });
+
+    vehiclesForLogs &&
+      vehiclesForLogs.forEach(vehicle => {
+        vehicleSet.add(vehicle.identifier);
+      });
   });
+
   techs =
     techniciansSet.size > 0
       ? Array.from(techniciansSet).join(", ")

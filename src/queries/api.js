@@ -63,6 +63,8 @@ const keys = {
     viewId: "view_889",
     fieldId: "field_513",
   },
+  userInfo: { sceneId: "scene_461", viewId: "view_1306" },
+  userPassword: { sceneId: "scene_461", viewId: "view_1307" },
 };
 
 const filters = {
@@ -96,7 +98,11 @@ const api = {
         ),
       search: (searchValue, pageNumber) =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.allMyWorkOrders.sceneId}/views/${keys.allMyWorkOrders.viewId}/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.allMyWorkOrders.sceneId
+          }/views/${
+            keys.allMyWorkOrders.viewId
+          }/records?rows_per_page=100&page=${pageNumber}&filters=[{"value":"${searchValue}","operator":"contains","field":"field_904"}]`,
           getHeaders()
         ),
     };
@@ -393,6 +399,17 @@ const api = {
                 console.log(response);
               });
           }),
+    };
+  },
+  user() {
+    return {
+      getInfo: () =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${keys.userInfo.sceneId}/views/${
+            keys.userInfo.viewId
+          }/records`,
+          getHeaders()
+        ),
     };
   },
 };

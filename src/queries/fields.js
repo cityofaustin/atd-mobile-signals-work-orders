@@ -33,3 +33,11 @@ export const workOrderFields = {
     DATESTAMP: "field_1046",
   },
 };
+
+export const userFields = {
+  info: {
+    role: "profile_keys",
+    email: "field_168_raw", // contains object with email key
+    name: "field_167_raw", // contains object with first and last keys
+  },
+};

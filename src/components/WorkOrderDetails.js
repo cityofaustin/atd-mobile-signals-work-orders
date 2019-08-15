@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Button from "./Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -10,6 +11,7 @@ import {
   faSpinner,
   faEdit,
   faFlagCheckered,
+  faMapMarkedAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -102,6 +104,22 @@ class WorkOrderDetail extends Component {
       });
   };
 
+  getAssetIdFromKnackLink = () => {
+    const assetUrlFromKnack = this.state.detailsData[
+      workOrderFields.assetIdFromDetails
+    ];
+    const assetId = assetUrlFromKnack.match(/href="#(.*?)">/)[1];
+    return assetId;
+  };
+
+  renderSignalDetailsLink = () =>
+    // Only render link if asset type is Signal
+    this.state.detailsData["field_977"] === "Signal" && (
+      <Link to={`/assets/${this.getAssetIdFromKnackLink()}`}>
+        <FontAwesomeIcon icon={faMapMarkedAlt} /> {"View Signal Details"}
+      </Link>
+    );
+
   render() {
     return (
       <div>
@@ -109,6 +127,7 @@ class WorkOrderDetail extends Component {
           <FontAwesomeIcon icon={faWrench} />{" "}
           {this.state.titleData[workOrderFields.header]}
         </h1>
+        <h2>{this.renderSignalDetailsLink()}</h2>
         <div className="d-flex flex-row flex-wrap">
           <Button
             icon={faEdit}
@@ -119,7 +138,9 @@ class WorkOrderDetail extends Component {
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
-              linkPath={`/work-order/submit/${this.props.match.params.workOrderId}`}
+              linkPath={`/work-order/submit/${
+                this.props.match.params.workOrderId
+              }`}
             />
           ) : (
             <div className="mr-2 mb-2">
@@ -163,7 +184,9 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faClock}
                 text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
+                linkPath={`/work-order/new-time-log/${
+                  this.props.match.params.workOrderId
+                }`}
               />
               <TimeLog data={this.state.timeLogData} />
             </AccordionItemBody>
@@ -179,7 +202,9 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faWrench}
                 text={"New Item"}
-                linkPath={`/work-order/inventory-items/${this.props.match.params.workOrderId}`}
+                linkPath={`/work-order/inventory-items/${
+                  this.props.match.params.workOrderId
+                }`}
               />
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
@@ -237,7 +262,9 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faCamera}
                 text={"New Image"}
-                linkPath={`/work-order/add-image/${this.props.match.params.workOrderId}`}
+                linkPath={`/work-order/add-image/${
+                  this.props.match.params.workOrderId
+                }`}
               />
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (

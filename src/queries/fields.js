@@ -22,6 +22,8 @@ export const workOrderFields = {
     { "Vehicles Logged": "field_1427" },
   ],
   header: "field_211_raw",
+  id: "id",
+  assetIdFromDetails: "field_199",
   inventory: {
     INVENTORY_ITEM: "field_513",
     STATUS: "field_1416",

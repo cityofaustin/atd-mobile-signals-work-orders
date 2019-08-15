@@ -132,12 +132,9 @@ const removeDuplicateAssetRecords = assetsArray =>
     return assetsArray.find(asset => asset.id === id);
   });
 
-export function getSignalsOptions(searchValue, userPosition) {
+export function getSignalsOptions(userPosition) {
   return axios
-    .all([
-      api.workOrder().signals(searchValue),
-      api.workOrder().signalsNear(userPosition),
-    ])
+    .all([api.workOrder().signals(), api.workOrder().signalsNear(userPosition)])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
         addKnackAssetNumberToSocrataIdentifier(

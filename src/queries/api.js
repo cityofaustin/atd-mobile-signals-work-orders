@@ -63,6 +63,20 @@ const keys = {
     viewId: "view_889",
     fieldId: "field_513",
   },
+  assets: {
+    details: { sceneId: "scene_446", viewId: "view_1261" },
+    workOrders: { sceneId: "scene_446", viewId: "view_1550" },
+    serviceRequests: { sceneId: "scene_446", viewId: "view_1701" },
+    cameras: { sceneId: "scene_446", viewId: "view_1291" },
+    preventativeMaint: { sceneId: "scene_446", viewId: "view_1282" },
+    detectors: { sceneId: "scene_446", viewId: "view_1310" },
+    map: { sceneId: "scene_446", viewId: "view_1260" },
+    signalPriority: { sceneId: "scene_446", viewId: "view_2406" },
+    poleAttachments: { sceneId: "scene_446", viewId: "view_1590" },
+    travelSensor: { sceneId: "scene_446", viewId: "view_1373" },
+    apsButtonRequests: { sceneId: "scene_446", viewId: "view_2326" },
+    cadStatus: { sceneId: "scene_446", viewId: "view_1543" },
+  },
   userInfo: { sceneId: "scene_461", viewId: "view_1306" },
   userPassword: { sceneId: "scene_461", viewId: "view_1307" },
 };
@@ -299,13 +313,13 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      signals: searchValue =>
+      signals: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.signalFieldId
-          }?rows_per_page=2000&filters=[{"value":"PRIMARY","operator":"is","field":"field_208"},{"field":"field_1058","operator":"contains","value":"${searchValue}"}]`,
+          }?rows_per_page=2000`,
           getHeaders()
         ),
       signalsNear: userPosition =>
@@ -399,6 +413,112 @@ const api = {
                 console.log(response);
               });
           }),
+    };
+  },
+  assets() {
+    return {
+      details: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.details.sceneId
+          }/views/${keys.assets.details.viewId}/records/${id}`,
+          getHeaders()
+        ),
+      cameras: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.cameras.sceneId
+          }/views/${
+            keys.assets.cameras.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      workOrders: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.workOrders.sceneId
+          }/views/${
+            keys.assets.workOrders.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      serviceRequests: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.serviceRequests.sceneId
+          }/views/${
+            keys.assets.serviceRequests.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      preventativeMaint: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.preventativeMaint.sceneId
+          }/views/${
+            keys.assets.preventativeMaint.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      detectors: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.detectors.sceneId
+          }/views/${
+            keys.assets.detectors.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      map: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.map.sceneId
+          }/views/${keys.assets.map.viewId}/records/${id}`,
+          getHeaders()
+        ),
+      signalPriority: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.signalPriority.sceneId
+          }/views/${
+            keys.assets.signalPriority.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      poleAttachments: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.poleAttachments.sceneId
+          }/views/${
+            keys.assets.poleAttachments.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      travelSensor: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.travelSensor.sceneId
+          }/views/${
+            keys.assets.travelSensor.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      apsButtonRequests: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.apsButtonRequests.sceneId
+          }/views/${
+            keys.assets.apsButtonRequests.viewId
+          }/records?signal-details_id=${id}`,
+          getHeaders()
+        ),
+      cadStatus: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.cadStatus.sceneId
+          }/views/${keys.assets.cadStatus.viewId}/records/${id}`,
+          getHeaders()
+        ),
     };
   },
   user() {

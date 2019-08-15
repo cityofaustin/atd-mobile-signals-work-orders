@@ -87,7 +87,7 @@ class Assets extends Component {
   componentDidMount() {
     if (this.props.match.params.assetId) {
       const viewAsset = { id: this.props.match.params.assetId };
-      this.setState({ viewedAsset: viewAsset, pageHeading: "Signals Details" });
+      this.setState({ viewedAsset: viewAsset, pageHeading: "Signal Details" });
       this.onAssetSelect("", viewAsset);
     }
     this.setState({ loading: true });

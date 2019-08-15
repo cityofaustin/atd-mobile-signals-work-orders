@@ -251,7 +251,7 @@ export function getSensorOptions(userPosition) {
 
 export async function getAllAssets(userPosition) {
   const schoolBeaconOptions = await getSchoolBeaconOptions(userPosition);
-  const signalOptions = await getSignalsOptions("", userPosition);
+  const signalOptions = await getSignalsOptions(userPosition);
   const cameraOptions = await getCameraOptions("", userPosition);
   const hazardFlasherOptions = await getHazardFlasherOptions(userPosition);
   const dmsOptions = await getDmsOptions(userPosition);

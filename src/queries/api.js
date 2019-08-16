@@ -12,8 +12,7 @@ const keys = {
   },
   editWorkOrder: {
     sceneId: "scene_1048",
-    viewId: "view_2632", // TODO figure out diff between viewId and formViewId
-    formViewId: "view_2632",
+    viewId: "view_2632",
     technicianId: "field_909",
   },
   editNewWorkOrder: {

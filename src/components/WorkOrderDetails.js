@@ -108,7 +108,8 @@ class WorkOrderDetail extends Component {
     const assetUrlFromKnack = this.state.detailsData[
       workOrderFields.assetIdFromDetails
     ];
-    const assetId = assetUrlFromKnack.match(/href="#(.*?)">/)[1];
+    const assetId =
+      assetUrlFromKnack !== "" && assetUrlFromKnack.match(/href="#(.*?)">/)[1];
     return assetId;
   };
 

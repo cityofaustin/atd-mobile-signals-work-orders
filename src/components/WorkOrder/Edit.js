@@ -61,6 +61,7 @@ class Edit extends Component {
       })
       .catch(error => {
         console.log(error.response.data.errors);
+        window.scrollTo(0, 0); // Scroll to top to see error msgs
         this.setState({
           errors: error.response.data.errors,
           isSubmitting: false,

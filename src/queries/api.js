@@ -11,9 +11,8 @@ const keys = {
     viewId: "view_713",
   },
   editWorkOrder: {
-    sceneId: "scene_384",
-    viewId: "view_1082",
-    formViewId: "view_2474",
+    sceneId: "scene_1048",
+    viewId: "view_2632",
     technicianId: "field_909",
   },
   editNewWorkOrder: {
@@ -30,8 +29,8 @@ const keys = {
     viewId: "view_1280",
   },
   newWorkOrder: {
-    sceneId: "scene_979",
-    viewId: "view_2466",
+    sceneId: "scene_1042",
+    viewId: "view_2618",
     cameraFieldId: "field_1862",
     schoolZoneFieldId: "field_1871",
     signalFieldId: "field_1060",
@@ -147,7 +146,7 @@ const api = {
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.editWorkOrder.sceneId
-          }/views/${keys.editWorkOrder.formViewId}/connections/${
+          }/views/${keys.editWorkOrder.viewId}/connections/${
             keys.editWorkOrder.technicianId
           }?rows_per_page=2000&filters=${JSON.stringify(filters.technicians)}`,
           getHeaders()

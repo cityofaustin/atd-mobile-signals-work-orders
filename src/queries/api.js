@@ -298,7 +298,7 @@ const api = {
           data,
           getHeaders()
         ),
-      schoolZones: searchValue =>
+      schoolZones: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
@@ -328,13 +328,13 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      cameras: searchValue =>
+      cameras: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
           }/views/${keys.newWorkOrder.viewId}/connections/${
             keys.newWorkOrder.cameraFieldId
-          }?rows_per_page=2000&filters=[{"field":"field_1514","operator":"contains","value":"${searchValue}"}]`,
+          }?rows_per_page=2000`,
           getHeaders()
         ),
       camerasNear: userPosition =>
@@ -343,7 +343,7 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      hazardFlashers: searchValue =>
+      hazardFlashers: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
@@ -358,7 +358,7 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      dmses: searchValue =>
+      dmses: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId
@@ -373,7 +373,7 @@ const api = {
             userPosition.lat
           },${userPosition.lon},${ASSETS_WITHIN_DISTANCE})`
         ),
-      sensors: searchValue =>
+      sensors: () =>
         axios.get(
           `https://us-api.knack.com/v1/scenes/${
             keys.newWorkOrder.sceneId

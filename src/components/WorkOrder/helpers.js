@@ -149,12 +149,9 @@ export function getSignalsOptions(userPosition) {
     );
 }
 
-export function getCameraOptions(searchValue, userPosition) {
+export function getCameraOptions(userPosition) {
   return axios
-    .all([
-      api.workOrder().cameras(searchValue),
-      api.workOrder().camerasNear(userPosition),
-    ])
+    .all([api.workOrder().cameras(), api.workOrder().camerasNear(userPosition)])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
         addKnackAssetNumberToSocrataIdentifier(
@@ -249,24 +246,6 @@ export function getSensorOptions(userPosition) {
     );
 }
 
-export async function getAllAssets(userPosition) {
-  const schoolBeaconOptions = await getSchoolBeaconOptions(userPosition);
-  const signalOptions = await getSignalsOptions("", userPosition);
-  const cameraOptions = await getCameraOptions("", userPosition);
-  const hazardFlasherOptions = await getHazardFlasherOptions(userPosition);
-  const dmsOptions = await getDmsOptions(userPosition);
-  const sensorOptions = await getSensorOptions(userPosition);
-
-  return {
-    schoolBeaconOptions,
-    signalOptions,
-    cameraOptions,
-    hazardFlasherOptions,
-    dmsOptions,
-    sensorOptions,
-  };
-}
-
 export function getMyWorkOrders() {
   return api
     .myWorkOrders()
@@ -294,3 +273,16 @@ export function searchAllWorkOrders(searchValue, pageNumber) {
     .searchAll(searchValue, pageNumber)
     .then(res => res.data);
 }
+
+export const getAssetsByType = (type, userPosition) => {
+  const typeNameToFunctionName = {
+    Signal: getSignalsOptions,
+    "School Beacon": getSchoolBeaconOptions,
+    "Hazard Flasher": getHazardFlasherOptions,
+    "Digital Messaging Sign (DMS)": getDmsOptions,
+    Camera: getCameraOptions,
+    Sensor: getSensorOptions,
+  };
+  // Call API function based on asset type
+  return typeNameToFunctionName[type](userPosition);
+};

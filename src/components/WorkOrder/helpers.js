@@ -38,13 +38,20 @@ export async function getWorkOrderDetailAndTimeLogs(id) {
   let vehicleSet = new Set();
 
   timelogs.forEach(timelog => {
-    timelog.field_1753_raw.forEach(technician => {
-      techniciansSet.add(technician.identifier);
-    });
-    timelog.field_1427_raw.forEach(vehicle => {
-      vehicleSet.add(vehicle.identifier);
-    });
+    const techniciansForLogs = timelog.field_1753_raw;
+    const vehiclesForLogs = timelog.field_1427_raw;
+
+    techniciansForLogs &&
+      techniciansForLogs.forEach(technician => {
+        techniciansSet.add(technician.identifier);
+      });
+
+    vehiclesForLogs &&
+      vehiclesForLogs.forEach(vehicle => {
+        vehicleSet.add(vehicle.identifier);
+      });
   });
+
   techs =
     techniciansSet.size > 0
       ? Array.from(techniciansSet).join(", ")
@@ -149,12 +156,9 @@ export function getSignalsOptions(userPosition) {
     );
 }
 
-export function getCameraOptions(searchValue, userPosition) {
+export function getCameraOptions(userPosition) {
   return axios
-    .all([
-      api.workOrder().cameras(searchValue),
-      api.workOrder().camerasNear(userPosition),
-    ])
+    .all([api.workOrder().cameras(), api.workOrder().camerasNear(userPosition)])
     .then(
       axios.spread(function(allAssetsResponse, nearbyAssetsResponse) {
         addKnackAssetNumberToSocrataIdentifier(
@@ -249,24 +253,6 @@ export function getSensorOptions(userPosition) {
     );
 }
 
-export async function getAllAssets(userPosition) {
-  const schoolBeaconOptions = await getSchoolBeaconOptions(userPosition);
-  const signalOptions = await getSignalsOptions(userPosition);
-  const cameraOptions = await getCameraOptions("", userPosition);
-  const hazardFlasherOptions = await getHazardFlasherOptions(userPosition);
-  const dmsOptions = await getDmsOptions(userPosition);
-  const sensorOptions = await getSensorOptions(userPosition);
-
-  return {
-    schoolBeaconOptions,
-    signalOptions,
-    cameraOptions,
-    hazardFlasherOptions,
-    dmsOptions,
-    sensorOptions,
-  };
-}
-
 export function getMyWorkOrders() {
   return api
     .myWorkOrders()
@@ -294,3 +280,16 @@ export function searchAllWorkOrders(searchValue, pageNumber) {
     .searchAll(searchValue, pageNumber)
     .then(res => res.data);
 }
+
+export const getAssetsByType = (type, userPosition) => {
+  const typeNameToFunctionName = {
+    Signal: getSignalsOptions,
+    "School Beacon": getSchoolBeaconOptions,
+    "Hazard Flasher": getHazardFlasherOptions,
+    "Digital Messaging Sign (DMS)": getDmsOptions,
+    Camera: getCameraOptions,
+    Sensor: getSensorOptions,
+  };
+  // Call API function based on asset type
+  return typeNameToFunctionName[type](userPosition);
+};

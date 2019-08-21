@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { APP_ID } from "../constants/api";
 
+console.log(APP_ID);
+
 const ASSETS_WITHIN_DISTANCE = 2000; // Distance in meters for nearby asset queries
 
 const keys = {

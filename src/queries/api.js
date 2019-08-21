@@ -1,6 +1,16 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { APP_ID } from "../constants/api";
+import { APP_ID, STAGING_APP_ID, PRODUCTION_APP_ID } from "../constants/api";
+
+const isProd = APP_ID === PRODUCTION_APP_ID;
+const isStaging = APP_ID === STAGING_APP_ID;
+let envWarning = "";
+if (isProd) {
+  envWarning = "️️⚠️ PRODUCTION ENVIRONMENT ⚠️";
+} else if (isStaging) {
+  envWarning = "️🏗️ STAGING ENVIRONMENT 🏗️";
+}
+console.log(envWarning);
 
 const ASSETS_WITHIN_DISTANCE = 2000; // Distance in meters for nearby asset queries
 

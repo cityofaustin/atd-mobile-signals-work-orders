@@ -1,14 +1,18 @@
-# React Knack
+# ATD Mobile Signals Work Orders
 
-This repo is a proof-of-concept (POC) to demonstrate creating a mobile-first, reactive UI using React.js. The app will connect with Knack via their [REST API](https://www.knack.com/developer-documentation/#using-the-api).
-
-Initial notes on the project can be found [here](https://gist.github.com/mateoclarke/8a16b1a212d390c00b01b7fdc33c2b94).
-
-Documentation on the current Knack frontend for Markings Work Orders: https://github.com/cityofaustin/data-tracker-guides/blob/master/signs_markings/work_order_management.md#managing-work-orders
-
-Documentation for what Tech and Supers can do to Signals Work Orders depending on the status of the Work Order can be found here: https://docs.google.com/spreadsheets/d/1kyqQnyC3gqMo3X0EeqUumRO0RZx0PRaEDfmeC1WGC5E/edit?usp=sharing
+This repo hosts code for our a mobile first, reactive UI application built for Signal Technicians out in the field working from Android tablets. This project uses a React.js custom client interface and connects with Knack databases via their [REST API](https://www.knack.com/developer-documentation/#using-the-api).
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+## Deployments
+
+`master` branch is our production branch.
+It deploys via Netlify to [atd-mobile-signals.netlify.com](https://atd-mobile-signals.netlify.com). It consumes data from the production Data Tracker labeled as "Austin Transportation Data Tracker | Production". We should be very cautious changing any data in this environment.
+
+`staging` branch is our staging branch.
+It deploys via Netlify to [staging--atd-mobile-signals.netlify.com](https://staging--atd-mobile-signals.netlify.com). It consumes data from the test instance of Data Trackers labeled as "13 AUG 2019 | TEST - Austin Transportation Data Tracker".
+
+Any feature branches should branch from staging and be tested agaisnt our test Knack database. Once merged to staging, we can then create a pull request comparing base:master to compare:staging for final review before pushing to production.
 
 ## Getting Started
 
@@ -21,6 +25,14 @@ Run development server
 `npm start`
 
 In development, this project uses [Prettier](https://prettier.io/) for code formatting which is set in .prettierrc. Visit link for installation or install the [extension for VSCode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+
+## Reference Documentation
+
+Initial notes on the project can be found [here](https://gist.github.com/mateoclarke/8a16b1a212d390c00b01b7fdc33c2b94).
+
+Documentation on the current Knack frontend for Markings Work Orders: https://github.com/cityofaustin/data-tracker-guides/blob/master/signs_markings/work_order_management.md#managing-work-orders
+
+Documentation for what Tech and Supers can do to Signals Work Orders depending on the status of the Work Order can be found here: https://docs.google.com/spreadsheets/d/1kyqQnyC3gqMo3X0EeqUumRO0RZx0PRaEDfmeC1WGC5E/edit?usp=sharing
 
 ## License
 

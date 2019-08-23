@@ -23,6 +23,7 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 import TimeLog from "./WorkOrder/TimeLog";
+import WorkSpecifications from "./WorkOrder/WorkSpecifications";
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
 import {
@@ -139,9 +140,7 @@ class WorkOrderDetail extends Component {
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
-              linkPath={`/work-order/submit/${
-                this.props.match.params.workOrderId
-              }`}
+              linkPath={`/work-order/submit/${this.props.match.params.workOrderId}`}
             />
           ) : (
             <div className="mr-2 mb-2">
@@ -185,11 +184,20 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faClock}
                 text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
               />
               <TimeLog data={this.state.timeLogData} />
+            </AccordionItemBody>
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemTitle>
+              <h3 className="u-position-relative">
+                <FontAwesomeIcon icon={faEdit} /> Work Specifications
+                <div className="accordion__arrow" role="presentation" />
+              </h3>
+            </AccordionItemTitle>
+            <AccordionItemBody>
+              <WorkSpecifications data={this.state.timeLogData} />
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>
@@ -203,9 +211,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faWrench}
                 text={"New Item"}
-                linkPath={`/work-order/inventory-items/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/inventory-items/${this.props.match.params.workOrderId}`}
               />
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
@@ -263,9 +269,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faCamera}
                 text={"New Image"}
-                linkPath={`/work-order/add-image/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/add-image/${this.props.match.params.workOrderId}`}
               />
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (

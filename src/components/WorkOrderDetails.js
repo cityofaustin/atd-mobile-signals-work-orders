@@ -122,6 +122,16 @@ class WorkOrderDetail extends Component {
       </Link>
     );
 
+  handleReopenClick = e => {
+    e.preventDefault();
+    const workOrderId = this.props.match.params.workOrderId;
+    // To reopen work order, Knack wants payload with ID
+    api
+      .workOrder()
+      .reopen(workOrderId, { id: workOrderId })
+      .then(res => window.location.reload());
+  };
+
   render() {
     return (
       <div>
@@ -136,7 +146,8 @@ class WorkOrderDetail extends Component {
             text={"Edit"}
             linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
           />
-          {this.state.timeLogData.length > 0 ? (
+          {this.state.timeLogData.length > 0 &&
+          this.state.detailsData.field_459 !== "Submitted" ? (
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
@@ -152,11 +163,15 @@ class WorkOrderDetail extends Component {
             </div>
           )}
           {this.state.detailsData.field_459 === "Submitted" && (
-            <Button
-              icon={faRedo}
-              text={"Re-Open"}
-              // linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
-            />
+            <div className="mr-2 mb-2">
+              <button
+                type="button"
+                className="btn btn-secondary btn-lg"
+                onClick={this.handleReopenClick}
+              >
+                <FontAwesomeIcon icon={faRedo} /> Re-Open
+              </button>
+            </div>
           )}
         </div>
         <Accordion>

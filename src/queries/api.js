@@ -38,6 +38,10 @@ const keys = {
     sceneId: "scene_450",
     viewId: "view_1280",
   },
+  reopenWorkorder: {
+    sceneId: "scene_345",
+    viewId: "view_992",
+  },
   newWorkOrder: {
     sceneId: "scene_1042",
     viewId: "view_2618",
@@ -210,6 +214,14 @@ const api = {
           data,
           getHeaders()
         ),
+      reopen: (id, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.reopenWorkorder.sceneId
+          }/views/${keys.reopenWorkorder.viewId}/records/${id}`,
+          data,
+          getHeaders()
+        ),
       editNewWorkOrder: (id, data) =>
         axios.put(
           `https://us-api.knack.com/v1/scenes/${
@@ -245,7 +257,7 @@ const api = {
             keys.workOrderTimeLogs.sceneId
           }/views/${
             keys.workOrderTimeLogs.viewId
-          }/records?my-work-order-details_id=${id}`,
+          }/records?my-work-order-details2_id=${id}`,
           getHeaders()
         ),
       newTimeLog: (id, data) =>

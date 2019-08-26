@@ -40,6 +40,7 @@ class WorkOrderDetail extends Component {
       timeLogData: false,
       inventoryData: false,
       imagesData: false,
+      userInfo: "",
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -74,6 +75,12 @@ class WorkOrderDetail extends Component {
     getWorkOrderDetailAndTimeLogs(workOrderId).then(data => {
       this.setState({ detailsData: data });
     });
+    api
+      .user()
+      .getInfo()
+      .then(res => {
+        this.setState({ userInfo: res.data });
+      });
     // Stagger the calls to Knack API so we don't get rate limited.
     setTimeout(this.requestTimeLogs, 500, workOrderId);
     setTimeout(this.requestInventory, 1000, workOrderId);
@@ -132,7 +139,16 @@ class WorkOrderDetail extends Component {
       .then(res => window.location.reload());
   };
 
+  isWorkOrderAssignedToUserLoggedIn = () => {
+    const userId = this.state.userInfo.id;
+    const usersArray = this.state.detailsData.field_1754_raw;
+    return usersArray && userId
+      ? usersArray.find(user => user.id === userId)
+      : false;
+  };
+
   render() {
+    const statusField = this.state.detailsData.field_459;
     return (
       <div>
         <h1>
@@ -141,13 +157,20 @@ class WorkOrderDetail extends Component {
         </h1>
         <h2>{this.renderSignalDetailsLink()}</h2>
         <div className="d-flex flex-row flex-wrap">
-          <Button
-            icon={faEdit}
-            text={"Edit"}
-            linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
-          />
+          {statusField !== "Submitted" &&
+            statusField !== "Closed" &&
+            this.isWorkOrderAssignedToUserLoggedIn() && (
+              <Button
+                icon={faEdit}
+                text={"Edit"}
+                linkPath={`/work-order/edit/${
+                  this.props.match.params.workOrderId
+                }`}
+              />
+            )}
           {this.state.timeLogData.length > 0 &&
-          this.state.detailsData.field_459 !== "Submitted" ? (
+          statusField !== "Submitted" &&
+          statusField === "Assigned" ? (
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
@@ -162,7 +185,7 @@ class WorkOrderDetail extends Component {
               </div>
             </div>
           )}
-          {this.state.detailsData.field_459 === "Submitted" && (
+          {statusField === "Submitted" && (
             <div className="mr-2 mb-2">
               <button
                 type="button"

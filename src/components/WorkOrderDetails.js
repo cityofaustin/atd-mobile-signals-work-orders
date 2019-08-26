@@ -12,6 +12,7 @@ import {
   faEdit,
   faFlagCheckered,
   faMapMarkedAlt,
+  faRedo,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -149,6 +150,13 @@ class WorkOrderDetail extends Component {
                 <FontAwesomeIcon icon={faFlagCheckered} /> Submit
               </div>
             </div>
+          )}
+          {this.state.detailsData.field_459 === "Submitted" && (
+            <Button
+              icon={faRedo}
+              text={"Re-Open"}
+              // linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
+            />
           )}
         </div>
         <Accordion>

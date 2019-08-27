@@ -34,9 +34,10 @@ const keys = {
     csrFieldId: "field_1235",
     taskOrderId: "field_2634",
   },
-  postTaskOrder: {
+  taskOrder: {
     sceneId: "scene_297",
     viewId: "view_1197",
+    taskOrderId: "field_2634",
   },
   submitWorkoder: {
     sceneId: "scene_450",
@@ -161,9 +162,14 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${keys.editNewWorkOrder.sceneId}/views/${keys.editNewWorkOrder.formViewId}/connections/${keys.editNewWorkOrder.taskOrderId}?rows_per_page=2000&filters=[{"field":"field_2633","operator":"is","value":"Yes"},{"field":"field_1278","operator":"contains","value":"${searchValue}"}]`,
           getHeaders()
         ),
+      getTaskOrder: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${keys.taskOrder.sceneId}/views/${keys.taskOrder.viewId}/records/${id}`,
+          getHeaders()
+        ),
       postTaskOrder: (id, data) =>
         axios.put(
-          `https://us-api.knack.com/v1/scenes/${keys.postTaskOrder.sceneId}/views/${keys.postTaskOrder.viewId}/records/${id}`,
+          `https://us-api.knack.com/v1/scenes/${keys.taskOrder.sceneId}/views/${keys.taskOrder.viewId}/records/${id}`,
           data,
           getHeaders()
         ),

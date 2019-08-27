@@ -37,7 +37,8 @@ export default class WorkSpecifications extends Component {
 
   toggleBoolean = e => {
     let updatedFormData = this.state.updatedFormData;
-    updatedFormData[e.target.id] = !this.state.updatedFormData[e.target.id];
+    updatedFormData[e.target.id] =
+      this.state.updatedFormData[e.target.id] === "Yes" ? "No" : "Yes";
 
     this.setState({ updatedFormData });
   };
@@ -116,6 +117,32 @@ export default class WorkSpecifications extends Component {
       );
   };
 
+  componentDidMount() {
+    api
+      .workOrder()
+      .getTaskOrder(this.props.workOrderId)
+      .then(res => {
+        console.log(res);
+        const updatedFormData = {
+          [FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND]:
+            res.data[FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND],
+          [FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS]:
+            res.data[`${FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}_raw`],
+          [FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN]:
+            res.data[FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN],
+          [FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL]:
+            res.data[FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL],
+          [FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED]:
+            res.data[FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED],
+          [FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION]:
+            res.data[FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION],
+          [FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET]:
+            res.data[FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET],
+        };
+        this.setState({ updatedFormData });
+      });
+  }
+
   render() {
     const { data } = this.props;
     return (
@@ -131,7 +158,7 @@ export default class WorkSpecifications extends Component {
               name={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}
               rows="3"
               onChange={this.handleChange}
-              defaultValue={
+              value={
                 this.state.updatedFormData[
                   FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND
                 ]
@@ -168,7 +195,7 @@ export default class WorkSpecifications extends Component {
               name={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
               rows="3"
               onChange={this.handleChange}
-              defaultValue={
+              value={
                 this.state.updatedFormData[
                   FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN
                 ]
@@ -183,20 +210,20 @@ export default class WorkSpecifications extends Component {
               <input
                 class="form-check-input"
                 type="radio"
-                name={`${FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}-yes`}
-                id={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
+                name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
+                id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
                 value="Yes"
                 onChange={this.handleChange}
                 checked={
                   "Yes" ===
                   this.state.updatedFormData[
-                    FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN
+                    FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL
                   ]
                 }
               />
               <label
                 class="form-check-label"
-                htmlFor={`${FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}-yes`}
+                htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
               >
                 Yes
               </label>
@@ -205,20 +232,20 @@ export default class WorkSpecifications extends Component {
               <input
                 class="form-check-input"
                 type="radio"
-                name={`${FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}-no`}
-                id={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
+                name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
+                id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
                 value="No"
                 checked={
                   "No" ===
                   this.state.updatedFormData[
-                    FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN
+                    FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL
                   ]
                 }
                 onChange={this.handleChange}
               />
               <label
                 class="form-check-label"
-                htmlFor={`${FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}-no`}
+                htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
               >
                 No
               </label>
@@ -235,6 +262,11 @@ export default class WorkSpecifications extends Component {
                     FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
                   ]
                 }
+                checked={
+                  this.state.updatedFormData[
+                    FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
+                  ] === "Yes"
+                }
                 id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
               />
               <label
@@ -247,7 +279,7 @@ export default class WorkSpecifications extends Component {
           </div>
           {this.state.updatedFormData[
             FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
-          ] && (
+          ] === "Yes" && (
             <div className="form-group">
               <label htmlFor={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}>
                 Follow up description
@@ -258,7 +290,7 @@ export default class WorkSpecifications extends Component {
                 name={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
                 rows="3"
                 onChange={this.handleChange}
-                defaultValue={
+                value={
                   this.state.updatedFormData[
                     FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION
                   ]
@@ -276,6 +308,11 @@ export default class WorkSpecifications extends Component {
                   this.state.updatedFormData[
                     FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET
                   ]
+                }
+                checked={
+                  this.state.updatedFormData[
+                    FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET
+                  ] === "Yes"
                 }
                 id={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
               />

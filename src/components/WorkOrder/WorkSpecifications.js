@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import AsyncSelect from "react-select/lib/Async";
 import { FIELDS } from "./formConfig";
 import SubmitButton from "../Form/SubmitButton";
@@ -69,13 +67,6 @@ export default class WorkSpecifications extends Component {
       FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS
     ];
     if (values === undefined) return [];
-
-    let data = this.state.updatedFormData[
-      FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS
-    ];
-    let rawData = this.state.updatedFormData[
-      `${FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}_raw`
-    ];
 
     // handle no Task Orders
     values =
@@ -155,11 +146,10 @@ export default class WorkSpecifications extends Component {
   }
 
   render() {
-    const { data } = this.props;
     return (
       <div>
         {this.props.data.field_459 === "Submitted" ? (
-          <div class="form-group">
+          <div className="form-group">
             <dl>
               <dt>Problem Found</dt>
               <dd>
@@ -236,12 +226,12 @@ export default class WorkSpecifications extends Component {
                 <ErrorMessage error={error} key={error.field} />
               ))}
             <form onSubmit={this.handleSubmit}>
-              <div class="form-group">
+              <div className="form-group">
                 <label htmlFor={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}>
                   Problem Found
                 </label>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   id={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}
                   name={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}
                   rows="3"
@@ -256,7 +246,7 @@ export default class WorkSpecifications extends Component {
               <div className="form-group">
                 <label
                   htmlFor={FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}
-                  class="form-check-label"
+                  className="form-check-label"
                 >
                   Task Orders
                 </label>
@@ -278,7 +268,7 @@ export default class WorkSpecifications extends Component {
                   Action Taken
                 </label>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   id={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
                   name={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
                   rows="3"
@@ -294,9 +284,9 @@ export default class WorkSpecifications extends Component {
                 <label htmlFor={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}>
                   Checked All Peds, Colors, Buttons, Detection, Program
                 </label>
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
                     id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
@@ -310,15 +300,15 @@ export default class WorkSpecifications extends Component {
                     }
                   />
                   <label
-                    class="form-check-label"
+                    className="form-check-label"
                     htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
                   >
                     Yes
                   </label>
                 </div>
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
                     id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
@@ -332,7 +322,7 @@ export default class WorkSpecifications extends Component {
                     onChange={this.handleChange}
                   />
                   <label
-                    class="form-check-label"
+                    className="form-check-label"
                     htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
                   >
                     No
@@ -340,9 +330,9 @@ export default class WorkSpecifications extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     onChange={this.toggleBoolean}
                     value={
@@ -358,8 +348,8 @@ export default class WorkSpecifications extends Component {
                     id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
                   />
                   <label
-                    class="form-check-label"
-                    for={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
+                    className="form-check-label"
+                    htmlFor={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
                   >
                     Follow Up Needed
                   </label>
@@ -375,7 +365,7 @@ export default class WorkSpecifications extends Component {
                     Follow Up Description
                   </label>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
                     name={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
                     rows="3"
@@ -389,9 +379,9 @@ export default class WorkSpecifications extends Component {
                 </div>
               )}
               <div className="form-group">
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     onChange={this.toggleBoolean}
                     value={
@@ -407,8 +397,8 @@ export default class WorkSpecifications extends Component {
                     id={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
                   />
                   <label
-                    class="form-check-label"
-                    for={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
+                    className="form-check-label"
+                    htmlFor={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
                   >
                     Submit Work Ticket
                   </label>

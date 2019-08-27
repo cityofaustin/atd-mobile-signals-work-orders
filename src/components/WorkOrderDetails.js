@@ -41,6 +41,7 @@ class WorkOrderDetail extends Component {
       inventoryData: false,
       imagesData: false,
       userInfo: "",
+      isSubmitting: false,
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -133,10 +134,14 @@ class WorkOrderDetail extends Component {
     e.preventDefault();
     const workOrderId = this.props.match.params.workOrderId;
     // To reopen work order, Knack wants payload with ID
+    this.setState({ isSubmitting: true });
     api
       .workOrder()
       .reopen(workOrderId, { id: workOrderId })
-      .then(res => window.location.reload());
+      .then(() => {
+        this.setState({ isSubmitting: true });
+        window.location.reload();
+      });
   };
 
   isWorkOrderAssignedToUserLoggedIn = () => {
@@ -146,6 +151,21 @@ class WorkOrderDetail extends Component {
       ? usersArray.find(user => user.id === userId)
       : false;
   };
+
+  displayReopenButton = () =>
+    this.state.isSubmitting ? (
+      <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+    ) : (
+      <div className="mr-2 mb-2">
+        <button
+          type="button"
+          className="btn btn-secondary btn-lg"
+          onClick={this.handleReopenClick}
+        >
+          <FontAwesomeIcon icon={faRedo} /> Re-Open
+        </button>
+      </div>
+    );
 
   render() {
     const statusField = this.state.detailsData.field_459;
@@ -185,17 +205,7 @@ class WorkOrderDetail extends Component {
               </div>
             </div>
           )}
-          {statusField === "Submitted" && (
-            <div className="mr-2 mb-2">
-              <button
-                type="button"
-                className="btn btn-secondary btn-lg"
-                onClick={this.handleReopenClick}
-              >
-                <FontAwesomeIcon icon={faRedo} /> Re-Open
-              </button>
-            </div>
-          )}
+          {statusField === "Submitted" && this.displayReopenButton()}
         </div>
         <Accordion>
           <AccordionItem>

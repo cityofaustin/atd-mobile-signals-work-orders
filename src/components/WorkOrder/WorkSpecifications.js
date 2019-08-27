@@ -4,6 +4,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import AsyncSelect from "react-select/lib/Async";
 import { FIELDS } from "./formConfig";
 import SubmitButton from "../Form/SubmitButton";
+import { ErrorMessage, SuccessMessage } from "./Alerts";
 
 import api from "../../queries/api";
 
@@ -16,6 +17,7 @@ export default class WorkSpecifications extends Component {
         _id: this.props.workOrderId,
       },
       options: [],
+      errors: [],
       isLoading: false,
       isSubmitting: false,
     };
@@ -103,6 +105,7 @@ export default class WorkSpecifications extends Component {
     e.preventDefault();
 
     this.setState({
+      errors: [],
       isSubmitting: true,
     });
 
@@ -113,8 +116,17 @@ export default class WorkSpecifications extends Component {
         this.setState({
           submittedData: res.data,
           isSubmitting: false,
+          isSubmitted: true,
         })
-      );
+      )
+      .catch(error => {
+        console.log(error.response.data.errors);
+        window.scrollTo(0, 0); // Scroll to top to see error msgs
+        this.setState({
+          errors: error.response.data.errors,
+          isSubmitting: false,
+        });
+      });
   };
 
   componentDidMount() {
@@ -147,6 +159,13 @@ export default class WorkSpecifications extends Component {
     const { data } = this.props;
     return (
       <div>
+        {this.state.isSubmitted && (
+          <SuccessMessage formType="Work Specifications" formVerb="update" />
+        )}
+        {this.state.errors &&
+          this.state.errors.map(error => (
+            <ErrorMessage error={error} key={error.field} />
+          ))}
         <form onSubmit={this.handleSubmit}>
           <div class="form-group">
             <label htmlFor={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}>

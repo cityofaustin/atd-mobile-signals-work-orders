@@ -12,7 +12,7 @@ if (isProd) {
 }
 console.log(envWarning);
 
-const ASSETS_WITHIN_DISTANCE = 2000; // Distance in meters for nearby asset queries
+const ASSETS_WITHIN_DISTANCE = 150; // Distance in meters for nearby asset queries
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },

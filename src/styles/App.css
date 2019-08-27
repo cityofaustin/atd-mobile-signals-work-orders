@@ -24,6 +24,8 @@ body {
   animation: spinner 1s infinite;
   margin: auto;
   display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 @keyframes spinner {
   from {

@@ -1,4 +1,9 @@
+# Production branch uses Production DB
 [context.production] 
     environment = { REACT_APP_KNACK_APP_ID = "5815f29f7f7252cc2ca91c4f"}
-[context.staging] 
+
+# Staging and feature branches uses Test DB
+[context.master] 
+    environment = { REACT_APP_KNACK_APP_ID = "5d52fcde610a550010c37502"}
+[context.branch-deploy]
     environment = { REACT_APP_KNACK_APP_ID = "5d52fcde610a550010c37502"}

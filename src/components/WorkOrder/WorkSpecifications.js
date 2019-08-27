@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FIELDS } from "./formConfig";
 import AsyncSelect from "react-select/lib/Async";
+import { FIELDS } from "./formConfig";
+import SubmitButton from "../Form/SubmitButton";
+
 import api from "../../queries/api";
 
 export default class WorkSpecifications extends Component {
@@ -10,8 +12,12 @@ export default class WorkSpecifications extends Component {
     super(props);
 
     this.state = {
-      updatedFormData: {},
+      updatedFormData: {
+        _id: this.props.workOrderId,
+      },
       options: [],
+      isLoading: false,
+      isSubmitting: false,
     };
   }
 
@@ -54,7 +60,6 @@ export default class WorkSpecifications extends Component {
     ];
     if (values === undefined) return [];
 
-    debugger;
     let data = this.state.updatedFormData[
       FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS
     ];
@@ -87,11 +92,29 @@ export default class WorkSpecifications extends Component {
     this.setState({ updatedFormData });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+
+    this.setState({
+      isLoading: false,
+    });
+
+    api
+      .workOrder()
+      .postTaskOrder(this.props.workOrderId, this.state.updatedFormData)
+      .then(res =>
+        this.setState({
+          submittedData: res.data,
+          isLoading: false,
+        })
+      );
+  };
+
   render() {
     const { data } = this.props;
     return (
       <div>
-        <form onSubmit={this.onSubmitForm}>
+        <form onSubmit={this.handleSubmit}>
           <div class="form-group">
             <label htmlFor={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}>
               Problem found
@@ -195,13 +218,7 @@ export default class WorkSpecifications extends Component {
               </label>
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn btn-lg btn-primary"
-            onSubmit={e => this.handleSubmit(e)}
-          >
-            Submit
-          </button>
+          <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
         </form>
       </div>
     );

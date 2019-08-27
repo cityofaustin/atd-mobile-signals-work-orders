@@ -197,7 +197,10 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <WorkSpecifications data={this.state.timeLogData} />
+              <WorkSpecifications
+                data={this.state.timeLogData}
+                workOrderId={this.props.match.params.workOrderId}
+              />
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

@@ -56,12 +56,14 @@ export const FIELDS = {
     WORKSITE_LEAVE: "field_1438",
     WORKSITE_SHOP_RETURN: "field_1425",
   },
-  //  view_1197
   WORK_SPECIFICATIONS: {
     PROBLEM_FOUND: "field_1351",
     TASK_ORDERS: "field_2634",
     ACTION_TAKEN: "field_1352",
     CHECKED_ALL: "field_1839",
+    FOLLOW_UP_NEEDED: "field_1354",
+    FOLLOW_UP_DESCRIPTION: "field_1598",
+    SUBMIT_WORK_TICKET: "field_1353",
   },
 };
 

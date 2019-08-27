@@ -134,7 +134,6 @@ export default class WorkSpecifications extends Component {
       .workOrder()
       .getTaskOrder(this.props.workOrderId)
       .then(res => {
-        console.log(res);
         const updatedFormData = {
           [FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND]:
             res.data[FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND],
@@ -159,192 +158,269 @@ export default class WorkSpecifications extends Component {
     const { data } = this.props;
     return (
       <div>
-        {this.state.isSubmitted && (
-          <SuccessMessage formType="Work Specifications" formVerb="update" />
-        )}
-        {this.state.errors &&
-          this.state.errors.map(error => (
-            <ErrorMessage error={error} key={error.field} />
-          ))}
-        <form onSubmit={this.handleSubmit}>
+        {this.props.data.field_459 === "Submitted" ? (
           <div class="form-group">
-            <label htmlFor={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}>
-              Problem found
-            </label>
-            <textarea
-              class="form-control"
-              id={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}
-              name={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}
-              rows="3"
-              onChange={this.handleChange}
-              value={
-                this.state.updatedFormData[
-                  FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND
+            <dl>
+              <dt>Problem Found</dt>
+              <dd>
+                {
+                  this.state.updatedFormData[
+                    FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND
+                  ]
+                }
+              </dd>
+            </dl>
+            <dl>
+              <dt>Task Orders</dt>
+              <dd>
+                {this.state.updatedFormData[
+                  FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS
                 ]
-              }
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <label
-              htmlFor={FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}
-              class="form-check-label"
-            >
-              Task orders
-            </label>
-            <AsyncSelect
-              name={FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}
-              id={FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}
-              value={this.getTaskOrderValues()}
-              cacheOptions
-              loadOptions={this.loadTaskOrderOptions}
-              isClearable
-              isMulti
-              placeholder="Type to Search"
-              onInputChange={this.handleInputChange}
-              onChange={this.handleTaskOrderChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}>
-              Action taken
-            </label>
-            <textarea
-              class="form-control"
-              id={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
-              name={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
-              rows="3"
-              onChange={this.handleChange}
-              value={
-                this.state.updatedFormData[
-                  FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN
-                ]
-              }
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <label htmlFor={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}>
-              Checked All Peds, Colors, Buttons, Detection, Program
-            </label>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
-                id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
-                value="Yes"
-                onChange={this.handleChange}
-                checked={
-                  "Yes" ===
+                  .map(item => {
+                    return item.identifier;
+                  })
+                  .join(" ")}
+              </dd>
+            </dl>
+            <dl>
+              <dt>Action Taken</dt>
+              <dd>
+                {
+                  this.state.updatedFormData[
+                    FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN
+                  ]
+                }
+              </dd>
+            </dl>
+            <dl>
+              <dt>Checked All Peds, Colors, Buttons, Detection, Program</dt>
+              <dd>
+                {
                   this.state.updatedFormData[
                     FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL
                   ]
                 }
-              />
-              <label
-                class="form-check-label"
-                htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
-              >
-                Yes
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
-                id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
-                value="No"
-                checked={
-                  "No" ===
-                  this.state.updatedFormData[
-                    FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL
-                  ]
-                }
-                onChange={this.handleChange}
-              />
-              <label
-                class="form-check-label"
-                htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
-              >
-                No
-              </label>
-            </div>
-          </div>
-          <div className="form-group">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                onChange={this.toggleBoolean}
-                value={
+              </dd>
+            </dl>
+            <dl>
+              <dt>Follow Up Needed</dt>
+              <dd>
+                {
                   this.state.updatedFormData[
                     FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
                   ]
                 }
-                checked={
-                  this.state.updatedFormData[
-                    FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
-                  ] === "Yes"
-                }
-                id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
-              />
-              <label
-                class="form-check-label"
-                for={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
-              >
-                Follow up needed
-              </label>
-            </div>
-          </div>
-          {this.state.updatedFormData[
-            FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
-          ] === "Yes" && (
-            <div className="form-group">
-              <label htmlFor={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}>
-                Follow up description
-              </label>
-              <textarea
-                class="form-control"
-                id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
-                name={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
-                rows="3"
-                onChange={this.handleChange}
-                value={
+              </dd>
+            </dl>
+            <dl>
+              <dt>Follow Up Description</dt>
+              <dd>
+                {
                   this.state.updatedFormData[
                     FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION
                   ]
                 }
-              ></textarea>
-            </div>
-          )}
-          <div className="form-group">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                onChange={this.toggleBoolean}
-                value={
-                  this.state.updatedFormData[
-                    FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET
-                  ]
-                }
-                checked={
-                  this.state.updatedFormData[
-                    FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET
-                  ] === "Yes"
-                }
-                id={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
-              />
-              <label
-                class="form-check-label"
-                for={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
-              >
-                Submit Work Ticket
-              </label>
-            </div>
+              </dd>
+            </dl>
           </div>
-          <SubmitButton text="Submit" isSubmitting={this.state.isSubmitting} />
-        </form>
+        ) : (
+          <div>
+            {this.state.isSubmitted && (
+              <SuccessMessage
+                formType="Work Specifications"
+                formVerb="update"
+              />
+            )}
+            {this.state.errors &&
+              this.state.errors.map(error => (
+                <ErrorMessage error={error} key={error.field} />
+              ))}
+            <form onSubmit={this.handleSubmit}>
+              <div class="form-group">
+                <label htmlFor={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}>
+                  Problem Found
+                </label>
+                <textarea
+                  class="form-control"
+                  id={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}
+                  name={FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND}
+                  rows="3"
+                  onChange={this.handleChange}
+                  value={
+                    this.state.updatedFormData[
+                      FIELDS.WORK_SPECIFICATIONS.PROBLEM_FOUND
+                    ]
+                  }
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <label
+                  htmlFor={FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}
+                  class="form-check-label"
+                >
+                  Task Orders
+                </label>
+                <AsyncSelect
+                  name={FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}
+                  id={FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS}
+                  value={this.getTaskOrderValues()}
+                  cacheOptions
+                  loadOptions={this.loadTaskOrderOptions}
+                  isClearable
+                  isMulti
+                  placeholder="Type to Search"
+                  onInputChange={this.handleInputChange}
+                  onChange={this.handleTaskOrderChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}>
+                  Action Taken
+                </label>
+                <textarea
+                  class="form-control"
+                  id={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
+                  name={FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}
+                  rows="3"
+                  onChange={this.handleChange}
+                  value={
+                    this.state.updatedFormData[
+                      FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN
+                    ]
+                  }
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <label htmlFor={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}>
+                  Checked All Peds, Colors, Buttons, Detection, Program
+                </label>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
+                    id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
+                    value="Yes"
+                    onChange={this.handleChange}
+                    checked={
+                      "Yes" ===
+                      this.state.updatedFormData[
+                        FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL
+                      ]
+                    }
+                  />
+                  <label
+                    class="form-check-label"
+                    htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-yes`}
+                  >
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
+                    id={FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}
+                    value="No"
+                    checked={
+                      "No" ===
+                      this.state.updatedFormData[
+                        FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL
+                      ]
+                    }
+                    onChange={this.handleChange}
+                  />
+                  <label
+                    class="form-check-label"
+                    htmlFor={`${FIELDS.WORK_SPECIFICATIONS.CHECKED_ALL}-no`}
+                  >
+                    No
+                  </label>
+                </div>
+              </div>
+              <div className="form-group">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    onChange={this.toggleBoolean}
+                    value={
+                      this.state.updatedFormData[
+                        FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
+                      ]
+                    }
+                    checked={
+                      this.state.updatedFormData[
+                        FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
+                      ] === "Yes"
+                    }
+                    id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
+                  />
+                  <label
+                    class="form-check-label"
+                    for={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
+                  >
+                    Follow Up Needed
+                  </label>
+                </div>
+              </div>
+              {this.state.updatedFormData[
+                FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
+              ] === "Yes" && (
+                <div className="form-group">
+                  <label
+                    htmlFor={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
+                  >
+                    Follow Up Description
+                  </label>
+                  <textarea
+                    class="form-control"
+                    id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
+                    name={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
+                    rows="3"
+                    onChange={this.handleChange}
+                    value={
+                      this.state.updatedFormData[
+                        FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION
+                      ]
+                    }
+                  ></textarea>
+                </div>
+              )}
+              <div className="form-group">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    onChange={this.toggleBoolean}
+                    value={
+                      this.state.updatedFormData[
+                        FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET
+                      ]
+                    }
+                    checked={
+                      this.state.updatedFormData[
+                        FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET
+                      ] === "Yes"
+                    }
+                    id={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
+                  />
+                  <label
+                    class="form-check-label"
+                    for={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
+                  >
+                    Submit Work Ticket
+                  </label>
+                </div>
+              </div>
+              <SubmitButton
+                text="Submit"
+                isSubmitting={this.state.isSubmitting}
+              />
+            </form>
+          </div>
+        )}
       </div>
     );
   }

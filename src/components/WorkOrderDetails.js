@@ -198,6 +198,7 @@ class WorkOrderDetail extends Component {
             </AccordionItemTitle>
             <AccordionItemBody>
               <WorkSpecifications
+                data={this.state.detailsData}
                 workOrderId={this.props.match.params.workOrderId}
               />
             </AccordionItemBody>

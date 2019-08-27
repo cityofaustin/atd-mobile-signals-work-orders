@@ -35,6 +35,13 @@ export default class WorkSpecifications extends Component {
     this.setState({ updatedFormData, rawData: updatedAllData });
   };
 
+  toggleBoolean = e => {
+    let updatedFormData = this.state.updatedFormData;
+    updatedFormData[e.target.id] = !this.state.updatedFormData[e.target.id];
+
+    this.setState({ updatedFormData });
+  };
+
   loadTaskOrderOptions = (inputValue, callback) => {
     if (inputValue.length < 2) {
       return inputValue;
@@ -88,7 +95,6 @@ export default class WorkSpecifications extends Component {
     }));
 
     const updatedFormData = Object.assign(this.state.updatedFormData, data);
-    debugger;
     this.setState({ updatedFormData });
   };
 
@@ -96,7 +102,7 @@ export default class WorkSpecifications extends Component {
     e.preventDefault();
 
     this.setState({
-      isLoading: false,
+      isSubmitting: true,
     });
 
     api
@@ -105,7 +111,7 @@ export default class WorkSpecifications extends Component {
       .then(res =>
         this.setState({
           submittedData: res.data,
-          isLoading: false,
+          isSubmitting: false,
         })
       );
   };
@@ -215,6 +221,69 @@ export default class WorkSpecifications extends Component {
                 htmlFor={`${FIELDS.WORK_SPECIFICATIONS.ACTION_TAKEN}-no`}
               >
                 No
+              </label>
+            </div>
+          </div>
+          <div className="form-group">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                onChange={this.toggleBoolean}
+                value={
+                  this.state.updatedFormData[
+                    FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
+                  ]
+                }
+                id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
+              />
+              <label
+                class="form-check-label"
+                for={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED}
+              >
+                Follow up needed
+              </label>
+            </div>
+          </div>
+          {this.state.updatedFormData[
+            FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED
+          ] && (
+            <div className="form-group">
+              <label htmlFor={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}>
+                Follow up description
+              </label>
+              <textarea
+                class="form-control"
+                id={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
+                name={FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION}
+                rows="3"
+                onChange={this.handleChange}
+                defaultValue={
+                  this.state.updatedFormData[
+                    FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION
+                  ]
+                }
+              ></textarea>
+            </div>
+          )}
+          <div className="form-group">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                onChange={this.toggleBoolean}
+                value={
+                  this.state.updatedFormData[
+                    FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET
+                  ]
+                }
+                id={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
+              />
+              <label
+                class="form-check-label"
+                for={FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET}
+              >
+                Submit Work Ticket
               </label>
             </div>
           </div>

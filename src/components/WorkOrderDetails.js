@@ -154,7 +154,7 @@ class WorkOrderDetail extends Component {
 
   displayReopenButton = () =>
     this.state.isSubmitting ? (
-      <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+      <FontAwesomeIcon icon={faSpinner} className="atd-spinner" size="2x" />
     ) : (
       <div className="mr-2 mb-2">
         <button

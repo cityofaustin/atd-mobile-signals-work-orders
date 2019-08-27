@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 It deploys via Netlify to [mobile-signals.austintexas.io](https://mobile-signals.austintexas.io). It consumes data from the production Data Tracker labeled as "Austin Transportation Data Tracker | Production". _We should be very cautious changing any data in the production app environment_.
 
 `master` branch is our staging branch.
-It deploys via Netlify to [staging--atd-mobile-signals.netlify.com](https://staging--atd-mobile-signals.netlify.com). It consumes data from the test instance of Data Trackers labeled as "13 AUG 2019 | TEST - Austin Transportation Data Tracker".
+It deploys via Netlify to [master--atd-mobile-signals.netlify.com](https://master--atd-mobile-signals.netlify.com). It consumes data from the test instance of Data Trackers labeled as "13 AUG 2019 | TEST - Austin Transportation Data Tracker".
 
 Any feature development should be done in feature branches branched from the `master`/staging branch. They should be tested against our test Knack database. Once merged to staging, we can then create a pull request comparing base:production to compare:master for final review before pushing to production.
 

@@ -12,7 +12,7 @@ if (isProd) {
 }
 console.log(envWarning);
 
-const ASSETS_WITHIN_DISTANCE = 2000; // Distance in meters for nearby asset queries
+const ASSETS_WITHIN_DISTANCE = 150; // Distance in meters for nearby asset queries
 
 const keys = {
   allMyWorkOrders: { sceneId: "scene_88", viewId: "view_813" },
@@ -42,6 +42,10 @@ const keys = {
   submitWorkoder: {
     sceneId: "scene_450",
     viewId: "view_1280",
+  },
+  reopenWorkorder: {
+    sceneId: "scene_345",
+    viewId: "view_992",
   },
   newWorkOrder: {
     sceneId: "scene_1042",
@@ -196,6 +200,14 @@ const api = {
           data,
           getHeaders()
         ),
+      reopen: (id, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.reopenWorkorder.sceneId
+          }/views/${keys.reopenWorkorder.viewId}/records/${id}`,
+          data,
+          getHeaders()
+        ),
       editNewWorkOrder: (id, data) =>
         axios.put(
           `https://us-api.knack.com/v1/scenes/${keys.editNewWorkOrder.sceneId}/views/${keys.editNewWorkOrder.formViewId}/records/${id}`,
@@ -219,7 +231,11 @@ const api = {
         ),
       getTimeLogs: id =>
         axios.get(
-          `https://us-api.knack.com/v1/scenes/${keys.workOrderTimeLogs.sceneId}/views/${keys.workOrderTimeLogs.viewId}/records?my-work-order-details_id=${id}`,
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderTimeLogs.sceneId
+          }/views/${
+            keys.workOrderTimeLogs.viewId
+          }/records?my-work-order-details2_id=${id}`,
           getHeaders()
         ),
       newTimeLog: (id, data) =>

@@ -40,6 +40,9 @@ export default class WorkSpecifications extends Component {
     updatedFormData[e.target.id] =
       this.state.updatedFormData[e.target.id] === "Yes" ? "No" : "Yes";
 
+    if (updatedFormData[FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_NEEDED] === "No") {
+      updatedFormData[FIELDS.WORK_SPECIFICATIONS.FOLLOW_UP_DESCRIPTION] = "";
+    }
     this.setState({ updatedFormData });
   };
 

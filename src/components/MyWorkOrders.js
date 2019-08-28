@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStreetView } from "@fortawesome/free-solid-svg-icons";
+import { faStreetView, faWrench } from "@fortawesome/free-solid-svg-icons";
 
 import ListWithSearchAndPage from "./Shared/ListWithSearchAndPages";
 
@@ -34,7 +35,15 @@ class MyWorkOrders extends Component {
         <h1>
           <FontAwesomeIcon icon={faStreetView} /> My Work Orders
         </h1>
-
+        <div className="d-flex flex-row">
+          <div className="mr-2 mb-2">
+            <Link to={`/work-order/new/`}>
+              <div className="btn btn-secondary btn-lg">
+                <FontAwesomeIcon icon={faWrench} /> New Work Order
+              </div>
+            </Link>
+          </div>
+        </div>
         <ListWithSearchAndPage
           data={this.state.myWorkOrdersData}
           lastPage={this.state.lastPage}

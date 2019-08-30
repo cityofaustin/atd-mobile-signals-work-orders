@@ -47,6 +47,7 @@ export const FIELDS = {
     },
     {
       DETECTORS: [
+        { details: "id" },
         { detectorId: "field_1526" },
         { direction: "field_1525" },
         { movement: "field_1524" },

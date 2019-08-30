@@ -5,7 +5,7 @@ import {
   createDetectorLink,
 } from "./helpers";
 
-const AssetTable = ({ fields, data }) => {
+const AssetTable = ({ fields, data, assetId }) => {
   const tableHeaders = fields.map(field =>
     formatDataTitles(Object.keys(field))
   );
@@ -34,8 +34,12 @@ const AssetTable = ({ fields, data }) => {
               <tr key={i}>
                 {fieldIds.map((fieldId, i) => {
                   if (fieldId.match(/(-detector-link)/)) {
-                    const id = record[fieldId];
-                    return createDetectorLink(id);
+                    const fieldIdWithoutFlag = fieldId.replace(
+                      "-detector-link",
+                      ""
+                    );
+                    const id = record[fieldIdWithoutFlag];
+                    return createDetectorLink(id, assetId);
                   } else {
                     const tableDataString = record[fieldId];
                     return handleTableDataStringLength(tableDataString, i);

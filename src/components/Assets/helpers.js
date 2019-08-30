@@ -44,8 +44,12 @@ export const handleTableDataStringLength = (tableDataString, i) => {
   }
 };
 
-export const createDetectorLink = id => (
-  <a href={`http://www.google.com`}>Link</a>
+export const createDetectorLink = (id, assetId) => (
+  <a
+    href={`https://transportation.austintexas.io/data-tracker/#home/signals/signal-details/${assetId}/detector-details/${id}/`}
+  >
+    Link
+  </a>
 );
 
 const uppercaseIdInString = string => string.replace(/(Id)/gm, "ID");

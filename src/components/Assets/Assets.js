@@ -222,6 +222,7 @@ class Assets extends Component {
                       <AssetTable
                         data={this.state[stateName]}
                         fields={table[tableKey]}
+                        assetId={this.state.assetDetailsData.id}
                       />
                     </AccordionItemBody>
                   </AccordionItem>

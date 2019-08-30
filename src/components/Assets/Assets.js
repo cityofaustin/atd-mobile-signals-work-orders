@@ -36,7 +36,7 @@ class Assets extends Component {
       viewedAsset: "",
       assetDetailsData: "",
       assetServiceRequestsData: "",
-      assetDetectorsData: "",
+      assetDetectionData: "",
       assetPreventativeMaintenanceData: "",
       assetWorkOrdersData: "",
       assetMapData: "",
@@ -119,7 +119,7 @@ class Assets extends Component {
           assetPreventativeMaintenanceData:
             data.preventativeMaintResponse.data.records,
           assetMapData: data.mapResponse.data,
-          assetDetectorsData: data.detectorsResponse.data.records,
+          assetDetectionData: data.detectorsResponse.data.records,
           assetSignalPriorityData: data.signalPriorityResponse.data.records,
           assetPoleAttachmentsData: data.poleAttachmentsResponse.data.records,
           assetTravelSensorData: data.travelSensorResponse.data.records,

@@ -126,7 +126,11 @@ class WorkOrderDetail extends Component {
   renderSignalDetailsLink = () =>
     // Only render link if asset type is Signal
     this.state.detailsData["field_977"] === "Signal" && (
-      <Link to={`/assets/${this.getAssetIdFromKnackLink()}`}>
+      <Link
+        to={`/work-orders/${
+          this.props.match.params.workOrderId
+        }/assets/${this.getAssetIdFromKnackLink()}`}
+      >
         <FontAwesomeIcon icon={faMapMarkedAlt} /> {"View Signal Details"}
       </Link>
     );
@@ -195,7 +199,9 @@ class WorkOrderDetail extends Component {
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
-              linkPath={`/work-order/submit/${this.props.match.params.workOrderId}`}
+              linkPath={`/work-order/submit/${
+                this.props.match.params.workOrderId
+              }`}
             />
           ) : (
             <div className="mr-2 mb-2">
@@ -240,7 +246,9 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faClock}
                 text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
+                linkPath={`/work-order/new-time-log/${
+                  this.props.match.params.workOrderId
+                }`}
               />
               <TimeLog data={this.state.timeLogData} />
             </AccordionItemBody>
@@ -270,7 +278,9 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faWrench}
                 text={"New Item"}
-                linkPath={`/work-order/inventory-items/${this.props.match.params.workOrderId}`}
+                linkPath={`/work-order/inventory-items/${
+                  this.props.match.params.workOrderId
+                }`}
               />
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
@@ -328,7 +338,9 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faCamera}
                 text={"New Image"}
-                linkPath={`/work-order/add-image/${this.props.match.params.workOrderId}`}
+                linkPath={`/work-order/add-image/${
+                  this.props.match.params.workOrderId
+                }`}
               />
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (

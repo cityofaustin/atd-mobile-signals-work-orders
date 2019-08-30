@@ -196,11 +196,13 @@ class App extends Component {
                   />
                   <PrivateRoute
                     path="/work-orders/:workOrderId"
+                    exact
                     component={WorkOrderDetails}
                     isAuthenticated={this.state.knackUserToken}
                   />
                   <PrivateRoute
-                    path="/assets/:assetId"
+                    path="/work-orders/:workOrderId/assets/:assetId"
+                    exact
                     component={Assets}
                     isAuthenticated={this.state.knackUserToken}
                   />

@@ -58,7 +58,7 @@ export const createDetectorLink = (id, assetId) => (
   </div>
 );
 
-export const addDetectionLinks = (workOrderId, assetId) => (
+export const addDetectionLinks = (assetId, workOrderId) => (
   <div>
     <a
       href={`https://transportation.austintexas.io/data-tracker/#work-orders/work-order-details/${workOrderId}/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}

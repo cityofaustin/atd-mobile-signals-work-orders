@@ -223,6 +223,8 @@ class Assets extends Component {
                         data={this.state[stateName]}
                         fields={table[tableKey]}
                         assetId={this.state.assetDetailsData.id}
+                        workOrderId={this.props.match.params.workOrderId}
+                        title={title}
                       />
                     </AccordionItemBody>
                   </AccordionItem>

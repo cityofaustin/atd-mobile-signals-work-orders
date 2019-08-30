@@ -6,7 +6,7 @@ import {
   addDetectionLinks,
 } from "./helpers";
 
-const AssetTable = ({ fields, data, assetId }) => {
+const AssetTable = ({ fields, data, assetId, title, workOrderId }) => {
   const tableHeaders = fields.map(field =>
     formatDataTitles(Object.keys(field))
   );
@@ -18,7 +18,9 @@ const AssetTable = ({ fields, data, assetId }) => {
   // TODO handle URLs returned from Knack - make URLs set state to change current asset?
   return (
     <div className="table-responsive">
-      {/* {title === "Detection" && addDetectionLinks()} */}
+      {workOrderId &&
+        title === "Detection" &&
+        addDetectionLinks(assetId, workOrderId)}
       <table className="table">
         <thead>
           <tr>

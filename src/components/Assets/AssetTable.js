@@ -1,5 +1,9 @@
 import React from "react";
-import { handleTableDataStringLength, formatDataTitles } from "./helpers";
+import {
+  handleTableDataStringLength,
+  formatDataTitles,
+  createDetectorLink,
+} from "./helpers";
 
 const AssetTable = ({ fields, data }) => {
   const tableHeaders = fields.map(field =>
@@ -8,7 +12,7 @@ const AssetTable = ({ fields, data }) => {
   const fieldIds = fields.map(field => {
     return Object.values(field)[0];
   });
-  // TODO add responsive font size (or rely on side-scroll?)
+
   // TODO fix whitespace text node console warning
   // TODO handle URLs returned from Knack - make URLs set state to change current asset?
   return (
@@ -29,8 +33,13 @@ const AssetTable = ({ fields, data }) => {
             data.map((record, i) => (
               <tr key={i}>
                 {fieldIds.map((fieldId, i) => {
-                  const tableDataString = record[fieldId];
-                  return handleTableDataStringLength(tableDataString, i);
+                  if (fieldId.match(/(-detector-link)/)) {
+                    const id = record[fieldId];
+                    return createDetectorLink(id);
+                  } else {
+                    const tableDataString = record[fieldId];
+                    return handleTableDataStringLength(tableDataString, i);
+                  }
                 })}
               </tr>
             ))}

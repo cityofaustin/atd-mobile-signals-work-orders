@@ -47,7 +47,7 @@ export const FIELDS = {
     },
     {
       DETECTORS: [
-        { details: "id" },
+        { details: "id-detector-link" }, // Add -link for link handling in AssetTable component
         { detectorId: "field_1526" },
         { direction: "field_1525" },
         { movement: "field_1524" },

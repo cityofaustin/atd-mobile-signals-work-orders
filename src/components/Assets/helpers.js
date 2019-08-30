@@ -44,6 +44,10 @@ export const handleTableDataStringLength = (tableDataString, i) => {
   }
 };
 
+export const createDetectorLink = id => (
+  <a href={`http://www.google.com`}>Link</a>
+);
+
 const uppercaseIdInString = string => string.replace(/(Id)/gm, "ID");
 
 const uppercaseIpInString = string => string.replace(/(Ip)/gm, "IP");

@@ -5,7 +5,11 @@ import changeCase from "change-case";
 import ReadMoreAndLess from "react-read-more-less";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTable } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTable,
+  faEdit,
+  faCheckSquare,
+} from "@fortawesome/free-solid-svg-icons";
 
 const removeBreakTagsFromString = string => string.replace(/(<br \/>)/gm, " ");
 
@@ -61,16 +65,20 @@ export const createDetectorLink = (id, assetId) => (
 export const addDetectionLinks = (assetId, workOrderId) => (
   <div>
     <a
+      class="btn btn-primary btn-lg mb-2 mr-2"
+      role="button"
       href={`https://transportation.austintexas.io/data-tracker/#work-orders/work-order-details/${workOrderId}/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}
     >
-      Edit Detectors
+      <FontAwesomeIcon icon={faEdit} /> {"Edit Detectors"}
     </a>
     <a
+      class="btn btn-primary btn-lg mb-2 mr-2"
+      role="button"
       href={
         "https://transportation.austintexas.io/data-tracker/#home/detection-reports/detection-qc/"
       }
     >
-      Detectors QC
+      <FontAwesomeIcon icon={faCheckSquare} /> {"Detectors QC"}
     </a>
   </div>
 );

@@ -58,6 +58,23 @@ export const createDetectorLink = (id, assetId) => (
   </div>
 );
 
+export const addDetectionLinks = (workOrderId, assetId) => (
+  <div>
+    <a
+      href={`https://transportation.austintexas.io/data-tracker/#work-orders/work-order-details/${workOrderId}/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}
+    >
+      Edit Detectors
+    </a>
+    <a
+      href={
+        "https://transportation.austintexas.io/data-tracker/#home/detection-reports/detection-qc/"
+      }
+    >
+      Detectors QC
+    </a>
+  </div>
+);
+
 const uppercaseIdInString = string => string.replace(/(Id)/gm, "ID");
 
 const uppercaseIpInString = string => string.replace(/(Ip)/gm, "IP");

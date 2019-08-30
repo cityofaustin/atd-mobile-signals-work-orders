@@ -3,6 +3,7 @@ import {
   handleTableDataStringLength,
   formatDataTitles,
   createDetectorLink,
+  addDetectionLinks,
 } from "./helpers";
 
 const AssetTable = ({ fields, data, assetId }) => {
@@ -17,6 +18,7 @@ const AssetTable = ({ fields, data, assetId }) => {
   // TODO handle URLs returned from Knack - make URLs set state to change current asset?
   return (
     <div className="table-responsive">
+      {/* {title === "Detection" && addDetectionLinks()} */}
       <table className="table">
         <thead>
           <tr>

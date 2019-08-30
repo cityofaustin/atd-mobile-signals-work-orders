@@ -4,6 +4,9 @@ import axios from "axios";
 import changeCase from "change-case";
 import ReadMoreAndLess from "react-read-more-less";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTable } from "@fortawesome/free-solid-svg-icons";
+
 const removeBreakTagsFromString = string => string.replace(/(<br \/>)/gm, " ");
 
 const isStringAnchorTag = string => {
@@ -45,11 +48,14 @@ export const handleTableDataStringLength = (tableDataString, i) => {
 };
 
 export const createDetectorLink = (id, assetId) => (
-  <a
-    href={`https://transportation.austintexas.io/data-tracker/#home/signals/signal-details/${assetId}/detector-details/${id}/`}
-  >
-    Link
-  </a>
+  <div className="container mt-3 ml-2">
+    <a
+      className="mt-2"
+      href={`https://transportation.austintexas.io/data-tracker/#home/signals/signal-details/${assetId}/detector-details/${id}/`}
+    >
+      <FontAwesomeIcon icon={faTable} size="2x" />
+    </a>
+  </div>
 );
 
 const uppercaseIdInString = string => string.replace(/(Id)/gm, "ID");

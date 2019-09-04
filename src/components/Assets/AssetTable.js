@@ -37,7 +37,9 @@ const AssetTable = ({ fields, data, assetId, title, workOrderId }) => {
             data.map((record, i) => (
               <tr key={i}>
                 {fieldIds.map((fieldId, i) => {
+                  // Handle link flag added to value in fieldConfig.js and render a link instead of a string
                   if (fieldId.match(/(-detector-link)/)) {
+                    // Remove flag to expose detector record ID
                     const fieldIdWithoutFlag = fieldId.replace(
                       "-detector-link",
                       ""

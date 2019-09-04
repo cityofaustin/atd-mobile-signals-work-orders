@@ -1,18 +1,26 @@
 import React from "react";
-import { handleTableDataStringLength, formatDataTitles } from "./helpers";
+import {
+  handleTableDataStringLength,
+  formatDataTitles,
+  createDetectorLink,
+  addDetectionLinks,
+} from "./helpers";
 
-const AssetTable = ({ fields, data }) => {
+const AssetTable = ({ fields, data, assetId, title, workOrderId }) => {
   const tableHeaders = fields.map(field =>
     formatDataTitles(Object.keys(field))
   );
   const fieldIds = fields.map(field => {
     return Object.values(field)[0];
   });
-  // TODO add responsive font size (or rely on side-scroll?)
+
   // TODO fix whitespace text node console warning
   // TODO handle URLs returned from Knack - make URLs set state to change current asset?
   return (
     <div className="table-responsive">
+      {workOrderId &&
+        title === "Detection" &&
+        addDetectionLinks(assetId, workOrderId)}
       <table className="table">
         <thead>
           <tr>
@@ -29,8 +37,19 @@ const AssetTable = ({ fields, data }) => {
             data.map((record, i) => (
               <tr key={i}>
                 {fieldIds.map((fieldId, i) => {
-                  const tableDataString = record[fieldId];
-                  return handleTableDataStringLength(tableDataString, i);
+                  // Handle link flag added to value in fieldConfig.js and render a link instead of a string
+                  if (fieldId.match(/(-detector-link)/)) {
+                    // Remove flag to expose detector record ID
+                    const fieldIdWithoutFlag = fieldId.replace(
+                      "-detector-link",
+                      ""
+                    );
+                    const id = record[fieldIdWithoutFlag];
+                    return createDetectorLink(id, assetId);
+                  } else {
+                    const tableDataString = record[fieldId];
+                    return handleTableDataStringLength(tableDataString, i);
+                  }
                 })}
               </tr>
             ))}

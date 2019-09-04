@@ -34,6 +34,14 @@ export const FIELDS = {
   },
   TABLES: [
     {
+      CAMERAS: [
+        { id: "field_947" },
+        { status: "field_877" },
+        { cameraIp: "field_638" },
+        { cameraType: "field_639" },
+      ],
+    },
+    {
       SERVICE_REQUESTS: [
         { issueId: "field_1678" },
         { issue: "field_1663" },
@@ -43,29 +51,6 @@ export const FIELDS = {
         { created: "field_1517" },
         { updated: "field_1385" },
         { status: "field_1636" },
-      ],
-    },
-    {
-      DETECTORS: [
-        { detectorId: "field_1526" },
-        { direction: "field_1525" },
-        { movement: "field_1524" },
-        { type: "field_1527" },
-        { statusDate: "field_1587" },
-        { status: "field_1529" },
-        { detectorIP: "field_1570" },
-        { port: "field_1999" },
-        { comment: "field_1547" },
-      ],
-    },
-    {
-      PREVENTATIVE_MAINTENANCE: [
-        { fiscalYear: "field_1252" },
-        { completedBy: "field_2076" },
-        { createdBy: "field_2077" },
-        { workOrder: "field_1243" },
-        { completedDate: "field_1241" },
-        { status: "field_1244" },
       ],
     },
     {
@@ -81,11 +66,27 @@ export const FIELDS = {
       ],
     },
     {
-      CAMERAS: [
-        { id: "field_947" },
-        { status: "field_877" },
-        { cameraIp: "field_638" },
-        { cameraType: "field_639" },
+      PREVENTATIVE_MAINTENANCE: [
+        { fiscalYear: "field_1252" },
+        { completedBy: "field_2076" },
+        { createdBy: "field_2077" },
+        { workOrder: "field_1243" },
+        { completedDate: "field_1241" },
+        { status: "field_1244" },
+      ],
+    },
+    {
+      DETECTION: [
+        { details: "id-detector-link" }, // Add -link for link handling in AssetTable component
+        { detectorId: "field_1526" },
+        { direction: "field_1525" },
+        { movement: "field_1524" },
+        { type: "field_1527" },
+        { statusDate: "field_1587" },
+        { status: "field_1529" },
+        { detectorIP: "field_1570" },
+        { port: "field_1999" },
+        { comment: "field_1547" },
       ],
     },
     {

@@ -31,5 +31,8 @@ export const getToDateTimeTimestamp = data => {
 
 export const getFromDateTimeTimestamp = data => {
   let dateTimeObject = getDateTimeObject(data);
-  return isEmpty(dateTimeObject) ? null : new Date(dateTimeObject.timestamp);
+  const isAllDay = dateTimeObject.hasOwnProperty("all_day");
+  return isEmpty(dateTimeObject) || isAllDay
+    ? null
+    : new Date(dateTimeObject.timestamp);
 };

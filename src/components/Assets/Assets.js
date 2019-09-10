@@ -210,11 +210,17 @@ class Assets extends Component {
                 const tableKey = Object.keys(table)[0];
                 const stateName = `asset${changeCase.pascalCase(tableKey)}Data`;
                 const title = formatDataTitles(changeCase.titleCase(tableKey));
+                const recordsTotal = this.state[stateName]
+                  ? this.state[stateName].length
+                  : 0;
                 return (
                   <AccordionItem key={i}>
                     <AccordionItemTitle>
                       <h3 className="u-position-relative">
                         <FontAwesomeIcon icon={faInfoCircle} /> {title}
+                        <span class="badge badge-secondary float-right mr-5">
+                          {recordsTotal}
+                        </span>
                         <div className="accordion__arrow" role="presentation" />
                       </h3>
                     </AccordionItemTitle>

@@ -31,21 +31,13 @@ export const getToDateTimeTimestamp = data => {
 
 export const getFromDateTimeTimestamp = data => {
   let dateTimeObject = getDateTimeObject(data);
-  const isAllDay = dateTimeObject.hasOwnProperty("all_day");
-  const timestamp = dateTimeObject.timestamp;
-  const time = new Date(dateTimeObject.timestamp);
-  // Issue happens when new Date() is called on dateTimeObject.timestamp when it is contains "Invalid date"
-  // Ex. "All day" checkbox is selected first
-  // When all_day is selected first -> true, undefined, Invalid Date
-  // When date is selected first -> false, defined, Valid Date
-  // When isAllDay === true and timestamp is undefined => null
-  // When isAllDay === false and timestramp is defined => new Date
-  // When isAllDay === true and timestamp is defined => new Date
-  if (dateTimeObject.timestamp === "Invalid date" && dateTimeObject.date) {
+  if (dateTimeObject.timestamp === "Invalid date" && dateTimeObject.date) {
+    // DatePicker returns timestamp as "Invalid date" when no time field time is selected ("All day" checkbox selected)
     return new Date(dateTimeObject.date);
   } else if (dateTimeObject.timestamp) {
+    // DatePicker returns a valid timestamp when time and date fields are selected ("All day" checkbox not selected)
     return new Date(dateTimeObject.timestamp);
   } else {
     return null;
-  } // return !dateTimeObject.timestamp ? null : new Date(dateTimeObject.timestamp);
+  }
 };

@@ -39,7 +39,7 @@ class UserInfo extends Component {
     const fullName = userInfo[name];
     return (
       <div>
-        {this.state.userInfo !== "" && (
+        {this.state.userInfo !== "" ? (
           <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle className="btn-circle font-weight-bold">
               {fullName.first[0] + fullName.last[0]}
@@ -61,6 +61,14 @@ class UserInfo extends Component {
               </Button>
             </DropdownMenu>
           </Dropdown>
+        ) : (
+          <Button
+            color="danger"
+            onClick={this.props.revokeKnackUserToken}
+            className="btn-lg ml-4 mt-1"
+          >
+            Log out
+          </Button>
         )}
       </div>
     );

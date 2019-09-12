@@ -12,7 +12,7 @@ import { FIELDS } from "./formConfig";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-class NewTimeLog extends Component {
+class EditTimeLog extends Component {
   constructor(props) {
     super(props);
 
@@ -21,6 +21,8 @@ class NewTimeLog extends Component {
     this.state = {
       technicianOptions: [],
       vehicleOptions: [],
+      timeLogData: [],
+      timeLogToEdit: null,
       updatedFormData: { field_1424: this.workOrderId },
       isFormDisabled: false,
     };
@@ -132,6 +134,17 @@ class NewTimeLog extends Component {
       });
   };
 
+  requestTimeLogs = id => {
+    api
+      .workOrder()
+      .getTimeLogs(id)
+      .then(res =>
+        this.setState({ timeLogData: res.data.records }, () => {
+          console.log("In callback", this.state.timeLogData);
+        })
+      );
+  };
+
   handleDateTimeFieldChange = (fieldId, fieldData) => {
     let formData = this.state.updatedFormData;
 
@@ -142,6 +155,7 @@ class NewTimeLog extends Component {
   componentDidMount() {
     this.getTechnicianOptions();
     this.getVehicleOptions();
+    this.requestTimeLogs(this.workOrderId);
   }
 
   render() {
@@ -211,4 +225,4 @@ class NewTimeLog extends Component {
   }
 }
 
-export default NewTimeLog;
+export default EditTimeLog;

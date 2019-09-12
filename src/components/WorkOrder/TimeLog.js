@@ -5,7 +5,6 @@ import { faSpinner, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FIELDS } from "./formConfig";
 
 const TimeLog = ({ data, workOrderId }) => {
-  debugger;
   return (
     <div>
       {data.length === 0 && <p>No data</p>}
@@ -40,7 +39,7 @@ const TimeLog = ({ data, workOrderId }) => {
               <div className="col-5">
                 <div className="row">
                   <div className="col-12">
-                    <span>Recieved: </span>
+                    <span>Received: </span>
                     <span
                       dangerouslySetInnerHTML={{
                         __html: timeLog[FIELDS.TIMELOG.ISSUE_RECEIVED_TIME],

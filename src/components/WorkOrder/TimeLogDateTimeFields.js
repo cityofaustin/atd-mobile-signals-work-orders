@@ -3,9 +3,34 @@ import DatePicker from "react-datepicker";
 import { FIELDS } from "./formConfig";
 import moment from "moment";
 import { isEmpty } from "lodash";
+import styled from "react-emotion";
+import { colors } from "../../constants/colors";
 
 import { ErrorMessage } from "./Alerts";
 import { getHours, getAmPm } from "../Shared/dateTimeFieldHelpers.js";
+
+const BigDateTimePicker = styled("div")`
+  .react-datepicker__time-container {
+    width: 120px;
+  }
+  .react-datepicker__time-box {
+    width: 120px !important;
+  }
+  .react-datepicker__time-list {
+    width: 120px;
+  }
+  .react-datepicker__time-list-item {
+    height: 40px !important;
+    line-height: 30px !important;
+    font-size: 1rem !important;
+  }
+  .react-datepicker__time-list-item--selected {
+    background-color: ${colors.primary} !important;
+  }
+  .react-datepicker__day--selected {
+    background-color: ${colors.primary} !important;
+  }
+`;
 
 const TimeLogDateTimeFields = ({
   data,
@@ -122,49 +147,53 @@ const TimeLogDateTimeFields = ({
         </label>
         <div className="row">
           <div className="col-6">
-            <DatePicker
-              name="ISSUE_RECEIVED_TIME"
-              id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}`}
-              selected={getSelectedTime(
-                data,
-                FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
-              )}
-              placeholderText="Select a time"
-              className="form-control"
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={15}
-              dateFormat="h:mm aa"
-              timeCaption="Time"
-              onChange={e =>
-                handleDateTimeFieldChange(
-                  e,
-                  FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
-                  "TIME",
-                  data
-                )
-              }
-            />
+            <BigDateTimePicker>
+              <DatePicker
+                name="ISSUE_RECEIVED_TIME"
+                id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}`}
+                selected={getSelectedTime(
+                  data,
+                  FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
+                )}
+                placeholderText="Select a time"
+                className="form-control"
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                dateFormat="h:mm aa"
+                timeCaption="Time"
+                onChange={e =>
+                  handleDateTimeFieldChange(
+                    e,
+                    FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
+                    "TIME",
+                    data
+                  )
+                }
+              />
+            </BigDateTimePicker>
           </div>
           <div className="col-6">
-            <DatePicker
-              name="ISSUE_RECEIVED_DATE"
-              id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}
-              selected={getSelectedDate(
-                data,
-                FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
-              )}
-              placeholderText="Select a date"
-              className="form-control"
-              onChange={e =>
-                handleDateTimeFieldChange(
-                  e,
-                  FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
-                  "DATE",
-                  data
-                )
-              }
-            />
+            <BigDateTimePicker>
+              <DatePicker
+                name="ISSUE_RECEIVED_DATE"
+                id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}
+                selected={getSelectedDate(
+                  data,
+                  FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
+                )}
+                placeholderText="Select a date"
+                className="form-control"
+                onChange={e =>
+                  handleDateTimeFieldChange(
+                    e,
+                    FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
+                    "DATE",
+                    data
+                  )
+                }
+              />
+            </BigDateTimePicker>
           </div>
         </div>
       </div>

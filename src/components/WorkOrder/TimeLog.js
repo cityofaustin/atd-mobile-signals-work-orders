@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FIELDS } from "./formConfig";
 
-const TimeLog = ({ data }) => {
+const TimeLog = ({ data, workOrderId }) => {
+  debugger;
   return (
     <div>
       {data.length === 0 && <p>No data</p>}
@@ -11,7 +13,14 @@ const TimeLog = ({ data }) => {
         <ul className="list-group list-group-flush">
           {data.map((timeLog, i) => (
             <li className="list-group-item d-flex row" key={i}>
-              <div className="col-7">
+              <div className="col-1 mt-2">
+                <Link
+                  to={`/work-order/${workOrderId}/edit-time-log/${timeLog.id}`}
+                >
+                  <FontAwesomeIcon icon={faEdit} size="2x" />
+                </Link>
+              </div>
+              <div className="col-6">
                 <div className="row">
                   <div className="col-12">
                     <span

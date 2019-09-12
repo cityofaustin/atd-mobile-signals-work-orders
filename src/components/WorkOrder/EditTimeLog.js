@@ -134,13 +134,18 @@ class EditTimeLog extends Component {
       });
   };
 
+  setTimeLogToEdit = () => {
+    // TODO find record that matches ID from props and set in state.timeLogToEdit
+    console.log("In setTimeLogToEdit", this.state.timeLogData);
+  };
+
   requestTimeLogs = id => {
     api
       .workOrder()
       .getTimeLogs(id)
       .then(res =>
         this.setState({ timeLogData: res.data.records }, () => {
-          console.log("In callback", this.state.timeLogData);
+          this.setTimeLogToEdit();
         })
       );
   };

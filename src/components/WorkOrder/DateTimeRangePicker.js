@@ -12,6 +12,7 @@ import {
 } from "../Shared/dateTimeFieldHelpers.js";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { BigDateTimePicker } from "../../styles/BigDateTimePicker";
 
 const getAllDayValue = data => {
   let date = data[FIELDS.WORK_SCHEDULED_DATE];
@@ -60,14 +61,18 @@ const handleDateTimeFieldChange = (
     }
     updatedDateField.date = moment(date).format("MM/DD/YYYY");
     updatedDateField.timestamp = moment(
-      `${updatedDateField.date} ${previousDateField.hours}:${previousDateField.minutes} ${previousDateField.am_pm}`
+      `${updatedDateField.date} ${previousDateField.hours}:${
+        previousDateField.minutes
+      } ${previousDateField.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "fromTime") {
     updatedDateField.hours = getHours(date);
     updatedDateField.minutes = date.getMinutes();
     updatedDateField.am_pm = getAmPm(date);
     updatedDateField.timestamp = moment(
-      `${previousDateField.date} ${updatedDateField.hours}:${updatedDateField.minutes} ${updatedDateField.am_pm}`
+      `${previousDateField.date} ${updatedDateField.hours}:${
+        updatedDateField.minutes
+      } ${updatedDateField.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "toDate") {
     if (isEmpty(previousDateField.to)) {
@@ -78,14 +83,18 @@ const handleDateTimeFieldChange = (
     }
     updatedDateField.to.date = moment(date).format("MM/DD/YYYY");
     updatedDateField.to.timestamp = moment(
-      `${updatedDateField.to.date} ${previousDateField.to.hours}:${previousDateField.to.minutes} ${previousDateField.to.am_pm}`
+      `${updatedDateField.to.date} ${previousDateField.to.hours}:${
+        previousDateField.to.minutes
+      } ${previousDateField.to.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "toTime") {
     updatedDateField.to.hours = getHours(date);
     updatedDateField.to.minutes = date.getMinutes();
     updatedDateField.to.am_pm = getAmPm(date);
     updatedDateField.to.timestamp = moment(
-      `${previousDateField.to.date} ${updatedDateField.to.hours}:${updatedDateField.to.minutes} ${updatedDateField.to.am_pm}`
+      `${previousDateField.to.date} ${updatedDateField.to.hours}:${
+        updatedDateField.to.minutes
+      } ${updatedDateField.to.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   }
 
@@ -101,80 +110,88 @@ const DateTimeRangePicker = ({
     <div className="form-group">
       <label htmlFor={fieldName}>Scheduled Date</label>
       <div className="d-block">
-        <DatePicker
-          name="startDate"
-          selected={getFromDateTimeTimestamp(data)}
-          placeholderText="Click to select a date"
-          onChange={e =>
-            handleDateTimeFieldChange(
-              e,
-              "fromDate",
-              data,
-              getDateTimeObject,
-              handleScheduledTimeChange
-            )
-          }
-          className="form-control"
-        />
-        {!getAllDayValue(data) && (
+        <BigDateTimePicker className="mb-3">
           <DatePicker
+            name="startDate"
             selected={getFromDateTimeTimestamp(data)}
-            placeholderText="Click to select a time"
+            placeholderText="Click to select a date"
             onChange={e =>
               handleDateTimeFieldChange(
                 e,
-                "fromTime",
+                "fromDate",
                 data,
                 getDateTimeObject,
                 handleScheduledTimeChange
               )
             }
-            showTimeSelect
-            showTimeSelectOnly
-            timeIntervals={15}
             className="form-control"
-            dateFormat="h:mm aa"
-            timeCaption="Time"
-            name="startTime"
           />
+        </BigDateTimePicker>
+        {!getAllDayValue(data) && (
+          <BigDateTimePicker>
+            <DatePicker
+              selected={getFromDateTimeTimestamp(data)}
+              placeholderText="Click to select a time"
+              onChange={e =>
+                handleDateTimeFieldChange(
+                  e,
+                  "fromTime",
+                  data,
+                  getDateTimeObject,
+                  handleScheduledTimeChange
+                )
+              }
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              className="form-control"
+              dateFormat="h:mm aa"
+              timeCaption="Time"
+              name="startTime"
+            />
+          </BigDateTimePicker>
         )}
         <span>to</span>
-        <DatePicker
-          name="endDate"
-          selected={getToDateTimeTimestamp(data)}
-          placeholderText="Click to select a date"
-          onChange={e =>
-            handleDateTimeFieldChange(
-              e,
-              "toDate",
-              data,
-              getDateTimeObject,
-              handleScheduledTimeChange
-            )
-          }
-          className="form-control"
-        />
-        {!getAllDayValue(data) && (
+        <BigDateTimePicker className="mb-3">
           <DatePicker
+            name="endDate"
             selected={getToDateTimeTimestamp(data)}
-            placeholderText="Click to select a time"
+            placeholderText="Click to select a date"
             onChange={e =>
               handleDateTimeFieldChange(
                 e,
-                "toTime",
+                "toDate",
                 data,
                 getDateTimeObject,
                 handleScheduledTimeChange
               )
             }
-            showTimeSelect
-            showTimeSelectOnly
-            timeIntervals={15}
             className="form-control"
-            dateFormat="h:mm aa"
-            timeCaption="Time"
-            name="endTime"
           />
+        </BigDateTimePicker>
+        {!getAllDayValue(data) && (
+          <BigDateTimePicker className="mb-2">
+            <DatePicker
+              selected={getToDateTimeTimestamp(data)}
+              placeholderText="Click to select a time"
+              onChange={e =>
+                handleDateTimeFieldChange(
+                  e,
+                  "toTime",
+                  data,
+                  getDateTimeObject,
+                  handleScheduledTimeChange
+                )
+              }
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              className="form-control"
+              dateFormat="h:mm aa"
+              timeCaption="Time"
+              name="endTime"
+            />
+          </BigDateTimePicker>
         )}
         <div className="form-check">
           <input

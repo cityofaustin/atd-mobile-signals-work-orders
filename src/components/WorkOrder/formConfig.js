@@ -50,7 +50,9 @@ export const FIELDS = {
   TIMELOG: {
     WORK_ORDER_ID: "field_1424",
     TECHNICIANS: "field_1753",
+    EDIT_TECHNICIANS: "field_1753_raw",
     VEHICLES: "field_1427",
+    EDIT_VEHICLES: "field_1427_raw",
     ISSUE_RECEIVED_TIME: "field_2020",
     WORKSITE_ARRIVE: "field_1437",
     WORKSITE_LEAVE: "field_1438",

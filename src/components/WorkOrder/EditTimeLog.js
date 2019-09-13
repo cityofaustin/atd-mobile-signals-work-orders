@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import { Redirect } from "react-router-dom";
 
@@ -135,7 +137,6 @@ class EditTimeLog extends Component {
   };
 
   setTimeLogToEdit = () => {
-    // TODO find record that matches ID from props and set in state.timeLogToEdit
     const timeLogToEdit = this.state.timeLogData.filter(
       record => record.id === this.props.match.params.timeLogId
     )[0];
@@ -160,6 +161,14 @@ class EditTimeLog extends Component {
     this.setState({ updatedFormData: formData });
   };
 
+  getVehiclesDefaultValues = vehiclesArray => {
+    vehiclesArray.forEach(record => {
+      record["label"] = record.identifier;
+      record["value"] = record.id;
+    });
+    return vehiclesArray;
+  };
+
   componentDidMount() {
     this.getTechnicianOptions();
     this.getVehicleOptions();
@@ -172,7 +181,9 @@ class EditTimeLog extends Component {
       return <Redirect to={`/work-orders/${this.workOrderId}`} />;
     }
 
-    return (
+    const timeLogToEdit = this.state.timeLogToEdit;
+
+    return this.state.timeLogToEdit ? (
       <div>
         <Header icon={faClock} title="Edit Time Log" />
 
@@ -206,7 +217,9 @@ class EditTimeLog extends Component {
               className="basic-multi-select"
               classNamePrefix="select"
               isMulti
-              defaultValue={[]}
+              defaultValue={this.getVehiclesDefaultValues(
+                timeLogToEdit[FIELDS.TIMELOG.EDIT_VEHICLES]
+              )}
               id={FIELDS.TIMELOG.VEHICLES}
               name={FIELDS.TIMELOG.VEHICLES}
               options={this.state.vehicleOptions}
@@ -229,6 +242,8 @@ class EditTimeLog extends Component {
           />
         </form>
       </div>
+    ) : (
+      <FontAwesomeIcon icon={faSpinner} className="atd-spinner" size="2x" />
     );
   }
 }

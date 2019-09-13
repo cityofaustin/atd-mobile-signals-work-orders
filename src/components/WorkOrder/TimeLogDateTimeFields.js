@@ -19,6 +19,7 @@ const TimeLogDateTimeFields = ({
   handleFormDisable,
   isFormDisabled,
   timeLogToEdit,
+  updatedFormData,
 }) => {
   function handleDateTimeFieldChange(date, fieldId, dateOrTime, data) {
     // set an empty object that will hold the date/time data
@@ -59,7 +60,8 @@ const TimeLogDateTimeFields = ({
         console.log("default");
         break;
     }
-    addMissingFieldsWithExistingKnackData(fieldId, fieldData, timeLogToEdit);
+    timeLogToEdit &&
+      addMissingFieldsWithExistingKnackData(fieldId, fieldData, timeLogToEdit);
     handleTimeChange(fieldId, fieldData);
     updateErrorState();
   }
@@ -78,6 +80,14 @@ const TimeLogDateTimeFields = ({
     let date = data[field].date ? new Date(data[field].date) : today;
     return date;
   };
+
+  // Get updated form data to populate picker field (state after update from Edit Form)
+  // or convert DateTime in existing record from Knack (initial state)
+  const getExistingRecord = (field, recordType) =>
+    (updatedFormData[field] && getSelectedTime(updatedFormData, field)) ||
+    recordType === "time"
+      ? convertKnackDateTimeToFormTime(timeLogToEdit[field])
+      : convertKnackDateTimeToFormDate(timeLogToEdit[field]);
 
   const getSelectedTime = (data, field) => {
     // When the form first loads, autofill current date & time
@@ -145,10 +155,7 @@ const TimeLogDateTimeFields = ({
               name="ISSUE_RECEIVED_TIME"
               id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormTime(
-                    timeLogToEdit[FIELDS.TIMELOG.ISSUE_RECEIVED_TIME]
-                  )) ||
+                getExistingRecord(FIELDS.TIMELOG.ISSUE_RECEIVED_TIME, "time") ||
                 getSelectedTime(data, FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)
               }
               placeholderText="Select a time"
@@ -173,10 +180,7 @@ const TimeLogDateTimeFields = ({
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormDate(
-                    timeLogToEdit[FIELDS.TIMELOG.ISSUE_RECEIVED_TIME]
-                  )) ||
+                getExistingRecord(FIELDS.TIMELOG.ISSUE_RECEIVED_TIME, "date") ||
                 getSelectedDate(data, FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)
               }
               placeholderText="Select a date"

@@ -240,6 +240,7 @@ class EditTimeLog extends Component {
             handleFormDisable={this.handleFormDisable}
             isFormDisabled={this.state.isFormDisabled}
             timeLogToEdit={timeLogToEdit}
+            updatedFormData={this.state.updatedFormData}
           />
           <SubmitButton
             text="Edit Log Entry"

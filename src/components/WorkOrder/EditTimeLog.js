@@ -136,7 +136,10 @@ class EditTimeLog extends Component {
 
   setTimeLogToEdit = () => {
     // TODO find record that matches ID from props and set in state.timeLogToEdit
-    console.log("In setTimeLogToEdit", this.state.timeLogData);
+    const timeLogToEdit = this.state.timeLogData.filter(
+      record => record.id === this.props.match.params.timeLogId
+    )[0];
+    this.setState({ timeLogToEdit });
   };
 
   requestTimeLogs = id => {

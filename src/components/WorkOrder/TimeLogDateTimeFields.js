@@ -10,6 +10,7 @@ import {
   getAmPm,
   convertKnackDateTimeToFormDate,
   convertKnackDateTimeToFormTime,
+  addMissingFieldsWithExistingKnackData,
 } from "../Shared/dateTimeFieldHelpers.js";
 
 const TimeLogDateTimeFields = ({
@@ -25,28 +26,40 @@ const TimeLogDateTimeFields = ({
 
     switch (dateOrTime) {
       case "DATE":
-        fieldData.date = moment(date).format("MM/DD/YYYY");
-        fieldData.am_pm = isEmpty(data[fieldId]) ? "" : data[fieldId].am_pm;
-        fieldData.hours = isEmpty(data[fieldId]) ? "" : data[fieldId].hours;
-        fieldData.minutes = isEmpty(data[fieldId]) ? "" : data[fieldId].minutes;
+        if (timeLogToEdit) {
+          fieldData.date = moment(date).format("MM/DD/YYYY");
+        } else {
+          fieldData.date = moment(date).format("MM/DD/YYYY");
+          fieldData.am_pm = isEmpty(data[fieldId]) ? "" : data[fieldId].am_pm;
+          fieldData.hours = isEmpty(data[fieldId]) ? "" : data[fieldId].hours;
+          fieldData.minutes = isEmpty(data[fieldId])
+            ? ""
+            : data[fieldId].minutes;
+        }
         break;
 
       case "TIME":
         let today = new Date();
+        if (timeLogToEdit) {
+          fieldData.am_pm = getAmPm(date);
+          fieldData.hours = getHours(date);
+          fieldData.minutes = date.getMinutes();
+        } else {
+          fieldData.date = isEmpty(data[fieldId])
+            ? moment(today).format("MM/DD/YYYY")
+            : data[fieldId].date;
+          fieldData.am_pm = getAmPm(date);
+          fieldData.hours = getHours(date);
+          fieldData.minutes = date.getMinutes();
+        }
 
-        fieldData.date = isEmpty(data[fieldId])
-          ? moment(today).format("MM/DD/YYYY")
-          : data[fieldId].date;
-        fieldData.am_pm = getAmPm(date);
-        fieldData.hours = getHours(date);
-        fieldData.minutes = date.getMinutes();
         break;
 
       default:
         console.log("default");
         break;
     }
-
+    addMissingFieldsWithExistingKnackData(fieldId, fieldData, timeLogToEdit);
     handleTimeChange(fieldId, fieldData);
     updateErrorState();
   }

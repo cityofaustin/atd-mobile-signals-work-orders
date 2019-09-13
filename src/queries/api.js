@@ -296,7 +296,7 @@ const api = {
         axios.put(
           `https://us-api.knack.com/v1/scenes/${
             keys.editTimeLog.sceneId
-          }/views/${keys.editTimeLog.viewId}/record/${id}`,
+          }/views/${keys.editTimeLog.viewId}/records/${id}`,
           data,
           getHeaders()
         ),

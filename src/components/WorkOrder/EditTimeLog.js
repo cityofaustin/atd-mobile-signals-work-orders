@@ -39,7 +39,10 @@ class EditTimeLog extends Component {
     console.log(this.workOrderId);
     api
       .workOrder()
-      .newTimeLog(this.workOrderId, this.state.updatedFormData)
+      .editTimeLog(
+        this.props.match.params.timeLogId,
+        this.state.updatedFormData
+      )
       .then(res => {
         console.log(res);
         this.setState({

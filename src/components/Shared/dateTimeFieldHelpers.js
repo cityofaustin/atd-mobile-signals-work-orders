@@ -47,3 +47,15 @@ export const convertKnackDateTimeToFormTime = knackDateTime => {
   ).toString();
   return knackDateTime ? new Date(formattedTimeString) : null;
 };
+
+export const addMissingFieldsWithExistingKnackData = (
+  fieldId,
+  data,
+  timeLogObject
+) => {
+  const rawFieldsRequiredByKnack = ["date", "hours", "minutes", "am_pm"];
+  rawFieldsRequiredByKnack.forEach(
+    field =>
+      !data[field] && (data[field] = timeLogObject[`${fieldId}_raw`][field])
+  );
+};

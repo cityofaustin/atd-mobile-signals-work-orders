@@ -5,13 +5,19 @@ import moment from "moment";
 import { isEmpty } from "lodash";
 
 import { ErrorMessage } from "./Alerts";
-import { getHours, getAmPm } from "../Shared/dateTimeFieldHelpers.js";
+import {
+  getHours,
+  getAmPm,
+  convertKnackDateTimeToFormDate,
+  convertKnackDateTimeToFormTime,
+} from "../Shared/dateTimeFieldHelpers.js";
 
 const TimeLogDateTimeFields = ({
   data,
   handleTimeChange,
   handleFormDisable,
   isFormDisabled,
+  timeLogToEdit,
 }) => {
   function handleDateTimeFieldChange(date, fieldId, dateOrTime, data) {
     // set an empty object that will hold the date/time data
@@ -125,10 +131,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="ISSUE_RECEIVED_TIME"
               id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}`}
-              selected={getSelectedTime(
-                data,
-                FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
-              )}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormTime(
+                    timeLogToEdit[FIELDS.TIMELOG.ISSUE_RECEIVED_TIME]
+                  )) ||
+                getSelectedTime(data, FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)
+              }
               placeholderText="Select a time"
               className="form-control"
               showTimeSelect
@@ -150,10 +159,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}
-              selected={getSelectedDate(
-                data,
-                FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
-              )}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormDate(
+                    timeLogToEdit[FIELDS.TIMELOG.ISSUE_RECEIVED_TIME]
+                  )) ||
+                getSelectedDate(data, FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)
+              }
               placeholderText="Select a date"
               className="form-control"
               onChange={e =>
@@ -199,7 +211,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}-date`}
-              selected={getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormDate(
+                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_ARRIVE]
+                  )) ||
+                getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)
+              }
               placeholderText="Select a date"
               className="form-control"
               onChange={e =>
@@ -245,7 +263,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}-date`}
-              selected={getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_LEAVE)}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormDate(
+                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_LEAVE]
+                  )) ||
+                getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_LEAVE)
+              }
               placeholderText="Select a date"
               className="form-control"
               onChange={e =>
@@ -295,10 +319,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}-date`}
-              selected={getSelectedDate(
-                data,
-                FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
-              )}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormDate(
+                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_SHOP_RETURN]
+                  )) ||
+                getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
+              }
               placeholderText="Select a date"
               className="form-control"
               onChange={e =>

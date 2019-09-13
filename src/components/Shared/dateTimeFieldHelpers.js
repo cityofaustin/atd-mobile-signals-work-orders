@@ -1,5 +1,6 @@
 import { FIELDS } from "../WorkOrder/formConfig";
 import { isEmpty } from "lodash";
+import moment from "moment";
 
 export const getHours = date => {
   let hours = date.getHours();
@@ -32,4 +33,12 @@ export const getToDateTimeTimestamp = data => {
 export const getFromDateTimeTimestamp = data => {
   let dateTimeObject = getDateTimeObject(data);
   return isEmpty(dateTimeObject) ? null : new Date(dateTimeObject.timestamp);
+};
+
+export const convertKnackDateTimeToFormDate = knackDateTime =>
+  knackDateTime && new Date(knackDateTime.split(" ")[0]);
+
+export const convertKnackDateTimeToFormTime = knackDateTime => {
+  // debugger;
+  knackDateTime && new Date(knackDateTime.split(" ")[1]);
 };

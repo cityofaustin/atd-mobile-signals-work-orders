@@ -189,7 +189,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="ISSUE_RECEIVED_TIME"
               id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}`}
-              selected={getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormTime(
+                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_ARRIVE]
+                  )) ||
+                getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)
+              }
               placeholderText="Select a time"
               className="form-control"
               showTimeSelect
@@ -241,7 +247,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="WORKSITE_LEAVE"
               id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}`}
-              selected={getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_LEAVE)}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormTime(
+                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_LEAVE]
+                  )) ||
+                getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_LEAVE)
+              }
               placeholderText="Select a time"
               className="form-control"
               showTimeSelect
@@ -294,10 +306,13 @@ const TimeLogDateTimeFields = ({
             <DatePicker
               name="WORKSITE_SHOP_RETURN"
               id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}`}
-              selected={getSelectedTime(
-                data,
-                FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
-              )}
+              selected={
+                (timeLogToEdit &&
+                  convertKnackDateTimeToFormTime(
+                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_SHOP_RETURN]
+                  )) ||
+                getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
+              }
               placeholderText="Select a time"
               className="form-control"
               showTimeSelect

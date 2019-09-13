@@ -39,7 +39,7 @@ export const convertKnackDateTimeToFormDate = knackDateTime =>
   knackDateTime && new Date(knackDateTime.split(" ")[0]);
 
 export const convertKnackDateTimeToFormTime = knackDateTime => {
-  const timeString = knackDateTime.split(" ")[1].toUpperCase();
+  const timeString = knackDateTime && knackDateTime.split(" ")[1].toUpperCase();
   const timeSuffix = timeString.slice(-2);
   const formattedTimeString = moment(
     timeString.replace(timeSuffix, " " + timeSuffix),

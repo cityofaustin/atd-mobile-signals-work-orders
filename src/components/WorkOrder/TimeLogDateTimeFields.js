@@ -83,11 +83,18 @@ const TimeLogDateTimeFields = ({
 
   // Get updated form data to populate picker field (state after update from Edit Form)
   // or convert DateTime in existing record from Knack (initial state)
-  const getExistingRecord = (field, recordType) =>
-    (updatedFormData[field] && getSelectedTime(updatedFormData, field)) ||
-    recordType === "time"
-      ? convertKnackDateTimeToFormTime(timeLogToEdit[field])
-      : convertKnackDateTimeToFormDate(timeLogToEdit[field]);
+  const getExistingRecord = (field, recordType) => {
+    // TODO figure out why 00 minutes don't work
+    if (updatedFormData[field]) {
+      getSelectedTime(updatedFormData, field);
+    } else {
+      if (recordType === "time") {
+        return convertKnackDateTimeToFormTime(timeLogToEdit[field]);
+      } else if (recordType === "date") {
+        return convertKnackDateTimeToFormDate(timeLogToEdit[field]);
+      }
+    }
+  };
 
   const getSelectedTime = (data, field) => {
     // When the form first loads, autofill current date & time
@@ -207,10 +214,7 @@ const TimeLogDateTimeFields = ({
               name="ISSUE_RECEIVED_TIME"
               id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormTime(
-                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_ARRIVE]
-                  )) ||
+                getExistingRecord(FIELDS.TIMELOG.WORKSITE_ARRIVE, "time") ||
                 getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)
               }
               placeholderText="Select a time"
@@ -235,10 +239,7 @@ const TimeLogDateTimeFields = ({
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}-date`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormDate(
-                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_ARRIVE]
-                  )) ||
+                getExistingRecord(FIELDS.TIMELOG.WORKSITE_ARRIVE, "date") ||
                 getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)
               }
               placeholderText="Select a date"
@@ -265,10 +266,7 @@ const TimeLogDateTimeFields = ({
               name="WORKSITE_LEAVE"
               id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormTime(
-                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_LEAVE]
-                  )) ||
+                getExistingRecord(FIELDS.TIMELOG.WORKSITE_LEAVE, "time") ||
                 getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_LEAVE)
               }
               placeholderText="Select a time"
@@ -293,10 +291,7 @@ const TimeLogDateTimeFields = ({
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}-date`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormDate(
-                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_LEAVE]
-                  )) ||
+                getExistingRecord(FIELDS.TIMELOG.WORKSITE_LEAVE, "date") ||
                 getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_LEAVE)
               }
               placeholderText="Select a date"
@@ -324,11 +319,10 @@ const TimeLogDateTimeFields = ({
               name="WORKSITE_SHOP_RETURN"
               id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormTime(
-                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_SHOP_RETURN]
-                  )) ||
-                getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
+                getExistingRecord(
+                  FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
+                  "time"
+                ) || getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
               }
               placeholderText="Select a time"
               className="form-control"
@@ -352,11 +346,10 @@ const TimeLogDateTimeFields = ({
               name="ISSUE_RECEIVED_DATE"
               id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}-date`}
               selected={
-                (timeLogToEdit &&
-                  convertKnackDateTimeToFormDate(
-                    timeLogToEdit[FIELDS.TIMELOG.WORKSITE_SHOP_RETURN]
-                  )) ||
-                getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
+                getExistingRecord(
+                  FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
+                  "date"
+                ) || getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
               }
               placeholderText="Select a date"
               className="form-control"

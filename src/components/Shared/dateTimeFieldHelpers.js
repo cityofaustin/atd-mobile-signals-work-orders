@@ -39,6 +39,11 @@ export const convertKnackDateTimeToFormDate = knackDateTime =>
   knackDateTime && new Date(knackDateTime.split(" ")[0]);
 
 export const convertKnackDateTimeToFormTime = knackDateTime => {
-  // debugger;
-  knackDateTime && new Date(knackDateTime.split(" ")[1]);
+  const timeString = knackDateTime.split(" ")[1].toUpperCase();
+  const timeSuffix = timeString.slice(-2);
+  const formattedTimeString = moment(
+    timeString.replace(timeSuffix, " " + timeSuffix),
+    "hh:mm a"
+  ).toString();
+  return knackDateTime ? new Date(formattedTimeString) : null;
 };

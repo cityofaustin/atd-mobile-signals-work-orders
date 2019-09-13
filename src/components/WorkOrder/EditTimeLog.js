@@ -161,7 +161,7 @@ class EditTimeLog extends Component {
     this.setState({ updatedFormData: formData });
   };
 
-  getVehiclesDefaultValues = vehiclesArray => {
+  getEditFieldDefaultValues = vehiclesArray => {
     vehiclesArray.forEach(record => {
       record["label"] = record.identifier;
       record["value"] = record.id;
@@ -199,7 +199,9 @@ class EditTimeLog extends Component {
               className="basic-multi-select"
               classNamePrefix="select"
               isMulti
-              defaultValue={[]}
+              defaultValue={this.getEditFieldDefaultValues(
+                timeLogToEdit[FIELDS.TIMELOG.EDIT_TECHNICIANS]
+              )}
               id={FIELDS.TIMELOG.TECHNICIANS}
               name={FIELDS.TIMELOG.TECHNICIANS}
               aria-describedby={`${FIELDS.TIMELOG.TECHNICIANS}-text`}
@@ -217,7 +219,7 @@ class EditTimeLog extends Component {
               className="basic-multi-select"
               classNamePrefix="select"
               isMulti
-              defaultValue={this.getVehiclesDefaultValues(
+              defaultValue={this.getEditFieldDefaultValues(
                 timeLogToEdit[FIELDS.TIMELOG.EDIT_VEHICLES]
               )}
               id={FIELDS.TIMELOG.VEHICLES}

@@ -38,6 +38,7 @@ class Assets extends Component {
       assetServiceRequestsData: "",
       assetDetectionData: "",
       assetPreventativeMaintenanceData: "",
+      assetFileAttachmentsData: "",
       assetWorkOrdersData: "",
       assetMapData: "",
       assetCamerasData: "",

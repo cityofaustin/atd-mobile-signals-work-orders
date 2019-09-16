@@ -19,7 +19,6 @@ const TimeLogDateTimeFields = ({
   handleFormDisable,
   isFormDisabled,
   timeLogToEdit,
-  updatedFormData,
 }) => {
   function handleDateTimeFieldChange(date, fieldId, dateOrTime, data) {
     // set an empty object that will hold the date/time data
@@ -68,7 +67,7 @@ const TimeLogDateTimeFields = ({
         fieldId,
         fieldData,
         timeLogToEdit,
-        updatedFormData
+        data
       );
 
     handleTimeChange(fieldId, fieldData);
@@ -93,15 +92,18 @@ const TimeLogDateTimeFields = ({
   // Get updated form data to populate picker field (state after update from Edit Form)
   // or convert DateTime in existing record from Knack (initial state)
   const getExistingRecord = (field, recordType) => {
-    // TODO figure out why 00 minutes don't work
-    if (updatedFormData[field]) {
-      getSelectedTime(updatedFormData, field);
-    } else {
-      if (recordType === "time") {
-        return convertKnackDateTimeToFormTime(timeLogToEdit[field]);
-      } else if (recordType === "date") {
-        return convertKnackDateTimeToFormDate(timeLogToEdit[field]);
+    if (timeLogToEdit) {
+      if (data[field]) {
+        getSelectedTime(data, field);
+      } else {
+        if (recordType === "time") {
+          return convertKnackDateTimeToFormTime(timeLogToEdit[field]);
+        } else if (recordType === "date") {
+          return convertKnackDateTimeToFormDate(timeLogToEdit[field]);
+        }
       }
+    } else {
+      return false;
     }
   };
 
@@ -128,6 +130,7 @@ const TimeLogDateTimeFields = ({
   };
 
   const updateErrorState = () => {
+    // TODO Handle error state for editing
     const issueRecievedTime = getSelectedTime(
       data,
       FIELDS.TIMELOG.ISSUE_RECEIVED_TIME

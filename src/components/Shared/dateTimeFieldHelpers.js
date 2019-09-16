@@ -56,7 +56,7 @@ export const addMissingFieldsWithExistingKnackData = (
 ) => {
   const rawFieldsRequiredByKnack = ["date", "hours", "minutes", "am_pm"];
 
-  if (timeLogObject[`${fieldId}_raw`]) {
+  if (timeLogObject[`${fieldId}_raw`] && !updatedFormData[`${fieldId}`]) {
     // If there is already data from Knack, populate that time
     return { ...timeLogObject[`${fieldId}_raw`], ...data };
   } else if (updatedFormData[`${fieldId}`]) {

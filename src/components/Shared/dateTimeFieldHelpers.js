@@ -54,8 +54,18 @@ export const addMissingFieldsWithExistingKnackData = (
   timeLogObject
 ) => {
   const rawFieldsRequiredByKnack = ["date", "hours", "minutes", "am_pm"];
-  rawFieldsRequiredByKnack.forEach(
-    field =>
-      !data[field] && (data[field] = timeLogObject[`${fieldId}_raw`][field])
-  );
+  // If there is already a time selected, populate that time
+  debugger;
+  if (timeLogObject[`${fieldId}_raw`]) {
+    rawFieldsRequiredByKnack.forEach(
+      field =>
+        !data[field] && (data[field] = timeLogObject[`${fieldId}_raw`][field])
+    );
+    return data;
+  } else {
+    // TODO Add handling for 1. when time is chosen with no date 2. When date is chosen with no time
+    // If there is not already a time selected, populate 12:00 AM
+    data = { ...data, hours: 12, minutes: 0, am_pm: "AM" };
+    return data;
+  }
 };

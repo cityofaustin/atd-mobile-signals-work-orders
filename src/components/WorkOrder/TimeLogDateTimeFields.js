@@ -60,8 +60,11 @@ const TimeLogDateTimeFields = ({
         console.log("default");
         break;
     }
-    timeLogToEdit &&
+
+    fieldData =
+      timeLogToEdit &&
       addMissingFieldsWithExistingKnackData(fieldId, fieldData, timeLogToEdit);
+
     handleTimeChange(fieldId, fieldData);
     updateErrorState();
   }

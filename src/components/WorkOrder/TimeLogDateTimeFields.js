@@ -61,6 +61,7 @@ const TimeLogDateTimeFields = ({
         break;
     }
 
+    // If editing, manage existing Knack data or edits
     fieldData =
       timeLogToEdit &&
       addMissingFieldsWithExistingKnackData(

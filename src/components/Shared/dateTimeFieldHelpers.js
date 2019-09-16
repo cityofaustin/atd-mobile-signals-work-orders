@@ -45,27 +45,37 @@ export const convertKnackDateTimeToFormTime = knackDateTime => {
     timeString.replace(timeSuffix, " " + timeSuffix),
     "hh:mm a"
   ).toString();
+  debugger;
   return knackDateTime ? new Date(formattedTimeString) : null;
 };
 
 export const addMissingFieldsWithExistingKnackData = (
   fieldId,
   data,
-  timeLogObject
+  timeLogObject,
+  updatedFormData
 ) => {
   const rawFieldsRequiredByKnack = ["date", "hours", "minutes", "am_pm"];
-  // If there is already a time selected, populate that time
-  debugger;
+  // If there is already data from Knack, populate that time
   if (timeLogObject[`${fieldId}_raw`]) {
     rawFieldsRequiredByKnack.forEach(
       field =>
         !data[field] && (data[field] = timeLogObject[`${fieldId}_raw`][field])
     );
     return data;
-  } else {
-    // TODO Add handling for 1. when time is chosen with no date 2. When date is chosen with no time
+  } else if (updatedFormData[`${fieldId}`]) {
+    // If a date or time has been chosen in Edit Form
+    return { ...updatedFormData[fieldId], ...data };
+  } else if (data.date && !data.hours) {
     // If there is not already a time selected, populate 12:00 AM
     data = { ...data, hours: 12, minutes: 0, am_pm: "AM" };
+    return data;
+  } else if (data.hours && !data.date) {
+    // If there is not already a date selected, populate 12:00 AM
+    const today = moment()
+      .format("MM/DD/YYYY")
+      .toString();
+    data = { ...data, date: today };
     return data;
   }
 };

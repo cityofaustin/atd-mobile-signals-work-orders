@@ -63,7 +63,12 @@ const TimeLogDateTimeFields = ({
 
     fieldData =
       timeLogToEdit &&
-      addMissingFieldsWithExistingKnackData(fieldId, fieldData, timeLogToEdit);
+      addMissingFieldsWithExistingKnackData(
+        fieldId,
+        fieldData,
+        timeLogToEdit,
+        updatedFormData
+      );
 
     handleTimeChange(fieldId, fieldData);
     updateErrorState();

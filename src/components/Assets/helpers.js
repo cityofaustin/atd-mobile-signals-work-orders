@@ -11,7 +11,8 @@ import {
   faCheckSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
-const removeBreakTagsFromString = string => string.replace(/(<br \/>)/gm, " ");
+export const removeBreakTagsFromString = string =>
+  string.replace(/(<br \/>)/gm, "\n");
 
 const isStringAnchorTag = string => {
   try {

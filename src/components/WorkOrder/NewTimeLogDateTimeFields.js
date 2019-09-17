@@ -127,6 +127,8 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="ISSUE_RECEIVED_TIME"
                 id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}`}
+                // TODO Refactor w/ TimeLogForm (don't need to pass data here since it is in scope in function)
+                //add getFormSelection like in EditTimeLogDateTimeFields
                 selected={getSelectedTime(
                   data,
                   FIELDS.TIMELOG.ISSUE_RECEIVED_TIME

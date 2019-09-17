@@ -62,8 +62,6 @@ export const addMissingFieldsWithExistingKnackData = (
   timeLogObject,
   updatedFormData
 ) => {
-  const rawFieldsRequiredByKnack = ["date", "hours", "minutes", "am_pm"];
-
   if (timeLogObject[`${fieldId}_raw`] && !updatedFormData[`${fieldId}`]) {
     // If there is already data from Knack, populate that time
     return { ...timeLogObject[`${fieldId}_raw`], ...data };
@@ -82,4 +80,41 @@ export const addMissingFieldsWithExistingKnackData = (
     data = { ...data, date: today };
     return data;
   }
+};
+
+export const getSelectedDate = (data, field) => {
+  // When the form first loads, autofill current date & time
+  // on certain fields to mirror Knack data validation.
+  const today = new Date();
+  const shouldReturnCurrentDate =
+    (isEmpty(data[field]) && field === FIELDS.TIMELOG.ISSUE_RECEIVED_TIME) ||
+    (isEmpty(data[field]) && field === FIELDS.TIMELOG.WORKSITE_ARRIVE);
+
+  if (shouldReturnCurrentDate) return today;
+  if (isEmpty(data[field])) return null;
+
+  let date = data[field].date ? new Date(data[field].date) : today;
+  return date;
+};
+
+export const getSelectedTime = (data, field) => {
+  // When the form first loads, autofill current date & time
+  // on certain fields to mirror Knack data validation.
+  const today = new Date();
+  const shouldReturnCurrentDate =
+    (isEmpty(data[field]) && field === FIELDS.TIMELOG.ISSUE_RECEIVED_TIME) ||
+    (isEmpty(data[field]) && field === FIELDS.TIMELOG.WORKSITE_ARRIVE);
+
+  if (shouldReturnCurrentDate) return today; // default to current time for certain fields
+  if (isEmpty(data[field])) return null; // let value start as blank if there's no exisiting data
+
+  let date = data[field].date
+    ? data[field].date
+    : moment(Date.now()).format("MM/DD/YYYY");
+
+  let momentDate = moment(
+    `${date} ${data[field].hours}:${data[field].minutes} ${data[field].am_pm}`
+  ).format("MM/DD/YYYY h:mm a");
+
+  return new Date(momentDate);
 };

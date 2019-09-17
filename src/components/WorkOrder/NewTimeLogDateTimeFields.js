@@ -4,7 +4,12 @@ import { FIELDS } from "./formConfig";
 import moment from "moment";
 import { isEmpty } from "lodash";
 
-import { getHours, getAmPm } from "../Shared/dateTimeFieldHelpers.js";
+import {
+  getHours,
+  getAmPm,
+  getSelectedDate,
+  getSelectedTime,
+} from "../Shared/dateTimeFieldHelpers.js";
 
 const NewTimeLogDateTimeFields = ({
   data,
@@ -46,56 +51,27 @@ const NewTimeLogDateTimeFields = ({
 
   const getFormSelection = (field, dateOrTime) => {
     if (dateOrTime === "time") {
-      return getSelectedTime(field);
+      return getSelectedTime(data, field);
     } else if (dateOrTime === "date") {
-      return getSelectedDate(field);
+      return getSelectedDate(data, field);
     }
-  };
-
-  const getSelectedDate = field => {
-    // When the form first loads, autofill current date & time
-    // on certain fields to mirror Knack data validation.
-    const today = new Date();
-    const shouldReturnCurrentDate =
-      (isEmpty(data[field]) && field === FIELDS.TIMELOG.ISSUE_RECEIVED_TIME) ||
-      (isEmpty(data[field]) && field === FIELDS.TIMELOG.WORKSITE_ARRIVE);
-
-    if (shouldReturnCurrentDate) return today;
-    if (isEmpty(data[field])) return null;
-
-    let date = data[field].date ? new Date(data[field].date) : today;
-    return date;
-  };
-
-  const getSelectedTime = field => {
-    // When the form first loads, autofill current date & time
-    // on certain fields to mirror Knack data validation.
-    const today = new Date();
-    const shouldReturnCurrentDate =
-      (isEmpty(data[field]) && field === FIELDS.TIMELOG.ISSUE_RECEIVED_TIME) ||
-      (isEmpty(data[field]) && field === FIELDS.TIMELOG.WORKSITE_ARRIVE);
-
-    if (shouldReturnCurrentDate) return today; // default to current time for certain fields
-    if (isEmpty(data[field])) return null; // let value start as blank if there's no exisiting data
-
-    let date = data[field].date
-      ? data[field].date
-      : moment(Date.now()).format("MM/DD/YYYY");
-
-    let momentDate = moment(
-      `${date} ${data[field].hours}:${data[field].minutes} ${data[field].am_pm}`
-    ).format("MM/DD/YYYY h:mm a");
-
-    return new Date(momentDate);
   };
 
   const updateErrorState = () => {
     const issueRecievedTime = getSelectedTime(
+      data,
       FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
     );
-    const workSiteArriveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_ARRIVE);
-    const workSiteLeaveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_LEAVE);
+    const workSiteArriveTime = getSelectedTime(
+      data,
+      FIELDS.TIMELOG.WORKSITE_ARRIVE
+    );
+    const workSiteLeaveTime = getSelectedTime(
+      data,
+      FIELDS.TIMELOG.WORKSITE_LEAVE
+    );
     const worksiteReturnTime = getSelectedTime(
+      data,
       FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
     );
 

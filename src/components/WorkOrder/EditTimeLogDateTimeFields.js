@@ -1,11 +1,9 @@
 import React from "react";
-import DatePicker from "react-datepicker";
+import TimeLogForm from "./TimeLogForm";
 import { FIELDS } from "./formConfig";
 import moment from "moment";
 import { isEmpty } from "lodash";
-import { BigDateTimePicker } from "../../styles/BigDateTimePicker";
 
-import { ErrorMessage } from "./Alerts";
 import {
   getHours,
   getAmPm,
@@ -27,33 +25,13 @@ const EditTimeLogDateTimeFields = ({
 
     switch (dateOrTime) {
       case "DATE":
-        if (timeLogToEdit) {
-          fieldData.date = moment(date).format("MM/DD/YYYY");
-        } else {
-          fieldData.date = moment(date).format("MM/DD/YYYY");
-          fieldData.am_pm = isEmpty(data[fieldId]) ? "" : data[fieldId].am_pm;
-          fieldData.hours = isEmpty(data[fieldId]) ? "" : data[fieldId].hours;
-          fieldData.minutes = isEmpty(data[fieldId])
-            ? ""
-            : data[fieldId].minutes;
-        }
+        fieldData.date = moment(date).format("MM/DD/YYYY");
         break;
 
       case "TIME":
-        let today = new Date();
-        if (timeLogToEdit) {
-          fieldData.am_pm = getAmPm(date);
-          fieldData.hours = getHours(date);
-          fieldData.minutes = date.getMinutes();
-        } else {
-          fieldData.date = isEmpty(data[fieldId])
-            ? moment(today).format("MM/DD/YYYY")
-            : data[fieldId].date;
-          fieldData.am_pm = getAmPm(date);
-          fieldData.hours = getHours(date);
-          fieldData.minutes = date.getMinutes();
-        }
-
+        fieldData.am_pm = getAmPm(date);
+        fieldData.hours = getHours(date);
+        fieldData.minutes = date.getMinutes();
         break;
 
       default:
@@ -61,19 +39,29 @@ const EditTimeLogDateTimeFields = ({
         break;
     }
 
-    // If editing, manage existing Knack data or edits
-    fieldData =
-      timeLogToEdit &&
-      addMissingFieldsWithExistingKnackData(
-        fieldId,
-        fieldData,
-        timeLogToEdit,
-        data
-      );
+    // Add missing dates or time
+    fieldData = addMissingFieldsWithExistingKnackData(
+      fieldId,
+      fieldData,
+      timeLogToEdit,
+      data
+    );
 
     handleTimeChange(fieldId, fieldData);
     updateErrorState();
   }
+
+  const getFormSelection = (field, dateOrTime) => {
+    if (dateOrTime === "time") {
+      return (
+        getExistingRecord(field, dateOrTime) || getSelectedTime(data, field)
+      );
+    } else if (dateOrTime === "date") {
+      return (
+        getExistingRecord(field, dateOrTime) || getSelectedDate(data, field)
+      );
+    }
+  };
 
   const getSelectedDate = (data, field) => {
     // When the form first loads, autofill current date & time
@@ -165,244 +153,12 @@ const EditTimeLogDateTimeFields = ({
 
   return (
     <div>
-      <div className="form-group">
-        <label htmlFor={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}>
-          Issue received
-        </label>
-        <div className="row">
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="ISSUE_RECEIVED_TIME"
-                id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}`}
-                selected={
-                  getExistingRecord(
-                    FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
-                    "time"
-                  ) || getSelectedTime(data, FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)
-                }
-                placeholderText="Select a time"
-                className="form-control"
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={15}
-                dateFormat="h:mm aa"
-                timeCaption="Time"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
-                    "TIME",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="ISSUE_RECEIVED_DATE"
-                id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}
-                selected={
-                  getExistingRecord(
-                    FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
-                    "date"
-                  ) || getSelectedDate(data, FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)
-                }
-                placeholderText="Select a date"
-                className="form-control"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.ISSUE_RECEIVED_TIME,
-                    "DATE",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-        </div>
-      </div>
-      <div className="form-group">
-        <label htmlFor={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}-date`}>
-          Arrive at worksite
-        </label>
-        <div className="row">
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="ISSUE_RECEIVED_TIME"
-                id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}`}
-                selected={
-                  getExistingRecord(FIELDS.TIMELOG.WORKSITE_ARRIVE, "time") ||
-                  getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)
-                }
-                placeholderText="Select a time"
-                className="form-control"
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={15}
-                dateFormat="h:mm aa"
-                timeCaption="Time"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.WORKSITE_ARRIVE,
-                    "TIME",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="ISSUE_RECEIVED_DATE"
-                id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}-date`}
-                selected={
-                  getExistingRecord(FIELDS.TIMELOG.WORKSITE_ARRIVE, "date") ||
-                  getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)
-                }
-                placeholderText="Select a date"
-                className="form-control"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.WORKSITE_ARRIVE,
-                    "DATE",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-        </div>
-      </div>
-      <div className="form-group">
-        <label htmlFor={`${FIELDS.TIMELOG.WORKSITE_LEAVE}-date`}>
-          Leave work site
-        </label>
-        <div className="row">
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="WORKSITE_LEAVE"
-                id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}`}
-                selected={
-                  getExistingRecord(FIELDS.TIMELOG.WORKSITE_LEAVE, "time") ||
-                  getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_LEAVE)
-                }
-                placeholderText="Select a time"
-                className="form-control"
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={15}
-                dateFormat="h:mm aa"
-                timeCaption="Time"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.WORKSITE_LEAVE,
-                    "TIME",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="ISSUE_RECEIVED_DATE"
-                id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}-date`}
-                selected={
-                  getExistingRecord(FIELDS.TIMELOG.WORKSITE_LEAVE, "date") ||
-                  getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_LEAVE)
-                }
-                placeholderText="Select a date"
-                className="form-control"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.WORKSITE_LEAVE,
-                    "DATE",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-        </div>
-      </div>
-      <div className="form-group">
-        <label htmlFor={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}-date`}>
-          Return to shop/home
-        </label>
-
-        <div className="row">
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="WORKSITE_SHOP_RETURN"
-                id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}`}
-                selected={
-                  getExistingRecord(
-                    FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
-                    "time"
-                  ) ||
-                  getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
-                }
-                placeholderText="Select a time"
-                className="form-control"
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={15}
-                dateFormat="h:mm aa"
-                timeCaption="Time"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
-                    "TIME",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-          <div className="col-6">
-            <BigDateTimePicker>
-              <DatePicker
-                name="ISSUE_RECEIVED_DATE"
-                id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}-date`}
-                selected={
-                  getExistingRecord(
-                    FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
-                    "date"
-                  ) ||
-                  getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)
-                }
-                placeholderText="Select a date"
-                className="form-control"
-                onChange={e =>
-                  handleDateTimeFieldChange(
-                    e,
-                    FIELDS.TIMELOG.WORKSITE_SHOP_RETURN,
-                    "DATE",
-                    data
-                  )
-                }
-              />
-            </BigDateTimePicker>
-          </div>
-        </div>
-      </div>
-      {isFormDisabled && (
-        <ErrorMessage error={{ message: "Time logs must be in order." }} />
-      )}
+      <TimeLogForm
+        getFormSelection={getFormSelection}
+        handleFormChange={handleDateTimeFieldChange}
+        isFormDisabled={isFormDisabled}
+        data={data}
+      />
     </div>
   );
 };

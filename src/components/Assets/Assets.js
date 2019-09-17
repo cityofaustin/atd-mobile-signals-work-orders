@@ -38,6 +38,7 @@ class Assets extends Component {
       assetServiceRequestsData: "",
       assetDetectionData: "",
       assetPreventativeMaintenanceData: "",
+      assetFileAttachmentsData: "",
       assetWorkOrdersData: "",
       assetMapData: "",
       assetCamerasData: "",
@@ -126,6 +127,7 @@ class Assets extends Component {
           assetApsButtonRequestsData:
             data.apsButtonRequestsResponse.data.records,
           assetCadStatusData: data.cadStatusResponse.data,
+          assetFileAttachmentsData: data.fileAttachmentsResponse.data.records,
         });
       })
       .then(() => {

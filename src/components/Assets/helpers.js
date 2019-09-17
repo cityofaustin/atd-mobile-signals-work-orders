@@ -16,7 +16,7 @@ export const removeBreakTagsFromString = string =>
 
 const isStringAnchorTag = string => {
   try {
-    return !!string.match(/^(<a href)/gm);
+    return !!string.match(/^(<a)/gm);
   } catch {
     return null;
   }
@@ -41,11 +41,15 @@ export const handleTableDataStringLength = (tableDataString, i) => {
       </td>
     );
   } else {
+    // Add target parameter to open new tab and prevent losing place in app when following a link
+    const contents = isStringAnchorTag(tableDataString)
+      ? (tableDataString = tableDataString.replace("<a", `<a target="_blank"`))
+      : tableDataString;
     return (
       <td
         key={i}
         dangerouslySetInnerHTML={{
-          __html: tableDataString,
+          __html: contents,
         }}
       />
     );
@@ -115,6 +119,7 @@ export const getAllAssetDetails = item => {
       api.assets().travelSensor(item.id),
       api.assets().apsButtonRequests(item.id),
       api.assets().cadStatus(item.id),
+      api.assets().fileAttachments(item.id),
     ])
     .then(
       axios.spread(
@@ -130,7 +135,8 @@ export const getAllAssetDetails = item => {
           poleAttachmentsResponse,
           travelSensorResponse,
           apsButtonRequestsResponse,
-          cadStatusResponse
+          cadStatusResponse,
+          fileAttachmentsResponse
         ) => {
           return {
             workOrdersResponse,
@@ -145,6 +151,7 @@ export const getAllAssetDetails = item => {
             travelSensorResponse,
             apsButtonRequestsResponse,
             cadStatusResponse,
+            fileAttachmentsResponse,
           };
         }
       )

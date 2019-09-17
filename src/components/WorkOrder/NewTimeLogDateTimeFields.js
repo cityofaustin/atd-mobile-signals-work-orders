@@ -46,7 +46,7 @@ const NewTimeLogDateTimeFields = ({
     updateErrorState();
   }
 
-  const getSelectedDate = (data, field) => {
+  const getSelectedDate = field => {
     // When the form first loads, autofill current date & time
     // on certain fields to mirror Knack data validation.
     const today = new Date();
@@ -61,7 +61,7 @@ const NewTimeLogDateTimeFields = ({
     return date;
   };
 
-  const getSelectedTime = (data, field) => {
+  const getSelectedTime = field => {
     // When the form first loads, autofill current date & time
     // on certain fields to mirror Knack data validation.
     const today = new Date();
@@ -129,10 +129,7 @@ const NewTimeLogDateTimeFields = ({
                 id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}`}
                 // TODO Refactor w/ TimeLogForm (don't need to pass data here since it is in scope in function)
                 //add getFormSelection like in EditTimeLogDateTimeFields
-                selected={getSelectedTime(
-                  data,
-                  FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
-                )}
+                selected={getSelectedTime(FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)}
                 placeholderText="Select a time"
                 className="form-control"
                 showTimeSelect
@@ -156,10 +153,7 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="ISSUE_RECEIVED_DATE"
                 id={`${FIELDS.TIMELOG.ISSUE_RECEIVED_TIME}-date`}
-                selected={getSelectedDate(
-                  data,
-                  FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
-                )}
+                selected={getSelectedDate(FIELDS.TIMELOG.ISSUE_RECEIVED_TIME)}
                 placeholderText="Select a date"
                 className="form-control"
                 onChange={e =>
@@ -185,7 +179,7 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="ISSUE_RECEIVED_TIME"
                 id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}`}
-                selected={getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)}
+                selected={getSelectedTime(FIELDS.TIMELOG.WORKSITE_ARRIVE)}
                 placeholderText="Select a time"
                 className="form-control"
                 showTimeSelect
@@ -209,7 +203,7 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="ISSUE_RECEIVED_DATE"
                 id={`${FIELDS.TIMELOG.WORKSITE_ARRIVE}-date`}
-                selected={getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_ARRIVE)}
+                selected={getSelectedDate(FIELDS.TIMELOG.WORKSITE_ARRIVE)}
                 placeholderText="Select a date"
                 className="form-control"
                 onChange={e =>
@@ -235,7 +229,7 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="WORKSITE_LEAVE"
                 id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}`}
-                selected={getSelectedTime(data, FIELDS.TIMELOG.WORKSITE_LEAVE)}
+                selected={getSelectedTime(FIELDS.TIMELOG.WORKSITE_LEAVE)}
                 placeholderText="Select a time"
                 className="form-control"
                 showTimeSelect
@@ -259,7 +253,7 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="ISSUE_RECEIVED_DATE"
                 id={`${FIELDS.TIMELOG.WORKSITE_LEAVE}-date`}
-                selected={getSelectedDate(data, FIELDS.TIMELOG.WORKSITE_LEAVE)}
+                selected={getSelectedDate(FIELDS.TIMELOG.WORKSITE_LEAVE)}
                 placeholderText="Select a date"
                 className="form-control"
                 onChange={e =>
@@ -286,10 +280,7 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="WORKSITE_SHOP_RETURN"
                 id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}`}
-                selected={getSelectedTime(
-                  data,
-                  FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
-                )}
+                selected={getSelectedTime(FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)}
                 placeholderText="Select a time"
                 className="form-control"
                 showTimeSelect
@@ -313,10 +304,7 @@ const NewTimeLogDateTimeFields = ({
               <DatePicker
                 name="ISSUE_RECEIVED_DATE"
                 id={`${FIELDS.TIMELOG.WORKSITE_SHOP_RETURN}-date`}
-                selected={getSelectedDate(
-                  data,
-                  FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
-                )}
+                selected={getSelectedDate(FIELDS.TIMELOG.WORKSITE_SHOP_RETURN)}
                 placeholderText="Select a date"
                 className="form-control"
                 onChange={e =>

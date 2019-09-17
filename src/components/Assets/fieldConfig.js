@@ -76,6 +76,14 @@ export const FIELDS = {
       ],
     },
     {
+      FILE_ATTACHMENTS: [
+        { file: "field_2002" },
+        { name: "field_2003" },
+        { uploadedBy: "field_2005" },
+        { lastUpdated: "field_2007" },
+      ],
+    },
+    {
       DETECTION: [
         { details: "id-detector-link" }, // Add -link for link handling in AssetTable component
         { detectorId: "field_1526" },

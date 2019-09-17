@@ -32,7 +32,15 @@ export const getToDateTimeTimestamp = data => {
 
 export const getFromDateTimeTimestamp = data => {
   let dateTimeObject = getDateTimeObject(data);
-  return isEmpty(dateTimeObject) ? null : new Date(dateTimeObject.timestamp);
+  if (dateTimeObject.timestamp === "Invalid date" && dateTimeObject.date) {
+    // DatePicker returns timestamp as "Invalid date" when no time field time is selected ("All day" checkbox selected)
+    return new Date(dateTimeObject.date);
+  } else if (dateTimeObject.timestamp) {
+    // DatePicker returns a valid timestamp when time and date fields are selected ("All day" checkbox not selected)
+    return new Date(dateTimeObject.timestamp);
+  } else {
+    return null;
+  }
 };
 
 export const convertKnackDateTimeToFormDate = knackDateTime =>

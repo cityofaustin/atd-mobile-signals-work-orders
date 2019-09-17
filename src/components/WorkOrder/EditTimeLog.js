@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 
 import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
-import TimeLogDateTimeFields from "./TimeLogDateTimeFields";
+import EditTimeLogDateTimeFields from "./EditTimeLogDateTimeFields";
 import SubmitButton from "../Form/SubmitButton";
 import api from "../../queries/api";
 import { FIELDS } from "./formConfig";
@@ -234,7 +234,7 @@ class EditTimeLog extends Component {
               )}
             />
           </div>
-          <TimeLogDateTimeFields
+          <EditTimeLogDateTimeFields
             data={this.state.updatedFormData}
             handleTimeChange={this.handleDateTimeFieldChange}
             handleFormDisable={this.handleFormDisable}

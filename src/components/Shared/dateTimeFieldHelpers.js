@@ -118,3 +118,21 @@ export const getSelectedTime = (data, field) => {
 
   return new Date(momentDate);
 };
+
+export const formatDateTimeForFormValidation = (data, field) => {
+  let date = data[field].date ? data[field].date : data[`${field}_raw`].date;
+
+  let momentDate = data[field].hours
+    ? moment(
+        `${date} ${data[field].hours}:${data[field].minutes} ${
+          data[field].am_pm
+        }`
+      ).format("MM/DD/YYYY h:mm a")
+    : moment(
+        `${date} ${data[`${field}_raw`].hours}:${
+          data[`${field}_raw`].minutes
+        } ${data[`${field}_raw`].am_pm}`
+      ).format("MM/DD/YYYY h:mm a");
+
+  return new Date(momentDate);
+};

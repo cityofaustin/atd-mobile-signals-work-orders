@@ -11,6 +11,7 @@ import {
   addMissingFieldsWithExistingKnackData,
   getSelectedDate,
   getSelectedTime,
+  formatDateTimeForFormValidation,
 } from "../Shared/dateTimeFieldHelpers.js";
 
 const EditTimeLogDateTimeFields = ({
@@ -67,32 +68,42 @@ const EditTimeLogDateTimeFields = ({
   // Get updated form data to populate picker field (state after update from Edit Form)
   // or convert DateTime in existing record from Knack (initial state)
   const getExistingRecord = (field, recordType) => {
-    if (timeLogToEdit) {
-      if (data[field]) {
-        getSelectedTime(data, field);
-      } else {
-        if (recordType === "time") {
-          return convertKnackDateTimeToFormTime(timeLogToEdit[field]);
-        } else if (recordType === "date") {
-          return convertKnackDateTimeToFormDate(timeLogToEdit[field]);
-        }
-      }
+    if (data[field]) {
+      getSelectedTime(data, field);
     } else {
-      return false;
+      if (recordType === "time") {
+        return convertKnackDateTimeToFormTime(timeLogToEdit[field]);
+      } else if (recordType === "date") {
+        return convertKnackDateTimeToFormDate(timeLogToEdit[field]);
+      }
     }
   };
 
   const updateErrorState = () => {
     // TODO Handle error state for editing
-    const issueRecievedTime = getSelectedTime(
+    const currentLogData = { ...timeLogToEdit, ...data };
+    const issueRecievedTime = formatDateTimeForFormValidation(
+      currentLogData,
       FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
     );
-    const workSiteArriveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_ARRIVE);
-    const workSiteLeaveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_LEAVE);
-    const worksiteReturnTime = getSelectedTime(
+    const workSiteArriveTime = formatDateTimeForFormValidation(
+      currentLogData,
+      FIELDS.TIMELOG.WORKSITE_ARRIVE
+    );
+    const workSiteLeaveTime = formatDateTimeForFormValidation(
+      currentLogData,
+      FIELDS.TIMELOG.WORKSITE_LEAVE
+    );
+    const worksiteReturnTime = formatDateTimeForFormValidation(
+      currentLogData,
       FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
     );
-
+    console.log(
+      issueRecievedTime,
+      workSiteArriveTime,
+      workSiteLeaveTime,
+      worksiteReturnTime
+    );
     // TODO: Right now, we're checking to make sure times aren't greater than the checkpoint
     // just previous to it. But if some times are left blank, a validation might pass that shouldn't
     const shouldShowError =

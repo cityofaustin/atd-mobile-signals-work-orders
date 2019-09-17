@@ -91,19 +91,11 @@ const NewTimeLogDateTimeFields = ({
 
   const updateErrorState = () => {
     const issueRecievedTime = getSelectedTime(
-      data,
       FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
     );
-    const workSiteArriveTime = getSelectedTime(
-      data,
-      FIELDS.TIMELOG.WORKSITE_ARRIVE
-    );
-    const workSiteLeaveTime = getSelectedTime(
-      data,
-      FIELDS.TIMELOG.WORKSITE_LEAVE
-    );
+    const workSiteArriveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_ARRIVE);
+    const workSiteLeaveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_LEAVE);
     const worksiteReturnTime = getSelectedTime(
-      data,
       FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
     );
 

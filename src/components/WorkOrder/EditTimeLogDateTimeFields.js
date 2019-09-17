@@ -53,17 +53,13 @@ const EditTimeLogDateTimeFields = ({
 
   const getFormSelection = (field, dateOrTime) => {
     if (dateOrTime === "time") {
-      return (
-        getExistingRecord(field, dateOrTime) || getSelectedTime(data, field)
-      );
+      return getExistingRecord(field, dateOrTime) || getSelectedTime(field);
     } else if (dateOrTime === "date") {
-      return (
-        getExistingRecord(field, dateOrTime) || getSelectedDate(data, field)
-      );
+      return getExistingRecord(field, dateOrTime) || getSelectedDate(field);
     }
   };
 
-  const getSelectedDate = (data, field) => {
+  const getSelectedDate = field => {
     // When the form first loads, autofill current date & time
     // on certain fields to mirror Knack data validation.
     const today = new Date();
@@ -96,7 +92,7 @@ const EditTimeLogDateTimeFields = ({
     }
   };
 
-  const getSelectedTime = (data, field) => {
+  const getSelectedTime = field => {
     // When the form first loads, autofill current date & time
     // on certain fields to mirror Knack data validation.
     const today = new Date();
@@ -121,19 +117,11 @@ const EditTimeLogDateTimeFields = ({
   const updateErrorState = () => {
     // TODO Handle error state for editing
     const issueRecievedTime = getSelectedTime(
-      data,
       FIELDS.TIMELOG.ISSUE_RECEIVED_TIME
     );
-    const workSiteArriveTime = getSelectedTime(
-      data,
-      FIELDS.TIMELOG.WORKSITE_ARRIVE
-    );
-    const workSiteLeaveTime = getSelectedTime(
-      data,
-      FIELDS.TIMELOG.WORKSITE_LEAVE
-    );
+    const workSiteArriveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_ARRIVE);
+    const workSiteLeaveTime = getSelectedTime(FIELDS.TIMELOG.WORKSITE_LEAVE);
     const worksiteReturnTime = getSelectedTime(
-      data,
       FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
     );
 

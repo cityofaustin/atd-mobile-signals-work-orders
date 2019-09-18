@@ -65,8 +65,8 @@ const EditTimeLogDateTimeFields = ({
     }
   };
 
-  // Get updated form data to populate picker field (state after update from Edit Form)
-  // or convert DateTime in existing record from Knack (initial state)
+  // Convert DateTime in existing record from Knack (initial state)
+  // or get updated form data to populate picker field (state after updating from Edit Form)
   const getExistingRecord = (field, recordType) => {
     if (data[field]) {
       getSelectedTime(data, field);
@@ -80,7 +80,6 @@ const EditTimeLogDateTimeFields = ({
   };
 
   const updateErrorState = () => {
-    // TODO Handle error state for editing
     const currentLogData = { ...timeLogToEdit, ...data };
     const issueRecievedTime = formatDateTimeForFormValidation(
       currentLogData,
@@ -98,12 +97,7 @@ const EditTimeLogDateTimeFields = ({
       currentLogData,
       FIELDS.TIMELOG.WORKSITE_SHOP_RETURN
     );
-    console.log(
-      issueRecievedTime,
-      workSiteArriveTime,
-      workSiteLeaveTime,
-      worksiteReturnTime
-    );
+
     // TODO: Right now, we're checking to make sure times aren't greater than the checkpoint
     // just previous to it. But if some times are left blank, a validation might pass that shouldn't
     const shouldShowError =

@@ -29,7 +29,6 @@ class NewTimeLog extends Component {
       timeLogToEdit: null,
       updatedFormData: { field_1424: this.workOrderId },
       isFormDisabled: false,
-      technicians: [],
       isLoading: false,
     };
   }
@@ -38,15 +37,13 @@ class NewTimeLog extends Component {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
 
-    console.log("submitting: ", this.state.updatedFormData);
+    console.log("submitting: ", this.state.updatedFormData, this.workOrderId);
 
-    console.log(this.workOrderId);
     !this.isEditable &&
       api
         .workOrder()
         .newTimeLog(this.workOrderId, this.state.updatedFormData)
         .then(res => {
-          console.log(res);
           this.setState({
             isSubmitting: false,
             isSubmitted: true,
@@ -69,8 +66,6 @@ class NewTimeLog extends Component {
           this.state.updatedFormData
         )
         .then(res => {
-          console.log(res);
-          debugger;
           this.setState({
             isSubmitting: false,
             isSubmitted: true,
@@ -192,12 +187,13 @@ class NewTimeLog extends Component {
       });
   };
 
-  getEditFieldDefaultValues = vehiclesArray => {
-    vehiclesArray.forEach(record => {
+  getEditFieldDefaultValues = defaultValuesArray => {
+    // DatePicker needs different keys than Knack provides to populate fields
+    defaultValuesArray.forEach(record => {
       record["label"] = record.identifier;
       record["value"] = record.id;
     });
-    return vehiclesArray;
+    return defaultValuesArray;
   };
 
   componentDidMount() {
@@ -289,23 +285,16 @@ class NewTimeLog extends Component {
               isFormDisabled={this.state.isFormDisabled}
             />
           )}
-          {this.isEditable && timeLogToEdit ? (
-            <EditTimeLogDateTimeFields
-              data={this.state.updatedFormData}
-              handleTimeChange={this.handleDateTimeFieldChange}
-              handleFormDisable={this.handleFormDisable}
-              isFormDisabled={this.state.isFormDisabled}
-              timeLogToEdit={timeLogToEdit}
-            />
-          ) : (
-            this.isEditable && (
-              <FontAwesomeIcon
-                icon={faSpinner}
-                className="atd-spinner"
-                size="2x"
+          {this.isEditable &&
+            timeLogToEdit && (
+              <EditTimeLogDateTimeFields
+                data={this.state.updatedFormData}
+                handleTimeChange={this.handleDateTimeFieldChange}
+                handleFormDisable={this.handleFormDisable}
+                isFormDisabled={this.state.isFormDisabled}
+                timeLogToEdit={timeLogToEdit}
               />
-            )
-          )}
+            )}
           <SubmitButton
             text={`${this.isEditable ? "Edit" : "Add"} Log Entry`}
             isSubmitting={this.state.isSubmitting}

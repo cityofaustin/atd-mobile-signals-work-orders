@@ -70,15 +70,13 @@ export const addMissingFieldsWithExistingKnackData = (
     return { ...updatedFormData[fieldId], ...data };
   } else if (data.date && !data.hours) {
     // If there is not already a time selected, populate 12:00 AM
-    data = { ...data, hours: 12, minutes: 0, am_pm: "AM" };
-    return data;
+    return { ...data, hours: 12, minutes: 0, am_pm: "AM" };
   } else if (data.hours && !data.date) {
     // If there is not already a date selected, populate today
     const today = moment()
       .format("MM/DD/YYYY")
       .toString();
-    data = { ...data, date: today };
-    return data;
+    return { ...data, date: today };
   }
 };
 

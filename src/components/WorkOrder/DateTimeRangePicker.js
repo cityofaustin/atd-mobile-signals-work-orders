@@ -67,7 +67,7 @@ const handleDateTimeFieldChange = (
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "fromTime") {
     if (isEmpty(previousDateField)) {
-      // Need date to construct a timestamp, so lets give a default
+      // If selecting time first, need date to construct a timestamp with default
       previousDateField.date = moment().format("MM/DD/YYYY");
     }
     updatedDateField.hours = getHours(date);
@@ -92,6 +92,11 @@ const handleDateTimeFieldChange = (
       } ${previousDateField.to.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "toTime") {
+    // If selecting time first, need date to construct a timestamp with default
+    if (!updatedDateField.to) {
+      updatedDateField.to = {};
+      previousDateField.to.date = moment().format("MM/DD/YYYY");
+    }
     updatedDateField.to.hours = getHours(date);
     updatedDateField.to.minutes = date.getMinutes();
     updatedDateField.to.am_pm = getAmPm(date);
@@ -101,7 +106,6 @@ const handleDateTimeFieldChange = (
       } ${updatedDateField.to.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   }
-
   handleScheduledTimeChange(updatedDateField);
 };
 

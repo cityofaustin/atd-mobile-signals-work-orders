@@ -66,7 +66,10 @@ const handleDateTimeFieldChange = (
       } ${previousDateField.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "fromTime") {
-    debugger;
+    if (isEmpty(previousDateField)) {
+      // Need date to construct a timestamp, so lets give a default
+      previousDateField.date = moment().format("MM/DD/YYYY");
+    }
     updatedDateField.hours = getHours(date);
     updatedDateField.minutes = date.getMinutes();
     updatedDateField.am_pm = getAmPm(date);

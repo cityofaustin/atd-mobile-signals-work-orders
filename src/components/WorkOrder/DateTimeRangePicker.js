@@ -66,6 +66,7 @@ const handleDateTimeFieldChange = (
       } ${previousDateField.am_pm}`
     ).format("MM/DD/YYYY h:mm a");
   } else if (field === "fromTime") {
+    debugger;
     updatedDateField.hours = getHours(date);
     updatedDateField.minutes = date.getMinutes();
     updatedDateField.am_pm = getAmPm(date);

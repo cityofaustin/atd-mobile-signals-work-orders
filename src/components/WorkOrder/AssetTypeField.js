@@ -82,19 +82,18 @@ export default class AssetTypeField extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    let userPosition = {};
-    navigator.geolocation.getCurrentPosition(pos => {
-      userPosition["lat"] = pos.coords.latitude;
-      userPosition["lon"] = pos.coords.longitude;
-
-      getSignalsOptions(userPosition).then(data => {
-        this.setState({
-          signalOptions: data,
-          loading: false,
-          userPosition: userPosition,
-        });
-      });
-    });
+    // let userPosition = {};
+    // navigator.geolocation.getCurrentPosition(pos => {
+    //   userPosition["lat"] = pos.coords.latitude;
+    //   userPosition["lon"] = pos.coords.longitude;
+    // getSignalsOptions(userPosition).then(data => {
+    //   this.setState({
+    //     signalOptions: data,
+    //     loading: false,
+    //     userPosition: userPosition,
+    //   });
+    // });
+    // });
 
     let watchPosition = {};
     navigator.geolocation.watchPosition(pos => {
@@ -102,9 +101,19 @@ export default class AssetTypeField extends Component {
       watchPosition["lon"] = pos.coords.longitude;
       const newWatchCount = this.state.watchCount + 1;
 
-      this.setState({
-        watchPosition: watchPosition,
-        watchCount: newWatchCount,
+      getSignalsOptions(userPosition).then(data => {
+        data !== this.state.signalOptions
+          ? this.setState({
+              signalOptions: data,
+              loading: false,
+              userPosition: watchPosition,
+              watchCount: newWatchCount,
+            })
+          : this.setState({
+              loading: false,
+              watchCount: newWatchCount,
+              userPosition: watchPosition,
+            });
       });
     });
   }

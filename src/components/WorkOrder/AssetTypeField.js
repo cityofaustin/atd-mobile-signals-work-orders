@@ -101,7 +101,7 @@ export default class AssetTypeField extends Component {
       watchPosition["lon"] = pos.coords.longitude;
       const newWatchCount = this.state.watchCount + 1;
 
-      getSignalsOptions(userPosition).then(data => {
+      getSignalsOptions(watchPosition).then(data => {
         data !== this.state.signalOptions
           ? this.setState({
               signalOptions: data,

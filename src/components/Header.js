@@ -9,12 +9,17 @@ const Header = props => {
   const isNotHomePath = props.location.pathname !== "/";
   return (
     <StyledHeader>
-      {isNotHomePath && (
-        <button className="pt-2" onClick={() => props.history.goBack()}>
-          <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-        </button>
-      )}
-      <RefreshIcon />
+      <div>
+        {isNotHomePath && (
+          <FontAwesomeIcon
+            className="nav-buttons"
+            onClick={() => props.history.goBack()}
+            icon={faArrowLeft}
+            size="2x"
+          />
+        )}
+        <RefreshIcon />
+      </div>
       <h2>{props.currentPage}</h2>
       <UserInfo revokeKnackUserToken={props.revokeKnackUserToken} />
     </StyledHeader>

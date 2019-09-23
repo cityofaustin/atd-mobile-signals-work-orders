@@ -13,4 +13,4 @@
     [headers.values]
      # COMMENT: Multi-key header rules are expressed with multi-line strings
     cache-control = '''
-    max-age=60'''
+    max-age=86400'''

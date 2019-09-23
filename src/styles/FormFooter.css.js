@@ -11,7 +11,7 @@ const StyledFooter = styled("div")`
   width: 100%;
   box-shadow: 0px 0px 13px #212529;
 
-  @media screen and (max-height: 800px) {
+  @media screen and (max-height: 500px) {
     visibility: hidden;
   }
 `;

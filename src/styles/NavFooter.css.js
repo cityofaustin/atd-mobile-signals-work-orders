@@ -11,7 +11,7 @@ export const StyledNavFooter = styled("div")`
   background-color: white;
   z-index: 2;
 
-  @media screen and (max-height: 800px) {
+  @media screen and (max-height: 500px) {
     visibility: hidden;
   }
 `;

@@ -107,12 +107,14 @@ export default class AssetTypeField extends Component {
               signalOptions: data,
               loading: false,
               userPosition: watchPosition,
+              watchPosition: watchPosition,
               watchCount: newWatchCount,
             })
           : this.setState({
               loading: false,
               watchCount: newWatchCount,
               userPosition: watchPosition,
+              watchPosition: watchPosition,
             });
       });
     });

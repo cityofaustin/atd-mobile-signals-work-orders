@@ -93,6 +93,10 @@ export default class AssetTypeField extends Component {
         });
       });
     });
+
+    navigator.geolocation.watchPosition(pos => {
+      debugger;
+    });
   }
 
   handleAutocompleteChange = (assetTypeString, e) => {

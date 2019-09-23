@@ -3,11 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 
 const RefreshIcon = () => {
+  const handleRefreshClick = () => {
+    window.location.reload();
+  };
+
   return (
     <>
       <FontAwesomeIcon
         className="nav-buttons"
-        onClick={() => console.log("You clicked the button!")}
+        onClick={handleRefreshClick}
         icon={faRedoAlt}
         size="2x"
       />

@@ -38,6 +38,8 @@ export default class AssetTypeField extends Component {
       updatedFormData: {},
       loading: false,
       userPosition: "",
+      watchPosition: "",
+      watchCount: 0,
     };
 
     this.menuStyle = {
@@ -94,8 +96,16 @@ export default class AssetTypeField extends Component {
       });
     });
 
+    let watchPosition = {};
     navigator.geolocation.watchPosition(pos => {
-      debugger;
+      watchPosition["lat"] = pos.coords.latitude;
+      watchPosition["lon"] = pos.coords.longitude;
+      const newWatchCount = this.state.watchCount + 1;
+
+      this.setState({
+        watchPosition: watchPosition,
+        watchCount: newWatchCount,
+      });
     });
   }
 
@@ -167,6 +177,11 @@ export default class AssetTypeField extends Component {
           </select>
         </div>
 
+        <div>
+          Watch Coords - Lat:{this.state.watchPosition.lat} Lon:
+          {this.state.watchPosition.lon}
+        </div>
+        <div>Watch Count {this.state.watchCount}</div>
         {/* Autocomplete for Signals */}
         {this.props.data[FIELDS.ASSET_TYPE] === "Signal" && (
           <div className="form-group">

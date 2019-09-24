@@ -67,6 +67,10 @@ const keys = {
     technicianFieldId: "field_1753",
     vehicleFieldId: "field_1427",
   },
+  editTimeLog: {
+    sceneId: "scene_297",
+    viewId: "view_1251",
+  },
   addImage: {
     sceneId: "scene_255",
     viewId: "view_2234",
@@ -286,6 +290,14 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${
             keys.timeLog.viewId
           }/records/`,
+          data,
+          getHeaders()
+        ),
+      editTimeLog: (id, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editTimeLog.sceneId
+          }/views/${keys.editTimeLog.viewId}/records/${id}`,
           data,
           getHeaders()
         ),

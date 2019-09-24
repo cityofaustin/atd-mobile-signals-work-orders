@@ -181,6 +181,14 @@ class App extends Component {
                     component={NewTimeLog}
                     isAuthenticated={this.state.knackUserToken}
                     knackObject={this.state.knackObject}
+                    isEditable={false}
+                  />
+                  <PrivateRoute
+                    path="/work-order/:workOrderId/edit-time-log/:timeLogId"
+                    component={NewTimeLog}
+                    isAuthenticated={this.state.knackUserToken}
+                    knackObject={this.state.knackObject}
+                    isEditable={true}
                   />
                   <PrivateRoute
                     path="/work-order/inventory-items/:workOrderId"

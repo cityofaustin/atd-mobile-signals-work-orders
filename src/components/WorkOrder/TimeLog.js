@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from "../Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FIELDS } from "./formConfig";
@@ -12,14 +13,7 @@ const TimeLog = ({ data, workOrderId }) => {
         <ul className="list-group list-group-flush">
           {data.map((timeLog, i) => (
             <li className="list-group-item d-flex row" key={i}>
-              <div className="col-1 mt-2">
-                <Link
-                  to={`/work-order/${workOrderId}/edit-time-log/${timeLog.id}`}
-                >
-                  <FontAwesomeIcon icon={faEdit} size="2x" />
-                </Link>
-              </div>
-              <div className="col-6">
+              <div className="col-4">
                 <div className="row">
                   <div className="col-12">
                     <span
@@ -71,6 +65,14 @@ const TimeLog = ({ data, workOrderId }) => {
                     />
                   </div>
                 </div>
+              </div>
+              <div className="col-3 mt-2">
+                <Button
+                  icon={faEdit}
+                  text={"Edit"}
+                  linkPath={`/work-order/${workOrderId}/edit-time-log/${timeLog.id}`}
+                  color={"primary"}
+                />
               </div>
             </li>
           ))}

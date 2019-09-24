@@ -82,18 +82,6 @@ export default class AssetTypeField extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    // let userPosition = {};
-    // navigator.geolocation.getCurrentPosition(pos => {
-    //   userPosition["lat"] = pos.coords.latitude;
-    //   userPosition["lon"] = pos.coords.longitude;
-    // getSignalsOptions(userPosition).then(data => {
-    //   this.setState({
-    //     signalOptions: data,
-    //     loading: false,
-    //     userPosition: userPosition,
-    //   });
-    // });
-    // });
 
     let watchPosition = {};
     navigator.geolocation.watchPosition(pos => {

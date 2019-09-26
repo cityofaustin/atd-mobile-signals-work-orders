@@ -76,13 +76,15 @@ export default class AssetTypeField extends Component {
         placeholder: this.state.loading ? loadingMessage : placeholderMessage,
       };
     };
+
+    this.positionWatchEvent = null;
   }
 
   componentDidMount() {
     this.setState({ loading: true });
 
     let watchPosition = {};
-    navigator.geolocation.watchPosition(pos => {
+    this.positionWatchEvent = navigator.geolocation.watchPosition(pos => {
       watchPosition["lat"] = pos.coords.latitude;
       watchPosition["lon"] = pos.coords.longitude;
 
@@ -149,10 +151,15 @@ export default class AssetTypeField extends Component {
     this.props.handleAssetChange(data);
   };
 
+  componentWillUnmount() {
+    this.positionWatchEvent && this.positionWatchEvent.clearWatch();
+  }
+
   render() {
     return (
       <>
         <div className="form-group">
+          <div>{`${this.state.watchPosition.lat} ${this.state.watchPosition.lon}`}</div>
           <label htmlFor={FIELDS.ASSET_TYPE}>Asset Type</label>
           <select
             className="form-control"

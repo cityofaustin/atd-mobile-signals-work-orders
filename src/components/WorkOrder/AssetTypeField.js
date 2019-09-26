@@ -46,7 +46,6 @@ export default class AssetTypeField extends Component {
       background: "rgba(255, 255, 255, 0.9)",
       padding: "2px 0",
       fontSize: "120%",
-      position: "fixed",
       overflow: "auto",
       zIndex: "999",
       maxHeight: "50%",

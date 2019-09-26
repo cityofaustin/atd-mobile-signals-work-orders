@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   StyledNavFooter,
   StyledNavFooterButtons,
 } from "../../styles/NavFooter.css.js";
-import { Link } from "react-router-dom";
+import { colors } from "../../constants/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -35,11 +36,6 @@ const navPages = [
   },
 ];
 
-const linkColors = {
-  inactive: "#6C757C",
-  active: "#307BFF",
-};
-
 const NavFooter = props => {
   let iconColor = "";
   return (
@@ -49,8 +45,8 @@ const NavFooter = props => {
           // Set icon color based on whether current path is equal to link path
           iconColor =
             page.link === props.location.pathname
-              ? linkColors.active
-              : linkColors.inactive;
+              ? colors.activeNavFooter
+              : colors.inactiveNavFooter;
 
           return (
             <li key={i} className={`${StyledNavFooterButtons} nav-item`}>

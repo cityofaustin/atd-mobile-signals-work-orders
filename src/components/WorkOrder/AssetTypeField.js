@@ -7,6 +7,8 @@ import { getSignalsOptions, getAssetsByType } from "./helpers";
 const placeholderMessage = "Type to search...";
 const loadingMessage = "Loading...";
 
+const GET_SIGNALS_LIMIT = 5; // Number of times to request nearby signals from Socrata
+
 export default class AssetTypeField extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +40,7 @@ export default class AssetTypeField extends Component {
       updatedFormData: {},
       loading: false,
       watchPosition: "",
+      watchPositionCount: 0,
     };
 
     this.menuStyle = {
@@ -87,18 +90,22 @@ export default class AssetTypeField extends Component {
     this.positionWatchEvent = navigator.geolocation.watchPosition(pos => {
       watchPosition["lat"] = pos.coords.latitude;
       watchPosition["lon"] = pos.coords.longitude;
+      const updatedWatchPositionCount = this.state.watchPositionCount + 1;
 
-      getSignalsOptions(watchPosition).then(data => {
-        data !== this.state.signalOptions
-          ? this.setState({
-              signalOptions: data,
-              loading: false,
-              watchPosition: watchPosition,
-            })
-          : this.setState({
-              loading: false,
-              watchPosition: watchPosition,
-            });
+      this.setState({ watchPositionCount: updatedWatchPositionCount }, () => {
+        this.state.watchPositionCount < GET_SIGNALS_LIMIT &&
+          getSignalsOptions(watchPosition).then(data => {
+            data !== this.state.signalOptions
+              ? this.setState({
+                  signalOptions: data,
+                  loading: false,
+                  watchPosition: watchPosition,
+                })
+              : this.setState({
+                  loading: false,
+                  watchPosition: watchPosition,
+                });
+          });
       });
     });
   }
@@ -160,6 +167,7 @@ export default class AssetTypeField extends Component {
       <>
         <div className="form-group">
           <div>{`${this.state.watchPosition.lat} ${this.state.watchPosition.lon}`}</div>
+          <div>{`Watch Position Count: ${this.state.watchPositionCount}`}</div>
           <label htmlFor={FIELDS.ASSET_TYPE}>Asset Type</label>
           <select
             className="form-control"

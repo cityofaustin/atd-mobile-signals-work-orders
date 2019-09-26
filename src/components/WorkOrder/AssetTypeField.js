@@ -7,7 +7,7 @@ import { getSignalsOptions, getAssetsByType } from "./helpers";
 const placeholderMessage = "Type to search...";
 const loadingMessage = "Loading...";
 
-const GET_SIGNALS_LIMIT = 5; // Number of times to request nearby signals from Socrata
+const GET_SIGNALS_LIMIT = 20; // Number of times to request nearby signals from Socrata
 
 export default class AssetTypeField extends Component {
   constructor(props) {
@@ -92,6 +92,7 @@ export default class AssetTypeField extends Component {
       watchPosition["lon"] = pos.coords.longitude;
       const updatedWatchPositionCount = this.state.watchPositionCount + 1;
 
+      // Update watchPositionCount and request nearby signals if less than count limit
       this.setState({ watchPositionCount: updatedWatchPositionCount }, () => {
         this.state.watchPositionCount < GET_SIGNALS_LIMIT &&
           getSignalsOptions(watchPosition).then(data => {
@@ -166,8 +167,6 @@ export default class AssetTypeField extends Component {
     return (
       <>
         <div className="form-group">
-          <div>{`${this.state.watchPosition.lat} ${this.state.watchPosition.lon}`}</div>
-          <div>{`Watch Position Count: ${this.state.watchPositionCount}`}</div>
           <label htmlFor={FIELDS.ASSET_TYPE}>Asset Type</label>
           <select
             className="form-control"

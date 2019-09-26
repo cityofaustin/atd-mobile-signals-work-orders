@@ -67,12 +67,12 @@ export const createDetectorLink = (id, assetId) => (
   </div>
 );
 
-export const addDetectionLinks = (assetId, workOrderId) => (
+export const addDetectionLinks = assetId => (
   <div>
     <a
       class="btn btn-primary btn-lg mb-2 mr-2"
       role="button"
-      href={`https://transportation.austintexas.io/data-tracker/#work-orders/work-order-details/${workOrderId}/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}
+      href={`https://transportation.austintexas.io/data-tracker/#home/signals/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}
     >
       <FontAwesomeIcon icon={faEdit} /> {"Edit Detectors"}
     </a>

@@ -11,11 +11,12 @@ import {
   faCheckSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
-const removeBreakTagsFromString = string => string.replace(/(<br \/>)/gm, " ");
+export const removeBreakTagsFromString = string =>
+  string.replace(/(<br \/>)/gm, "\n");
 
 const isStringAnchorTag = string => {
   try {
-    return !!string.match(/^(<a href)/gm);
+    return !!string.match(/^(<a)/gm);
   } catch {
     return null;
   }
@@ -40,11 +41,15 @@ export const handleTableDataStringLength = (tableDataString, i) => {
       </td>
     );
   } else {
+    // Add target parameter to open new tab and prevent losing place in app when following a link
+    const contents = isStringAnchorTag(tableDataString)
+      ? (tableDataString = tableDataString.replace("<a", `<a target="_blank"`))
+      : tableDataString;
     return (
       <td
         key={i}
         dangerouslySetInnerHTML={{
-          __html: tableDataString,
+          __html: contents,
         }}
       />
     );
@@ -62,12 +67,12 @@ export const createDetectorLink = (id, assetId) => (
   </div>
 );
 
-export const addDetectionLinks = (assetId, workOrderId) => (
+export const addDetectionLinks = assetId => (
   <div>
     <a
       class="btn btn-primary btn-lg mb-2 mr-2"
       role="button"
-      href={`https://transportation.austintexas.io/data-tracker/#work-orders/work-order-details/${workOrderId}/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}
+      href={`https://transportation.austintexas.io/data-tracker/#home/signals/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}
     >
       <FontAwesomeIcon icon={faEdit} /> {"Edit Detectors"}
     </a>
@@ -114,6 +119,7 @@ export const getAllAssetDetails = item => {
       api.assets().travelSensor(item.id),
       api.assets().apsButtonRequests(item.id),
       api.assets().cadStatus(item.id),
+      api.assets().fileAttachments(item.id),
     ])
     .then(
       axios.spread(
@@ -129,7 +135,8 @@ export const getAllAssetDetails = item => {
           poleAttachmentsResponse,
           travelSensorResponse,
           apsButtonRequestsResponse,
-          cadStatusResponse
+          cadStatusResponse,
+          fileAttachmentsResponse
         ) => {
           return {
             workOrdersResponse,
@@ -144,6 +151,7 @@ export const getAllAssetDetails = item => {
             travelSensorResponse,
             apsButtonRequestsResponse,
             cadStatusResponse,
+            fileAttachmentsResponse,
           };
         }
       )

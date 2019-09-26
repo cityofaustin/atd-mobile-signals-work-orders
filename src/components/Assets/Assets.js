@@ -38,6 +38,7 @@ class Assets extends Component {
       assetServiceRequestsData: "",
       assetDetectionData: "",
       assetPreventativeMaintenanceData: "",
+      assetFileAttachmentsData: "",
       assetWorkOrdersData: "",
       assetMapData: "",
       assetCamerasData: "",
@@ -126,6 +127,7 @@ class Assets extends Component {
           assetApsButtonRequestsData:
             data.apsButtonRequestsResponse.data.records,
           assetCadStatusData: data.cadStatusResponse.data,
+          assetFileAttachmentsData: data.fileAttachmentsResponse.data.records,
         });
       })
       .then(() => {
@@ -148,37 +150,36 @@ class Assets extends Component {
           <FontAwesomeIcon icon={faMapMarkerAlt} /> {this.state.pageHeading}
         </h1>
 
-        {this.state.assetOptions.length > 0 &&
-          this.state.viewedAsset === "" && (
-            <form>
-              <div className="form-group">
-                <br />
-                <Autocomplete
-                  getItemValue={item => item.id}
-                  items={this.state.assetOptions}
-                  inputProps={this.inputProps("asset")}
-                  wrapperStyle={this.wrapperStyle}
-                  menuStyle={this.menuStyle}
-                  renderItem={(item, isHighlighted) =>
-                    this.renderItem(item, isHighlighted)
-                  }
-                  shouldItemRender={(item, value) =>
-                    this.shouldItemRender(item, value)
-                  }
-                  value={this.state.typedAsset}
-                  onChange={this.handleAutocompleteChange}
-                  onSelect={(value, item) => this.onAssetSelect(value, item)}
-                />
-                <button
-                  type="button"
-                  className="btn btn-danger ml-2 btn-lg"
-                  onClick={this.clearAssetSearch}
-                >
-                  Clear
-                </button>
-              </div>
-            </form>
-          )}
+        {this.state.assetOptions.length > 0 && this.state.viewedAsset === "" && (
+          <form>
+            <div className="form-group">
+              <br />
+              <Autocomplete
+                getItemValue={item => item.id}
+                items={this.state.assetOptions}
+                inputProps={this.inputProps("asset")}
+                wrapperStyle={this.wrapperStyle}
+                menuStyle={this.menuStyle}
+                renderItem={(item, isHighlighted) =>
+                  this.renderItem(item, isHighlighted)
+                }
+                shouldItemRender={(item, value) =>
+                  this.shouldItemRender(item, value)
+                }
+                value={this.state.typedAsset}
+                onChange={this.handleAutocompleteChange}
+                onSelect={(value, item) => this.onAssetSelect(value, item)}
+              />
+              <button
+                type="button"
+                className="btn btn-danger ml-2 btn-lg"
+                onClick={this.clearAssetSearch}
+              >
+                Clear
+              </button>
+            </div>
+          </form>
+        )}
 
         {this.state.loading && (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
@@ -229,7 +230,6 @@ class Assets extends Component {
                         data={this.state[stateName]}
                         fields={table[tableKey]}
                         assetId={this.state.assetDetailsData.id}
-                        workOrderId={this.props.match.params.workOrderId}
                         title={title}
                       />
                     </AccordionItemBody>

@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import { Redirect } from "react-router-dom";
 
 import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
-import TimeLogDateTimeFields from "./TimeLogDateTimeFields";
+import NewTimeLogDateTimeFields from "./NewTimeLogDateTimeFields";
+import EditTimeLogDateTimeFields from "./EditTimeLogDateTimeFields";
 import SubmitButton from "../Form/SubmitButton";
 import api from "../../queries/api";
 import { FIELDS } from "./formConfig";
@@ -17,12 +20,16 @@ class NewTimeLog extends Component {
     super(props);
 
     this.workOrderId = this.props.match.params.workOrderId;
+    this.isEditable = this.props.isEditable;
 
     this.state = {
       technicianOptions: [],
       vehicleOptions: [],
+      timeLogData: [],
+      timeLogToEdit: null,
       updatedFormData: { field_1424: this.workOrderId },
       isFormDisabled: false,
+      isLoading: false,
     };
   }
 
@@ -30,27 +37,48 @@ class NewTimeLog extends Component {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
 
-    console.log("submitting: ", this.state.updatedFormData);
+    console.log("submitting: ", this.state.updatedFormData, this.workOrderId);
 
-    console.log(this.workOrderId);
-    api
-      .workOrder()
-      .newTimeLog(this.workOrderId, this.state.updatedFormData)
-      .then(res => {
-        console.log(res);
-        this.setState({
-          isSubmitting: false,
-          isSubmitted: true,
-          successfulResponseData: res.data.record,
+    !this.isEditable &&
+      api
+        .workOrder()
+        .newTimeLog(this.workOrderId, this.state.updatedFormData)
+        .then(res => {
+          this.setState({
+            isSubmitting: false,
+            isSubmitted: true,
+            successfulResponseData: res.data.record,
+          });
+        })
+        .catch(error => {
+          console.log(error.response.data.errors);
+          this.setState({
+            errors: error.response.data.errors,
+            isSubmitting: false,
+          });
         });
-      })
-      .catch(error => {
-        console.log(error.response.data.errors);
-        this.setState({
-          errors: error.response.data.errors,
-          isSubmitting: false,
+
+    this.isEditable &&
+      api
+        .workOrder()
+        .editTimeLog(
+          this.props.match.params.timeLogId,
+          this.state.updatedFormData
+        )
+        .then(res => {
+          this.setState({
+            isSubmitting: false,
+            isSubmitted: true,
+            successfulResponseData: res.data.record,
+          });
+        })
+        .catch(error => {
+          console.log(error.response.data.errors);
+          this.setState({
+            errors: error.response.data.errors,
+            isSubmitting: false,
+          });
         });
-      });
   };
 
   handleChange = e => {
@@ -139,9 +167,39 @@ class NewTimeLog extends Component {
     this.setState({ updatedFormData: formData });
   };
 
+  setTimeLogToEdit = () => {
+    const timeLogToEdit = this.state.timeLogData.filter(
+      record => record.id === this.props.match.params.timeLogId
+    )[0];
+    this.setState({ timeLogToEdit });
+  };
+
+  requestTimeLogs = id => {
+    this.setState({ isLoading: true });
+    api
+      .workOrder()
+      .getTimeLogs(id)
+      .then(res => {
+        this.setState({ timeLogData: res.data.records }, () => {
+          this.setState({ isLoading: false });
+          this.setTimeLogToEdit();
+        });
+      });
+  };
+
+  getEditFieldDefaultValues = defaultValuesArray => {
+    // DatePicker needs different keys than Knack provides to populate fields
+    defaultValuesArray.forEach(record => {
+      record["label"] = record.identifier;
+      record["value"] = record.id;
+    });
+    return defaultValuesArray;
+  };
+
   componentDidMount() {
     this.getTechnicianOptions();
     this.getVehicleOptions();
+    this.requestTimeLogs(this.workOrderId);
   }
 
   render() {
@@ -150,9 +208,16 @@ class NewTimeLog extends Component {
       return <Redirect to={`/work-orders/${this.workOrderId}`} />;
     }
 
-    return (
+    const timeLogToEdit = this.state.timeLogToEdit;
+
+    return this.state.isLoading ? (
+      <FontAwesomeIcon icon={faSpinner} className="atd-spinner" size="2x" />
+    ) : (
       <div>
-        <Header icon={faClock} title="New Time Log" />
+        <Header
+          icon={faClock}
+          title={`${this.isEditable ? "Edit" : "New"} Time Log`}
+        />
 
         {this.state.errors &&
           this.state.errors.map(error => (
@@ -166,7 +231,13 @@ class NewTimeLog extends Component {
               className="basic-multi-select"
               classNamePrefix="select"
               isMulti
-              defaultValue={[]}
+              defaultValue={
+                (timeLogToEdit &&
+                  this.getEditFieldDefaultValues(
+                    timeLogToEdit[FIELDS.TIMELOG.EDIT_TECHNICIANS]
+                  )) ||
+                []
+              }
               id={FIELDS.TIMELOG.TECHNICIANS}
               name={FIELDS.TIMELOG.TECHNICIANS}
               aria-describedby={`${FIELDS.TIMELOG.TECHNICIANS}-text`}
@@ -190,7 +261,13 @@ class NewTimeLog extends Component {
               className="basic-multi-select"
               classNamePrefix="select"
               isMulti
-              defaultValue={[]}
+              defaultValue={
+                (timeLogToEdit &&
+                  this.getEditFieldDefaultValues(
+                    timeLogToEdit[FIELDS.TIMELOG.EDIT_VEHICLES]
+                  )) ||
+                []
+              }
               id={FIELDS.TIMELOG.VEHICLES}
               name={FIELDS.TIMELOG.VEHICLES}
               options={this.state.vehicleOptions}
@@ -200,14 +277,26 @@ class NewTimeLog extends Component {
               )}
             />
           </div>
-          <TimeLogDateTimeFields
-            data={this.state.updatedFormData}
-            handleTimeChange={this.handleDateTimeFieldChange}
-            handleFormDisable={this.handleFormDisable}
-            isFormDisabled={this.state.isFormDisabled}
-          />
+          {!this.isEditable && (
+            <NewTimeLogDateTimeFields
+              data={this.state.updatedFormData}
+              handleTimeChange={this.handleDateTimeFieldChange}
+              handleFormDisable={this.handleFormDisable}
+              isFormDisabled={this.state.isFormDisabled}
+            />
+          )}
+          {this.isEditable &&
+            timeLogToEdit && (
+              <EditTimeLogDateTimeFields
+                data={this.state.updatedFormData}
+                handleTimeChange={this.handleDateTimeFieldChange}
+                handleFormDisable={this.handleFormDisable}
+                isFormDisabled={this.state.isFormDisabled}
+                timeLogToEdit={timeLogToEdit}
+              />
+            )}
           <SubmitButton
-            text="Add Log Entry"
+            text={`${this.isEditable ? "Edit" : "Add"} Log Entry`}
             isSubmitting={this.state.isSubmitting}
             isFormDisabled={this.state.isFormDisabled}
           />

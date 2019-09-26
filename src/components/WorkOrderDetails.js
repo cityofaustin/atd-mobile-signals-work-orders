@@ -174,6 +174,7 @@ class WorkOrderDetail extends Component {
 
   render() {
     const statusField = this.state.detailsData.field_459;
+    const workOrderId = this.props.match.params.workOrderId;
     return (
       <div>
         <h1>
@@ -250,7 +251,10 @@ class WorkOrderDetail extends Component {
                   this.props.match.params.workOrderId
                 }`}
               />
-              <TimeLog data={this.state.timeLogData} />
+              <TimeLog
+                data={this.state.timeLogData}
+                workOrderId={workOrderId}
+              />
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

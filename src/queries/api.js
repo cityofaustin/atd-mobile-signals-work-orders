@@ -67,6 +67,10 @@ const keys = {
     technicianFieldId: "field_1753",
     vehicleFieldId: "field_1427",
   },
+  editTimeLog: {
+    sceneId: "scene_297",
+    viewId: "view_1251",
+  },
   addImage: {
     sceneId: "scene_255",
     viewId: "view_2234",
@@ -94,6 +98,7 @@ const keys = {
     travelSensor: { sceneId: "scene_446", viewId: "view_1373" },
     apsButtonRequests: { sceneId: "scene_446", viewId: "view_2326" },
     cadStatus: { sceneId: "scene_446", viewId: "view_1543" },
+    fileAttachments: { sceneId: "scene_446", viewId: "view_1768" },
   },
   userInfo: { sceneId: "scene_461", viewId: "view_1306" },
   userPassword: { sceneId: "scene_461", viewId: "view_1307" },
@@ -285,6 +290,14 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${keys.timeLog.sceneId}/views/${
             keys.timeLog.viewId
           }/records/`,
+          data,
+          getHeaders()
+        ),
+      editTimeLog: (id, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.editTimeLog.sceneId
+          }/views/${keys.editTimeLog.viewId}/records/${id}`,
           data,
           getHeaders()
         ),
@@ -558,6 +571,15 @@ const api = {
           `https://us-api.knack.com/v1/scenes/${
             keys.assets.cadStatus.sceneId
           }/views/${keys.assets.cadStatus.viewId}/records/${id}`,
+          getHeaders()
+        ),
+      fileAttachments: id =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.assets.fileAttachments.sceneId
+          }/views/${
+            keys.assets.fileAttachments.viewId
+          }/records?signal-details_id=${id}`,
           getHeaders()
         ),
     };

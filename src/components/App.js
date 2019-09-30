@@ -8,6 +8,7 @@ import {
 import { ThemeProvider } from "emotion-theming";
 import Cookies from "js-cookie";
 import Script from "react-load-script";
+import moment from "moment";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -75,8 +76,10 @@ class App extends Component {
 
   setKnackUserToken = token => {
     // Set cookie first to prevent API call in UserInfo from failing to auth
+    Cookies.set("knackUserTokenExpiration", moment(), { expires: 2 });
     Cookies.set("knackUserToken", token, { expires: 2 });
     this.setState({ knackUserToken: token });
+    console.log(Cookies.get("knackUserTokenExpiration"));
     // set a cookie to expire in 48 hrs according to Knack documentation:
     // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
   };

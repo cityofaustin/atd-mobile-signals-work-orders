@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SubHeader from "./Shared/SubHeader";
 import {
   faHome,
   faTruck,
@@ -36,9 +37,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faHome} /> Home
-        </h1>
+        <SubHeader icon={faHome} title={"Home"} />
 
         <ul className="list-group-flush list-group">
           {mainPages.map((page, i) => (

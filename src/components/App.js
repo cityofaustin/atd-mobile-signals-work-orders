@@ -12,7 +12,6 @@ import { faStroopwafel, faSpinner } from "@fortawesome/free-solid-svg-icons";
 // Add bootstrap v4 for styling, layouts, CSS utilites, etc
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import Home from "./Home";
 import Header from "./Header";
@@ -162,84 +161,57 @@ class App extends Component {
                   </>
                 )}
               />
-              <PrivateRoute
-                component={Home}
-                exact
-                path="/"
-                isAuthenticated={!!this.state.knackUserToken}
-              />
-              <PrivateRoute
-                path="/my-work-orders"
-                isAuthenticated={!!this.state.knackUserToken}
-                component={MyWorkOrders}
-              />
-              <PrivateRoute
-                path="/all-work-orders"
-                isAuthenticated={this.state.knackUserToken}
-                component={AllWorkOrders}
-              />
-              <PrivateRoute
+              <Route component={Home} exact path="/" />
+              <Route path="/my-work-orders" component={MyWorkOrders} />
+              <Route path="/all-work-orders" component={AllWorkOrders} />
+              <Route
                 path="/work-order/new"
                 component={NewWorkOrder}
                 knackObject={this.state.knackObject}
-                isAuthenticated={this.state.knackUserToken}
               />
-              <PrivateRoute
+              <Route
                 path="/work-order/edit/:workOrderId"
                 component={EditWorkOrder}
-                isAuthenticated={this.state.knackUserToken}
                 knackObject={this.state.knackObject}
               />
-              <PrivateRoute
+              <Route
                 path="/work-order/submit/:workOrderId"
                 component={SubmitWorkOrder}
-                isAuthenticated={this.state.knackUserToken}
                 knackObject={this.state.knackObject}
               />
-              <PrivateRoute
+              <Route
                 path="/work-order/new-time-log/:workOrderId"
                 component={NewTimeLog}
-                isAuthenticated={this.state.knackUserToken}
                 knackObject={this.state.knackObject}
                 isEditable={false}
               />
-              <PrivateRoute
+              <Route
                 path="/work-order/:workOrderId/edit-time-log/:timeLogId"
                 component={NewTimeLog}
-                isAuthenticated={this.state.knackUserToken}
                 knackObject={this.state.knackObject}
                 isEditable={true}
               />
-              <PrivateRoute
+              <Route
                 path="/work-order/inventory-items/:workOrderId"
                 component={InventoryItems}
-                isAuthenticated={this.state.knackUserToken}
                 knackObject={this.state.knackObject}
               />
-              <PrivateRoute
+              <Route
                 path="/work-order/add-image/:workOrderId"
                 component={AddImage}
-                isAuthenticated={this.state.knackUserToken}
                 knackObject={this.state.knackObject}
               />
-              <PrivateRoute
+              <Route
                 path="/work-orders/:workOrderId"
                 exact
                 component={WorkOrderDetails}
-                isAuthenticated={this.state.knackUserToken}
               />
-              <PrivateRoute
+              <Route
                 path="/work-orders/:workOrderId/assets/:assetId"
                 exact
                 component={Assets}
-                isAuthenticated={this.state.knackUserToken}
               />
-              <PrivateRoute
-                path="/assets/"
-                exact
-                component={Assets}
-                isAuthenticated={this.state.knackUserToken}
-              />
+              <Route path="/assets/" exact component={Assets} />
             </div>
           ) : (
             <FontAwesomeIcon

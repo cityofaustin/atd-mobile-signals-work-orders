@@ -76,10 +76,15 @@ class App extends Component {
 
   setKnackUserToken = token => {
     // Set cookie first to prevent API call in UserInfo from failing to auth
-    Cookies.set("knackUserTokenExpiration", moment(), { expires: 2 });
+    Cookies.set(
+      "knackUserTokenExpiration",
+      moment()
+        .add(2, "days")
+        .format(),
+      { expires: 2 }
+    );
     Cookies.set("knackUserToken", token, { expires: 2 });
     this.setState({ knackUserToken: token });
-    console.log(Cookies.get("knackUserTokenExpiration"));
     // set a cookie to expire in 48 hrs according to Knack documentation:
     // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
   };
@@ -104,6 +109,25 @@ class App extends Component {
     setTimeout(() => {
       this.setState({ knackObject: window.Knack, knackJsLoaded: true });
     }, 2000);
+  };
+
+  isUserLoggedIn = () => {
+    const knackUserTokenExpiration = Cookies.get("knackUserTokenExpiration");
+    const knackUserToken = Cookies.get("knackUserToken");
+    console.log(
+      knackUserToken,
+      knackUserTokenExpiration,
+      knackUserTokenExpiration > moment().format()
+    );
+    if (
+      !!this.state.knackUserToken &&
+      !!knackUserTokenExpiration &&
+      knackUserTokenExpiration > moment().format()
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   render() {

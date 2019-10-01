@@ -72,6 +72,7 @@ class App extends Component {
 
   setKnackUserToken = token => {
     // Set cookie first to prevent API call in UserInfo from failing to auth
+    // Set additional expiration cookie to timestamp token creation
     Cookies.set(
       "knackUserTokenExpiration",
       moment()
@@ -109,34 +110,19 @@ class App extends Component {
 
   isUserLoggedIn = () => {
     const knackUserTokenExpiration = Cookies.get("knackUserTokenExpiration");
-    const knackUserToken = Cookies.get("knackUserToken");
-    console.log(
-      knackUserToken,
-      knackUserTokenExpiration,
-      knackUserTokenExpiration > moment().format()
-    );
-    if (
+    // if knackUserToken exists and is unexpired, user is logged in
+    return (
       !!this.state.knackUserToken &&
       !!knackUserTokenExpiration &&
       knackUserTokenExpiration > moment().format()
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    );
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      if (!this.isUserLoggedIn()) {
-        this.setState({ isLoggedIn: false });
-      }
-      console.log(
-        "Route change!",
-        this.props.location.pathname,
-        this.isUserLoggedIn()
-      );
-    }
+    // Check for route change and for isUserLoggedIn, then switch state that renders Redirect to login
+    this.props.location.pathname !== prevProps.location.pathname &&
+      !this.isUserLoggedIn() &&
+      this.setState({ isLoggedIn: false });
   }
 
   render() {
@@ -160,6 +146,7 @@ class App extends Component {
               />
             )}
           />
+          {/* if user is not logged in, Redirect to login page */}
           {!this.state.isLoggedIn && <Redirect to="/login" />}
           {this.state.isLoggedIn ? (
             <div>

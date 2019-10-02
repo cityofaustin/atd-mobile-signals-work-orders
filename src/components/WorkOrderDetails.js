@@ -15,7 +15,8 @@ import {
   faRedo,
 } from "@fortawesome/free-solid-svg-icons";
 
-import SubHeader from "./Shared/SubHeader";
+import PageTitle from "./Shared/PageTitle";
+import { StyledPageTitle } from "../styles/PageTitle.css";
 import {
   Accordion,
   AccordionItem,
@@ -178,10 +179,12 @@ class WorkOrderDetail extends Component {
     const workOrderId = this.props.match.params.workOrderId;
     return (
       <div>
-        <SubHeader
-          icon={faWrench}
-          title={this.state.titleData[workOrderFields.header]}
-        />
+        <StyledPageTitle>
+          <PageTitle
+            icon={faWrench}
+            title={this.state.titleData[workOrderFields.header]}
+          />
+        </StyledPageTitle>
         <h2>{this.renderSignalDetailsLink()}</h2>
         <div className="d-flex flex-row flex-wrap">
           {statusField !== "Submitted" &&

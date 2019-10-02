@@ -109,9 +109,11 @@ class App extends Component {
 
   isUserLoggedIn = () => {
     const knackUserTokenExpiration = Cookies.get("knackUserTokenExpiration");
+    const knackUserToken = Cookies.get("knackUserToken");
     // if knackUserToken exists and is unexpired, user is logged in
+    console.log(knackUserTokenExpiration, knackUserToken);
     return (
-      !!this.state.knackUserToken &&
+      !!knackUserToken &&
       !!knackUserTokenExpiration &&
       knackUserTokenExpiration > moment().format()
     );

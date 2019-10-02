@@ -11,6 +11,7 @@ const StyledHeader = styled("header")`
   height: 66px;
   width: 100%;
   border-bottom: 1px solid ${props => props.theme.colorBlack};
+  margin-bottom: 10px;
   a {
     color: ${({ theme }) => theme.colorBlack};
     cursor: pointer;

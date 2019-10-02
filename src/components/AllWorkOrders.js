@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTruck } from "@fortawesome/free-solid-svg-icons";
 
 import ListWithSearchAndPage from "./Shared/ListWithSearchAndPages";
+import PageTitle from "./Shared/PageTitle";
+import { StyledPageTitle } from "../styles/PageTitle.css";
 
 import { workOrderFields } from "../queries/fields";
 import { getAllWorkOrders, searchAllWorkOrders } from "./WorkOrder/helpers";
@@ -32,10 +33,9 @@ class AllWorkOrders extends Component {
   render() {
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faTruck} /> All Work Orders
-        </h1>
-
+        <StyledPageTitle>
+          <PageTitle icon={faTruck} title={"All Work Orders"} />
+        </StyledPageTitle>
         <ListWithSearchAndPage
           data={this.state.allWorkOrdersData}
           lastPage={this.state.lastPage}

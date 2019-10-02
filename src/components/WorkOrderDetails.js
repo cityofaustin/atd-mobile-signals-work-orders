@@ -15,6 +15,8 @@ import {
   faRedo,
 } from "@fortawesome/free-solid-svg-icons";
 
+import PageTitle from "./Shared/PageTitle";
+import { StyledPageTitle } from "../styles/PageTitle.css";
 import {
   Accordion,
   AccordionItem,
@@ -177,10 +179,12 @@ class WorkOrderDetail extends Component {
     const workOrderId = this.props.match.params.workOrderId;
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faWrench} />{" "}
-          {this.state.titleData[workOrderFields.header]}
-        </h1>
+        <StyledPageTitle>
+          <PageTitle
+            icon={faWrench}
+            title={this.state.titleData[workOrderFields.header]}
+          />
+        </StyledPageTitle>
         <h2>{this.renderSignalDetailsLink()}</h2>
         <div className="d-flex flex-row flex-wrap">
           {statusField !== "Submitted" &&
@@ -189,9 +193,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faEdit}
                 text={"Edit"}
-                linkPath={`/work-order/edit/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/edit/${this.props.match.params.workOrderId}`}
               />
             )}
           {this.state.timeLogData.length > 0 &&
@@ -200,9 +202,7 @@ class WorkOrderDetail extends Component {
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
-              linkPath={`/work-order/submit/${
-                this.props.match.params.workOrderId
-              }`}
+              linkPath={`/work-order/submit/${this.props.match.params.workOrderId}`}
             />
           ) : (
             <div className="mr-2 mb-2">
@@ -247,9 +247,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faClock}
                 text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/new-time-log/${this.props.match.params.workOrderId}`}
               />
               <TimeLog
                 data={this.state.timeLogData}
@@ -282,9 +280,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faWrench}
                 text={"New Item"}
-                linkPath={`/work-order/inventory-items/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/inventory-items/${this.props.match.params.workOrderId}`}
               />
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
@@ -342,9 +338,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faCamera}
                 text={"New Image"}
-                linkPath={`/work-order/add-image/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/add-image/${this.props.match.params.workOrderId}`}
               />
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (

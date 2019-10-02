@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PageTitle from "./Shared/PageTitle";
+import { StyledPageTitle } from "../styles/PageTitle.css";
 import {
   faHome,
   faTruck,
@@ -36,10 +38,9 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faHome} /> Home
-        </h1>
-
+        <StyledPageTitle>
+          <PageTitle icon={faHome} title={"Home"} />
+        </StyledPageTitle>
         <ul className="list-group-flush list-group">
           {mainPages.map((page, i) => (
             <li className="list-group-item" key={i}>

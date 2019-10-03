@@ -104,7 +104,7 @@ export const formatDataTitles = dataTitle => {
   return uppercaseIpInString(formattedTitle);
 };
 
-export const getAllAssetDetails = item => {
+export const getAllFirstHalfAssetDetails = item => {
   return axios
     .all([
       api.assets().map(item.id),
@@ -114,6 +114,35 @@ export const getAllAssetDetails = item => {
       api.assets().workOrders(item.id),
       api.assets().preventativeMaint(item.id),
       api.assets().fileAttachments(item.id),
+    ])
+    .then(
+      axios.spread(
+        (
+          mapResponse,
+          detailsResponse,
+          camerasResponse,
+          serviceRequestsResponse,
+          workOrdersResponse,
+          preventativeMaintResponse,
+          fileAttachmentsResponse
+        ) => {
+          return {
+            mapResponse,
+            detailsResponse,
+            camerasResponse,
+            serviceRequestsResponse,
+            workOrdersResponse,
+            preventativeMaintResponse,
+            fileAttachmentsResponse,
+          };
+        }
+      )
+    );
+};
+
+export const getAllSecondHalfAssetDetails = item => {
+  return axios
+    .all([
       api.assets().detectors(item.id),
       api.assets().signalPriority(item.id),
       api.assets().poleAttachments(item.id),
@@ -124,34 +153,20 @@ export const getAllAssetDetails = item => {
     .then(
       axios.spread(
         (
-          workOrdersResponse,
-          serviceRequestsResponse,
-          detailsResponse,
-          camerasResponse,
-          preventativeMaintResponse,
-          mapResponse,
           detectorsResponse,
           signalPriorityResponse,
           poleAttachmentsResponse,
           travelSensorResponse,
           apsButtonRequestsResponse,
-          cadStatusResponse,
-          fileAttachmentsResponse
+          cadStatusResponse
         ) => {
           return {
-            workOrdersResponse,
-            serviceRequestsResponse,
-            detailsResponse,
-            camerasResponse,
-            preventativeMaintResponse,
-            mapResponse,
             detectorsResponse,
             signalPriorityResponse,
             poleAttachmentsResponse,
             travelSensorResponse,
             apsButtonRequestsResponse,
             cadStatusResponse,
-            fileAttachmentsResponse,
           };
         }
       )

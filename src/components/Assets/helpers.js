@@ -107,19 +107,19 @@ export const formatDataTitles = dataTitle => {
 export const getAllAssetDetails = item => {
   return axios
     .all([
-      api.assets().workOrders(item.id),
-      api.assets().serviceRequests(item.id),
+      api.assets().map(item.id),
       api.assets().details(item.id),
       api.assets().cameras(item.id),
+      api.assets().serviceRequests(item.id),
+      api.assets().workOrders(item.id),
       api.assets().preventativeMaint(item.id),
-      api.assets().map(item.id),
+      api.assets().fileAttachments(item.id),
       api.assets().detectors(item.id),
       api.assets().signalPriority(item.id),
       api.assets().poleAttachments(item.id),
       api.assets().travelSensor(item.id),
       api.assets().apsButtonRequests(item.id),
       api.assets().cadStatus(item.id),
-      api.assets().fileAttachments(item.id),
     ])
     .then(
       axios.spread(

@@ -3,7 +3,11 @@ import AssetTable from "./AssetTable";
 import AssetMap from "./AssetMap";
 import AssetDetailsSection from "./AssetDetailsSection";
 import { FIELDS } from "./fieldConfig";
-import { getAllAssetDetails, formatDataTitles } from "./helpers";
+import {
+  getFirstHalfAssetDetails,
+  getSecondHalfAssetDetails,
+  formatDataTitles,
+} from "./helpers";
 import api from "../../queries/api";
 
 import Autocomplete from "react-autocomplete";
@@ -110,33 +114,43 @@ class Assets extends Component {
 
   onAssetSelect = (value, item) => {
     this.setState({ loading: true });
-    getAllAssetDetails(item)
-      .then(data => {
-        this.setState({
-          assetWorkOrdersData: data.workOrdersResponse.data.records,
-          assetServiceRequestsData: data.serviceRequestsResponse.data.records,
-          assetDetailsData: data.detailsResponse.data,
-          assetCamerasData: data.camerasResponse.data.records,
-          assetPreventativeMaintenanceData:
-            data.preventativeMaintResponse.data.records,
-          assetMapData: data.mapResponse.data,
-          assetDetectionData: data.detectorsResponse.data.records,
-          assetSignalPriorityData: data.signalPriorityResponse.data.records,
-          assetPoleAttachmentsData: data.poleAttachmentsResponse.data.records,
-          assetTravelSensorData: data.travelSensorResponse.data.records,
-          assetApsButtonRequestsData:
-            data.apsButtonRequestsResponse.data.records,
-          assetCadStatusData: data.cadStatusResponse.data,
-          assetFileAttachmentsData: data.fileAttachmentsResponse.data.records,
-        });
-      })
-      .then(() => {
-        this.setState({
-          selectedAsset: item.identifier,
-          typedAsset: item.identifier,
-          loading: false,
-        });
+    // Knack limits API reqs to 10 per second
+    getFirstHalfAssetDetails(item).then(data => {
+      this.setState({
+        assetWorkOrdersData: data.workOrdersResponse.data.records,
+        assetServiceRequestsData: data.serviceRequestsResponse.data.records,
+        assetDetailsData: data.detailsResponse.data,
+        assetCamerasData: data.camerasResponse.data.records,
+        assetPreventativeMaintenanceData:
+          data.preventativeMaintResponse.data.records,
+        assetMapData: data.mapResponse.data,
+        assetFileAttachmentsData: data.fileAttachmentsResponse.data.records,
       });
+    });
+    setTimeout(
+      () =>
+        getSecondHalfAssetDetails(item)
+          .then(data => {
+            this.setState({
+              assetDetectionData: data.detectorsResponse.data.records,
+              assetSignalPriorityData: data.signalPriorityResponse.data.records,
+              assetPoleAttachmentsData:
+                data.poleAttachmentsResponse.data.records,
+              assetTravelSensorData: data.travelSensorResponse.data.records,
+              assetApsButtonRequestsData:
+                data.apsButtonRequestsResponse.data.records,
+              assetCadStatusData: data.cadStatusResponse.data,
+            });
+          })
+          .then(() => {
+            this.setState({
+              selectedAsset: item.identifier,
+              typedAsset: item.identifier,
+              loading: false,
+            });
+          }),
+      1100
+    );
   };
 
   clearAssetSearch = () => {

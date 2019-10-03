@@ -104,7 +104,7 @@ export const formatDataTitles = dataTitle => {
   return uppercaseIpInString(formattedTitle);
 };
 
-export const getAllFirstHalfAssetDetails = item => {
+export const getFirstHalfAssetDetails = item => {
   return axios
     .all([
       api.assets().map(item.id),
@@ -140,7 +140,7 @@ export const getAllFirstHalfAssetDetails = item => {
     );
 };
 
-export const getAllSecondHalfAssetDetails = item => {
+export const getSecondHalfAssetDetails = item => {
   return axios
     .all([
       api.assets().detectors(item.id),

@@ -93,6 +93,10 @@ class WorkOrderDetail extends Component {
     setTimeout(this.requestImages, 1500, workOrderId);
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   requestTimeLogs = id => {
     api
       .workOrder()

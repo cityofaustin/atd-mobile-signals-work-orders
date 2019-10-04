@@ -15,6 +15,7 @@ export default class AssignTechnicianFields extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getTechnicianOptions();
   }
 

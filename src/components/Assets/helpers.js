@@ -104,54 +104,69 @@ export const formatDataTitles = dataTitle => {
   return uppercaseIpInString(formattedTitle);
 };
 
-export const getAllAssetDetails = item => {
+export const getFirstHalfAssetDetails = item => {
   return axios
     .all([
-      api.assets().workOrders(item.id),
-      api.assets().serviceRequests(item.id),
+      api.assets().map(item.id),
       api.assets().details(item.id),
       api.assets().cameras(item.id),
+      api.assets().serviceRequests(item.id),
+      api.assets().workOrders(item.id),
       api.assets().preventativeMaint(item.id),
-      api.assets().map(item.id),
+      api.assets().fileAttachments(item.id),
+    ])
+    .then(
+      axios.spread(
+        (
+          mapResponse,
+          detailsResponse,
+          camerasResponse,
+          serviceRequestsResponse,
+          workOrdersResponse,
+          preventativeMaintResponse,
+          fileAttachmentsResponse
+        ) => {
+          return {
+            mapResponse,
+            detailsResponse,
+            camerasResponse,
+            serviceRequestsResponse,
+            workOrdersResponse,
+            preventativeMaintResponse,
+            fileAttachmentsResponse,
+          };
+        }
+      )
+    );
+};
+
+export const getSecondHalfAssetDetails = item => {
+  return axios
+    .all([
       api.assets().detectors(item.id),
       api.assets().signalPriority(item.id),
       api.assets().poleAttachments(item.id),
       api.assets().travelSensor(item.id),
       api.assets().apsButtonRequests(item.id),
       api.assets().cadStatus(item.id),
-      api.assets().fileAttachments(item.id),
     ])
     .then(
       axios.spread(
         (
-          workOrdersResponse,
-          serviceRequestsResponse,
-          detailsResponse,
-          camerasResponse,
-          preventativeMaintResponse,
-          mapResponse,
           detectorsResponse,
           signalPriorityResponse,
           poleAttachmentsResponse,
           travelSensorResponse,
           apsButtonRequestsResponse,
-          cadStatusResponse,
-          fileAttachmentsResponse
+          cadStatusResponse
         ) => {
           return {
-            workOrdersResponse,
-            serviceRequestsResponse,
-            detailsResponse,
-            camerasResponse,
-            preventativeMaintResponse,
-            mapResponse,
             detectorsResponse,
             signalPriorityResponse,
             poleAttachmentsResponse,
             travelSensorResponse,
             apsButtonRequestsResponse,
             cadStatusResponse,
-            fileAttachmentsResponse,
           };
         }
       )

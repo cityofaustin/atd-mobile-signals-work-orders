@@ -11,6 +11,7 @@ import { getAllWorkOrders, searchAllWorkOrders } from "./WorkOrder/helpers";
 const fields = workOrderFields.baseFields;
 
 class AllWorkOrders extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -21,13 +22,19 @@ class AllWorkOrders extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     getAllWorkOrders().then(data => {
-      this.setState({
-        allWorkOrdersData: data.records,
-        lastPage: data.total_pages,
-        loading: false,
-      });
+      this._isMounted &&
+        this.setState({
+          allWorkOrdersData: data.records,
+          lastPage: data.total_pages,
+          loading: false,
+        });
     });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

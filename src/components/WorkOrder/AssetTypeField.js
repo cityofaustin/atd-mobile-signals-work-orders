@@ -95,16 +95,17 @@ export default class AssetTypeField extends Component {
 
       // Update watchPositionCount and request nearby signals if less than count limit
       this.setState({ watchPositionCount: updatedWatchPositionCount }, () => {
-        this._isMounted &&
-          this.state.watchPositionCount < GET_SIGNALS_LIMIT &&
+        this.state.watchPositionCount < GET_SIGNALS_LIMIT &&
           getSignalsOptions(watchPosition).then(data => {
             data !== this.state.signalOptions
-              ? this.setState({
+              ? this._isMounted &&
+                this.setState({
                   signalOptions: data,
                   loading: false,
                   watchPosition: watchPosition,
                 })
-              : this.setState({
+              : this._isMounted &&
+                this.setState({
                   loading: false,
                   watchPosition: watchPosition,
                 });

@@ -138,11 +138,12 @@ class Assets extends Component {
         });
       })
       .then(() => {
-        this.setState({
-          selectedAsset: item.identifier,
-          typedAsset: item.identifier,
-          loading: false,
-        });
+        this._isMounted &&
+          this.setState({
+            selectedAsset: item.identifier,
+            typedAsset: item.identifier,
+            loading: false,
+          });
       });
   };
 

@@ -159,7 +159,8 @@ export default class AssetTypeField extends Component {
   };
 
   componentWillUnmount() {
-    this.positionWatchEvent && this.positionWatchEvent.clearWatch();
+    this.positionWatchEvent &&
+      navigator.geolocation.clearWatch(this.positionWatchEvent);
   }
 
   render() {

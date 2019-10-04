@@ -11,6 +11,7 @@ import { getAllWorkOrders, searchAllWorkOrders } from "./WorkOrder/helpers";
 const fields = workOrderFields.baseFields;
 
 class AllWorkOrders extends Component {
+  // Class field to keep track of component status outside of local state
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -24,6 +25,7 @@ class AllWorkOrders extends Component {
   componentDidMount() {
     this._isMounted = true;
     getAllWorkOrders().then(data => {
+      // If component is not mounted, don't call setState()
       this._isMounted &&
         this.setState({
           allWorkOrdersData: data.records,

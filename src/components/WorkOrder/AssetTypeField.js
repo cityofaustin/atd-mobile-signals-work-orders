@@ -10,6 +10,7 @@ const loadingMessage = "Loading...";
 const GET_SIGNALS_LIMIT = 20; // Number of times to request nearby signals from Socrata
 
 export default class AssetTypeField extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -83,6 +84,7 @@ export default class AssetTypeField extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.setState({ loading: true });
 
     let watchPosition = {};
@@ -96,12 +98,14 @@ export default class AssetTypeField extends Component {
         this.state.watchPositionCount < GET_SIGNALS_LIMIT &&
           getSignalsOptions(watchPosition).then(data => {
             data !== this.state.signalOptions
-              ? this.setState({
+              ? this._isMounted &&
+                this.setState({
                   signalOptions: data,
                   loading: false,
                   watchPosition: watchPosition,
                 })
-              : this.setState({
+              : this._isMounted &&
+                this.setState({
                   loading: false,
                   watchPosition: watchPosition,
                 });
@@ -159,7 +163,9 @@ export default class AssetTypeField extends Component {
   };
 
   componentWillUnmount() {
-    this.positionWatchEvent && this.positionWatchEvent.clearWatch();
+    this._isMounted = false;
+    this.positionWatchEvent &&
+      navigator.geolocation.clearWatch(this.positionWatchEvent);
   }
 
   render() {

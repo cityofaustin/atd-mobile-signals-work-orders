@@ -27,6 +27,7 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 class Assets extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -90,6 +91,7 @@ class Assets extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     if (this.props.match.params.assetId) {
       const viewAsset = { id: this.props.match.params.assetId };
       this.setState({ viewedAsset: viewAsset, pageHeading: "Signal Details" });
@@ -100,11 +102,16 @@ class Assets extends Component {
       .workOrder()
       .signals()
       .then(res => {
-        this.setState({
-          assetOptions: res.data.records,
-          loading: false,
-        });
+        this._isMounted &&
+          this.setState({
+            assetOptions: res.data.records,
+            loading: false,
+          });
       });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   handleAutocompleteChange = e => {
@@ -164,36 +171,37 @@ class Assets extends Component {
           <FontAwesomeIcon icon={faMapMarkerAlt} /> {this.state.pageHeading}
         </h1>
 
-        {this.state.assetOptions.length > 0 && this.state.viewedAsset === "" && (
-          <form>
-            <div className="form-group">
-              <br />
-              <Autocomplete
-                getItemValue={item => item.id}
-                items={this.state.assetOptions}
-                inputProps={this.inputProps("asset")}
-                wrapperStyle={this.wrapperStyle}
-                menuStyle={this.menuStyle}
-                renderItem={(item, isHighlighted) =>
-                  this.renderItem(item, isHighlighted)
-                }
-                shouldItemRender={(item, value) =>
-                  this.shouldItemRender(item, value)
-                }
-                value={this.state.typedAsset}
-                onChange={this.handleAutocompleteChange}
-                onSelect={(value, item) => this.onAssetSelect(value, item)}
-              />
-              <button
-                type="button"
-                className="btn btn-danger ml-2 btn-lg"
-                onClick={this.clearAssetSearch}
-              >
-                Clear
-              </button>
-            </div>
-          </form>
-        )}
+        {this.state.assetOptions.length > 0 &&
+          this.state.viewedAsset === "" && (
+            <form>
+              <div className="form-group">
+                <br />
+                <Autocomplete
+                  getItemValue={item => item.id}
+                  items={this.state.assetOptions}
+                  inputProps={this.inputProps("asset")}
+                  wrapperStyle={this.wrapperStyle}
+                  menuStyle={this.menuStyle}
+                  renderItem={(item, isHighlighted) =>
+                    this.renderItem(item, isHighlighted)
+                  }
+                  shouldItemRender={(item, value) =>
+                    this.shouldItemRender(item, value)
+                  }
+                  value={this.state.typedAsset}
+                  onChange={this.handleAutocompleteChange}
+                  onSelect={(value, item) => this.onAssetSelect(value, item)}
+                />
+                <button
+                  type="button"
+                  className="btn btn-danger ml-2 btn-lg"
+                  onClick={this.clearAssetSearch}
+                >
+                  Clear
+                </button>
+              </div>
+            </form>
+          )}
 
         {this.state.loading && (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />

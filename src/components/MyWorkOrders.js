@@ -13,6 +13,7 @@ import { getMyWorkOrders, searchMyWorkOrders } from "./WorkOrder/helpers";
 const fields = workOrderFields.baseFields;
 
 class MyWorkOrders extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -22,13 +23,19 @@ class MyWorkOrders extends Component {
     };
   }
   componentDidMount() {
+    this._isMounted = true;
     getMyWorkOrders().then(data => {
-      this.setState({
-        myWorkOrdersData: data.records,
-        lastPage: data.total_pages,
-        loading: false,
-      });
+      this._isMounted &&
+        this.setState({
+          myWorkOrdersData: data.records,
+          lastPage: data.total_pages,
+          loading: false,
+        });
     });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

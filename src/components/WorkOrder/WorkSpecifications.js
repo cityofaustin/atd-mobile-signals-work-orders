@@ -8,6 +8,7 @@ import { removeBreakTagsFromString } from "../Assets/helpers";
 import api from "../../queries/api";
 
 export default class WorkSpecifications extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -125,6 +126,7 @@ export default class WorkSpecifications extends Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     api
       .workOrder()
       .getTaskOrder(this.props.workOrderId)
@@ -151,8 +153,12 @@ export default class WorkSpecifications extends Component {
           [FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET]:
             res.data[FIELDS.WORK_SPECIFICATIONS.SUBMIT_WORK_TICKET],
         };
-        this.setState({ updatedFormData });
+        this._isMounted && this.setState({ updatedFormData });
       });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

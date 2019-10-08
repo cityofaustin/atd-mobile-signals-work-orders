@@ -21,6 +21,7 @@ import TaskOrderField from "./TaskOrderField";
 import ScheduleFields from "./ScheduleFields";
 
 class Edit extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -36,11 +37,20 @@ class Edit extends Component {
   }
 
   componentDidMount = () => {
+    this._isMounted = true;
     api
       .workOrder()
       .getEditPageDetails(this.workOrderId)
-      .then(res => this.setState({ rawData: res.data, isLoading: false }));
+      .then(
+        res =>
+          this._isMounted &&
+          this.setState({ rawData: res.data, isLoading: false })
+      );
   };
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   submitForm = e => {
     e.preventDefault();

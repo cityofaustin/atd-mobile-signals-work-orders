@@ -86,7 +86,7 @@ class App extends Component {
   };
 
   revokeKnackUserToken = () => {
-    this.setState({ knackUserToken: false });
+    this.setState({ knackUserToken: false, isLoggedIn: false });
     Cookies.set("knackUserToken", false);
   };
 
@@ -111,7 +111,6 @@ class App extends Component {
     const knackUserTokenExpiration = Cookies.get("knackUserTokenExpiration");
     const knackUserToken = Cookies.get("knackUserToken");
     // if knackUserToken exists and is unexpired, user is logged in
-    console.log(knackUserTokenExpiration, knackUserToken);
     return (
       !!knackUserToken &&
       !!knackUserTokenExpiration &&

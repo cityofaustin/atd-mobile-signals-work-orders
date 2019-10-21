@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Route, Redirect, withRouter } from "react-router-dom";
 import { ThemeProvider } from "emotion-theming";
 import Cookies from "js-cookie";
 import Script from "react-load-script";
+import moment from "moment";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +12,6 @@ import { faStroopwafel, faSpinner } from "@fortawesome/free-solid-svg-icons";
 // Add bootstrap v4 for styling, layouts, CSS utilites, etc
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import Home from "./Home";
 import Header from "./Header";
@@ -70,19 +65,28 @@ class App extends Component {
       knackJsLoaded: false,
       knackJsLoading: false,
       knackJsError: false,
+      isLoggedIn: false,
     };
   }
 
   setKnackUserToken = token => {
     // Set cookie first to prevent API call in UserInfo from failing to auth
+    // Set additional expiration cookie to timestamp token creation
+    Cookies.set(
+      "knackUserTokenExpiration",
+      moment()
+        .add(2, "days")
+        .format(),
+      { expires: 2 }
+    );
     Cookies.set("knackUserToken", token, { expires: 2 });
-    this.setState({ knackUserToken: token });
+    this.setState({ knackUserToken: token, isLoggedIn: true });
     // set a cookie to expire in 48 hrs according to Knack documentation:
     // https://www.knack.com/developer-documentation/#users-sessions-amp-remote-logins
   };
 
   revokeKnackUserToken = () => {
-    this.setState({ knackUserToken: false });
+    this.setState({ knackUserToken: false, isLoggedIn: false });
     Cookies.set("knackUserToken", false);
   };
 
@@ -103,6 +107,24 @@ class App extends Component {
     }, 2000);
   };
 
+  isUserLoggedIn = () => {
+    const knackUserTokenExpiration = Cookies.get("knackUserTokenExpiration");
+    const knackUserToken = Cookies.get("knackUserToken");
+    // if knackUserToken exists and is unexpired, user is logged in
+    return (
+      !!knackUserToken &&
+      !!knackUserTokenExpiration &&
+      knackUserTokenExpiration > moment().format()
+    );
+  };
+
+  componentDidUpdate(prevProps) {
+    // Check for route change and for isUserLoggedIn, then switch state that renders Redirect to login
+    this.props.location.pathname !== prevProps.location.pathname &&
+      !this.isUserLoggedIn() &&
+      this.setState({ isLoggedIn: false });
+  }
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -113,127 +135,96 @@ class App extends Component {
             onError={this.handleScriptError}
             onLoad={this.handleScriptLoad.bind(this)}
           />
-
-          <Router>
-            <Switch>
+          <Route
+            path="/login"
+            render={props => (
+              <Login
+                {...props}
+                setKnackUserToken={this.setKnackUserToken}
+                isAuthenticated={this.state.isLoggedIn}
+                appId={this.state.appId}
+              />
+            )}
+          />
+          {/* if user is not logged in, Redirect to login page */}
+          {!this.state.isLoggedIn && <Redirect to="/login" />}
+          {this.state.isLoggedIn ? (
+            <div>
               <Route
-                path="/login"
+                path="/"
                 render={props => (
-                  <Login
-                    {...props}
-                    setKnackUserToken={this.setKnackUserToken}
-                    isAuthenticated={this.state.knackUserToken}
-                    appId={this.state.appId}
-                  />
+                  <>
+                    <Header
+                      {...props}
+                      revokeKnackUserToken={this.revokeKnackUserToken}
+                    />
+                    <NavFooter {...props} />
+                  </>
                 )}
               />
-              {!this.state.knackUserToken && <Redirect to="/login" />}
-              {this.state.knackObject ? (
-                <div>
-                  <Route
-                    path="/"
-                    render={props => (
-                      <>
-                        <Header
-                          {...props}
-                          revokeKnackUserToken={this.revokeKnackUserToken}
-                        />
-                        <NavFooter {...props} />
-                      </>
-                    )}
-                  />
-                  <PrivateRoute
-                    component={Home}
-                    exact
-                    path="/"
-                    isAuthenticated={!!this.state.knackUserToken}
-                  />
-                  <PrivateRoute
-                    path="/my-work-orders"
-                    isAuthenticated={!!this.state.knackUserToken}
-                    component={MyWorkOrders}
-                  />
-                  <PrivateRoute
-                    path="/all-work-orders"
-                    isAuthenticated={this.state.knackUserToken}
-                    component={AllWorkOrders}
-                  />
-                  <PrivateRoute
-                    path="/work-order/new"
-                    component={NewWorkOrder}
-                    knackObject={this.state.knackObject}
-                    isAuthenticated={this.state.knackUserToken}
-                  />
-                  <PrivateRoute
-                    path="/work-order/edit/:workOrderId"
-                    component={EditWorkOrder}
-                    isAuthenticated={this.state.knackUserToken}
-                    knackObject={this.state.knackObject}
-                  />
-                  <PrivateRoute
-                    path="/work-order/submit/:workOrderId"
-                    component={SubmitWorkOrder}
-                    isAuthenticated={this.state.knackUserToken}
-                    knackObject={this.state.knackObject}
-                  />
-                  <PrivateRoute
-                    path="/work-order/new-time-log/:workOrderId"
-                    component={NewTimeLog}
-                    isAuthenticated={this.state.knackUserToken}
-                    knackObject={this.state.knackObject}
-                    isEditable={false}
-                  />
-                  <PrivateRoute
-                    path="/work-order/:workOrderId/edit-time-log/:timeLogId"
-                    component={NewTimeLog}
-                    isAuthenticated={this.state.knackUserToken}
-                    knackObject={this.state.knackObject}
-                    isEditable={true}
-                  />
-                  <PrivateRoute
-                    path="/work-order/inventory-items/:workOrderId"
-                    component={InventoryItems}
-                    isAuthenticated={this.state.knackUserToken}
-                    knackObject={this.state.knackObject}
-                  />
-                  <PrivateRoute
-                    path="/work-order/add-image/:workOrderId"
-                    component={AddImage}
-                    isAuthenticated={this.state.knackUserToken}
-                    knackObject={this.state.knackObject}
-                  />
-                  <PrivateRoute
-                    path="/work-orders/:workOrderId"
-                    exact
-                    component={WorkOrderDetails}
-                    isAuthenticated={this.state.knackUserToken}
-                  />
-                  <PrivateRoute
-                    path="/work-orders/:workOrderId/assets/:assetId"
-                    exact
-                    component={Assets}
-                    isAuthenticated={this.state.knackUserToken}
-                  />
-                  <PrivateRoute
-                    path="/assets/"
-                    exact
-                    component={Assets}
-                    isAuthenticated={this.state.knackUserToken}
-                  />
-                </div>
-              ) : (
-                <FontAwesomeIcon
-                  icon={faSpinner}
-                  size="2x"
-                  className="atd-spinner"
-                />
-              )}
-            </Switch>
-          </Router>
+              <Route component={Home} exact path="/" />
+              <Route path="/my-work-orders" component={MyWorkOrders} />
+              <Route path="/all-work-orders" component={AllWorkOrders} />
+              <Route
+                path="/work-order/new"
+                component={NewWorkOrder}
+                knackObject={this.state.knackObject}
+              />
+              <Route
+                path="/work-order/edit/:workOrderId"
+                component={EditWorkOrder}
+                knackObject={this.state.knackObject}
+              />
+              <Route
+                path="/work-order/submit/:workOrderId"
+                component={SubmitWorkOrder}
+                knackObject={this.state.knackObject}
+              />
+              <Route
+                path="/work-order/new-time-log/:workOrderId"
+                component={NewTimeLog}
+                knackObject={this.state.knackObject}
+                isEditable={false}
+              />
+              <Route
+                path="/work-order/:workOrderId/edit-time-log/:timeLogId"
+                component={NewTimeLog}
+                knackObject={this.state.knackObject}
+                isEditable={true}
+              />
+              <Route
+                path="/work-order/inventory-items/:workOrderId"
+                component={InventoryItems}
+                knackObject={this.state.knackObject}
+              />
+              <Route
+                path="/work-order/add-image/:workOrderId"
+                component={AddImage}
+                knackObject={this.state.knackObject}
+              />
+              <Route
+                path="/work-orders/:workOrderId"
+                exact
+                component={WorkOrderDetails}
+              />
+              <Route
+                path="/work-orders/:workOrderId/assets/:assetId"
+                exact
+                component={Assets}
+              />
+              <Route path="/assets/" exact component={Assets} />
+            </div>
+          ) : (
+            <FontAwesomeIcon
+              icon={faSpinner}
+              size="2x"
+              className="atd-spinner"
+            />
+          )}
         </div>
       </ThemeProvider>
     );
   }
 }
 
-export default App;
+export default withRouter(props => <App {...props} />);

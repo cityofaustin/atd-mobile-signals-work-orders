@@ -15,6 +15,8 @@ import {
   faRedo,
 } from "@fortawesome/free-solid-svg-icons";
 
+import PageTitle from "./Shared/PageTitle";
+import { StyledPageTitle } from "../styles/PageTitle.css";
 import {
   Accordion,
   AccordionItem,
@@ -33,6 +35,7 @@ import {
 } from "./WorkOrder/helpers";
 
 class WorkOrderDetail extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -70,18 +73,19 @@ class WorkOrderDetail extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     const { workOrderId } = this.props.match.params;
     getWorkOrderTitle(workOrderId).then(data => {
-      this.setState({ titleData: data });
+      this._isMounted && this.setState({ titleData: data });
     });
     getWorkOrderDetailAndTimeLogs(workOrderId).then(data => {
-      this.setState({ detailsData: data });
+      this._isMounted && this.setState({ detailsData: data });
     });
     api
       .user()
       .getInfo()
       .then(res => {
-        this.setState({ userInfo: res.data });
+        this._isMounted && this.setState({ userInfo: res.data });
       });
     // Stagger the calls to Knack API so we don't get rate limited.
     setTimeout(this.requestTimeLogs, 500, workOrderId);
@@ -89,11 +93,18 @@ class WorkOrderDetail extends Component {
     setTimeout(this.requestImages, 1500, workOrderId);
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   requestTimeLogs = id => {
     api
       .workOrder()
       .getTimeLogs(id)
-      .then(res => this.setState({ timeLogData: res.data.records }));
+      .then(
+        res =>
+          this._isMounted && this.setState({ timeLogData: res.data.records })
+      );
   };
 
   requestInventory = id => {
@@ -101,7 +112,7 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getInventory(id)
       .then(res => {
-        this.setState({ inventoryData: res.data.records });
+        this._isMounted && this.setState({ inventoryData: res.data.records });
       });
   };
 
@@ -110,7 +121,7 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getImages(id)
       .then(res => {
-        this.setState({ imagesData: res.data.records });
+        this._isMounted && this.setState({ imagesData: res.data.records });
       });
   };
 
@@ -177,10 +188,12 @@ class WorkOrderDetail extends Component {
     const workOrderId = this.props.match.params.workOrderId;
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faWrench} />{" "}
-          {this.state.titleData[workOrderFields.header]}
-        </h1>
+        <StyledPageTitle>
+          <PageTitle
+            icon={faWrench}
+            title={this.state.titleData[workOrderFields.header]}
+          />
+        </StyledPageTitle>
         <h2>{this.renderSignalDetailsLink()}</h2>
         <div className="d-flex flex-row flex-wrap">
           {statusField !== "Submitted" &&

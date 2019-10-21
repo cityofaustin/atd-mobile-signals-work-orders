@@ -5,6 +5,7 @@ import { INVENTORY_ITEMS_CONDITION_OPTIONS, FIELDS } from "./formConfig";
 import api from "../../queries/api";
 
 export default class AddInventoryItemsFields extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -14,7 +15,12 @@ export default class AddInventoryItemsFields extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getItemOptions();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   getItemOptions = () => {
@@ -26,7 +32,7 @@ export default class AddInventoryItemsFields extends Component {
         const itemOptions = res.data.records.map(item => {
           return { label: item.identifier, value: item.id };
         });
-        this.setState({ itemOptions });
+        this._isMounted && this.setState({ itemOptions });
       });
   };
 

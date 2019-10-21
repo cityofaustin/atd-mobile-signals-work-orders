@@ -5,6 +5,7 @@ import { FIELDS } from "./formConfig";
 import api from "../../queries/api";
 
 export default class AssignTechnicianFields extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -14,7 +15,12 @@ export default class AssignTechnicianFields extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getTechnicianOptions();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   getTechnicianOptions = () => {
@@ -25,7 +31,7 @@ export default class AssignTechnicianFields extends Component {
         const technicianOptions = res.data.records.map(item => {
           return { label: item.identifier, value: item.id };
         });
-        this.setState({ technicianOptions });
+        this._isMounted && this.setState({ technicianOptions });
       });
   };
 

@@ -25,7 +25,7 @@ export const formStyles = css`
 
 export const buttonStyles = css`
   margin-top: 20px;
-  height: 40px;
+  height: 60px;
   width: 140px;
   background-color: ${colorBlue};
   border: none;

@@ -3,7 +3,11 @@ import AssetTable from "./AssetTable";
 import AssetMap from "./AssetMap";
 import AssetDetailsSection from "./AssetDetailsSection";
 import { FIELDS } from "./fieldConfig";
-import { getAllAssetDetails, formatDataTitles } from "./helpers";
+import {
+  getFirstHalfAssetDetails,
+  getSecondHalfAssetDetails,
+  formatDataTitles,
+} from "./helpers";
 import api from "../../queries/api";
 
 import Autocomplete from "react-autocomplete";
@@ -23,6 +27,7 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 class Assets extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -86,6 +91,7 @@ class Assets extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     if (this.props.match.params.assetId) {
       const viewAsset = { id: this.props.match.params.assetId };
       this.setState({ viewedAsset: viewAsset, pageHeading: "Signal Details" });
@@ -96,11 +102,16 @@ class Assets extends Component {
       .workOrder()
       .signals()
       .then(res => {
-        this.setState({
-          assetOptions: res.data.records,
-          loading: false,
-        });
+        this._isMounted &&
+          this.setState({
+            assetOptions: res.data.records,
+            loading: false,
+          });
       });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   handleAutocompleteChange = e => {
@@ -110,33 +121,43 @@ class Assets extends Component {
 
   onAssetSelect = (value, item) => {
     this.setState({ loading: true });
-    getAllAssetDetails(item)
-      .then(data => {
-        this.setState({
-          assetWorkOrdersData: data.workOrdersResponse.data.records,
-          assetServiceRequestsData: data.serviceRequestsResponse.data.records,
-          assetDetailsData: data.detailsResponse.data,
-          assetCamerasData: data.camerasResponse.data.records,
-          assetPreventativeMaintenanceData:
-            data.preventativeMaintResponse.data.records,
-          assetMapData: data.mapResponse.data,
-          assetDetectionData: data.detectorsResponse.data.records,
-          assetSignalPriorityData: data.signalPriorityResponse.data.records,
-          assetPoleAttachmentsData: data.poleAttachmentsResponse.data.records,
-          assetTravelSensorData: data.travelSensorResponse.data.records,
-          assetApsButtonRequestsData:
-            data.apsButtonRequestsResponse.data.records,
-          assetCadStatusData: data.cadStatusResponse.data,
-          assetFileAttachmentsData: data.fileAttachmentsResponse.data.records,
-        });
-      })
-      .then(() => {
-        this.setState({
-          selectedAsset: item.identifier,
-          typedAsset: item.identifier,
-          loading: false,
-        });
+    // Knack limits API reqs to 10 per second
+    getFirstHalfAssetDetails(item).then(data => {
+      this.setState({
+        assetWorkOrdersData: data.workOrdersResponse.data.records,
+        assetServiceRequestsData: data.serviceRequestsResponse.data.records,
+        assetDetailsData: data.detailsResponse.data,
+        assetCamerasData: data.camerasResponse.data.records,
+        assetPreventativeMaintenanceData:
+          data.preventativeMaintResponse.data.records,
+        assetMapData: data.mapResponse.data,
+        assetFileAttachmentsData: data.fileAttachmentsResponse.data.records,
       });
+    });
+    setTimeout(
+      () =>
+        getSecondHalfAssetDetails(item)
+          .then(data => {
+            this.setState({
+              assetDetectionData: data.detectorsResponse.data.records,
+              assetSignalPriorityData: data.signalPriorityResponse.data.records,
+              assetPoleAttachmentsData:
+                data.poleAttachmentsResponse.data.records,
+              assetTravelSensorData: data.travelSensorResponse.data.records,
+              assetApsButtonRequestsData:
+                data.apsButtonRequestsResponse.data.records,
+              assetCadStatusData: data.cadStatusResponse.data,
+            });
+          })
+          .then(() => {
+            this.setState({
+              selectedAsset: item.identifier,
+              typedAsset: item.identifier,
+              loading: false,
+            });
+          }),
+      1100
+    );
   };
 
   clearAssetSearch = () => {
@@ -150,36 +171,37 @@ class Assets extends Component {
           <FontAwesomeIcon icon={faMapMarkerAlt} /> {this.state.pageHeading}
         </h1>
 
-        {this.state.assetOptions.length > 0 && this.state.viewedAsset === "" && (
-          <form>
-            <div className="form-group">
-              <br />
-              <Autocomplete
-                getItemValue={item => item.id}
-                items={this.state.assetOptions}
-                inputProps={this.inputProps("asset")}
-                wrapperStyle={this.wrapperStyle}
-                menuStyle={this.menuStyle}
-                renderItem={(item, isHighlighted) =>
-                  this.renderItem(item, isHighlighted)
-                }
-                shouldItemRender={(item, value) =>
-                  this.shouldItemRender(item, value)
-                }
-                value={this.state.typedAsset}
-                onChange={this.handleAutocompleteChange}
-                onSelect={(value, item) => this.onAssetSelect(value, item)}
-              />
-              <button
-                type="button"
-                className="btn btn-danger ml-2 btn-lg"
-                onClick={this.clearAssetSearch}
-              >
-                Clear
-              </button>
-            </div>
-          </form>
-        )}
+        {this.state.assetOptions.length > 0 &&
+          this.state.viewedAsset === "" && (
+            <form>
+              <div className="form-group">
+                <br />
+                <Autocomplete
+                  getItemValue={item => item.id}
+                  items={this.state.assetOptions}
+                  inputProps={this.inputProps("asset")}
+                  wrapperStyle={this.wrapperStyle}
+                  menuStyle={this.menuStyle}
+                  renderItem={(item, isHighlighted) =>
+                    this.renderItem(item, isHighlighted)
+                  }
+                  shouldItemRender={(item, value) =>
+                    this.shouldItemRender(item, value)
+                  }
+                  value={this.state.typedAsset}
+                  onChange={this.handleAutocompleteChange}
+                  onSelect={(value, item) => this.onAssetSelect(value, item)}
+                />
+                <button
+                  type="button"
+                  className="btn btn-danger ml-2 btn-lg"
+                  onClick={this.clearAssetSearch}
+                >
+                  Clear
+                </button>
+              </div>
+            </form>
+          )}
 
         {this.state.loading && (
           <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />

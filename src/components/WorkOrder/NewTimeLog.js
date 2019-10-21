@@ -16,6 +16,7 @@ import { FIELDS } from "./formConfig";
 import "react-datepicker/dist/react-datepicker.css";
 
 class NewTimeLog extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -144,7 +145,7 @@ class NewTimeLog extends Component {
         const technicianOptions = res.data.records.map(item => {
           return { label: item.identifier, value: item.id };
         });
-        this.setState({ technicianOptions });
+        this._isMounted && this.setState({ technicianOptions });
       });
   };
 
@@ -156,7 +157,7 @@ class NewTimeLog extends Component {
         const vehicleOptions = res.data.records.map(item => {
           return { label: item.identifier, value: item.id };
         });
-        this.setState({ vehicleOptions });
+        this._isMounted && this.setState({ vehicleOptions });
       });
   };
 
@@ -180,10 +181,11 @@ class NewTimeLog extends Component {
       .workOrder()
       .getTimeLogs(id)
       .then(res => {
-        this.setState({ timeLogData: res.data.records }, () => {
-          this.setState({ isLoading: false });
-          this.setTimeLogToEdit();
-        });
+        this._isMounted &&
+          this.setState({ timeLogData: res.data.records }, () => {
+            this.setState({ isLoading: false });
+            this.setTimeLogToEdit();
+          });
       });
   };
 
@@ -197,9 +199,14 @@ class NewTimeLog extends Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     this.getTechnicianOptions();
     this.getVehicleOptions();
     this.requestTimeLogs(this.workOrderId);
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

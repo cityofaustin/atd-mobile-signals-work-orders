@@ -125,6 +125,8 @@ class App extends Component {
       !this.isUserLoggedIn() &&
       this.setState({ isLoggedIn: false });
 
+    // Set state.isLoggedIn to true if cookies exist
+    // since state reverts to false when navigating away from and back to app
     this.isUserLoggedIn() &&
       this.state.isLoggedIn === false &&
       this.setState({ isLoggedIn: true });

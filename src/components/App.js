@@ -87,7 +87,8 @@ class App extends Component {
 
   revokeKnackUserToken = () => {
     this.setState({ knackUserToken: false, isLoggedIn: false });
-    Cookies.set("knackUserToken", false);
+    Cookies.remove("knackUserToken");
+    Cookies.remove("knackUserTokenExpiration");
   };
 
   handleScriptCreate = () => this.setState({ knackJsLoading: true });
@@ -123,6 +124,12 @@ class App extends Component {
     this.props.location.pathname !== prevProps.location.pathname &&
       !this.isUserLoggedIn() &&
       this.setState({ isLoggedIn: false });
+
+    // Set state.isLoggedIn to true if cookies exist
+    // since state reverts to false when navigating away from and back to app
+    this.isUserLoggedIn() &&
+      this.state.isLoggedIn === false &&
+      this.setState({ isLoggedIn: true });
   }
 
   render() {
@@ -135,19 +142,21 @@ class App extends Component {
             onError={this.handleScriptError}
             onLoad={this.handleScriptLoad.bind(this)}
           />
+
           <Route
             path="/login"
             render={props => (
               <Login
                 {...props}
                 setKnackUserToken={this.setKnackUserToken}
-                isAuthenticated={this.state.isLoggedIn}
+                isAuthenticated={this.state.isLoggedIn && this.isUserLoggedIn()}
                 appId={this.state.appId}
               />
             )}
           />
           {/* if user is not logged in, Redirect to login page */}
-          {!this.state.isLoggedIn && <Redirect to="/login" />}
+          {!this.state.isLoggedIn &&
+            !this.isUserLoggedIn() && <Redirect to="/login" />}
           {this.state.isLoggedIn ? (
             <div>
               <Route

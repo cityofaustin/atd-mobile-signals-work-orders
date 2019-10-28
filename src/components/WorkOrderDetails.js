@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { ImagePicker } from "react-file-picker";
 import { Link } from "react-router-dom";
 import Button from "./Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +14,7 @@ import {
   faFlagCheckered,
   faMapMarkedAlt,
   faRedo,
+  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 
 import PageTitle from "./Shared/PageTitle";
@@ -359,6 +361,21 @@ class WorkOrderDetail extends Component {
                   this.props.match.params.workOrderId
                 }`}
               />
+              <ImagePicker
+                extensions={["jpg", "jpeg", "png"]}
+                dims={{
+                  minWidth: 100,
+                  maxWidth: 1084,
+                  minHeight: 100,
+                  maxHeight: 768,
+                }}
+                onChange={base64 => console.log(base64)}
+                onError={errMsg => console.log(errMsg)}
+              >
+                <button className={`btn btn-secondary btn-lg`}>
+                  <FontAwesomeIcon icon={faUpload} /> Upload Image
+                </button>
+              </ImagePicker>
               {this.state.imagesData.length === 0 && <p>No data</p>}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">

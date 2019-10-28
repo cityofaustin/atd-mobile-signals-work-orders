@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ImagePicker } from "react-file-picker";
+import dataURLtoBlob from "blueimp-canvas-to-blob";
 import { Link } from "react-router-dom";
 import Button from "./Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -185,6 +186,21 @@ class WorkOrderDetail extends Component {
       </div>
     );
 
+  uploadImage = base64Image => {
+    const id = this.props.match.params.workOrderId;
+    const form = new FormData();
+    const blob = dataURLtoBlob(base64Image); // Convert base64 jpeg captured from canvas to blob
+    form.append("files", blob, `${id}.jpeg`);
+    api
+      .workOrder()
+      .addImage(form, id)
+      .then(() => {
+        // this.setState({ uploading: false });
+        // this.props.history.push(`/work-orders/${id}`);
+        console.log("Uploaded!");
+      });
+  };
+
   render() {
     const statusField = this.state.detailsData.field_459;
     const workOrderId = this.props.match.params.workOrderId;
@@ -369,7 +385,7 @@ class WorkOrderDetail extends Component {
                   minHeight: 100,
                   maxHeight: 768,
                 }}
-                onChange={base64 => console.log(base64)}
+                onChange={this.uploadImage}
                 onError={errMsg => console.log(errMsg)}
               >
                 <button className={`btn btn-secondary btn-lg`}>

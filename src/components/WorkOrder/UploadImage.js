@@ -6,6 +6,7 @@ import { faUpload, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import api from "../../queries/api";
 
 const CAMERA_IMAGE_RESOLUTION = { width: 1944, height: 2592 };
+
 class UploadImage extends Component {
   constructor(props) {
     super();

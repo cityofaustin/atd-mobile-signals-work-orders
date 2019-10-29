@@ -25,6 +25,7 @@ class UploadImage extends Component {
       .addImage(form, id)
       .then(() => {
         this.setState({ uploading: false });
+        // setTimeout here allows delay on Knack end resolve and get most recent images in view
         setTimeout(() => this.props.requestImages(id), 2000);
       });
   };

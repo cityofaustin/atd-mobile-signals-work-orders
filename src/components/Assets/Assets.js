@@ -241,7 +241,7 @@ class Assets extends Component {
                     <AccordionItemTitle>
                       <h3 className="u-position-relative">
                         <FontAwesomeIcon icon={faInfoCircle} /> {title}
-                        <span class="badge badge-secondary float-right mr-5">
+                        <span className="badge badge-secondary float-right mr-5">
                           {recordsTotal}
                         </span>
                         <div className="accordion__arrow" role="presentation" />

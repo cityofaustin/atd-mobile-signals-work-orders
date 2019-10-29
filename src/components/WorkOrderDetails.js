@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { ImagePicker } from "react-file-picker";
-import dataURLtoBlob from "blueimp-canvas-to-blob";
 import { Link } from "react-router-dom";
 import Button from "./Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +13,6 @@ import {
   faFlagCheckered,
   faMapMarkedAlt,
   faRedo,
-  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 
 import PageTitle from "./Shared/PageTitle";
@@ -30,6 +27,7 @@ import "react-accessible-accordion/dist/fancy-example.css";
 
 import TimeLog from "./WorkOrder/TimeLog";
 import WorkSpecifications from "./WorkOrder/WorkSpecifications";
+import UploadImage from "./WorkOrder/UploadImage";
 import api from "../queries/api";
 import { workOrderFields } from "../queries/fields";
 import {
@@ -124,6 +122,7 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getImages(id)
       .then(res => {
+        console.log(this._isMounted);
         this._isMounted && this.setState({ imagesData: res.data.records });
       });
   };
@@ -185,21 +184,6 @@ class WorkOrderDetail extends Component {
         </button>
       </div>
     );
-
-  uploadImage = base64Image => {
-    const id = this.props.match.params.workOrderId;
-    const form = new FormData();
-    const blob = dataURLtoBlob(base64Image); // Convert base64 jpeg captured from canvas to blob
-    form.append("files", blob, `${id}.jpeg`);
-    api
-      .workOrder()
-      .addImage(form, id)
-      .then(() => {
-        // this.setState({ uploading: false });
-        // this.props.history.push(`/work-orders/${id}`);
-        console.log("Uploaded!");
-      });
-  };
 
   render() {
     const statusField = this.state.detailsData.field_459;
@@ -372,27 +356,18 @@ class WorkOrderDetail extends Component {
             <AccordionItemBody>
               <Button
                 icon={faCamera}
-                text={"New Image"}
+                text={"Take Picture"}
                 linkPath={`/work-order/add-image/${
                   this.props.match.params.workOrderId
                 }`}
               />
-              <ImagePicker
-                extensions={["jpg", "jpeg", "png"]}
-                dims={{
-                  minWidth: 100,
-                  maxWidth: 1084,
-                  minHeight: 100,
-                  maxHeight: 768,
-                }}
-                onChange={this.uploadImage}
-                onError={errMsg => console.log(errMsg)}
-              >
-                <button className={`btn btn-secondary btn-lg`}>
-                  <FontAwesomeIcon icon={faUpload} /> Upload Image
-                </button>
-              </ImagePicker>
-              {this.state.imagesData.length === 0 && <p>No data</p>}
+              <UploadImage
+                id={workOrderId}
+                requestImages={this.requestImages}
+              />
+              {this.state.imagesData.length === 0 && (
+                <p className="mt-2">No images</p>
+              )}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">
                   {this.state.imagesData.map((image, i) => (

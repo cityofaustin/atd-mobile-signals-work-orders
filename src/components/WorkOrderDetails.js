@@ -364,9 +364,7 @@ class WorkOrderDetail extends Component {
                 id={workOrderId}
                 requestImages={this.requestImages}
               />
-              {this.state.imagesData.length === 0 && (
-                <p className="mt-2">No images</p>
-              )}
+              {this.state.imagesData.length === 0 && <p>No images</p>}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">
                   {this.state.imagesData.map((image, i) => (

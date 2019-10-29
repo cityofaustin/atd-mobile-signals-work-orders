@@ -43,7 +43,7 @@ class UploadImage extends Component {
         onChange={this.uploadImage}
         onError={errMsg => console.log(errMsg)}
       >
-        <button className={`btn btn-secondary btn-lg`}>
+        <button className={`btn btn-secondary btn-lg mb-2`}>
           <FontAwesomeIcon icon={faUpload} /> Upload Picture
         </button>
       </ImagePicker>

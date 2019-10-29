@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import api from "../../queries/api";
 
+const CAMERA_IMAGE_RESOLUTION = { width: 1944, height: 2592 };
 class UploadImage extends Component {
   constructor(props) {
     super();
@@ -16,7 +17,6 @@ class UploadImage extends Component {
   uploadImage = base64Image => {
     this.setState({ uploading: true });
     const id = this.props.id;
-    console.log(id);
     const form = new FormData();
     const blob = dataURLtoBlob(base64Image); // Convert base64 jpeg captured from canvas to blob
     form.append("files", blob, `${id}.jpeg`);
@@ -35,11 +35,12 @@ class UploadImage extends Component {
     ) : (
       <ImagePicker
         extensions={["jpg", "jpeg", "png"]}
+        maxSize={4} // Default is 2MB so increased to 4 since tablet's images are larger
         dims={{
           minWidth: 100,
-          maxWidth: 1084,
+          maxWidth: CAMERA_IMAGE_RESOLUTION.width,
           minHeight: 100,
-          maxHeight: 768,
+          maxHeight: CAMERA_IMAGE_RESOLUTION.height,
         }}
         onChange={this.uploadImage}
         onError={errMsg => console.log(errMsg)}

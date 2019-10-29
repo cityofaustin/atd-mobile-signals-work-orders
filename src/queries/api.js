@@ -455,17 +455,13 @@ const api = {
               field_1047: imageId,
               field_1045: id, // Add work order id to post data to associate the image with work order record
             };
-            axios
-              .post(
-                `https://api.knack.com/v1/scenes/${
-                  keys.addImage.sceneId
-                }/views/${keys.addImage.viewId}/records?work-order_id=${id}`,
-                data,
-                getHeaders()
-              )
-              .then(response => {
-                console.log(response);
-              });
+            axios.post(
+              `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${
+                keys.addImage.viewId
+              }/records?work-order_id=${id}`,
+              data,
+              getHeaders()
+            );
           }),
     };
   },

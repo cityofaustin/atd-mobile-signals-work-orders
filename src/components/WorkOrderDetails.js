@@ -122,7 +122,6 @@ class WorkOrderDetail extends Component {
       .workOrder()
       .getImages(id)
       .then(res => {
-        console.log(this._isMounted);
         this._isMounted && this.setState({ imagesData: res.data.records });
       });
   };

@@ -353,17 +353,19 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <Button
-                icon={faCamera}
-                text={"Take Picture"}
-                linkPath={`/work-order/add-image/${
-                  this.props.match.params.workOrderId
-                }`}
-              />
-              <UploadImage
-                id={workOrderId}
-                requestImages={this.requestImages}
-              />
+              <div className="row">
+                <Button
+                  icon={faCamera}
+                  text={"Take Picture"}
+                  linkPath={`/work-order/add-image/${
+                    this.props.match.params.workOrderId
+                  }`}
+                />
+                <UploadImage
+                  id={workOrderId}
+                  requestImages={this.requestImages}
+                />
+              </div>
               {this.state.imagesData.length === 0 && <p>No images</p>}
               {this.state.imagesData.length > 0 && (
                 <ul className="list-group list-group-flush">

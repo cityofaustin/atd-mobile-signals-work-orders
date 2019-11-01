@@ -136,9 +136,9 @@ class ListWithSearchAndPage extends Component {
             icon={item[fields.status] && statuses[item[fields.status]].icon}
           />
           <span>
-            {item[fields.status]}{" "}
-            {item[fields.status] === "Assigned"
-              ? ` to ${item["field_1754_raw"][0].identifier}`
+            {` ${item[fields.status]} `}
+            {item[fields.leadTechnicianRaw][0]
+              ? ` -- ${item[fields.leadTechnicianRaw][0].identifier}`
               : ""}
           </span>
         </div>

@@ -135,7 +135,12 @@ class ListWithSearchAndPage extends Component {
           <FontAwesomeIcon
             icon={item[fields.status] && statuses[item[fields.status]].icon}
           />
-          <span> {item[fields.status]}</span>
+          <span>
+            {item[fields.status]}{" "}
+            {item[fields.status] === "Assigned"
+              ? ` to ${item["field_1754_raw"][0].identifier}`
+              : ""}
+          </span>
         </div>
         {/* Modified at Datetime */}
         <div className="col-6">

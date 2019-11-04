@@ -6,6 +6,7 @@ export const workOrderFields = {
     status: "field_459",
     location: "field_904",
     locationAll: "field_211_raw",
+    leadTechnicianRaw: "field_1754_raw",
   },
   details: [
     { "Problem Reported": "field_976" },

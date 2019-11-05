@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import Select from "react-select";
 
-import { WORK_TYPE_TROUBLE_CALL_OPTIONS, FIELDS } from "./formConfig";
+import {
+  WORK_TYPE_TROUBLE_CALL_OPTIONS,
+  WORK_TYPE_SCHEDULED_WORK_OPTIONS,
+  FIELDS,
+} from "./formConfig";
 import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
 
 export default class WorkTypeFields extends Component {
@@ -11,7 +15,7 @@ export default class WorkTypeFields extends Component {
     this.state = {
       data: props.data,
       workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
-        window.Knack
+        WORK_TYPE_SCHEDULED_WORK_OPTIONS
       ),
       updatedFormData: {},
     };
@@ -36,7 +40,7 @@ export default class WorkTypeFields extends Component {
     this.setState({
       updatedFormData: data,
       workTypeScheduledWorkOptions: getWorkTypeScheduledWorkOptions(
-        window.Knack
+        WORK_TYPE_SCHEDULED_WORK_OPTIONS
       ),
     });
 

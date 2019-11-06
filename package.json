@@ -24,6 +24,7 @@
     "react-datepicker": "^2.0.0",
     "react-dom": "^16.5.2",
     "react-emotion": "^9.2.10",
+    "react-file-picker": "0.0.6",
     "react-load-script": "0.0.6",
     "react-read-more-less": "^0.1.6",
     "react-router-dom": "^4.3.1",

@@ -57,7 +57,7 @@ export const handleTableDataStringLength = (tableDataString, i) => {
 };
 
 export const createDetectorLink = (id, assetId) => (
-  <div className="container mt-3 ml-2">
+  <div key={id} className="container mt-3 ml-2">
     <a
       className="mt-2"
       href={`https://transportation.austintexas.io/data-tracker/#home/signals/signal-details/${assetId}/detector-details/${id}/`}
@@ -70,14 +70,14 @@ export const createDetectorLink = (id, assetId) => (
 export const addDetectionLinks = assetId => (
   <div>
     <a
-      class="btn btn-primary btn-lg mb-2 mr-2"
+      className="btn btn-primary btn-lg mb-2 mr-2"
       role="button"
       href={`https://transportation.austintexas.io/data-tracker/#home/signals/signal-details/${assetId}/edit-signal-detectors/${assetId}/`}
     >
       <FontAwesomeIcon icon={faEdit} /> {"Edit Detectors"}
     </a>
     <a
-      class="btn btn-primary btn-lg mb-2 mr-2"
+      className="btn btn-primary btn-lg mb-2 mr-2"
       role="button"
       href={
         "https://transportation.austintexas.io/data-tracker/#home/detection-reports/detection-qc/"

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import api from "../queries/api";
 import { userFields } from "../queries/fields";
 import {
@@ -7,6 +8,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Row,
+  Col,
 } from "reactstrap";
 
 const fields = userFields;
@@ -15,7 +18,7 @@ class UserInfo extends Component {
     super(props);
 
     // this.toggle = this.toggle.bind(this);
-    this.state = { userInfo: "", dropdownOpen: false };
+    this.state = { userInfo: "", dropdownOpen: false, appRelease: "" };
   }
 
   componentDidMount() {
@@ -24,6 +27,14 @@ class UserInfo extends Component {
       .getInfo()
       .then(res => {
         this.setState({ userInfo: res.data });
+      });
+    axios
+      .get(
+        "https://api.github.com/repos/cityofaustin/atd-mobile-signals-work-orders/releases/latest"
+      )
+      .then(res => {
+        const appRelease = res.data.name;
+        this.setState({ appRelease });
       });
   }
 
@@ -55,10 +66,13 @@ class UserInfo extends Component {
               <Button
                 color="danger"
                 onClick={this.props.revokeKnackUserToken}
-                className="btn-lg ml-4 mt-1"
+                className="btn-lg ml-4 mt-1 mb-2"
               >
                 Log out
               </Button>
+              <DropdownItem className="float-right font-weight-light">
+                {this.state.appRelease}
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         ) : (

@@ -8,8 +8,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
-  Row,
-  Col,
 } from "reactstrap";
 
 const fields = userFields;

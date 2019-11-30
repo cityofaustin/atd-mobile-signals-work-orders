@@ -91,6 +91,8 @@ class Assets extends Component {
   }
 
   componentDidMount() {
+    window.analytics.page("Search Signals");
+
     this._isMounted = true;
     if (this.props.match.params.assetId) {
       const viewAsset = { id: this.props.match.params.assetId };

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import api from "../queries/api";
 import { userFields } from "../queries/fields";
 import {
@@ -10,13 +9,15 @@ import {
   Button,
 } from "reactstrap";
 
+var pckg = require("../../package.json");
+
 const fields = userFields;
 class UserInfo extends Component {
   constructor(props) {
     super(props);
 
     // this.toggle = this.toggle.bind(this);
-    this.state = { userInfo: "", dropdownOpen: false, appRelease: "" };
+    this.state = { userInfo: "", dropdownOpen: false };
   }
 
   componentDidMount() {
@@ -25,14 +26,6 @@ class UserInfo extends Component {
       .getInfo()
       .then(res => {
         this.setState({ userInfo: res.data });
-      });
-    axios
-      .get(
-        "https://api.github.com/repos/cityofaustin/atd-mobile-signals-work-orders/releases/latest"
-      )
-      .then(res => {
-        const appRelease = res.data.name;
-        this.setState({ appRelease });
       });
   }
 
@@ -70,7 +63,7 @@ class UserInfo extends Component {
                   Log out
                 </Button>
                 <span className="align-bottom font-weight-light ml-2">
-                  {this.state.appRelease}
+                  v{pckg.version}
                 </span>
               </DropdownItem>
             </DropdownMenu>

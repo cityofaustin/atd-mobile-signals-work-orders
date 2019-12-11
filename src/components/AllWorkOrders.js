@@ -23,6 +23,8 @@ class AllWorkOrders extends Component {
   }
 
   componentDidMount() {
+    window.analytics.page("All Work Orders");
+
     this._isMounted = true;
     getAllWorkOrders().then(data => {
       // If component is not mounted, don't call setState()

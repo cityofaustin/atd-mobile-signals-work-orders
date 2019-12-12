@@ -36,6 +36,10 @@ class Login extends Component {
       .then(res => {
         this.setState({ isSubmitting: false });
         this.props.setKnackUserToken(res.data.session.user.token);
+        const userId = res.data.session.user.id;
+        window.analytics.identify(userId, {
+          email: email,
+        });
       })
       .catch(error => {
         this.setState({ loginError: true, isSubmitting: false });

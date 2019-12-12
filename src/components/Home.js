@@ -35,6 +35,10 @@ const mainPages = [
 ];
 
 class Home extends Component {
+  componentDidMount() {
+    window.analytics.page("Home");
+  }
+
   render() {
     return (
       <div>

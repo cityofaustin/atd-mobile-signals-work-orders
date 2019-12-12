@@ -74,6 +74,8 @@ class WorkOrderDetail extends Component {
   }
 
   componentDidMount() {
+    window.analytics.page("Work Order Details");
+
     this._isMounted = true;
     const { workOrderId } = this.props.match.params;
     getWorkOrderTitle(workOrderId).then(data => {

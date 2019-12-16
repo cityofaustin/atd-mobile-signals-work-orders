@@ -170,6 +170,10 @@ class NewWorkOrder extends Component {
       });
   };
 
+  componentDidMount() {
+    window.analytics.page("New Work Order");
+  }
+
   render() {
     if (!!this.state.newWorkOrder) {
       return <Redirect to={`/work-orders/${this.state.newWorkOrder.id}`} />;

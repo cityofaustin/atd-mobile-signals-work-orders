@@ -23,6 +23,8 @@ class MyWorkOrders extends Component {
     };
   }
   componentDidMount() {
+    window.analytics.page("My Work Orders");
+
     this._isMounted = true;
     getMyWorkOrders().then(data => {
       this._isMounted &&

@@ -9,6 +9,8 @@ import {
   Button,
 } from "reactstrap";
 
+var pckg = require("../../package.json");
+
 const fields = userFields;
 class UserInfo extends Component {
   constructor(props) {
@@ -52,13 +54,18 @@ class UserInfo extends Component {
               <DropdownItem className="font-weight-light">
                 {userInfo[email].email}
               </DropdownItem>
-              <Button
-                color="danger"
-                onClick={this.props.revokeKnackUserToken}
-                className="btn-lg ml-4 mt-1"
-              >
-                Log out
-              </Button>
+              <DropdownItem>
+                <Button
+                  color="danger"
+                  onClick={this.props.revokeKnackUserToken}
+                  className="btn-lg mt-1"
+                >
+                  Log out
+                </Button>
+                <span className="align-bottom font-weight-light ml-2">
+                  v{pckg.version}
+                </span>
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         ) : (

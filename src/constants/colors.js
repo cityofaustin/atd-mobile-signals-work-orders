@@ -8,4 +8,7 @@ export const colors = {
   primary: "#307BFF",
   activeNavFooter: "#307BFF",
   inactiveNavFooter: "#6C757C",
+  inventoryStatusSubmitted: "#f5901f",
+  inventoryStatusIssued: "#41ae76",
+  inventoryStatusReturned: "#b277bb",
 };

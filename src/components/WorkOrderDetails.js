@@ -17,6 +17,7 @@ import {
 
 import PageTitle from "./Shared/PageTitle";
 import { StyledPageTitle } from "../styles/PageTitle.css";
+import { WorkOrderInventoryStatus } from "../styles/WorkOrderInventoryStatus";
 import {
   Accordion,
   AccordionItem,
@@ -189,6 +190,12 @@ class WorkOrderDetail extends Component {
       </div>
     );
 
+  addWorkOrderStatusClass = status => {
+    // Translate status to classname for CSS styling
+    const statusClassname = status.split(" ")[0].toLowerCase() || null;
+    return !!statusClassname ? statusClassname : "";
+  };
+
   render() {
     const statusField = this.state.detailsData.field_459;
     const workOrderId = this.props.match.params.workOrderId;
@@ -305,11 +312,49 @@ class WorkOrderDetail extends Component {
                   this.props.match.params.workOrderId
                 }`}
               />
-              {this.state.inventoryData.length === 0 && <p>No data</p>}
+              {this.state.inventoryData.length === 0 && (
+                <p>No data</p>
+                // Test CSS styles
+                // <ul className="list-group list-group-flush">
+                //   <div className="col-12">
+                //     <li className="list-group-item d-flex row">Item</li>
+                //   </div>
+                //   <WorkOrderInventoryStatus>
+                //     <div className="row issued">
+                //       <div className="col">
+                //         <li className="list-group-item d-flex row">Quantity</li>
+                //       </div>
+                //       <div className="col">
+                //         <li className="list-group-item d-flex row">Source</li>
+                //       </div>
+                //       <div className="col">
+                //         <li className="list-group-item d-flex row">
+                //           Issued to
+                //         </li>
+                //       </div>
+                //       <div className="col">
+                //         <li className="list-group-item d-flex row">Comment</li>
+                //       </div>
+                //       <div className="col">
+                //         <li className="list-group-item d-flex row">Modified</li>
+                //       </div>
+                //       <div className="col">
+                //         <li className="list-group-item d-flex row">Status</li>
+                //       </div>
+                //     </div>
+                //   </WorkOrderInventoryStatus>
+                // </ul>
+              )}
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
                   {this.state.inventoryData.map((inventory, i) => (
-                    <li className="list-group-item d-flex row" key={i}>
+                    <li
+                      // Add classname to highlight defined statuses
+                      className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
+                        inventory[workOrderFields.inventory.STATUS]
+                      )}`}
+                      key={i}
+                    >
                       <div className="col-12">
                         <div
                           dangerouslySetInnerHTML={{
@@ -321,19 +366,33 @@ class WorkOrderDetail extends Component {
                         />
                       </div>
                       <div className="col-12">
-                        <div className="row">
-                          <div className="col-4">
-                            {inventory[workOrderFields.inventory.STATUS]}
+                        <WorkOrderInventoryStatus>
+                          <div className="row">
+                            <div className="col-2">
+                              {inventory[workOrderFields.inventory.QUANTITY]}
+                            </div>
+                            <div className="col-2">
+                              <span>Quantity: </span>
+                              {inventory[workOrderFields.inventory.SOURCE]}
+                            </div>
+                            <div className="col-2">
+                              <span>Condition: </span>
+                              {inventory[workOrderFields.inventory.ISSUED_TO]}
+                            </div>
+                            <div className="col-2">
+                              <span>Condition: </span>
+                              {inventory[workOrderFields.inventory.COMMENT]}
+                            </div>
+                            <div className="col-2">
+                              <span>Condition: </span>
+                              {inventory[workOrderFields.inventory.MODIFIED]}
+                            </div>
+                            <div className="col-2">
+                              <span>Condition: </span>
+                              {inventory[workOrderFields.inventory.STATUS]}
+                            </div>
                           </div>
-                          <div className="col-4">
-                            <span>Quantity: </span>
-                            {inventory[workOrderFields.inventory.QUANTITY]}
-                          </div>
-                          <div className="col-4">
-                            <span>Condition: </span>
-                            {inventory[workOrderFields.inventory.CONDITION]}
-                          </div>
-                        </div>
+                        </WorkOrderInventoryStatus>
                       </div>
                     </li>
                   ))}

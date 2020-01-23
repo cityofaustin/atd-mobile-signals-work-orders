@@ -26,10 +26,13 @@ export const workOrderFields = {
   id: "id",
   assetIdFromDetails: "field_199",
   inventory: {
-    INVENTORY_ITEM: "field_513",
-    STATUS: "field_1416",
+    ITEM: "field_513",
     QUANTITY: "field_524",
-    CONDITION: "field_1071",
+    SOURCE: "field_3440",
+    ISSUED_TO: "field_854",
+    COMMENT: "field_3493",
+    MODIFIED: "field_771",
+    STATUS: "field_1416",
   },
   images: {
     IMAGE: "field_1047",

@@ -77,7 +77,7 @@ const keys = {
   },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_255", viewId: "view_2234" },
-  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
+  workOrderInventory: { sceneId: "scene_514", viewId: "view_2663" },
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   workOrderInventoryItems: {
@@ -325,7 +325,7 @@ const api = {
             keys.workOrderInventory.sceneId
           }/views/${
             keys.workOrderInventory.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          }/records?filters=[{"field":"field_3489", "operator":"is", "value": "${id}"}]`,
           getHeaders()
         ),
       getImages: id =>

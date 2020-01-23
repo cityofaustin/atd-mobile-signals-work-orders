@@ -318,9 +318,7 @@ class WorkOrderDetail extends Component {
                   {this.state.inventoryData.map((inventory, i) => (
                     <li
                       // Add classname to highlight defined statuses
-                      className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
-                        inventory[workOrderFields.inventory.STATUS]
-                      )}`}
+                      className={`list-group-item d-flex row`}
                       key={i}
                     >
                       <div className="col-12">
@@ -335,28 +333,33 @@ class WorkOrderDetail extends Component {
                       </div>
                       <div className="col-12">
                         <WorkOrderInventoryStatus>
-                          <div className="row">
+                          <div
+                            className={`row ${this.addWorkOrderStatusClass(
+                              inventory[workOrderFields.inventory.STATUS]
+                            )}`}
+                          >
                             <div className="col-2">
+                              <span>Quantity: </span>
                               {inventory[workOrderFields.inventory.QUANTITY]}
                             </div>
                             <div className="col-2">
-                              <span>Quantity: </span>
+                              <span>Source: </span>
                               {inventory[workOrderFields.inventory.SOURCE]}
                             </div>
                             <div className="col-2">
-                              <span>Condition: </span>
+                              <span>Issued to: </span>
                               {inventory[workOrderFields.inventory.ISSUED_TO]}
                             </div>
                             <div className="col-2">
-                              <span>Condition: </span>
+                              <span>Comment: </span>
                               {inventory[workOrderFields.inventory.COMMENT]}
                             </div>
                             <div className="col-2">
-                              <span>Condition: </span>
+                              <span>Modified: </span>
                               {inventory[workOrderFields.inventory.MODIFIED]}
                             </div>
                             <div className="col-2">
-                              <span>Condition: </span>
+                              <span>Status: </span>
                               {inventory[workOrderFields.inventory.STATUS]}
                             </div>
                           </div>

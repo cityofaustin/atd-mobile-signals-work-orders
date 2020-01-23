@@ -83,6 +83,10 @@ class WorkOrderDetail extends Component {
     });
     getWorkOrderDetailAndTimeLogs(workOrderId).then(data => {
       this._isMounted && this.setState({ detailsData: data });
+
+      // Need to retrieve ATD Work Order ID from details in order to req associated inv. items
+      const atdWorkOrderId = data.field_1209;
+      setTimeout(this.requestInventory, 1500, atdWorkOrderId);
     });
     api
       .user()
@@ -92,8 +96,7 @@ class WorkOrderDetail extends Component {
       });
     // Stagger the calls to Knack API so we don't get rate limited.
     setTimeout(this.requestTimeLogs, 500, workOrderId);
-    setTimeout(this.requestInventory, 1000, workOrderId);
-    setTimeout(this.requestImages, 1500, workOrderId);
+    setTimeout(this.requestImages, 1000, workOrderId);
   }
 
   componentWillUnmount() {

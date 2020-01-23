@@ -85,6 +85,10 @@ const keys = {
     viewId: "view_889",
     fieldId: "field_513",
   },
+  workOrderInventoryItemsPost: {
+    sceneId: "scene_297",
+    viewId: "view_2661",
+  },
   assets: {
     details: { sceneId: "scene_446", viewId: "view_1261" },
     workOrders: { sceneId: "scene_446", viewId: "view_1550" },
@@ -347,8 +351,8 @@ const api = {
       submitInventoryItem: data =>
         axios.post(
           `https://us-api.knack.com/v1/scenes/${
-            keys.workOrderInventoryItems.sceneId
-          }/views/${keys.workOrderInventoryItems.viewId}/records`,
+            keys.workOrderInventoryItemsPost.sceneId
+          }/views/${keys.workOrderInventoryItemsPost.viewId}/records`,
           data,
           getHeaders()
         ),

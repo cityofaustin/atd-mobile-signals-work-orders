@@ -49,6 +49,18 @@ export default class AddInventoryItemsFields extends Component {
     this.props.handleItemPropertyChange(data);
   };
 
+  handleSourceChange = option => {
+    let data = {};
+    data[FIELDS.WORK_ORDER_ITEM_SOURCE] = option.value;
+    this.props.handleItemPropertyChange(data);
+  };
+
+  handleCommentChange = e => {
+    let data = {};
+    data[FIELDS.WORK_ORDER_ITEM_COMMENT] = e.target.value;
+    this.props.handleItemPropertyChange(data);
+  };
+
   render() {
     return (
       <>
@@ -96,10 +108,7 @@ export default class AddInventoryItemsFields extends Component {
               "Truck Stock",
               "Other",
             ])}
-            // onChange={this.props.handleInventorySourceChange.bind(
-            //   this,
-            //   FIELDS.WORK_ORDER_ITEM_SOURCE
-            // )}
+            onChange={this.handleSourceChange}
             required // Prevent blank item from adding to DB since Knack does not require these fields
           />
         </div>
@@ -110,7 +119,7 @@ export default class AddInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_ITEM_COMMENT}
             name={FIELDS.WORK_ORDER_ITEM_COMMENT}
             rows="2"
-            // onChange={this.handleChange}
+            onChange={this.handleCommentChange}
           />
         </div>
       </>

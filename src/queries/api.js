@@ -82,7 +82,7 @@ const keys = {
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   workOrderInventoryItems: {
     sceneId: "scene_297",
-    viewId: "view_889",
+    viewId: "view_2661",
     fieldId: "field_513",
   },
   workOrderInventoryItemsPost: {
@@ -329,7 +329,7 @@ const api = {
             keys.workOrderInventory.sceneId
           }/views/${
             keys.workOrderInventory.viewId
-          }/records?filters=[{"field":"field_1209", "operator":"is", "value": "${id}"}]`,
+          }/records?filters=[{"field":"field_3489", "operator":"is", "value": "${id}"}]`,
           getHeaders()
         ),
       getImages: id =>

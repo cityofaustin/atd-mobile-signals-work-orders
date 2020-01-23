@@ -312,39 +312,7 @@ class WorkOrderDetail extends Component {
                   this.props.match.params.workOrderId
                 }`}
               />
-              {this.state.inventoryData.length === 0 && (
-                <p>No data</p>
-                // Test CSS styles
-                // <ul className="list-group list-group-flush">
-                //   <div className="col-12">
-                //     <li className="list-group-item d-flex row">Item</li>
-                //   </div>
-                //   <WorkOrderInventoryStatus>
-                //     <div className="row issued">
-                //       <div className="col">
-                //         <li className="list-group-item d-flex row">Quantity</li>
-                //       </div>
-                //       <div className="col">
-                //         <li className="list-group-item d-flex row">Source</li>
-                //       </div>
-                //       <div className="col">
-                //         <li className="list-group-item d-flex row">
-                //           Issued to
-                //         </li>
-                //       </div>
-                //       <div className="col">
-                //         <li className="list-group-item d-flex row">Comment</li>
-                //       </div>
-                //       <div className="col">
-                //         <li className="list-group-item d-flex row">Modified</li>
-                //       </div>
-                //       <div className="col">
-                //         <li className="list-group-item d-flex row">Status</li>
-                //       </div>
-                //     </div>
-                //   </WorkOrderInventoryStatus>
-                // </ul>
-              )}
+              {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
                   {this.state.inventoryData.map((inventory, i) => (

@@ -325,7 +325,7 @@ const api = {
             keys.workOrderInventory.sceneId
           }/views/${
             keys.workOrderInventory.viewId
-          }/records?filters=[{"field":"field_3489", "operator":"is", "value": "${id}"}]`,
+          }/records?filters=[{"field":"field_1209", "operator":"is", "value": "${id}"}]`,
           getHeaders()
         ),
       getImages: id =>

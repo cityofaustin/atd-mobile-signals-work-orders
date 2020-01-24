@@ -21,7 +21,7 @@ class NewTimeLog extends Component {
     super(props);
 
     this.workOrderId = this.props.match.params.workOrderId;
-    this.isEditable = this.props.isEditable;
+    this.isEditable = this.props.match.path.includes("edit");
 
     this.state = {
       technicianOptions: [],
@@ -214,6 +214,8 @@ class NewTimeLog extends Component {
       console.log(this.state.successfulResponseData);
       return <Redirect to={`/work-orders/${this.workOrderId}`} />;
     }
+
+    console.log(this.isEditable);
 
     const timeLogToEdit = this.state.timeLogToEdit;
 

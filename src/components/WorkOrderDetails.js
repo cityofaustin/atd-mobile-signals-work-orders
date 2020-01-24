@@ -333,7 +333,6 @@ class WorkOrderDetail extends Component {
                             linkPath={`/work-order/${workOrderId}/edit-inventory-item/${
                               inventory.id
                             }`}
-                            linkProps={inventory}
                             color={"primary"}
                           />
                         </div>

@@ -3,7 +3,10 @@ import Select from "react-select";
 
 import { FIELDS } from "./formConfig";
 import api from "../../queries/api";
-import { getWorkTypeScheduledWorkOptions } from "../../queries/knackObjectHelpers";
+import {
+  getWorkTypeScheduledWorkOptions,
+  convertKnackResponseObjectToSelectFormOption,
+} from "../../queries/knackObjectHelpers";
 
 export default class EditInventoryItemsFields extends Component {
   _isMounted = false;
@@ -12,18 +15,30 @@ export default class EditInventoryItemsFields extends Component {
 
     this.state = {
       itemOptions: [],
+      existingFormData: null,
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
     this.getItemOptions();
-    console.log(this.props);
+    this.getInventoryItemFields();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
   }
+
+  getInventoryItemFields = () => {
+    api
+      .workOrder()
+      .getEditInventory(this.props.inventoryItemId)
+      .then(res => {
+        const inventoryItemData = res.data.records[0];
+        this._isMounted &&
+          this.setState({ existingFormData: inventoryItemData });
+      });
+  };
 
   getItemOptions = () => {
     api
@@ -62,7 +77,7 @@ export default class EditInventoryItemsFields extends Component {
   };
 
   render() {
-    const defaultValues = this.props.existingFormValues;
+    const existingFormData = this.state.existingFormData;
     return (
       <>
         <div className="form-group">
@@ -72,7 +87,12 @@ export default class EditInventoryItemsFields extends Component {
           <Select
             className="basic-single"
             classNamePrefix="select"
-            defaultValue={""}
+            value={
+              !!existingFormData &&
+              convertKnackResponseObjectToSelectFormOption(
+                existingFormData[FIELDS.WORK_ORDER_EDIT_INVENTORY_ITEM][0]
+              )
+            }
             isClearable
             isSearchable
             name={FIELDS.WORK_ORDER_INVENTORY_ITEMS}
@@ -91,6 +111,10 @@ export default class EditInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_ITEM_QUANTITY}
             name={FIELDS.WORK_ORDER_ITEM_QUANTITY}
             type="number"
+            value={
+              !!existingFormData &&
+              existingFormData[FIELDS.WORK_ORDER_ITEM_QUANTITY]
+            }
             onChange={this.handleQuantityChange}
             required // Prevent blank item from adding to DB since Knack does not require these fields
           />

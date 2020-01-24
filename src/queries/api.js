@@ -85,6 +85,10 @@ const keys = {
     viewId: "view_2661",
     fieldId: "field_513",
   },
+  workOrderEditInventoryItems: {
+    sceneId: "scene_1068",
+    viewId: "view_2669",
+  },
   assets: {
     details: { sceneId: "scene_446", viewId: "view_1261" },
     workOrders: { sceneId: "scene_446", viewId: "view_1550" },
@@ -326,6 +330,15 @@ const api = {
           }/views/${
             keys.workOrderInventory.viewId
           }/records?filters=[{"field":"field_3489", "operator":"is", "value": "${id}"}]`,
+          getHeaders()
+        ),
+      getEditInventory: inventoryItemId =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventory.sceneId
+          }/views/${
+            keys.workOrderInventory.viewId
+          }/records?filters=[{"field":"id", "operator":"is", "value": "${inventoryItemId}"}]`,
           getHeaders()
         ),
       getImages: id =>

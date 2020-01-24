@@ -94,7 +94,7 @@ class InventoryItems extends Component {
             <EditInventoryItemsFields
               handleInventoryItemChange={this.handleInventoryItemChange}
               handleItemPropertyChange={this.handleItemPropertyChange}
-              existingFormValues={this.props.location.linkProps}
+              inventoryItemId={this.props.match.params.inventoryItemId}
             />
           )}
           <SubmitButton

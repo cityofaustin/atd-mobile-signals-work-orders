@@ -2,15 +2,15 @@ import styled from "react-emotion";
 import { colors } from "../constants/colors";
 
 export const WorkOrderInventoryStatus = styled("div")`
-  .submitted > .col-2 {
+  .submitted > [class*="col-"] {
     background-color: ${colors.inventoryStatusSubmitted};
   }
 
-  .issued > .col-2 {
+  .issued > [class*="col"] {
     background-color: ${colors.inventoryStatusIssued};
   }
 
-  .returned > .col-2 {
+  .returned > [class*="col"] {
     background-color: ${colors.inventoryStatusReturned};
   }
 `;

@@ -308,7 +308,7 @@ class WorkOrderDetail extends Component {
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
                   {this.state.inventoryData.map((inventory, i) => (
-                    <WorkOrderInventoryStatus>
+                    <WorkOrderInventoryStatus key={i}>
                       <li
                         // Add classname to highlight item name by status
                         className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(

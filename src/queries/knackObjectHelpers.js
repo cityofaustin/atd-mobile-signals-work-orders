@@ -7,3 +7,7 @@ export const getWorkTypeScheduledWorkOptions = options =>
 export const convertKnackResponseObjectToSelectFormOption = knackFieldObject => {
   return { value: knackFieldObject.id, label: knackFieldObject.identifier };
 };
+
+export const convertKnackResponseStringToSelectFormOption = knackFieldValue => {
+  return { value: knackFieldValue, label: knackFieldValue };
+};

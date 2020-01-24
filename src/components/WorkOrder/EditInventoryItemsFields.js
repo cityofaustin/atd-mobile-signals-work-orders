@@ -6,6 +6,7 @@ import api from "../../queries/api";
 import {
   getWorkTypeScheduledWorkOptions,
   convertKnackResponseObjectToSelectFormOption,
+  convertKnackResponseStringToSelectFormOption,
 } from "../../queries/knackObjectHelpers";
 
 export default class EditInventoryItemsFields extends Component {
@@ -127,6 +128,12 @@ export default class EditInventoryItemsFields extends Component {
             defaultValue={""}
             id={FIELDS.WORK_ORDER_ITEM_SOURCE}
             name={FIELDS.WORK_ORDER_ITEM_SOURCE}
+            value={
+              !!existingFormData &&
+              convertKnackResponseStringToSelectFormOption(
+                existingFormData[FIELDS.WORK_ORDER_ITEM_SOURCE]
+              )
+            }
             options={getWorkTypeScheduledWorkOptions([
               "Warehouse Inventory",
               "Working Stock",
@@ -144,6 +151,10 @@ export default class EditInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_ITEM_COMMENT}
             name={FIELDS.WORK_ORDER_ITEM_COMMENT}
             rows="2"
+            value={
+              existingFormData &&
+              existingFormData[FIELDS.WORK_ORDER_ITEM_COMMENT]
+            }
             onChange={this.handleCommentChange}
           />
         </div>

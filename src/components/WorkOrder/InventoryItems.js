@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AddInventoryItemsFields from "./AddInventoryItemsFields";
+import EditInventoryItemsFields from "./EditInventoryItemsFields";
 import Header from "../Shared/Header";
 import SubmitButton from "../Form/SubmitButton";
 import { faWrench } from "@fortawesome/free-solid-svg-icons";
@@ -12,13 +13,16 @@ class InventoryItems extends Component {
     super(props);
     this.state = {
       formData: {},
+      isEditable: false,
       isSubmitting: false,
       isSubmitted: false,
       errors: [],
     };
   }
   componentDidMount() {
-    console.log("In componentDidMount");
+    // Render edit form if inventoryItemId exists
+    this.props.match.params.inventoryItemId &&
+      this.setState({ isEditable: true });
   }
 
   handleInventoryItemChange = (fieldId, selected) => {
@@ -35,6 +39,8 @@ class InventoryItems extends Component {
     const formData = { ...this.state.formData, ...data };
     this.setState({ formData });
   };
+
+  renderInventoryFormVerb = () => (this.state.isEditable ? "Edit" : "Add");
 
   submitForm = e => {
     e.preventDefault();
@@ -63,7 +69,10 @@ class InventoryItems extends Component {
   render() {
     return (
       <div>
-        <Header icon={faWrench} title="Add Inventory Items" />
+        <Header
+          icon={faWrench}
+          title={`${this.renderInventoryFormVerb()} Inventory Item`}
+        />
 
         {this.state.isSubmitted && (
           <SuccessMessage formType="Inventory Item" formVerb="adde" />
@@ -75,12 +84,20 @@ class InventoryItems extends Component {
           ))}
 
         <form onSubmit={this.submitForm.bind(this)}>
-          <AddInventoryItemsFields
-            handleInventoryItemChange={this.handleInventoryItemChange}
-            handleItemPropertyChange={this.handleItemPropertyChange}
-          />
+          {!this.state.isEditable && (
+            <AddInventoryItemsFields
+              handleInventoryItemChange={this.handleInventoryItemChange}
+              handleItemPropertyChange={this.handleItemPropertyChange}
+            />
+          )}
+          {this.state.isEditable && (
+            <EditInventoryItemsFields
+              handleInventoryItemChange={this.handleInventoryItemChange}
+              handleItemPropertyChange={this.handleItemPropertyChange}
+            />
+          )}
           <SubmitButton
-            text="Add Item"
+            text={`${this.renderInventoryFormVerb()} Item`}
             isSubmitting={this.state.isSubmitting}
           />
         </form>

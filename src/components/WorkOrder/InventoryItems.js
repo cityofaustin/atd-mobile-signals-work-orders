@@ -64,7 +64,6 @@ class InventoryItems extends Component {
 
     inventorySubmitRequest()
       .then(res => {
-        console.log(res);
         this.setState({ isSubmitting: false, isSubmitted: true });
       })
       .catch(error => {
@@ -84,9 +83,12 @@ class InventoryItems extends Component {
           title={`${this.renderInventoryFormVerb()} Inventory Item`}
         />
 
-        {this.state.isSubmitted && (
-          <SuccessMessage formType="Inventory Item" formVerb="adde" />
-        )}
+        {this.state.isSubmitted &&
+          (this.state.isEditable ? (
+            <SuccessMessage formType="Inventory Item" formVerb="edite" />
+          ) : (
+            <SuccessMessage formType="Inventory Item" formVerb="adde" />
+          ))}
 
         {this.state.errors &&
           this.state.errors.map(error => (

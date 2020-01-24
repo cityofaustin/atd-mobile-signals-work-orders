@@ -215,8 +215,6 @@ class NewTimeLog extends Component {
       return <Redirect to={`/work-orders/${this.workOrderId}`} />;
     }
 
-    console.log(this.isEditable);
-
     const timeLogToEdit = this.state.timeLogToEdit;
 
     return this.state.isLoading ? (

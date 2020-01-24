@@ -1,14 +1,20 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { APP_ID, STAGING_APP_ID, PRODUCTION_APP_ID } from "../constants/api";
+import {
+  APP_ID,
+  STAGING_APP_ID,
+  STAGING_APP_NAME,
+  PRODUCTION_APP_ID,
+  PRODUCTION_APP_NAME,
+} from "../constants/api";
 
 const isProd = APP_ID === PRODUCTION_APP_ID;
 const isStaging = APP_ID === STAGING_APP_ID;
 let envWarning = "";
 if (isProd) {
-  envWarning = "️️⚠️ PRODUCTION ENVIRONMENT ⚠️";
+  envWarning = `⚠️ PRODUCTION ENVIRONMENT ⚠️ \n${PRODUCTION_APP_NAME}`;
 } else if (isStaging) {
-  envWarning = "️🏗️ STAGING ENVIRONMENT 🏗️";
+  envWarning = `🏗️ STAGING ENVIRONMENT 🏗️ \n${STAGING_APP_NAME}`;
 }
 console.log(envWarning);
 

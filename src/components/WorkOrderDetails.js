@@ -316,23 +316,26 @@ class WorkOrderDetail extends Component {
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
                   {this.state.inventoryData.map((inventory, i) => (
-                    <li
-                      // Add classname to highlight defined statuses
-                      className={`list-group-item d-flex row`}
-                      key={i}
-                    >
-                      <div className="col-12">
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              inventory[
-                                workOrderFields.inventory.INVENTORY_ITEM
-                              ],
-                          }}
-                        />
-                      </div>
-                      <div className="col-12">
-                        <WorkOrderInventoryStatus>
+                    <WorkOrderInventoryStatus>
+                      <li
+                        // Add classname to highlight item name by status
+                        className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
+                          inventory[workOrderFields.inventory.STATUS]
+                        )}`}
+                        key={i}
+                      >
+                        <div className="col-12">
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                inventory[
+                                  workOrderFields.inventory.INVENTORY_ITEM
+                                ],
+                            }}
+                          />
+                        </div>
+                        <div className="col-12">
+                          {/* Add classname to highlight item attributes by status */}
                           <div
                             className={`row ${this.addWorkOrderStatusClass(
                               inventory[workOrderFields.inventory.STATUS]
@@ -363,9 +366,9 @@ class WorkOrderDetail extends Component {
                               {inventory[workOrderFields.inventory.STATUS]}
                             </div>
                           </div>
-                        </WorkOrderInventoryStatus>
-                      </div>
-                    </li>
+                        </div>
+                      </li>
+                    </WorkOrderInventoryStatus>
                   ))}
                 </ul>
               )}

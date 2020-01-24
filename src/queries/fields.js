@@ -25,7 +25,7 @@ export const workOrderFields = {
   id: "id",
   assetIdFromDetails: "field_199",
   inventory: {
-    ITEM: "field_513",
+    INVENTORY_ITEM: "field_513",
     QUANTITY: "field_524",
     SOURCE: "field_3440",
     ISSUED_TO: "field_854",

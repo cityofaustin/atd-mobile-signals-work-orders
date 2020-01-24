@@ -341,6 +341,16 @@ const api = {
           }/records?filters=[{"field":"id", "operator":"is", "value": "${inventoryItemId}"}]`,
           getHeaders()
         ),
+      submitEditInventory: (inventoryItemId, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderEditInventoryItems.sceneId
+          }/views/${
+            keys.workOrderEditInventoryItems.viewId
+          }/records/${inventoryItemId}`,
+          data,
+          getHeaders()
+        ),
       getImages: id =>
         axios.get(
           `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${

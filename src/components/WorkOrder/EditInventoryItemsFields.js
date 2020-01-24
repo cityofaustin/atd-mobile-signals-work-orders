@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Select from "react-select";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import { FIELDS } from "./formConfig";
 import api from "../../queries/api";
@@ -79,7 +81,7 @@ export default class EditInventoryItemsFields extends Component {
 
   render() {
     const existingFormData = this.state.existingFormData;
-    return (
+    return existingFormData ? (
       <>
         <div className="form-group">
           <label htmlFor={FIELDS.WORK_ORDER_INVENTORY_ITEMS}>
@@ -88,12 +90,9 @@ export default class EditInventoryItemsFields extends Component {
           <Select
             className="basic-single"
             classNamePrefix="select"
-            value={
-              !!existingFormData &&
-              convertKnackResponseObjectToSelectFormOption(
-                existingFormData[FIELDS.WORK_ORDER_EDIT_INVENTORY_ITEM][0]
-              )
-            }
+            defaultValue={convertKnackResponseObjectToSelectFormOption(
+              existingFormData[FIELDS.WORK_ORDER_EDIT_INVENTORY_ITEM][0]
+            )}
             isClearable
             isSearchable
             name={FIELDS.WORK_ORDER_INVENTORY_ITEMS}
@@ -112,10 +111,7 @@ export default class EditInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_ITEM_QUANTITY}
             name={FIELDS.WORK_ORDER_ITEM_QUANTITY}
             type="number"
-            value={
-              !!existingFormData &&
-              existingFormData[FIELDS.WORK_ORDER_ITEM_QUANTITY]
-            }
+            defaultValue={existingFormData[FIELDS.WORK_ORDER_ITEM_QUANTITY]}
             onChange={this.handleQuantityChange}
             required // Prevent blank item from adding to DB since Knack does not require these fields
           />
@@ -125,15 +121,11 @@ export default class EditInventoryItemsFields extends Component {
           <Select
             className="basic-single"
             classNamePrefix="select"
-            defaultValue={""}
             id={FIELDS.WORK_ORDER_ITEM_SOURCE}
             name={FIELDS.WORK_ORDER_ITEM_SOURCE}
-            value={
-              !!existingFormData &&
-              convertKnackResponseStringToSelectFormOption(
-                existingFormData[FIELDS.WORK_ORDER_ITEM_SOURCE]
-              )
-            }
+            defaultValue={convertKnackResponseStringToSelectFormOption(
+              existingFormData[FIELDS.WORK_ORDER_ITEM_SOURCE]
+            )}
             options={getWorkTypeScheduledWorkOptions([
               "Warehouse Inventory",
               "Working Stock",
@@ -151,14 +143,13 @@ export default class EditInventoryItemsFields extends Component {
             id={FIELDS.WORK_ORDER_ITEM_COMMENT}
             name={FIELDS.WORK_ORDER_ITEM_COMMENT}
             rows="2"
-            value={
-              existingFormData &&
-              existingFormData[FIELDS.WORK_ORDER_ITEM_COMMENT]
-            }
+            defaultValue={existingFormData[FIELDS.WORK_ORDER_ITEM_COMMENT]}
             onChange={this.handleCommentChange}
           />
         </div>
       </>
+    ) : (
+      <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
     );
   }
 }

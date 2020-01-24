@@ -50,9 +50,19 @@ class InventoryItems extends Component {
     };
     console.log(formData);
     this.setState({ isSubmitting: true });
-    api
-      .workOrder()
-      .submitInventoryItem(formData)
+
+    const inventoryItemId = this.props.match.params.inventoryItemId;
+    // Define submit options
+    const postRecord = () => api.workOrder().submitInventoryItem(formData);
+    const putRecord = () =>
+      api.workOrder().submitEditInventory(inventoryItemId, formData);
+
+    // Define whether to POST new record or PUT record edit
+    const inventorySubmitRequest = this.state.isEditable
+      ? putRecord
+      : postRecord;
+
+    inventorySubmitRequest()
       .then(res => {
         console.log(res);
         this.setState({ isSubmitting: false, isSubmitted: true });

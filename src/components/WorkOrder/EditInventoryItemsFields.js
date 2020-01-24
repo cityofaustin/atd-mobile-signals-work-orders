@@ -18,6 +18,7 @@ export default class EditInventoryItemsFields extends Component {
   componentDidMount() {
     this._isMounted = true;
     this.getItemOptions();
+    console.log(this.props);
   }
 
   componentWillUnmount() {
@@ -29,7 +30,6 @@ export default class EditInventoryItemsFields extends Component {
       .workOrder()
       .getInventoryItems()
       .then(res => {
-        console.log(res);
         const itemOptions = res.data.records.map(item => {
           return { label: item.identifier, value: item.id };
         });
@@ -62,6 +62,7 @@ export default class EditInventoryItemsFields extends Component {
   };
 
   render() {
+    const defaultValues = this.props.existingFormValues;
     return (
       <>
         <div className="form-group">

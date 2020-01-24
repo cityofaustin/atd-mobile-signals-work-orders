@@ -9,9 +9,15 @@ const Button = ({
   linkPath = "/",
   size = "btn-lg",
   color = "secondary",
+  linkProps = "", // Pass existing data to linked components avoid additional API calls
 }) => (
   <div className={modifierClasses}>
-    <Link to={linkPath}>
+    <Link
+      to={{
+        pathname: linkPath,
+        linkProps: linkProps,
+      }}
+    >
       <div className={`btn btn-${color} ${size}`}>
         <FontAwesomeIcon icon={icon} /> {text}
       </div>

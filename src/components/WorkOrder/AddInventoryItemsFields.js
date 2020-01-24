@@ -29,7 +29,6 @@ export default class AddInventoryItemsFields extends Component {
       .workOrder()
       .getInventoryItems()
       .then(res => {
-        console.log(res);
         const itemOptions = res.data.records.map(item => {
           return { label: item.identifier, value: item.id };
         });

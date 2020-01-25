@@ -14,7 +14,6 @@ import {
   faMapMarkedAlt,
   faRedo,
   faTimesCircle,
-  faAssistiveListeningSystems,
 } from "@fortawesome/free-solid-svg-icons";
 
 import PageTitle from "./Shared/PageTitle";
@@ -339,9 +338,14 @@ class WorkOrderDetail extends Component {
                           />
                         </div>
                         <div className="col pt-2">
-                          <div className={`btn btn-danger btn-lg`}>
-                            <FontAwesomeIcon icon={faTimesCircle} /> Cancel
-                          </div>
+                          {/* Only show cancel button if status is not "Issued" and cancelled is false */}
+                          {inventory[workOrderFields.inventory.STATUS] !==
+                            "Issued" &&
+                            !inventory[workOrderFields.inventory.CANCELLED] && (
+                              <div className={`btn btn-danger btn-lg`}>
+                                <FontAwesomeIcon icon={faTimesCircle} /> Cancel
+                              </div>
+                            )}
                         </div>
                         <div className="col-12">
                           {/* Add classname to highlight item attributes by status */}

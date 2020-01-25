@@ -199,6 +199,17 @@ class WorkOrderDetail extends Component {
     return !!statusClassname ? statusClassname : "";
   };
 
+  handleConfirmCancelItemClick = (e, inventoryItemId) => {
+    // Cancel item then remove selected item from state to show item details again
+    const data = { id: inventoryItemId };
+    api
+      .workOrder()
+      .cancelInventoryItem(inventoryItemId, data)
+      .then(() => {
+        this.setState({ itemSelectedforCancel: "" });
+      });
+  };
+
   render() {
     const statusField = this.state.detailsData.field_459;
     const workOrderId = this.props.match.params.workOrderId;
@@ -312,6 +323,7 @@ class WorkOrderDetail extends Component {
                 <ul className="list-group list-group-flush">
                   {this.state.inventoryData.map(
                     (inventory, i) =>
+                      // If an item is selected to cancel, show yes/no confirmation. If not, show item details
                       this.state.itemSelectedforCancel !== i ? (
                         <WorkOrderInventoryStatus key={i}>
                           <li
@@ -418,7 +430,15 @@ class WorkOrderDetail extends Component {
                             request?
                           </div>
                           <div className="col-6">
-                            <div className={`btn btn-success btn-lg`}>
+                            <div
+                              className={`btn btn-success btn-lg`}
+                              onClick={e =>
+                                this.handleConfirmCancelItemClick(
+                                  e,
+                                  inventory.id
+                                )
+                              }
+                            >
                               <FontAwesomeIcon icon={faCheck} /> Yes
                             </div>
                           </div>

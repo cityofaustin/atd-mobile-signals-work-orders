@@ -89,6 +89,10 @@ const keys = {
     sceneId: "scene_1068",
     viewId: "view_2669",
   },
+  workOrderCancelInventoryItem: {
+    sceneId: "scene_1069",
+    viewId: "view_2670",
+  },
   assets: {
     details: { sceneId: "scene_446", viewId: "view_1261" },
     workOrders: { sceneId: "scene_446", viewId: "view_1550" },
@@ -347,6 +351,16 @@ const api = {
             keys.workOrderEditInventoryItems.sceneId
           }/views/${
             keys.workOrderEditInventoryItems.viewId
+          }/records/${inventoryItemId}`,
+          data,
+          getHeaders()
+        ),
+      cancelInventoryItem: (inventoryItemId, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderCancelInventoryItem.sceneId
+          }/views/${
+            keys.workOrderCancelInventoryItem.viewId
           }/records/${inventoryItemId}`,
           data,
           getHeaders()

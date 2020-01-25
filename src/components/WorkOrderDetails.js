@@ -49,6 +49,7 @@ class WorkOrderDetail extends Component {
       imagesData: false,
       userInfo: "",
       isSubmitting: false,
+      itemSelectedforCancel: "",
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -308,81 +309,120 @@ class WorkOrderDetail extends Component {
               {this.state.inventoryData.length === 0 && <p>No data</p>}
               {this.state.inventoryData.length > 0 && (
                 <ul className="list-group list-group-flush">
-                  {this.state.inventoryData.map((inventory, i) => (
-                    <WorkOrderInventoryStatus key={i}>
-                      <li
-                        // Add classname to highlight item name by status
-                        className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
-                          inventory[workOrderFields.inventory.STATUS]
-                        )}`}
-                        key={i}
-                      >
-                        <div className="col-6">
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html:
-                                inventory[
-                                  workOrderFields.inventory.INVENTORY_ITEM
-                                ],
-                            }}
-                          />
-                        </div>
-                        <div className="col pt-2">
-                          <Button
-                            icon={faEdit}
-                            text={"Edit"}
-                            linkPath={`/work-order/${workOrderId}/edit-inventory-item/${
-                              inventory.id
-                            }`}
-                            color={"primary"}
-                          />
-                        </div>
-                        <div className="col pt-2">
-                          {/* Only show cancel button if status is not "Issued" and cancelled is false */}
-                          {inventory[workOrderFields.inventory.STATUS] !==
-                            "Issued" &&
-                            !inventory[workOrderFields.inventory.CANCELLED] && (
-                              <div className={`btn btn-danger btn-lg`}>
-                                <FontAwesomeIcon icon={faTimesCircle} /> Cancel
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-12">
-                          {/* Add classname to highlight item attributes by status */}
-                          <div
-                            className={`row ${this.addWorkOrderStatusClass(
+                  {this.state.inventoryData.map(
+                    (inventory, i) =>
+                      this.state.itemSelectedforCancel !== i ? (
+                        <WorkOrderInventoryStatus key={i}>
+                          <li
+                            // Add classname to highlight item name by status
+                            className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
                               inventory[workOrderFields.inventory.STATUS]
                             )}`}
+                            key={i}
                           >
-                            <div className="col-2">
-                              <span>Quantity: </span>
-                              {inventory[workOrderFields.inventory.QUANTITY]}
+                            <div className="col-6">
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    inventory[
+                                      workOrderFields.inventory.INVENTORY_ITEM
+                                    ],
+                                }}
+                              />
                             </div>
-                            <div className="col-2">
-                              <span>Source: </span>
-                              {inventory[workOrderFields.inventory.SOURCE]}
+                            <div className="col pt-2">
+                              <Button
+                                icon={faEdit}
+                                text={"Edit"}
+                                linkPath={`/work-order/${workOrderId}/edit-inventory-item/${
+                                  inventory.id
+                                }`}
+                                color={"primary"}
+                              />
                             </div>
-                            <div className="col-2">
-                              <span>Issued to: </span>
-                              {inventory[workOrderFields.inventory.ISSUED_TO]}
+                            <div className="col pt-2">
+                              {/* Only show cancel button if status is not "Issued" and cancelled is false */}
+                              {inventory[workOrderFields.inventory.STATUS] !==
+                                "Issued" &&
+                                !inventory[
+                                  workOrderFields.inventory.CANCELLED
+                                ] && (
+                                  <div className={`btn btn-danger btn-lg`}>
+                                    <FontAwesomeIcon icon={faTimesCircle} />{" "}
+                                    Cancel
+                                  </div>
+                                )}
                             </div>
-                            <div className="col-2">
-                              <span>Comment: </span>
-                              {inventory[workOrderFields.inventory.COMMENT]}
+                            <div className="col-12">
+                              {/* Add classname to highlight item attributes by status */}
+                              <div
+                                className={`row ${this.addWorkOrderStatusClass(
+                                  inventory[workOrderFields.inventory.STATUS]
+                                )}`}
+                              >
+                                <div className="col-2">
+                                  <span>Quantity: </span>
+                                  {
+                                    inventory[
+                                      workOrderFields.inventory.QUANTITY
+                                    ]
+                                  }
+                                </div>
+                                <div className="col-2">
+                                  <span>Source: </span>
+                                  {inventory[workOrderFields.inventory.SOURCE]}
+                                </div>
+                                <div className="col-2">
+                                  <span>Issued to: </span>
+                                  {
+                                    inventory[
+                                      workOrderFields.inventory.ISSUED_TO
+                                    ]
+                                  }
+                                </div>
+                                <div className="col-2">
+                                  <span>Comment: </span>
+                                  {inventory[workOrderFields.inventory.COMMENT]}
+                                </div>
+                                <div className="col-2">
+                                  <span>Modified: </span>
+                                  {
+                                    inventory[
+                                      workOrderFields.inventory.MODIFIED
+                                    ]
+                                  }
+                                </div>
+                                <div className="col-2">
+                                  <span>Status: </span>
+                                  {inventory[workOrderFields.inventory.STATUS]}
+                                </div>
+                              </div>
                             </div>
-                            <div className="col-2">
-                              <span>Modified: </span>
-                              {inventory[workOrderFields.inventory.MODIFIED]}
+                          </li>
+                        </WorkOrderInventoryStatus>
+                      ) : (
+                        <li
+                          // Add classname to highlight item name by status
+                          className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
+                            inventory[workOrderFields.inventory.STATUS]
+                          )}`}
+                          key={i}
+                        >
+                          <div className="col-12">
+                            Are you sure you want to cancel this inventory
+                            request?
+                          </div>
+                          <div className="col-12">
+                            <div className={`btn btn-success btn-lg`}>
+                              <FontAwesomeIcon icon={faTimesCircle} /> Yes
                             </div>
-                            <div className="col-2">
-                              <span>Status: </span>
-                              {inventory[workOrderFields.inventory.STATUS]}
+                            <div className={`btn btn-danger btn-lg`}>
+                              <FontAwesomeIcon icon={faTimesCircle} /> No
                             </div>
                           </div>
-                        </div>
-                      </li>
-                    </WorkOrderInventoryStatus>
-                  ))}
+                        </li>
+                      )
+                  )}
                 </ul>
               )}
               {!this.state.inventoryData && (

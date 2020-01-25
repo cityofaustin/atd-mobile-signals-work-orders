@@ -14,6 +14,7 @@ import {
   faMapMarkedAlt,
   faRedo,
   faTimesCircle,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import PageTitle from "./Shared/PageTitle";
@@ -347,7 +348,14 @@ class WorkOrderDetail extends Component {
                                 !inventory[
                                   workOrderFields.inventory.CANCELLED
                                 ] && (
-                                  <div className={`btn btn-danger btn-lg`}>
+                                  <div
+                                    className={`btn btn-danger btn-lg`}
+                                    onClick={() =>
+                                      this.setState({
+                                        itemSelectedforCancel: i,
+                                      })
+                                    }
+                                  >
                                     <FontAwesomeIcon icon={faTimesCircle} />{" "}
                                     Cancel
                                   </div>
@@ -402,21 +410,25 @@ class WorkOrderDetail extends Component {
                         </WorkOrderInventoryStatus>
                       ) : (
                         <li
-                          // Add classname to highlight item name by status
-                          className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
-                            inventory[workOrderFields.inventory.STATUS]
-                          )}`}
+                          className={`list-group-item d-flex row text-center`}
                           key={i}
                         >
-                          <div className="col-12">
+                          <div className="col-12 pb-4 lead">
                             Are you sure you want to cancel this inventory
                             request?
                           </div>
-                          <div className="col-12">
+                          <div className="col-6">
                             <div className={`btn btn-success btn-lg`}>
-                              <FontAwesomeIcon icon={faTimesCircle} /> Yes
+                              <FontAwesomeIcon icon={faCheck} /> Yes
                             </div>
-                            <div className={`btn btn-danger btn-lg`}>
+                          </div>
+                          <div className="col-6">
+                            <div
+                              className={`btn btn-danger btn-lg`}
+                              onClick={() =>
+                                this.setState({ itemSelectedforCancel: "" })
+                              }
+                            >
                               <FontAwesomeIcon icon={faTimesCircle} /> No
                             </div>
                           </div>

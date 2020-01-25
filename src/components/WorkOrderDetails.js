@@ -13,6 +13,8 @@ import {
   faFlagCheckered,
   faMapMarkedAlt,
   faRedo,
+  faTimesCircle,
+  faAssistiveListeningSystems,
 } from "@fortawesome/free-solid-svg-icons";
 
 import PageTitle from "./Shared/PageTitle";
@@ -316,7 +318,7 @@ class WorkOrderDetail extends Component {
                         )}`}
                         key={i}
                       >
-                        <div className="col">
+                        <div className="col-6">
                           <div
                             dangerouslySetInnerHTML={{
                               __html:
@@ -335,6 +337,11 @@ class WorkOrderDetail extends Component {
                             }`}
                             color={"primary"}
                           />
+                        </div>
+                        <div className="col pt-2">
+                          <div className={`btn btn-danger btn-lg`}>
+                            <FontAwesomeIcon icon={faTimesCircle} /> Cancel
+                          </div>
                         </div>
                         <div className="col-12">
                           {/* Add classname to highlight item attributes by status */}

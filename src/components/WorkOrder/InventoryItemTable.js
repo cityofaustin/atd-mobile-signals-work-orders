@@ -52,7 +52,7 @@ class InventoryItemTable extends Component {
   };
 
   render() {
-    const { inventoryData, workOrderId } = this.props;
+    const { inventoryData } = this.props;
     return (
       <>
         <div

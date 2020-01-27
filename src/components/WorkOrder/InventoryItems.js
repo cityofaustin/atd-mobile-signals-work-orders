@@ -39,6 +39,10 @@ class InventoryItems extends Component {
     this.setState({ formData });
   };
 
+  handleFormCancel = () => {
+    this.props.restoreInventoryTable();
+  };
+
   renderInventoryFormVerb = () => (this.state.isEditable ? "Edit" : "Add");
 
   submitForm = e => {
@@ -103,6 +107,7 @@ class InventoryItems extends Component {
             <AddInventoryItemsFields
               handleInventoryItemChange={this.handleInventoryItemChange}
               handleItemPropertyChange={this.handleItemPropertyChange}
+              handleFormCancel={this.handleFormCancel}
             />
           )}
           {this.state.isEditable && (
@@ -110,12 +115,32 @@ class InventoryItems extends Component {
               handleInventoryItemChange={this.handleInventoryItemChange}
               handleItemPropertyChange={this.handleItemPropertyChange}
               inventoryItemId={this.props.itemSelectedforEdit}
+              handleFormCancel={this.handleFormCancel}
             />
           )}
-          <SubmitButton
-            text={`${this.renderInventoryFormVerb()} Item`}
-            isSubmitting={this.state.isSubmitting}
-          />
+          <div className="row">
+            <div
+              className="col-6
+            "
+            >
+              <SubmitButton
+                text={`${this.renderInventoryFormVerb()} Item`}
+                buttonStyles={`btn-block`}
+                isSubmitting={this.state.isSubmitting}
+              />
+            </div>
+            <div
+              className="col-6
+            "
+            >
+              <div
+                className={`btn btn-danger btn-lg btn-block`}
+                onClick={this.handleFormCancel}
+              >
+                Cancel
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     );

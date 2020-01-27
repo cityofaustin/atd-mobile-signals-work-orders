@@ -9,7 +9,7 @@ export default class SubmitButton extends Component {
         type="submit"
         className={
           this.props.style ||
-          `btn btn-primary btn-lg ${
+          `btn btn-primary btn-lg ${this.props.buttonStyles} ${
             this.props.isFormDisabled ? "disabled" : ""
           }`
         }

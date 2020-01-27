@@ -50,6 +50,8 @@ class WorkOrderDetail extends Component {
       userInfo: "",
       isSubmitting: false,
       atdWorkOrderId: "",
+      isAddingInventoryItem: false,
+      isEditingInventoryItem: false,
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -197,6 +199,7 @@ class WorkOrderDetail extends Component {
   render() {
     const statusField = this.state.detailsData.field_459;
     const workOrderId = this.props.match.params.workOrderId;
+    const { isAddingInventoryItem, isEditingInventoryItem } = this.state;
     return (
       <div>
         <StyledPageTitle>
@@ -297,12 +300,15 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <InventoryItemTable
-                inventoryData={this.state.inventoryData}
-                atdWorkOrderId={this.state.atdWorkOrderId}
-                workOrderId={workOrderId}
-                requestInventory={this.requestInventory}
-              />
+              {!isAddingInventoryItem &&
+                !isEditingInventoryItem && (
+                  <InventoryItemTable
+                    inventoryData={this.state.inventoryData}
+                    atdWorkOrderId={this.state.atdWorkOrderId}
+                    workOrderId={workOrderId}
+                    requestInventory={this.requestInventory}
+                  />
+                )}
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

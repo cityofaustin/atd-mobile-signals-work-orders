@@ -175,6 +175,8 @@ class WorkOrderDetail extends Component {
       });
   };
 
+  handleAddInventoryItem = () => this.setState({ isAddingInventoryItem: true });
+
   handleEditInventoryItem = inventoryItemId => {
     this.setState({
       itemSelectedforEdit: inventoryItemId,
@@ -182,12 +184,13 @@ class WorkOrderDetail extends Component {
     });
   };
 
-  completeInventoryItemEdit = () => {
-    // Clear item selected, turn off isEditingInventoryItem to show inventory table, and then refetch inventory
+  restoreInventoryTable = () => {
+    // Clear item selected, turn off adding and editing, then refetch inventory
     this.setState(
       {
         itemSelectedforEdit: "",
         isEditingInventoryItem: false,
+        isAddingInventoryItem: false,
       },
       () => {
         this.requestInventory(this.state.atdWorkOrderId);
@@ -326,6 +329,7 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
+              {/* If editing or adding item, render InventoryItems component with child forms for either case */}
               {!isAddingInventoryItem &&
                 !isEditingInventoryItem && (
                   <InventoryItemTable
@@ -333,18 +337,18 @@ class WorkOrderDetail extends Component {
                     atdWorkOrderId={this.state.atdWorkOrderId}
                     workOrderId={workOrderId}
                     requestInventory={this.requestInventory}
+                    handleAddInventoryItem={this.handleAddInventoryItem}
                     handleEditInventoryItem={this.handleEditInventoryItem}
                   />
                 )}
-              {isAddingInventoryItem ||
-                (isEditingInventoryItem && (
-                  <InventoryItems
-                    isEditing={isEditingInventoryItem}
-                    itemSelectedforEdit={itemSelectedforEdit}
-                    completeInventoryItemEdit={this.completeInventoryItemEdit}
-                    workOrderId={workOrderId}
-                  />
-                ))}
+              {(isAddingInventoryItem || isEditingInventoryItem) && (
+                <InventoryItems
+                  isEditing={isEditingInventoryItem}
+                  itemSelectedforEdit={itemSelectedforEdit}
+                  restoreInventoryTable={this.restoreInventoryTable}
+                  workOrderId={workOrderId}
+                />
+              )}
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

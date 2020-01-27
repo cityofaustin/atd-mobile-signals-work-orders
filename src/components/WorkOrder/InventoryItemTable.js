@@ -41,6 +41,11 @@ class InventoryItemTable extends Component {
       });
   };
 
+  handleAddInventoryItemClick = e => {
+    // Switch isAddingInventoryItem to show add form
+    this.props.handleAddInventoryItem();
+  };
+
   handleEditInventoryItemClick = (e, itemId) => {
     // Set itemId of edit and switch isEditingInventoryItem to show edit form
     this.props.handleEditInventoryItem(itemId);
@@ -50,11 +55,12 @@ class InventoryItemTable extends Component {
     const { inventoryData, workOrderId } = this.props;
     return (
       <>
-        <Button
-          icon={faWrench}
-          text={"New Item"}
-          linkPath={`/work-order/inventory-items/${workOrderId}`}
-        />
+        <div
+          className={`btn btn-success btn-lg`}
+          onClick={this.handleAddInventoryItemClick}
+        >
+          <FontAwesomeIcon icon={faWrench} /> Add Item
+        </div>
         {inventoryData.length === 0 && <p>No data</p>}
         {inventoryData.length > 0 && (
           <ul className="list-group list-group-flush">

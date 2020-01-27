@@ -207,11 +207,6 @@ class App extends Component {
                 knackObject={this.state.knackObject}
               />
               <Route
-                path="/work-order/:workOrderId/edit-inventory-item/:inventoryItemId"
-                component={InventoryItems}
-                knackObject={this.state.knackObject}
-              />
-              <Route
                 path="/work-order/add-image/:workOrderId"
                 component={AddImage}
                 knackObject={this.state.knackObject}

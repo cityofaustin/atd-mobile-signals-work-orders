@@ -182,6 +182,14 @@ class WorkOrderDetail extends Component {
     });
   };
 
+  completeInventoryItemEdit = () => {
+    debugger;
+    this.setState({
+      itemSelectedforEdit: "",
+      isEditingInventoryItem: false,
+    });
+  };
+
   isWorkOrderAssignedToUserLoggedIn = () => {
     const userId = this.state.userInfo.id;
     const usersArray = this.state.detailsData.field_1754_raw;
@@ -328,6 +336,8 @@ class WorkOrderDetail extends Component {
                   <InventoryItems
                     isEditing={isEditingInventoryItem}
                     itemSelectedforEdit={itemSelectedforEdit}
+                    completeInventoryItemEdit={this.completeInventoryItemEdit}
+                    workOrderId={workOrderId}
                   />
                 ))}
             </AccordionItemBody>

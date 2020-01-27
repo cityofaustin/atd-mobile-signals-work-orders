@@ -45,12 +45,12 @@ class InventoryItems extends Component {
     e.preventDefault();
     const formData = {
       ...this.state.formData,
-      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: this.props.match.params.workOrderId,
+      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: this.props.workOrderId,
     };
     console.log(formData);
     this.setState({ isSubmitting: true });
 
-    const inventoryItemId = this.props.match.params.inventoryItemId;
+    const inventoryItemId = this.props.itemSelectedforEdit;
     // Define submit options
     const postRecord = () => api.workOrder().submitInventoryItem(formData);
     const putRecord = () =>
@@ -63,10 +63,14 @@ class InventoryItems extends Component {
 
     inventorySubmitRequest()
       .then(res => {
+        // If editing, clear itemSelectedforEdit and switch isEditingInventoryItem to restore table view
+        this.state.isEditable && this.props.completeInventoryItemEdit();
+
         this.setState({ isSubmitting: false, isSubmitted: true });
       })
       .catch(error => {
         console.log(error.response.data.errors);
+
         this.setState({
           errors: error.response.data.errors,
           isSubmitting: false,

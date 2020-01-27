@@ -183,11 +183,16 @@ class WorkOrderDetail extends Component {
   };
 
   completeInventoryItemEdit = () => {
-    debugger;
-    this.setState({
-      itemSelectedforEdit: "",
-      isEditingInventoryItem: false,
-    });
+    // Clear item selected, turn off isEditingInventoryItem to show inventory table, and then refetch inventory
+    this.setState(
+      {
+        itemSelectedforEdit: "",
+        isEditingInventoryItem: false,
+      },
+      () => {
+        this.requestInventory(this.state.atdWorkOrderId);
+      }
+    );
   };
 
   isWorkOrderAssignedToUserLoggedIn = () => {

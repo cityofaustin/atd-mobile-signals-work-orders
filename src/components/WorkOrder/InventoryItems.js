@@ -63,7 +63,7 @@ class InventoryItems extends Component {
 
     inventorySubmitRequest()
       .then(res => {
-        // If editing, clear itemSelectedforEdit and switch isEditingInventoryItem to restore table view
+        // If editing, clear itemSelectedforEdit, switch isEditingInventoryItem to restore table view, and refetch inventory
         this.state.isEditable && this.props.completeInventoryItemEdit();
 
         this.setState({ isSubmitting: false, isSubmitted: true });

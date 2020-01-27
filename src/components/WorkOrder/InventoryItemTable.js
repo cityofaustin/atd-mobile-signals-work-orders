@@ -42,7 +42,7 @@ class InventoryItemTable extends Component {
   };
 
   handleEditInventoryItemClick = (e, itemId) => {
-    // Fire callback fn from WorkOrderDetails to set itemId edit
+    // Set itemId of edit and switch isEditingInventoryItem to show edit form
     this.props.handleEditInventoryItem(itemId);
   };
 

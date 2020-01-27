@@ -56,7 +56,7 @@ class InventoryItemTable extends Component {
     return (
       <>
         <div
-          className={`btn btn-success btn-lg`}
+          className={`btn btn-success btn-lg mb-3`}
           onClick={this.handleAddInventoryItemClick}
         >
           <FontAwesomeIcon icon={faWrench} /> Add Item
@@ -164,9 +164,9 @@ class InventoryItemTable extends Component {
                       />
                     ) : (
                       <>
-                        <div className="col-6">
+                        <div className="col-6 ">
                           <div
-                            className={`btn btn-success btn-lg`}
+                            className={`btn btn-success btn-lg btn-block`}
                             onClick={e =>
                               this.handleConfirmCancelItemClick(e, inventory.id)
                             }
@@ -174,9 +174,9 @@ class InventoryItemTable extends Component {
                             <FontAwesomeIcon icon={faCheck} /> Yes
                           </div>
                         </div>
-                        <div className="col-6">
+                        <div className="col-6 ">
                           <div
-                            className={`btn btn-danger btn-lg`}
+                            className={`btn btn-danger btn-lg btn-block`}
                             onClick={() =>
                               this.setState({ itemSelectedforCancel: "" })
                             }

@@ -69,12 +69,10 @@ class InventoryItems extends Component {
       .then(res => {
         // Clear itemSelectedforEdit, switch view state in parent to restore table view, and refetch inventory
         this.props.restoreInventoryTable();
-
         this.setState({ isSubmitting: false, isSubmitted: true });
       })
       .catch(error => {
         console.log(error.response.data.errors);
-
         this.setState({
           errors: error.response.data.errors,
           isSubmitting: false,
@@ -119,20 +117,14 @@ class InventoryItems extends Component {
             />
           )}
           <div className="row">
-            <div
-              className="col-6
-            "
-            >
+            <div className="col-6">
               <SubmitButton
                 text={`${this.renderInventoryFormVerb()} Item`}
                 buttonStyles={`btn-block`}
                 isSubmitting={this.state.isSubmitting}
               />
             </div>
-            <div
-              className="col-6
-            "
-            >
+            <div className="col-6">
               <div
                 className={`btn btn-danger btn-lg btn-block`}
                 onClick={this.handleFormCancel}

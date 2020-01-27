@@ -164,7 +164,7 @@ class InventoryItemTable extends Component {
                       />
                     ) : (
                       <>
-                        <div className="col-6 ">
+                        <div className="col-6">
                           <div
                             className={`btn btn-success btn-lg btn-block`}
                             onClick={e =>
@@ -174,7 +174,7 @@ class InventoryItemTable extends Component {
                             <FontAwesomeIcon icon={faCheck} /> Yes
                           </div>
                         </div>
-                        <div className="col-6 ">
+                        <div className="col-6">
                           <div
                             className={`btn btn-danger btn-lg btn-block`}
                             onClick={() =>

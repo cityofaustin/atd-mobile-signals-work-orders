@@ -41,6 +41,11 @@ class InventoryItemTable extends Component {
       });
   };
 
+  handleEditInventoryItemClick = (e, itemId) => {
+    // Fire callback fn from WorkOrderDetails to set itemId edit
+    this.props.handleEditInventoryItem(itemId);
+  };
+
   render() {
     const { inventoryData, workOrderId } = this.props;
     return (
@@ -76,14 +81,14 @@ class InventoryItemTable extends Component {
                         />
                       </div>
                       <div className="col pt-2">
-                        <Button
-                          icon={faEdit}
-                          text={"Edit"}
-                          linkPath={`/work-order/${workOrderId}/edit-inventory-item/${
-                            inventory.id
-                          }`}
-                          color={"primary"}
-                        />
+                        <div
+                          className={`btn btn-primary btn-lg`}
+                          onClick={e =>
+                            this.handleEditInventoryItemClick(e, inventory.id)
+                          }
+                        >
+                          <FontAwesomeIcon icon={faEdit} /> Edit
+                        </div>
                       </div>
                       <div className="col pt-2">
                         {/* Only show cancel button if status is not "Issued" and cancelled is false */}

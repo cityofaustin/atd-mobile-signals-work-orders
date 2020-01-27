@@ -21,8 +21,7 @@ class InventoryItems extends Component {
   }
   componentDidMount() {
     // Render edit form if inventoryItemId exists
-    this.props.match.params.inventoryItemId &&
-      this.setState({ isEditable: true });
+    this.props.isEditing && this.setState({ isEditable: true });
   }
 
   handleInventoryItemChange = (fieldId, selected) => {
@@ -106,7 +105,7 @@ class InventoryItems extends Component {
             <EditInventoryItemsFields
               handleInventoryItemChange={this.handleInventoryItemChange}
               handleItemPropertyChange={this.handleItemPropertyChange}
-              inventoryItemId={this.props.match.params.inventoryItemId}
+              inventoryItemId={this.props.itemSelectedforEdit}
             />
           )}
           <SubmitButton

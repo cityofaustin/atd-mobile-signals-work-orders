@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { WorkOrderInventoryStatus } from "../../styles/WorkOrderInventoryStatus";
 import { workOrderFields } from "../../queries/fields";
 import api from "../../queries/api";
-import Button from "../Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faWrench,

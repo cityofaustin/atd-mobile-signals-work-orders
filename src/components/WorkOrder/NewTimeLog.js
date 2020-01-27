@@ -21,7 +21,7 @@ class NewTimeLog extends Component {
     super(props);
 
     this.workOrderId = this.props.match.params.workOrderId;
-    this.isEditable = this.props.isEditable;
+    this.isEditable = this.props.match.path.includes("edit");
 
     this.state = {
       technicianOptions: [],

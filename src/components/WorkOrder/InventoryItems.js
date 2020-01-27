@@ -20,7 +20,7 @@ class InventoryItems extends Component {
     };
   }
   componentDidMount() {
-    // Render edit form if inventoryItemId exists
+    // Render edit form if editing item
     this.props.isEditing && this.setState({ isEditable: true });
   }
 

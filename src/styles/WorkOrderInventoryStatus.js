@@ -2,7 +2,7 @@ import styled from "react-emotion";
 import { colors } from "../constants/colors";
 
 export const WorkOrderInventoryStatus = styled("div")`
-  .submitted > [class*="col-"] {
+  .submitted > [class*="col"] {
     background-color: ${colors.inventoryStatusSubmitted};
   }
 

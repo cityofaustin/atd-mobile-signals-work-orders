@@ -32,6 +32,7 @@ export const workOrderFields = {
     COMMENT: "field_3493",
     MODIFIED: "field_771",
     STATUS: "field_1416",
+    CANCELLED: "field_2481_raw", // Raw field returns boolean
   },
   images: {
     IMAGE: "field_1047",

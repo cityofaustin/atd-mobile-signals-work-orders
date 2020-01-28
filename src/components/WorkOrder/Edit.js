@@ -210,7 +210,7 @@ class Edit extends Component {
         </div>
 
         {this.state.isSubmitted && (
-          <SuccessMessage formType="Work Order" formVerb="update" />
+          <SuccessMessage formType="Work Order" formVerb="updated" />
         )}
         {this.state.errors &&
           this.state.errors.map(error => (

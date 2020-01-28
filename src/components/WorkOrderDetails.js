@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Form/Button";
+import InventoryItemTable from "./WorkOrder/InventoryItemTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -17,7 +18,7 @@ import {
 
 import PageTitle from "./Shared/PageTitle";
 import { StyledPageTitle } from "../styles/PageTitle.css";
-import { WorkOrderInventoryStatus } from "../styles/WorkOrderInventoryStatus";
+
 import {
   Accordion,
   AccordionItem,
@@ -48,6 +49,7 @@ class WorkOrderDetail extends Component {
       imagesData: false,
       userInfo: "",
       isSubmitting: false,
+      atdWorkOrderId: "",
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -87,6 +89,8 @@ class WorkOrderDetail extends Component {
 
       // Need to retrieve ATD Work Order ID from details in order to req associated inv. items
       const atdWorkOrderId = data.field_1209;
+      // Save atdWorkOrderId for refetching data after inventory updates
+      this.setState({ atdWorkOrderId });
       setTimeout(this.requestInventory, 1500, atdWorkOrderId);
     });
     api
@@ -190,12 +194,6 @@ class WorkOrderDetail extends Component {
       </div>
     );
 
-  addWorkOrderStatusClass = status => {
-    // Translate status to classname for CSS styling
-    const statusClassname = status.split(" ")[0].toLowerCase() || null;
-    return !!statusClassname ? statusClassname : "";
-  };
-
   render() {
     const statusField = this.state.detailsData.field_459;
     const workOrderId = this.props.match.params.workOrderId;
@@ -215,9 +213,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faEdit}
                 text={"Edit"}
-                linkPath={`/work-order/edit/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/edit/${workOrderId}`}
               />
             )}
           {this.state.timeLogData.length > 0 &&
@@ -226,9 +222,7 @@ class WorkOrderDetail extends Component {
             <Button
               icon={faFlagCheckered}
               text={"Submit"}
-              linkPath={`/work-order/submit/${
-                this.props.match.params.workOrderId
-              }`}
+              linkPath={`/work-order/submit/${workOrderId}`}
             />
           ) : (
             <div className="mr-2 mb-2">
@@ -273,9 +267,7 @@ class WorkOrderDetail extends Component {
               <Button
                 icon={faClock}
                 text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${
-                  this.props.match.params.workOrderId
-                }`}
+                linkPath={`/work-order/new-time-log/${workOrderId}`}
               />
               <TimeLog
                 data={this.state.timeLogData}
@@ -293,7 +285,7 @@ class WorkOrderDetail extends Component {
             <AccordionItemBody>
               <WorkSpecifications
                 data={this.state.detailsData}
-                workOrderId={this.props.match.params.workOrderId}
+                workOrderId={workOrderId}
               />
             </AccordionItemBody>
           </AccordionItem>
@@ -305,82 +297,12 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <Button
-                icon={faWrench}
-                text={"New Item"}
-                linkPath={`/work-order/inventory-items/${
-                  this.props.match.params.workOrderId
-                }`}
+              <InventoryItemTable
+                inventoryData={this.state.inventoryData}
+                atdWorkOrderId={this.state.atdWorkOrderId}
+                workOrderId={workOrderId}
+                requestInventory={this.requestInventory}
               />
-              {this.state.inventoryData.length === 0 && <p>No data</p>}
-              {this.state.inventoryData.length > 0 && (
-                <ul className="list-group list-group-flush">
-                  {this.state.inventoryData.map((inventory, i) => (
-                    <WorkOrderInventoryStatus>
-                      <li
-                        // Add classname to highlight item name by status
-                        className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
-                          inventory[workOrderFields.inventory.STATUS]
-                        )}`}
-                        key={i}
-                      >
-                        <div className="col-12">
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html:
-                                inventory[
-                                  workOrderFields.inventory.INVENTORY_ITEM
-                                ],
-                            }}
-                          />
-                        </div>
-                        <div className="col-12">
-                          {/* Add classname to highlight item attributes by status */}
-                          <div
-                            className={`row ${this.addWorkOrderStatusClass(
-                              inventory[workOrderFields.inventory.STATUS]
-                            )}`}
-                          >
-                            <div className="col-2">
-                              <span>Quantity: </span>
-                              {inventory[workOrderFields.inventory.QUANTITY]}
-                            </div>
-                            <div className="col-2">
-                              <span>Source: </span>
-                              {inventory[workOrderFields.inventory.SOURCE]}
-                            </div>
-                            <div className="col-2">
-                              <span>Issued to: </span>
-                              {inventory[workOrderFields.inventory.ISSUED_TO]}
-                            </div>
-                            <div className="col-2">
-                              <span>Comment: </span>
-                              {inventory[workOrderFields.inventory.COMMENT]}
-                            </div>
-                            <div className="col-2">
-                              <span>Modified: </span>
-                              {inventory[workOrderFields.inventory.MODIFIED]}
-                            </div>
-                            <div className="col-2">
-                              <span>Status: </span>
-                              {inventory[workOrderFields.inventory.STATUS]}
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    </WorkOrderInventoryStatus>
-                  ))}
-                </ul>
-              )}
-              {!this.state.inventoryData && (
-                <div>
-                  <FontAwesomeIcon
-                    icon={faSpinner}
-                    size="2x"
-                    className="atd-spinner"
-                  />
-                </div>
-              )}
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>
@@ -395,9 +317,7 @@ class WorkOrderDetail extends Component {
                 <Button
                   icon={faCamera}
                   text={"Take Picture"}
-                  linkPath={`/work-order/add-image/${
-                    this.props.match.params.workOrderId
-                  }`}
+                  linkPath={`/work-order/add-image/${workOrderId}`}
                 />
                 <UploadImage
                   id={workOrderId}

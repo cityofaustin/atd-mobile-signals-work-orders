@@ -234,7 +234,7 @@ export default class WorkSpecifications extends Component {
             {this.state.isSubmitted && (
               <SuccessMessage
                 formType="Work Specifications"
-                formVerb="update"
+                formVerb="updated"
               />
             )}
             {this.state.errors &&

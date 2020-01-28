@@ -6,10 +6,10 @@ export const ErrorMessage = ({ error }) => (
   </div>
 );
 
-export const SuccessMessage = ({ formVerb = "update", formType = "Data" }) => (
+export const SuccessMessage = ({ formVerb = "updated", formType = "Data" }) => (
   <div className="alert alert-success" role="alert">
     <span>
-      {formType} successfully {`${formVerb}d`}!
+      {formType} successfully {`${formVerb}`}!
     </span>
   </div>
 );

@@ -5,7 +5,6 @@ export const workOrderFields = {
     modified: "field_1074",
     status: "field_459",
     location: "field_904",
-    locationAll: "field_211_raw",
     leadTechnicianRaw: "field_1754_raw",
   },
   details: [
@@ -22,14 +21,18 @@ export const workOrderFields = {
     { "Technicians Logged": "field_1753" },
     { "Vehicles Logged": "field_1427" },
   ],
-  header: "field_211_raw",
+  header: "field_904",
   id: "id",
   assetIdFromDetails: "field_199",
   inventory: {
     INVENTORY_ITEM: "field_513",
-    STATUS: "field_1416",
     QUANTITY: "field_524",
-    CONDITION: "field_1071",
+    SOURCE: "field_3440",
+    ISSUED_TO: "field_854",
+    COMMENT: "field_3493",
+    MODIFIED: "field_771",
+    STATUS: "field_1416",
+    CANCELLED: "field_2481_raw", // Raw field returns boolean
   },
   images: {
     IMAGE: "field_1047",

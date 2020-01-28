@@ -35,11 +35,12 @@ export const FIELDS = {
   SUPPORT_TECHNICIANS: "field_909",
   SCHEDULE_IMMEDIATELY: "field_1006",
   SCHEDULED_DATE: "field_460",
-  LOCATION_NAME_RAW: "field_211_raw",
   WORK_DESCRIPTION: "field_463",
-  WORK_ORDER_ITEM_CONDITION: "field_1071",
   WORK_ORDER_ITEM_QUANTITY: "field_524",
   WORK_ORDER_INVENTORY_ITEMS: "field_513",
+  WORK_ORDER_EDIT_INVENTORY_ITEM: "field_513_raw", // Retrieve existing value for edit inv form
+  WORK_ORDER_ITEM_SOURCE: "field_3440",
+  WORK_ORDER_ITEM_COMMENT: "field_3493",
   WORK_ORDER_ID_FOR_INVENTORY: "field_514", // POST req requires this field to contain the work order ID
   WORK_TYPE: "field_1004",
   WORK_TYPE_TROUBLE_CALL: "field_976",

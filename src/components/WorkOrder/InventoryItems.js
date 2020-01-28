@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AddInventoryItemsFields from "./AddInventoryItemsFields";
+import EditInventoryItemsFields from "./EditInventoryItemsFields";
 import Header from "../Shared/Header";
 import SubmitButton from "../Form/SubmitButton";
 import { faWrench } from "@fortawesome/free-solid-svg-icons";
@@ -12,13 +13,16 @@ class InventoryItems extends Component {
     super(props);
     this.state = {
       formData: {},
+      isEditable: false,
       isSubmitting: false,
       isSubmitted: false,
       errors: [],
     };
   }
   componentDidMount() {
-    console.log("In componentDidMount");
+    // Render edit form if inventoryItemId exists
+    this.props.match.params.inventoryItemId &&
+      this.setState({ isEditable: true });
   }
 
   handleInventoryItemChange = (fieldId, selected) => {
@@ -36,6 +40,8 @@ class InventoryItems extends Component {
     this.setState({ formData });
   };
 
+  renderInventoryFormVerb = () => (this.state.isEditable ? "Edit" : "Add");
+
   submitForm = e => {
     e.preventDefault();
     const formData = {
@@ -44,11 +50,20 @@ class InventoryItems extends Component {
     };
     console.log(formData);
     this.setState({ isSubmitting: true });
-    api
-      .workOrder()
-      .submitInventoryItem(formData)
+
+    const inventoryItemId = this.props.match.params.inventoryItemId;
+    // Define submit options
+    const postRecord = () => api.workOrder().submitInventoryItem(formData);
+    const putRecord = () =>
+      api.workOrder().submitEditInventory(inventoryItemId, formData);
+
+    // Define whether to POST new record or PUT record edit
+    const inventorySubmitRequest = this.state.isEditable
+      ? putRecord
+      : postRecord;
+
+    inventorySubmitRequest()
       .then(res => {
-        console.log(res);
         this.setState({ isSubmitting: false, isSubmitted: true });
       })
       .catch(error => {
@@ -63,11 +78,17 @@ class InventoryItems extends Component {
   render() {
     return (
       <div>
-        <Header icon={faWrench} title="Add Inventory Items" />
+        <Header
+          icon={faWrench}
+          title={`${this.renderInventoryFormVerb()} Inventory Item`}
+        />
 
-        {this.state.isSubmitted && (
-          <SuccessMessage formType="Inventory Item" formVerb="adde" />
-        )}
+        {this.state.isSubmitted &&
+          (this.state.isEditable ? (
+            <SuccessMessage formType="Inventory Item" formVerb="edited" />
+          ) : (
+            <SuccessMessage formType="Inventory Item" formVerb="added" />
+          ))}
 
         {this.state.errors &&
           this.state.errors.map(error => (
@@ -75,12 +96,21 @@ class InventoryItems extends Component {
           ))}
 
         <form onSubmit={this.submitForm.bind(this)}>
-          <AddInventoryItemsFields
-            handleInventoryItemChange={this.handleInventoryItemChange}
-            handleItemPropertyChange={this.handleItemPropertyChange}
-          />
+          {!this.state.isEditable && (
+            <AddInventoryItemsFields
+              handleInventoryItemChange={this.handleInventoryItemChange}
+              handleItemPropertyChange={this.handleItemPropertyChange}
+            />
+          )}
+          {this.state.isEditable && (
+            <EditInventoryItemsFields
+              handleInventoryItemChange={this.handleInventoryItemChange}
+              handleItemPropertyChange={this.handleItemPropertyChange}
+              inventoryItemId={this.props.match.params.inventoryItemId}
+            />
+          )}
           <SubmitButton
-            text="Add Item"
+            text={`${this.renderInventoryFormVerb()} Item`}
             isSubmitting={this.state.isSubmitting}
           />
         </form>

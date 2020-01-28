@@ -83,13 +83,21 @@ const keys = {
   },
   workOrderDetails: { sceneId: "scene_297", viewId: "view_961" },
   workOrderImages: { sceneId: "scene_255", viewId: "view_2234" },
-  workOrderInventory: { sceneId: "scene_297", viewId: "view_885" },
+  workOrderInventory: { sceneId: "scene_514", viewId: "view_2673" },
   workOrderTimeLogs: { sceneId: "scene_297", viewId: "view_1251" },
   workOrderTitle: { sceneId: "scene_297", viewId: "view_910" },
   workOrderInventoryItems: {
     sceneId: "scene_297",
-    viewId: "view_889",
+    viewId: "view_2661",
     fieldId: "field_513",
+  },
+  workOrderEditInventoryItems: {
+    sceneId: "scene_1068",
+    viewId: "view_2669",
+  },
+  workOrderCancelInventoryItem: {
+    sceneId: "scene_1069",
+    viewId: "view_2670",
   },
   assets: {
     details: { sceneId: "scene_446", viewId: "view_1261" },
@@ -331,7 +339,36 @@ const api = {
             keys.workOrderInventory.sceneId
           }/views/${
             keys.workOrderInventory.viewId
-          }/records?my-work-order-details2_id=${id}`,
+          }/records?filters=[{"field":"field_3489", "operator":"is", "value": "${id}"}]`,
+          getHeaders()
+        ),
+      getEditInventory: inventoryItemId =>
+        axios.get(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderInventory.sceneId
+          }/views/${
+            keys.workOrderInventory.viewId
+          }/records?filters=[{"field":"id", "operator":"is", "value": "${inventoryItemId}"}]`,
+          getHeaders()
+        ),
+      submitEditInventory: (inventoryItemId, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderEditInventoryItems.sceneId
+          }/views/${
+            keys.workOrderEditInventoryItems.viewId
+          }/records/${inventoryItemId}`,
+          data,
+          getHeaders()
+        ),
+      cancelInventoryItem: (inventoryItemId, data) =>
+        axios.put(
+          `https://us-api.knack.com/v1/scenes/${
+            keys.workOrderCancelInventoryItem.sceneId
+          }/views/${
+            keys.workOrderCancelInventoryItem.viewId
+          }/records/${inventoryItemId}`,
+          data,
           getHeaders()
         ),
       getImages: id =>

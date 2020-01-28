@@ -188,7 +188,7 @@ class NewWorkOrder extends Component {
         <Header icon={faPlus} title="New Work Order" />
 
         {this.state.isSubmitted && (
-          <SuccessMessage formVerb="create" formType="New Work Order" />
+          <SuccessMessage formVerb="created" formType="New Work Order" />
         )}
 
         {this.state.errors &&

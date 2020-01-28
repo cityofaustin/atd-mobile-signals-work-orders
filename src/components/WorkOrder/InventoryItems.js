@@ -85,9 +85,9 @@ class InventoryItems extends Component {
 
         {this.state.isSubmitted &&
           (this.state.isEditable ? (
-            <SuccessMessage formType="Inventory Item" formVerb="edite" />
+            <SuccessMessage formType="Inventory Item" formVerb="edited" />
           ) : (
-            <SuccessMessage formType="Inventory Item" formVerb="adde" />
+            <SuccessMessage formType="Inventory Item" formVerb="added" />
           ))}
 
         {this.state.errors &&

@@ -55,32 +55,20 @@ export default class EditInventoryItemsFields extends Component {
       });
   };
 
-  handleConditionChange = e => {
-    let data = {};
-    data[FIELDS.WORK_ORDER_ITEM_CONDITION] = e.target.value;
-    this.props.handleItemPropertyChange(data);
-  };
-
-  handleQuantityChange = e => {
-    let data = {};
-    data[FIELDS.WORK_ORDER_ITEM_QUANTITY] = e.target.value;
-    this.props.handleItemPropertyChange(data);
-  };
-
   handleSourceChange = option => {
     let data = {};
     data[FIELDS.WORK_ORDER_ITEM_SOURCE] = option.value;
     this.props.handleItemPropertyChange(data);
   };
 
-  handleCommentChange = e => {
+  handleFieldChange = (e, field) => {
     let data = {};
-    data[FIELDS.WORK_ORDER_ITEM_COMMENT] = e.target.value;
+    data[field] = e.target.value;
     this.props.handleItemPropertyChange(data);
   };
 
   render() {
-    const existingFormData = this.state.existingFormData;
+    const { existingFormData } = this.state;
     return existingFormData ? (
       <>
         <div className="form-group">
@@ -112,7 +100,9 @@ export default class EditInventoryItemsFields extends Component {
             name={FIELDS.WORK_ORDER_ITEM_QUANTITY}
             type="number"
             defaultValue={existingFormData[FIELDS.WORK_ORDER_ITEM_QUANTITY]}
-            onChange={this.handleQuantityChange}
+            onChange={e =>
+              this.handleFieldChange(e, FIELDS.WORK_ORDER_ITEM_QUANTITY)
+            }
             required // Prevent blank item from adding to DB since Knack does not require these fields
           />
         </div>
@@ -144,7 +134,9 @@ export default class EditInventoryItemsFields extends Component {
             name={FIELDS.WORK_ORDER_ITEM_COMMENT}
             rows="2"
             defaultValue={existingFormData[FIELDS.WORK_ORDER_ITEM_COMMENT]}
-            onChange={this.handleCommentChange}
+            onChange={e =>
+              this.handleFieldChange(e, FIELDS.WORK_ORDER_ITEM_COMMENT)
+            }
           />
         </div>
       </>

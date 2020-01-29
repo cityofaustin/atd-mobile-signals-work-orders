@@ -65,6 +65,7 @@ class InventoryItems extends Component {
     inventorySubmitRequest()
       .then(res => {
         this.setState({ isSubmitting: false, isSubmitted: true });
+        api.workOrder().atdKnackApiCallInventoryItem();
       })
       .catch(error => {
         console.log(error.response.data.errors);

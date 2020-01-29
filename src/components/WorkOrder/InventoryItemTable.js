@@ -38,6 +38,7 @@ class InventoryItemTable extends Component {
       .then(() => {
         this.setState({ itemSelectedforCancel: "", isCancelling: false });
         this.props.requestInventory(this.props.atdWorkOrderId);
+        api.workOrder().atdKnackApiCallInventoryItem();
       });
   };
 

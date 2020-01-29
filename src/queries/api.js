@@ -388,10 +388,9 @@ const api = {
         };
         const environment = isProd ? `production` : `staging`;
         axios.post(
-          `${environmentConfig[environment.baseUrl]}?src=${
-            environmentConfig[environment.sourceId]
-          }
-          &dest=${environmentConfig[environment.destinationId]}`
+          `${environmentConfig[environment.baseUrl]}` +
+            `?src=${environmentConfig[environment.sourceId]}` +
+            `&dest=${environmentConfig[environment.destinationId]}`
         );
       },
       getImages: id =>

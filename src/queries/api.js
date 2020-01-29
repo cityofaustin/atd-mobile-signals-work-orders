@@ -371,6 +371,15 @@ const api = {
           data,
           getHeaders()
         ),
+      // Fires after any inventory item form submission
+      atdKnackApiCallInventoryItem: () => {
+        // Determine baseUrl based on environment
+        const stagingBaseUrl = `https://ywx4jkcwrh.execute-api.us-east-1.amazonaws.com/dev/inventory/`;
+        const prodBaseUrl = `https://knack-api.austinmobility.io/inventory/`;
+        axios.post(
+          `${isProd ? prodBaseUrl : stagingBaseUrl}?src=${``}&dest={``}`
+        );
+      },
       getImages: id =>
         axios.get(
           `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${

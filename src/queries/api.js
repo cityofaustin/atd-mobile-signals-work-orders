@@ -373,11 +373,25 @@ const api = {
         ),
       // Fires after any inventory item form submission
       atdKnackApiCallInventoryItem: () => {
-        // Determine baseUrl based on environment
-        const stagingBaseUrl = `https://ywx4jkcwrh.execute-api.us-east-1.amazonaws.com/dev/inventory/`;
-        const prodBaseUrl = `https://knack-api.austinmobility.io/inventory/`;
+        // Determine url by environment => {base-url}?src={source-app-id}&dest={dest-app-id}
+        const environmentConfig = {
+          staging: {
+            baseUrl: `https://ywx4jkcwrh.execute-api.us-east-1.amazonaws.com/dev/inventory/`,
+            sourceId: STAGING_APP_ID,
+            destinationId: ``,
+          },
+          production: {
+            baseUrl: `https://knack-api.austinmobility.io/inventory/`,
+            sourceId: PRODUCTION_APP_ID,
+            destinationId: `5b422c9b13774837e54ed814`,
+          },
+        };
+        const environment = isProd ? `production` : `staging`;
         axios.post(
-          `${isProd ? prodBaseUrl : stagingBaseUrl}?src=${``}&dest={``}`
+          `${environmentConfig[environment.baseUrl]}?src=${
+            environmentConfig[environment.sourceId]
+          }
+          &dest=${environmentConfig[environment.destinationId]}`
         );
       },
       getImages: id =>

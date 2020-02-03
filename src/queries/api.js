@@ -378,7 +378,7 @@ const api = {
           staging: {
             baseUrl: `https://ywx4jkcwrh.execute-api.us-east-1.amazonaws.com/dev/inventory/`,
             sourceId: STAGING_APP_ID,
-            destinationId: ``,
+            destinationId: `5b422c9b13774837e54ed814`,
           },
           production: {
             baseUrl: `https://knack-api.austinmobility.io/inventory/`,

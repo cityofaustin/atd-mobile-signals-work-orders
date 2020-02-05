@@ -36,6 +36,7 @@ import {
   getWorkOrderTitle,
   getWorkOrderDetailAndTimeLogs,
 } from "./WorkOrder/helpers";
+import InventoryItems from "./WorkOrder/InventoryItems";
 
 class WorkOrderDetail extends Component {
   _isMounted = false;
@@ -50,6 +51,9 @@ class WorkOrderDetail extends Component {
       userInfo: "",
       isSubmitting: false,
       atdWorkOrderId: "",
+      isAddingInventoryItem: false,
+      isEditingInventoryItem: false,
+      itemSelectedforEdit: "",
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -171,6 +175,29 @@ class WorkOrderDetail extends Component {
       });
   };
 
+  handleAddInventoryItem = () => this.setState({ isAddingInventoryItem: true });
+
+  handleEditInventoryItem = inventoryItemId => {
+    this.setState({
+      itemSelectedforEdit: inventoryItemId,
+      isEditingInventoryItem: true,
+    });
+  };
+
+  restoreInventoryTable = () => {
+    // Clear item selected, turn off adding and editing, then refetch inventory
+    this.setState(
+      {
+        itemSelectedforEdit: "",
+        isEditingInventoryItem: false,
+        isAddingInventoryItem: false,
+      },
+      () => {
+        this.requestInventory(this.state.atdWorkOrderId);
+      }
+    );
+  };
+
   isWorkOrderAssignedToUserLoggedIn = () => {
     const userId = this.state.userInfo.id;
     const usersArray = this.state.detailsData.field_1754_raw;
@@ -197,6 +224,11 @@ class WorkOrderDetail extends Component {
   render() {
     const statusField = this.state.detailsData.field_459;
     const workOrderId = this.props.match.params.workOrderId;
+    const {
+      isAddingInventoryItem,
+      isEditingInventoryItem,
+      itemSelectedforEdit,
+    } = this.state;
     return (
       <div>
         <StyledPageTitle>
@@ -297,12 +329,26 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <InventoryItemTable
-                inventoryData={this.state.inventoryData}
-                atdWorkOrderId={this.state.atdWorkOrderId}
-                workOrderId={workOrderId}
-                requestInventory={this.requestInventory}
-              />
+              {/* If editing or adding item, render InventoryItems component with child forms for either case */}
+              {!isAddingInventoryItem &&
+                !isEditingInventoryItem && (
+                  <InventoryItemTable
+                    inventoryData={this.state.inventoryData}
+                    atdWorkOrderId={this.state.atdWorkOrderId}
+                    workOrderId={workOrderId}
+                    requestInventory={this.requestInventory}
+                    handleAddInventoryItem={this.handleAddInventoryItem}
+                    handleEditInventoryItem={this.handleEditInventoryItem}
+                  />
+                )}
+              {(isAddingInventoryItem || isEditingInventoryItem) && (
+                <InventoryItems
+                  isEditing={isEditingInventoryItem}
+                  itemSelectedforEdit={itemSelectedforEdit}
+                  restoreInventoryTable={this.restoreInventoryTable}
+                  workOrderId={workOrderId}
+                />
+              )}
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { WorkOrderInventoryStatus } from "../../styles/WorkOrderInventoryStatus";
 import { workOrderFields } from "../../queries/fields";
 import api from "../../queries/api";
-import Button from "../Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faWrench,
@@ -42,15 +41,26 @@ class InventoryItemTable extends Component {
       });
   };
 
+  handleAddInventoryItemClick = e => {
+    // Switch isAddingInventoryItem to show add form
+    this.props.handleAddInventoryItem();
+  };
+
+  handleEditInventoryItemClick = (e, itemId) => {
+    // Set itemId of edit and switch isEditingInventoryItem to show edit form
+    this.props.handleEditInventoryItem(itemId);
+  };
+
   render() {
-    const { inventoryData, workOrderId } = this.props;
+    const { inventoryData } = this.props;
     return (
       <>
-        <Button
-          icon={faWrench}
-          text={"New Item"}
-          linkPath={`/work-order/inventory-items/${workOrderId}`}
-        />
+        <div
+          className={`btn btn-success btn-lg mb-3`}
+          onClick={this.handleAddInventoryItemClick}
+        >
+          <FontAwesomeIcon icon={faWrench} /> Add Item
+        </div>
         {inventoryData.length === 0 && <p>No data</p>}
         {inventoryData.length > 0 && (
           <ul className="list-group list-group-flush">
@@ -77,14 +87,14 @@ class InventoryItemTable extends Component {
                         />
                       </div>
                       <div className="col pt-2">
-                        <Button
-                          icon={faEdit}
-                          text={"Edit"}
-                          linkPath={`/work-order/${workOrderId}/edit-inventory-item/${
-                            inventory.id
-                          }`}
-                          color={"primary"}
-                        />
+                        <div
+                          className={`btn btn-primary btn-lg`}
+                          onClick={e =>
+                            this.handleEditInventoryItemClick(e, inventory.id)
+                          }
+                        >
+                          <FontAwesomeIcon icon={faEdit} /> Edit
+                        </div>
                       </div>
                       <div className="col pt-2">
                         {/* Only show cancel button if status is not "Issued" and cancelled is false */}
@@ -156,7 +166,7 @@ class InventoryItemTable extends Component {
                       <>
                         <div className="col-6">
                           <div
-                            className={`btn btn-success btn-lg`}
+                            className={`btn btn-success btn-lg btn-block`}
                             onClick={e =>
                               this.handleConfirmCancelItemClick(e, inventory.id)
                             }
@@ -166,7 +176,7 @@ class InventoryItemTable extends Component {
                         </div>
                         <div className="col-6">
                           <div
-                            className={`btn btn-danger btn-lg`}
+                            className={`btn btn-danger btn-lg btn-block`}
                             onClick={() =>
                               this.setState({ itemSelectedforCancel: "" })
                             }

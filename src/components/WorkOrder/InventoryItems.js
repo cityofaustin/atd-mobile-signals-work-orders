@@ -20,9 +20,8 @@ class InventoryItems extends Component {
     };
   }
   componentDidMount() {
-    // Render edit form if inventoryItemId exists
-    this.props.match.params.inventoryItemId &&
-      this.setState({ isEditable: true });
+    // Render edit form if editing item
+    this.props.isEditing && this.setState({ isEditable: true });
   }
 
   handleInventoryItemChange = (fieldId, selected) => {
@@ -40,18 +39,22 @@ class InventoryItems extends Component {
     this.setState({ formData });
   };
 
+  handleFormCancel = () => {
+    this.props.restoreInventoryTable();
+  };
+
   renderInventoryFormVerb = () => (this.state.isEditable ? "Edit" : "Add");
 
   submitForm = e => {
     e.preventDefault();
     const formData = {
       ...this.state.formData,
-      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: this.props.match.params.workOrderId,
+      [FIELDS.WORK_ORDER_ID_FOR_INVENTORY]: this.props.workOrderId,
     };
     console.log(formData);
     this.setState({ isSubmitting: true });
 
-    const inventoryItemId = this.props.match.params.inventoryItemId;
+    const inventoryItemId = this.props.itemSelectedforEdit;
     // Define submit options
     const postRecord = () => api.workOrder().submitInventoryItem(formData);
     const putRecord = () =>
@@ -64,6 +67,8 @@ class InventoryItems extends Component {
 
     inventorySubmitRequest()
       .then(res => {
+        // Clear itemSelectedforEdit, switch view state in parent to restore table view, and refetch inventory
+        this.props.restoreInventoryTable();
         this.setState({ isSubmitting: false, isSubmitted: true });
         api.workOrder().atdKnackApiCallInventoryItem();
       })
@@ -101,19 +106,34 @@ class InventoryItems extends Component {
             <AddInventoryItemsFields
               handleInventoryItemChange={this.handleInventoryItemChange}
               handleItemPropertyChange={this.handleItemPropertyChange}
+              handleFormCancel={this.handleFormCancel}
             />
           )}
           {this.state.isEditable && (
             <EditInventoryItemsFields
               handleInventoryItemChange={this.handleInventoryItemChange}
               handleItemPropertyChange={this.handleItemPropertyChange}
-              inventoryItemId={this.props.match.params.inventoryItemId}
+              inventoryItemId={this.props.itemSelectedforEdit}
+              handleFormCancel={this.handleFormCancel}
             />
           )}
-          <SubmitButton
-            text={`${this.renderInventoryFormVerb()} Item`}
-            isSubmitting={this.state.isSubmitting}
-          />
+          <div className="row">
+            <div className="col-6">
+              <SubmitButton
+                text={`${this.renderInventoryFormVerb()} Item`}
+                buttonStyles={`btn-block`}
+                isSubmitting={this.state.isSubmitting}
+              />
+            </div>
+            <div className="col-6">
+              <div
+                className={`btn btn-danger btn-lg btn-block`}
+                onClick={this.handleFormCancel}
+              >
+                Cancel
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     );

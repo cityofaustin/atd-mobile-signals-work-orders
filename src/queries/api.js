@@ -376,7 +376,7 @@ const api = {
         // Determine url by environment => {base-url}?src={source-app-id}&dest={dest-app-id}
         const environmentConfig = {
           staging: {
-            baseUrl: `https://ywx4jkcwrh.execute-api.us-east-1.amazonaws.com/dev/inventory/`,
+            baseUrl: `https://knack-api-dev.austinmobility.io/inventory`,
             sourceId: STAGING_APP_ID,
             destinationId: `5b422c9b13774837e54ed814`,
           },

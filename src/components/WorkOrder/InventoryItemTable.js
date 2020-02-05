@@ -10,6 +10,7 @@ import {
   faEdit,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
+import Button from "../Form/Button";
 
 class InventoryItemTable extends Component {
   constructor(props) {
@@ -51,67 +52,85 @@ class InventoryItemTable extends Component {
   };
 
   render() {
-    const { inventoryData } = this.props;
+    const { inventoryData, workOrderId } = this.props;
     return (
       <>
-        <div
-          className={`btn btn-success btn-lg mb-3`}
-          onClick={this.handleAddInventoryItemClick}
-        >
-          <FontAwesomeIcon icon={faWrench} /> Add Item
+        <div className="p-3">
+          <Button
+            icon={faWrench}
+            text={"New Item"}
+            linkPath={`/work-order/inventory-items/${workOrderId}`}
+            modifierClasses={""}
+          />
         </div>
         {inventoryData.length === 0 && <p>No data</p>}
         {inventoryData.length > 0 && (
           <ul className="list-group list-group-flush">
             {inventoryData.map(
               (inventory, i) =>
-                // If an item is selected to cancel, show yes/no confirmation. If not, show item details
                 this.state.itemSelectedforCancel !== i ? (
-                  <WorkOrderInventoryStatus key={i}>
+                  <WorkOrderInventoryStatus
+                    key={
+                      i // If an item is selected to cancel, show yes/no confirmation. If not, show item details
+                    }
+                  >
                     <li
-                      // Add classname to highlight item name by status
-                      className={`list-group-item d-flex row ${this.addWorkOrderStatusClass(
-                        inventory[workOrderFields.inventory.STATUS]
-                      )}`}
+                      className={`list-group-item p-0 ${
+                        this.addWorkOrderStatusClass(
+                          inventory[workOrderFields.inventory.STATUS]
+                        ) // Add classname to highlight item name by status
+                      }`}
                       key={i}
                     >
-                      <div className="col-6">
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              inventory[
-                                workOrderFields.inventory.INVENTORY_ITEM
-                              ],
-                          }}
-                        />
-                      </div>
-                      <div className="col pt-2">
-                        <div
-                          className={`btn btn-primary btn-lg`}
-                          onClick={e =>
-                            this.handleEditInventoryItemClick(e, inventory.id)
-                          }
-                        >
-                          <FontAwesomeIcon icon={faEdit} /> Edit
+                      <div
+                        className={`row mx-0 ${this.addWorkOrderStatusClass(
+                          inventory[workOrderFields.inventory.STATUS]
+                        )}`}
+                      >
+                        <div className="col py-2 pr-0">
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                inventory[
+                                  workOrderFields.inventory.INVENTORY_ITEM
+                                ],
+                            }}
+                          />
+                        </div>
+                        <div className="col py-2 pr-2 d-flex justify-content-end">
+                          <Button
+                            icon={faEdit}
+                            text={"Edit"}
+                            linkPath={`/work-order/${workOrderId}/edit-inventory-item/${
+                              inventory.id
+                            }`}
+                            color={"primary"}
+                            modifierClasses={"mr-2"}
+                          />
+
+                          {/* Only show cancel button if status is not "Issued" and cancelled is false */}
+                          <div className="col">
+                            {inventory[workOrderFields.inventory.STATUS] !==
+                              "Issued" &&
+                              !inventory[
+                                workOrderFields.inventory.CANCELLED
+                              ] && (
+                                <div
+                                  className={`btn btn-danger btn-lg`}
+                                  onClick={() =>
+                                    this.setState({
+                                      itemSelectedforCancel: i,
+                                    })
+                                  }
+                                >
+                                  <FontAwesomeIcon icon={faTimesCircle} />{" "}
+                                  Cancel
+                                </div>
+                              )}
+                          </div>
                         </div>
                       </div>
-                      <div className="col pt-2">
-                        {/* Only show cancel button if status is not "Issued" and cancelled is false */}
-                        {inventory[workOrderFields.inventory.STATUS] !==
-                          "Issued" &&
-                          !inventory[workOrderFields.inventory.CANCELLED] && (
-                            <div
-                              className={`btn btn-danger btn-lg`}
-                              onClick={() =>
-                                this.setState({
-                                  itemSelectedforCancel: i,
-                                })
-                              }
-                            >
-                              <FontAwesomeIcon icon={faTimesCircle} /> Cancel
-                            </div>
-                          )}
-                      </div>
+
                       <div className="col-12">
                         {/* Add classname to highlight item attributes by status */}
                         <div

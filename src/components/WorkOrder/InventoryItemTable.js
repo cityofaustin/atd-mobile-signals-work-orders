@@ -98,15 +98,19 @@ class InventoryItemTable extends Component {
                           />
                         </div>
                         <div className="col py-2 pr-2 d-flex justify-content-end">
-                          <Button
-                            icon={faEdit}
-                            text={"Edit"}
-                            linkPath={`/work-order/${workOrderId}/edit-inventory-item/${
-                              inventory.id
-                            }`}
-                            color={"primary"}
-                            modifierClasses={"mr-2"}
-                          />
+                          <div>
+                            <div
+                              className={`btn btn-primary btn-lg mr-2`}
+                              onClick={e =>
+                                this.handleEditInventoryItemClick(
+                                  e,
+                                  inventory.id
+                                )
+                              }
+                            >
+                              <FontAwesomeIcon icon={faEdit} /> Edit
+                            </div>
+                          </div>
 
                           {/* Only show cancel button if status is not "Issued" and cancelled is false */}
                           <div className="col">

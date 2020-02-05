@@ -328,7 +328,13 @@ class WorkOrderDetail extends Component {
                 <div className="accordion__arrow" role="presentation" />
               </h3>
             </AccordionItemTitle>
-            <AccordionItemBody style={{ padding: "0px" }}>
+            <AccordionItemBody
+              style={
+                !isAddingInventoryItem && !isEditingInventoryItem
+                  ? { padding: "0px" }
+                  : {}
+              }
+            >
               {/* If editing or adding item, render InventoryItems component with child forms for either case */}
               {!isAddingInventoryItem &&
                 !isEditingInventoryItem && (

@@ -210,6 +210,13 @@ class WorkOrderDetail extends Component {
     );
   };
 
+  handleTimeLogFormCancel = () => {
+    this.setState({
+      isEditingTimeLog: false,
+      isAddingTimeLog: false,
+    });
+  };
+
   restoreInventoryTable = () => {
     // Clear item selected, turn off adding and editing, then refetch inventory
     this.setState(
@@ -341,6 +348,7 @@ class WorkOrderDetail extends Component {
                   isAddingTimeLog={isAddingTimeLog}
                   isEditingTimeLog={isEditingTimeLog}
                   restoreTimeLogTable={this.restoreTimeLogTable}
+                  handleTimeLogFormCancel={this.handleTimeLogFormCancel}
                   timeLogSelectedForEdit={timeLogSelectedForEdit}
                 />
               )}

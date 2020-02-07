@@ -176,6 +176,10 @@ class NewTimeLog extends Component {
     this.setState({ timeLogToEdit });
   };
 
+  handleFormCancelClick = () => {
+    this.props.handleTimeLogFormCancel();
+  };
+
   requestTimeLogs = id => {
     this.setState({ isLoading: true });
     api
@@ -303,11 +307,26 @@ class NewTimeLog extends Component {
                 timeLogToEdit={timeLogToEdit}
               />
             )}
-          <SubmitButton
-            text={`${this.props.isEditingTimeLog ? "Edit" : "Add"} Log Entry`}
-            isSubmitting={this.state.isSubmitting}
-            isFormDisabled={this.state.isFormDisabled}
-          />
+          <div className="row">
+            <div className="col-6">
+              <SubmitButton
+                text={`${
+                  this.props.isEditingTimeLog ? "Edit" : "Add"
+                } Log Entry`}
+                buttonStyles={`btn-block`}
+                isSubmitting={this.state.isSubmitting}
+                isFormDisabled={this.state.isFormDisabled}
+              />
+            </div>
+            <div className="col-6">
+              <div
+                className={`btn btn-danger btn-lg btn-block`}
+                onClick={this.handleFormCancelClick}
+              >
+                Cancel
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     );

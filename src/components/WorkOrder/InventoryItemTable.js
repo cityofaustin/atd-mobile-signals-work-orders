@@ -182,7 +182,7 @@ class InventoryItemTable extends Component {
                       <FontAwesomeIcon
                         icon={faSpinner}
                         size="2x"
-                        className="atd-spinner"
+                        className="atd-spinner--padded"
                       />
                     ) : (
                       <>
@@ -218,7 +218,7 @@ class InventoryItemTable extends Component {
             <FontAwesomeIcon
               icon={faSpinner}
               size="2x"
-              className="atd-spinner"
+              className="atd-spinner--padded"
             />
           </div>
         )}

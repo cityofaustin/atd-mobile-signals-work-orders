@@ -60,6 +60,8 @@ class InventoryItems extends Component {
     const putRecord = () =>
       api.workOrder().submitEditInventory(inventoryItemId, formData);
 
+    debugger;
+
     // Define whether to POST new record or PUT record edit
     const inventorySubmitRequest = this.state.isEditable
       ? putRecord
@@ -68,6 +70,7 @@ class InventoryItems extends Component {
     inventorySubmitRequest()
       .then(res => {
         // Clear itemSelectedforEdit, switch view state in parent to restore table view, and refetch inventory
+        debugger;
         this.props.restoreInventoryTable();
         this.setState({ isSubmitting: false, isSubmitted: true });
       })
@@ -120,7 +123,8 @@ class InventoryItems extends Component {
             <div className="col-6">
               <SubmitButton
                 text={`${this.renderInventoryFormVerb()} Item`}
-                buttonStyles={`btn-block`}
+                buttonStyles={`btn-block my-0`}
+                spinnerSize="lg"
                 isSubmitting={this.state.isSubmitting}
               />
             </div>

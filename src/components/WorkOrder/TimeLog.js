@@ -69,7 +69,9 @@ const TimeLog = ({ data, workOrderId }) => {
                 <Button
                   icon={faEdit}
                   text={"Edit"}
-                  linkPath={`/work-order/${workOrderId}/edit-time-log/${timeLog.id}`}
+                  linkPath={`/work-order/${workOrderId}/edit-time-log/${
+                    timeLog.id
+                  }`}
                   color={"primary"}
                 />
               </div>
@@ -79,7 +81,11 @@ const TimeLog = ({ data, workOrderId }) => {
       )}
       {!data && (
         <div>
-          <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            className="atd-spinner--padded"
+          />
         </div>
       )}
     </div>

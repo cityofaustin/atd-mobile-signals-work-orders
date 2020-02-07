@@ -89,8 +89,10 @@ export default class EditInventoryItemsFields extends Component {
               this,
               FIELDS.WORK_ORDER_INVENTORY_ITEMS
             )}
-            required // Prevent blank item from adding to DB since Knack does not require these fields
-          />
+            required
+          />{" "}
+          // Prevent blank item from adding to DB since Knack does not require
+          these fields
         </div>
         <div className="form-group">
           <label htmlFor={FIELDS.WORK_ORDER_ITEM_QUANTITY}>Quantity</label>
@@ -103,8 +105,10 @@ export default class EditInventoryItemsFields extends Component {
             onChange={e =>
               this.handleFieldChange(e, FIELDS.WORK_ORDER_ITEM_QUANTITY)
             }
-            required // Prevent blank item from adding to DB since Knack does not require these fields
-          />
+            required
+          />{" "}
+          // Prevent blank item from adding to DB since Knack does not require
+          these fields
         </div>
         <div className="form-group">
           <label htmlFor={FIELDS.WORK_ORDER_ITEM_SOURCE}>Source</label>
@@ -123,8 +127,10 @@ export default class EditInventoryItemsFields extends Component {
               "Other",
             ])}
             onChange={this.handleSourceChange}
-            required // Prevent blank item from adding to DB since Knack does not require these fields
-          />
+            required
+          />{" "}
+          // Prevent blank item from adding to DB since Knack does not require
+          these fields
         </div>
         <div className="form-group">
           <label htmlFor={FIELDS.WORK_ORDER_ITEM_COMMENT}>Comment</label>
@@ -141,7 +147,11 @@ export default class EditInventoryItemsFields extends Component {
         </div>
       </>
     ) : (
-      <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
+      <FontAwesomeIcon
+        icon={faSpinner}
+        size="2x"
+        className="atd-spinner--padded"
+      />
     );
   }
 }

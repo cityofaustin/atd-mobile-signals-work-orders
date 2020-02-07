@@ -1,12 +1,23 @@
 import React from "react";
 import Button from "../Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faEdit, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FIELDS } from "./formConfig";
 
-const TimeLog = ({ data, workOrderId }) => {
+const TimeLog = ({ data, workOrderId, handleAddTimeLog }) => {
+  const handleAddTimeLogClick = e => {
+    // Switch isAddingInventoryItem to show add form
+    handleAddTimeLog();
+  };
+
   return (
     <div>
+      <div
+        className={`btn btn-success btn-lg mb-3`}
+        onClick={handleAddTimeLogClick}
+      >
+        <FontAwesomeIcon icon={faClock} /> Add Time Log
+      </div>
       {data.length === 0 && <p>No data</p>}
       {data.length > 0 && (
         <ul className="list-group list-group-flush">
@@ -69,7 +80,9 @@ const TimeLog = ({ data, workOrderId }) => {
                 <Button
                   icon={faEdit}
                   text={"Edit"}
-                  linkPath={`/work-order/${workOrderId}/edit-time-log/${timeLog.id}`}
+                  linkPath={`/work-order/${workOrderId}/edit-time-log/${
+                    timeLog.id
+                  }`}
                   color={"primary"}
                 />
               </div>

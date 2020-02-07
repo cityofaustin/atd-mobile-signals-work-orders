@@ -20,8 +20,8 @@ class NewTimeLog extends Component {
   constructor(props) {
     super(props);
 
-    this.workOrderId = this.props.match.params.workOrderId;
-    this.isEditable = this.props.match.path.includes("edit");
+    this.workOrderId = this.props.workOrderId;
+    this.isEditingTimeLog = this.props.isEditingTimeLog;
 
     this.state = {
       technicianOptions: [],
@@ -40,7 +40,7 @@ class NewTimeLog extends Component {
 
     console.log("submitting: ", this.state.updatedFormData, this.workOrderId);
 
-    !this.isEditable &&
+    !this.isEditingTimeLog &&
       api
         .workOrder()
         .newTimeLog(this.workOrderId, this.state.updatedFormData)
@@ -59,7 +59,7 @@ class NewTimeLog extends Component {
           });
         });
 
-    this.isEditable &&
+    this.isEditingTimeLog &&
       api
         .workOrder()
         .editTimeLog(
@@ -223,7 +223,7 @@ class NewTimeLog extends Component {
       <div>
         <Header
           icon={faClock}
-          title={`${this.isEditable ? "Edit" : "New"} Time Log`}
+          title={`${this.isEditingTimeLog ? "Edit" : "New"} Time Log`}
         />
 
         {this.state.errors &&
@@ -284,7 +284,7 @@ class NewTimeLog extends Component {
               )}
             />
           </div>
-          {!this.isEditable && (
+          {!this.isEditingTimeLog && (
             <NewTimeLogDateTimeFields
               data={this.state.updatedFormData}
               handleTimeChange={this.handleDateTimeFieldChange}
@@ -292,7 +292,7 @@ class NewTimeLog extends Component {
               isFormDisabled={this.state.isFormDisabled}
             />
           )}
-          {this.isEditable &&
+          {this.isEditingTimeLog &&
             timeLogToEdit && (
               <EditTimeLogDateTimeFields
                 data={this.state.updatedFormData}
@@ -303,7 +303,7 @@ class NewTimeLog extends Component {
               />
             )}
           <SubmitButton
-            text={`${this.isEditable ? "Edit" : "Add"} Log Entry`}
+            text={`${this.isEditingTimeLog ? "Edit" : "Add"} Log Entry`}
             isSubmitting={this.state.isSubmitting}
             isFormDisabled={this.state.isFormDisabled}
           />

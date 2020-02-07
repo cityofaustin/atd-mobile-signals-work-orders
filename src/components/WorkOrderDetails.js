@@ -28,6 +28,7 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 import TimeLog from "./WorkOrder/TimeLog";
+import NewTimeLog from "./WorkOrder/NewTimeLog";
 import WorkSpecifications from "./WorkOrder/WorkSpecifications";
 import UploadImage from "./WorkOrder/UploadImage";
 import api from "../queries/api";
@@ -53,6 +54,8 @@ class WorkOrderDetail extends Component {
       atdWorkOrderId: "",
       isAddingInventoryItem: false,
       isEditingInventoryItem: false,
+      isAddingTimeLog: false,
+      isEditingTimeLog: false,
       itemSelectedforEdit: "",
     };
 
@@ -184,6 +187,8 @@ class WorkOrderDetail extends Component {
     });
   };
 
+  handleAddTimeLog = () => this.setState({ isAddingTimeLog: true });
+
   restoreInventoryTable = () => {
     // Clear item selected, turn off adding and editing, then refetch inventory
     this.setState(
@@ -228,6 +233,8 @@ class WorkOrderDetail extends Component {
       isAddingInventoryItem,
       isEditingInventoryItem,
       itemSelectedforEdit,
+      isAddingTimeLog,
+      isEditingTimeLog,
     } = this.state;
     return (
       <div>
@@ -296,15 +303,21 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <Button
-                icon={faClock}
-                text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${workOrderId}`}
-              />
-              <TimeLog
-                data={this.state.timeLogData}
-                workOrderId={workOrderId}
-              />
+              {!isAddingTimeLog &&
+                !isEditingTimeLog && (
+                  <TimeLog
+                    data={this.state.timeLogData}
+                    workOrderId={workOrderId}
+                    handleAddTimeLog={this.handleAddTimeLog}
+                  />
+                )}
+              {(isAddingTimeLog || isEditingTimeLog) && (
+                <NewTimeLog
+                  workOrderId={workOrderId}
+                  isAddingTimeLog={isAddingTimeLog}
+                  isEditingTimeLog={isEditingTimeLog}
+                />
+              )}
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

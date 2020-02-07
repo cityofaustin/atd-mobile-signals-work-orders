@@ -50,6 +50,7 @@ class NewTimeLog extends Component {
             isSubmitted: true,
             successfulResponseData: res.data.record,
           });
+          this.props.restoreTimeLogTable();
         })
         .catch(error => {
           console.log(error.response.data.errors);
@@ -72,6 +73,7 @@ class NewTimeLog extends Component {
             isSubmitted: true,
             successfulResponseData: res.data.record,
           });
+          this.props.restoreTimeLogTable();
         })
         .catch(error => {
           console.log(error.response.data.errors);

@@ -189,6 +189,18 @@ class WorkOrderDetail extends Component {
 
   handleAddTimeLog = () => this.setState({ isAddingTimeLog: true });
 
+  restoreTimeLogTable = () => {
+    this.setState(
+      {
+        isEditingTimeLog: false,
+        isAddingTimeLog: false,
+      },
+      () => {
+        this.requestTimeLogs(this.state.atdWorkOrderId);
+      }
+    );
+  };
+
   restoreInventoryTable = () => {
     // Clear item selected, turn off adding and editing, then refetch inventory
     this.setState(
@@ -316,6 +328,7 @@ class WorkOrderDetail extends Component {
                   workOrderId={workOrderId}
                   isAddingTimeLog={isAddingTimeLog}
                   isEditingTimeLog={isEditingTimeLog}
+                  restoreTimeLogTable={this.restoreTimeLogTable}
                 />
               )}
             </AccordionItemBody>

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
-import { Redirect } from "react-router-dom";
 
 import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
@@ -204,6 +203,7 @@ class NewTimeLog extends Component {
 
   render() {
     const { timeLogToEdit } = this.state;
+    const { isEditingTimeLog } = this.props;
 
     return this.state.isLoading ? (
       <FontAwesomeIcon icon={faSpinner} className="atd-spinner" size="2x" />
@@ -211,7 +211,7 @@ class NewTimeLog extends Component {
       <div>
         <Header
           icon={faClock}
-          title={`${this.props.isEditingTimeLog ? "Edit" : "New"} Time Log`}
+          title={`${isEditingTimeLog ? "Edit" : "New"} Time Log`}
         />
 
         {this.state.errors &&
@@ -266,7 +266,7 @@ class NewTimeLog extends Component {
               )}
             />
           </div>
-          {!this.props.isEditingTimeLog && (
+          {!isEditingTimeLog && (
             <NewTimeLogDateTimeFields
               data={this.state.updatedFormData}
               handleTimeChange={this.handleDateTimeFieldChange}
@@ -274,7 +274,7 @@ class NewTimeLog extends Component {
               isFormDisabled={this.state.isFormDisabled}
             />
           )}
-          {this.props.isEditingTimeLog &&
+          {isEditingTimeLog &&
             timeLogToEdit && (
               <EditTimeLogDateTimeFields
                 data={this.state.updatedFormData}
@@ -287,9 +287,7 @@ class NewTimeLog extends Component {
           <div className="row">
             <div className="col-6">
               <SubmitButton
-                text={`${
-                  this.props.isEditingTimeLog ? "Edit" : "Add"
-                } Log Entry`}
+                text={`${isEditingTimeLog ? "Edit" : "Add"} Time Log`}
                 buttonStyles={`btn-block`}
                 isSubmitting={this.state.isSubmitting}
                 isFormDisabled={this.state.isFormDisabled}

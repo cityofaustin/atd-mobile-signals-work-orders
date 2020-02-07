@@ -22,7 +22,6 @@ import AllWorkOrders from "./AllWorkOrders";
 import NewWorkOrder from "./WorkOrder/New";
 import EditWorkOrder from "./WorkOrder/Edit";
 import SubmitWorkOrder from "./WorkOrder/Submit";
-import NewTimeLog from "./WorkOrder/NewTimeLog";
 import AddImage from "./WorkOrder/AddImage";
 import Assets from "./Assets/Assets";
 import { APP_ID } from "../constants/api";

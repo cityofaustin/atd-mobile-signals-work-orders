@@ -159,7 +159,7 @@ class WorkOrderDetail extends Component {
     this.state.detailsData["field_977"] === "Signal" && (
       <Link
         to={`/work-orders/${
-          this.props.match.params.workOrderId
+          this.workOrderId
         }/assets/${this.getAssetIdFromKnackLink()}`}
       >
         <FontAwesomeIcon icon={faMapMarkedAlt} /> {"View Signal Details"}
@@ -168,7 +168,7 @@ class WorkOrderDetail extends Component {
 
   handleReopenClick = e => {
     e.preventDefault();
-    const workOrderId = this.props.match.params.workOrderId;
+    const workOrderId = this.workOrderId;
     // To reopen work order, Knack wants payload with ID
     this.setState({ isSubmitting: true });
     api
@@ -256,7 +256,7 @@ class WorkOrderDetail extends Component {
 
   render() {
     const statusField = this.state.detailsData.field_459;
-    const workOrderId = this.props.match.params.workOrderId;
+    const workOrderId = this.workOrderId;
     const {
       isAddingInventoryItem,
       isEditingInventoryItem,

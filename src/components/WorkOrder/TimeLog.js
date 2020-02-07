@@ -4,10 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faEdit, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FIELDS } from "./formConfig";
 
-const TimeLog = ({ data, workOrderId, handleAddTimeLog }) => {
+const TimeLog = ({ data, handleAddTimeLog, handleEditTimeLog }) => {
   const handleAddTimeLogClick = e => {
     // Switch isAddingInventoryItem to show add form
     handleAddTimeLog();
+  };
+
+  const handleEditTimeLogClick = (e, timeLogId) => {
+    handleEditTimeLog(timeLogId);
   };
 
   return (
@@ -77,14 +81,12 @@ const TimeLog = ({ data, workOrderId, handleAddTimeLog }) => {
                 </div>
               </div>
               <div className="col-3 mt-2">
-                <Button
-                  icon={faEdit}
-                  text={"Edit"}
-                  linkPath={`/work-order/${workOrderId}/edit-time-log/${
-                    timeLog.id
-                  }`}
-                  color={"primary"}
-                />
+                <div
+                  className={`btn btn-primary btn-lg`}
+                  onClick={e => handleEditTimeLogClick(e, timeLog.id)}
+                >
+                  <FontAwesomeIcon icon={faEdit} /> Edit
+                </div>
               </div>
             </li>
           ))}

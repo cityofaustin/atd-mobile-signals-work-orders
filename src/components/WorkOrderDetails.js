@@ -54,9 +54,10 @@ class WorkOrderDetail extends Component {
       atdWorkOrderId: "",
       isAddingInventoryItem: false,
       isEditingInventoryItem: false,
+      itemSelectedForEdit: "",
       isAddingTimeLog: false,
       isEditingTimeLog: false,
-      itemSelectedforEdit: "",
+      timeLogSelectedforEdit: null,
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -189,6 +190,13 @@ class WorkOrderDetail extends Component {
 
   handleAddTimeLog = () => this.setState({ isAddingTimeLog: true });
 
+  handleEditTimeLog = timeLogId => {
+    this.setState({
+      timeLogSelectedForEdit: timeLogId,
+      isEditingTimeLog: true,
+    });
+  };
+
   restoreTimeLogTable = () => {
     this.setState(
       {
@@ -247,6 +255,7 @@ class WorkOrderDetail extends Component {
       itemSelectedforEdit,
       isAddingTimeLog,
       isEditingTimeLog,
+      timeLogSelectedForEdit,
     } = this.state;
     return (
       <div>
@@ -321,14 +330,17 @@ class WorkOrderDetail extends Component {
                     data={this.state.timeLogData}
                     workOrderId={workOrderId}
                     handleAddTimeLog={this.handleAddTimeLog}
+                    handleEditTimeLog={this.handleEditTimeLog}
                   />
                 )}
-              {(isAddingTimeLog || isEditingTimeLog) && (
+              {(isAddingTimeLog ||
+                (isEditingTimeLog && timeLogSelectedForEdit)) && (
                 <NewTimeLog
                   workOrderId={workOrderId}
                   isAddingTimeLog={isAddingTimeLog}
                   isEditingTimeLog={isEditingTimeLog}
                   restoreTimeLogTable={this.restoreTimeLogTable}
+                  timeLogSelectedForEdit={timeLogSelectedForEdit}
                 />
               )}
             </AccordionItemBody>

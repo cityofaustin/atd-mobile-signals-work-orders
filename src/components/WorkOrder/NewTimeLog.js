@@ -21,7 +21,6 @@ class NewTimeLog extends Component {
     super(props);
 
     this.workOrderId = this.props.workOrderId;
-    this.isEditingTimeLog = this.props.isEditingTimeLog;
 
     this.state = {
       technicianOptions: [],
@@ -40,7 +39,7 @@ class NewTimeLog extends Component {
 
     console.log("submitting: ", this.state.updatedFormData, this.workOrderId);
 
-    !this.isEditingTimeLog &&
+    !this.props.isEditingTimeLog &&
       api
         .workOrder()
         .newTimeLog(this.workOrderId, this.state.updatedFormData)
@@ -60,11 +59,11 @@ class NewTimeLog extends Component {
           });
         });
 
-    this.isEditingTimeLog &&
+    this.props.isEditingTimeLog &&
       api
         .workOrder()
         .editTimeLog(
-          this.props.match.params.timeLogId,
+          this.props.timeLogSelectedForEdit,
           this.state.updatedFormData
         )
         .then(res => {
@@ -172,8 +171,11 @@ class NewTimeLog extends Component {
 
   setTimeLogToEdit = () => {
     const timeLogToEdit = this.state.timeLogData.filter(
-      record => record.id === this.props.match.params.timeLogId
+      record => record.id === this.props.timeLogSelectedForEdit
     )[0];
+    const data = this.state.timeLogData;
+    const id = this.props;
+    debugger;
     this.setState({ timeLogToEdit });
   };
 
@@ -225,7 +227,7 @@ class NewTimeLog extends Component {
       <div>
         <Header
           icon={faClock}
-          title={`${this.isEditingTimeLog ? "Edit" : "New"} Time Log`}
+          title={`${this.props.isEditingTimeLog ? "Edit" : "New"} Time Log`}
         />
 
         {this.state.errors &&
@@ -286,7 +288,7 @@ class NewTimeLog extends Component {
               )}
             />
           </div>
-          {!this.isEditingTimeLog && (
+          {!this.props.isEditingTimeLog && (
             <NewTimeLogDateTimeFields
               data={this.state.updatedFormData}
               handleTimeChange={this.handleDateTimeFieldChange}
@@ -294,18 +296,18 @@ class NewTimeLog extends Component {
               isFormDisabled={this.state.isFormDisabled}
             />
           )}
-          {this.isEditingTimeLog &&
-            timeLogToEdit && (
+          {this.props.isEditingTimeLog &&
+            this.props.timeLogSelectedForEdit && (
               <EditTimeLogDateTimeFields
                 data={this.state.updatedFormData}
                 handleTimeChange={this.handleDateTimeFieldChange}
                 handleFormDisable={this.handleFormDisable}
                 isFormDisabled={this.state.isFormDisabled}
-                timeLogToEdit={timeLogToEdit}
+                timeLogToEdit={this.props.timeLogSelectedForEdit}
               />
             )}
           <SubmitButton
-            text={`${this.isEditingTimeLog ? "Edit" : "Add"} Log Entry`}
+            text={`${this.props.isEditingTimeLog ? "Edit" : "Add"} Log Entry`}
             isSubmitting={this.state.isSubmitting}
             isFormDisabled={this.state.isFormDisabled}
           />

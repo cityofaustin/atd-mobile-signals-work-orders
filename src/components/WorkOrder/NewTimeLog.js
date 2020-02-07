@@ -39,48 +39,36 @@ class NewTimeLog extends Component {
 
     console.log("submitting: ", this.state.updatedFormData, this.workOrderId);
 
-    !this.props.isEditingTimeLog &&
-      api
-        .workOrder()
-        .newTimeLog(this.workOrderId, this.state.updatedFormData)
-        .then(res => {
-          this.setState({
-            isSubmitting: false,
-            isSubmitted: true,
-            successfulResponseData: res.data.record,
-          });
-          this.props.restoreTimeLogTable();
-        })
-        .catch(error => {
-          console.log(error.response.data.errors);
-          this.setState({
-            errors: error.response.data.errors,
-            isSubmitting: false,
-          });
-        });
-
-    this.props.isEditingTimeLog &&
+    const postRecord = () =>
+      api.workOrder().newTimeLog(this.workOrderId, this.state.updatedFormData);
+    const putRecord = () =>
       api
         .workOrder()
         .editTimeLog(
           this.props.timeLogSelectedForEdit,
           this.state.updatedFormData
-        )
-        .then(res => {
-          this.setState({
-            isSubmitting: false,
-            isSubmitted: true,
-            successfulResponseData: res.data.record,
-          });
-          this.props.restoreTimeLogTable();
-        })
-        .catch(error => {
-          console.log(error.response.data.errors);
-          this.setState({
-            errors: error.response.data.errors,
-            isSubmitting: false,
-          });
+        );
+
+    const timeLogSubmitRequest = this.props.isEditingTimeLog
+      ? putRecord
+      : postRecord;
+
+    timeLogSubmitRequest()
+      .then(res => {
+        this.setState({
+          isSubmitting: false,
+          isSubmitted: true,
+          successfulResponseData: res.data.record,
         });
+        this.props.restoreTimeLogTable();
+      })
+      .catch(error => {
+        console.log(error.response.data.errors);
+        this.setState({
+          errors: error.response.data.errors,
+          isSubmitting: false,
+        });
+      });
   };
 
   handleChange = e => {
@@ -215,11 +203,6 @@ class NewTimeLog extends Component {
   }
 
   render() {
-    if (!!this.state.successfulResponseData) {
-      console.log(this.state.successfulResponseData);
-      return <Redirect to={`/work-orders/${this.workOrderId}`} />;
-    }
-
     const { timeLogToEdit } = this.state;
 
     return this.state.isLoading ? (
@@ -260,12 +243,6 @@ class NewTimeLog extends Component {
                 FIELDS.TIMELOG.TECHNICIANS
               )}
             />
-            {/* <small
-              className="form-text"
-              id={`${FIELDS.TIMELOG.TECHNICIANS}-text`}
-            >
-              Leave blank for yourself
-            </small> */}
           </div>
           <div className="form-group">
             <label htmlFor={FIELDS.TIMELOG.VEHICLES}>Vehicles(s)</label>

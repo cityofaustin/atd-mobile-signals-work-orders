@@ -189,18 +189,6 @@ class App extends Component {
                 knackObject={this.state.knackObject}
               />
               <Route
-                path="/work-order/new-time-log/:workOrderId"
-                component={NewTimeLog}
-                knackObject={this.state.knackObject}
-                isEditable={false}
-              />
-              <Route
-                path="/work-order/:workOrderId/edit-time-log/:timeLogId"
-                component={NewTimeLog}
-                knackObject={this.state.knackObject}
-                isEditable={true}
-              />
-              <Route
                 path="/work-order/add-image/:workOrderId"
                 component={AddImage}
                 knackObject={this.state.knackObject}

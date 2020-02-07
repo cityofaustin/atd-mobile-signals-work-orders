@@ -65,6 +65,7 @@ class WorkOrderDetail extends Component {
     this.halfDetails = Math.ceil(workOrderFields.details.length / 2);
     this.detailsFirstHalf = workOrderFields.details.slice(0, this.halfDetails);
     this.detailsSecondHalf = workOrderFields.details.slice(this.halfDetails);
+    this.workOrderId = this.props.match.params.workOrderId;
   }
 
   renderDetailItem(field) {
@@ -88,11 +89,11 @@ class WorkOrderDetail extends Component {
     window.analytics.page("Work Order Details");
 
     this._isMounted = true;
-    const { workOrderId } = this.props.match.params;
-    getWorkOrderTitle(workOrderId).then(data => {
+
+    getWorkOrderTitle(this.workOrderId).then(data => {
       this._isMounted && this.setState({ titleData: data });
     });
-    getWorkOrderDetailAndTimeLogs(workOrderId).then(data => {
+    getWorkOrderDetailAndTimeLogs(this.workOrderId).then(data => {
       this._isMounted && this.setState({ detailsData: data });
 
       // Need to retrieve ATD Work Order ID from details in order to req associated inv. items
@@ -108,8 +109,8 @@ class WorkOrderDetail extends Component {
         this._isMounted && this.setState({ userInfo: res.data });
       });
     // Stagger the calls to Knack API so we don't get rate limited.
-    setTimeout(this.requestTimeLogs, 500, workOrderId);
-    setTimeout(this.requestImages, 1000, workOrderId);
+    setTimeout(this.requestTimeLogs, 500, this.workOrderId);
+    setTimeout(this.requestImages, 1000, this.workOrderId);
   }
 
   componentWillUnmount() {
@@ -204,7 +205,7 @@ class WorkOrderDetail extends Component {
         isAddingTimeLog: false,
       },
       () => {
-        this.requestTimeLogs(this.state.atdWorkOrderId);
+        this.requestTimeLogs(this.workOrderId);
       }
     );
   };

@@ -114,12 +114,14 @@ const EditTimeLogDateTimeFields = ({
 
   return (
     <div>
-      <TimeLogForm
-        getFormSelection={getFormSelection}
-        handleFormChange={handleDateTimeFieldChange}
-        isFormDisabled={isFormDisabled}
-        data={data}
-      />
+      {timeLogToEdit && (
+        <TimeLogForm
+          getFormSelection={getFormSelection}
+          handleFormChange={handleDateTimeFieldChange}
+          isFormDisabled={isFormDisabled}
+          data={data}
+        />
+      )}
     </div>
   );
 };

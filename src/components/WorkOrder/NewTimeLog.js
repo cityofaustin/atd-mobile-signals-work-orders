@@ -173,9 +173,6 @@ class NewTimeLog extends Component {
     const timeLogToEdit = this.state.timeLogData.filter(
       record => record.id === this.props.timeLogSelectedForEdit
     )[0];
-    const data = this.state.timeLogData;
-    const id = this.props;
-    debugger;
     this.setState({ timeLogToEdit });
   };
 
@@ -219,7 +216,7 @@ class NewTimeLog extends Component {
       return <Redirect to={`/work-orders/${this.workOrderId}`} />;
     }
 
-    const timeLogToEdit = this.state.timeLogToEdit;
+    const { timeLogToEdit } = this.state;
 
     return this.state.isLoading ? (
       <FontAwesomeIcon icon={faSpinner} className="atd-spinner" size="2x" />
@@ -297,13 +294,13 @@ class NewTimeLog extends Component {
             />
           )}
           {this.props.isEditingTimeLog &&
-            this.props.timeLogSelectedForEdit && (
+            timeLogToEdit && (
               <EditTimeLogDateTimeFields
                 data={this.state.updatedFormData}
                 handleTimeChange={this.handleDateTimeFieldChange}
                 handleFormDisable={this.handleFormDisable}
                 isFormDisabled={this.state.isFormDisabled}
-                timeLogToEdit={this.props.timeLogSelectedForEdit}
+                timeLogToEdit={timeLogToEdit}
               />
             )}
           <SubmitButton

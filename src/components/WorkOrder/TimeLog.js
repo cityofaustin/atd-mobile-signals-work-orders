@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faEdit, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FIELDS } from "./formConfig";
@@ -11,6 +10,7 @@ const TimeLog = ({ data, handleAddTimeLog, handleEditTimeLog }) => {
   };
 
   const handleEditTimeLogClick = (e, timeLogId) => {
+    // Switch isEditingInventoryItem to show edit form
     handleEditTimeLog(timeLogId);
   };
 

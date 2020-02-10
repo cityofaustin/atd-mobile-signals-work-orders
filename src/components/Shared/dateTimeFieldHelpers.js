@@ -104,7 +104,7 @@ export const getSelectedTime = (data, field) => {
     (isEmpty(data[field]) && field === FIELDS.TIMELOG.WORKSITE_ARRIVE);
 
   if (shouldReturnCurrentDate) return today; // default to current time for certain fields
-  if (isEmpty(data[field])) return null; // let value start as blank if there's no exisiting data
+  if (isEmpty(data[field])) return null; // let value start as blank if there's no existing data
 
   let date = data[field].date
     ? data[field].date
@@ -118,6 +118,7 @@ export const getSelectedTime = (data, field) => {
 };
 
 export const formatDateTimeForFormValidation = (data, field) => {
+  if (isEmpty(data[field])) return null; // let value start as blank if there's no existing data
   let date = data[field].date ? data[field].date : data[`${field}_raw`].date;
 
   let momentDate = data[field].hours

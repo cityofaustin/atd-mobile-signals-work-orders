@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStreetView, faWrench } from "@fortawesome/free-solid-svg-icons";
+import { faWrench } from "@fortawesome/free-solid-svg-icons";
 
 import ListWithSearchAndPage from "./Shared/ListWithSearchAndPages";
-import PageTitle from "./Shared/PageTitle";
-import { StyledPageTitle } from "../styles/PageTitle.css";
-
 import { workOrderFields } from "../queries/fields";
 import { getMyWorkOrders, searchMyWorkOrders } from "./WorkOrder/helpers";
 
@@ -43,9 +40,6 @@ class MyWorkOrders extends Component {
   render() {
     return (
       <div>
-        <StyledPageTitle>
-          <PageTitle icon={faStreetView} title={"My Work Orders"} />
-        </StyledPageTitle>
         <div className="d-flex flex-row">
           <div className="mr-2 mb-2">
             <Link to={`/work-order/new/`}>

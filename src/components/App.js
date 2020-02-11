@@ -13,21 +13,13 @@ import { faStroopwafel, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./Login";
-import Home from "./Home";
 import Header from "./Header";
 import NavFooter from "./Shared/NavFooter";
-import WorkOrderDetails from "./WorkOrderDetails";
-import MyWorkOrders from "./MyWorkOrders";
-import AllWorkOrders from "./AllWorkOrders";
-import NewWorkOrder from "./WorkOrder/New";
-import EditWorkOrder from "./WorkOrder/Edit";
-import SubmitWorkOrder from "./WorkOrder/Submit";
-import NewTimeLog from "./WorkOrder/NewTimeLog";
-import AddImage from "./WorkOrder/AddImage";
-import Assets from "./Assets/Assets";
+
 import { APP_ID } from "../constants/api";
 
 import "../styles/App.css";
+import pages from "../constants/pages";
 
 // Load Font Awesome v5 SVG / JS version
 // https://github.com/FortAwesome/react-fontawesome
@@ -165,57 +157,19 @@ class App extends Component {
                     <Header
                       {...props}
                       revokeKnackUserToken={this.revokeKnackUserToken}
+                      pages={pages}
                     />
                     <NavFooter {...props} />
                   </>
                 )}
               />
-              <Route component={Home} exact path="/" />
-              <Route path="/my-work-orders" component={MyWorkOrders} />
-              <Route path="/all-work-orders" component={AllWorkOrders} />
-              <Route
-                path="/work-order/new"
-                component={NewWorkOrder}
-                knackObject={this.state.knackObject}
-              />
-              <Route
-                path="/work-order/edit/:workOrderId"
-                component={EditWorkOrder}
-                knackObject={this.state.knackObject}
-              />
-              <Route
-                path="/work-order/submit/:workOrderId"
-                component={SubmitWorkOrder}
-                knackObject={this.state.knackObject}
-              />
-              <Route
-                path="/work-order/new-time-log/:workOrderId"
-                component={NewTimeLog}
-                knackObject={this.state.knackObject}
-                isEditable={false}
-              />
-              <Route
-                path="/work-order/:workOrderId/edit-time-log/:timeLogId"
-                component={NewTimeLog}
-                knackObject={this.state.knackObject}
-                isEditable={true}
-              />
-              <Route
-                path="/work-order/add-image/:workOrderId"
-                component={AddImage}
-                knackObject={this.state.knackObject}
-              />
-              <Route
-                path="/work-orders/:workOrderId"
-                exact
-                component={WorkOrderDetails}
-              />
-              <Route
-                path="/work-orders/:workOrderId/assets/:assetId"
-                exact
-                component={Assets}
-              />
-              <Route path="/assets/" exact component={Assets} />
+              {pages.map(page => (
+                <Route
+                  component={page.component}
+                  exact={page.exact}
+                  path={page.path}
+                />
+              ))}
             </div>
           ) : (
             <FontAwesomeIcon

@@ -235,12 +235,6 @@ class WorkOrderDetail extends Component {
     } = this.state;
     return (
       <div>
-        <StyledPageTitle>
-          <PageTitle
-            icon={faWrench}
-            title={this.state.titleData[workOrderFields.header]}
-          />
-        </StyledPageTitle>
         <h2>{this.renderSignalDetailsLink()}</h2>
         <div className="d-flex flex-row flex-wrap">
           {statusField !== "Submitted" &&

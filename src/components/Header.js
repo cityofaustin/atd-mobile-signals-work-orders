@@ -5,23 +5,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import StyledHeader from "../styles/Header.css.js";
 
-const Header = props => {
-  const isNotHomePath = props.location.pathname !== "/";
+const Header = ({ location, history, revokeKnackUserToken, pages }) => {
+  const isNotHomePath = location.pathname !== "/";
+  const currentPage = pages.find(page => page.path === location.pathname);
+
   return (
     <StyledHeader>
       <div>
         {isNotHomePath && (
           <FontAwesomeIcon
             className="nav-buttons"
-            onClick={() => props.history.goBack()}
+            onClick={() => history.goBack()}
             icon={faArrowLeft}
-            size="2x"
+            size="lg"
           />
         )}
         <RefreshIcon />
       </div>
-      <h2>{props.currentPage}</h2>
-      <UserInfo revokeKnackUserToken={props.revokeKnackUserToken} />
+      <h1>
+        <FontAwesomeIcon icon={currentPage ? currentPage.icon : ""} />{" "}
+        {currentPage ? currentPage.pageTitle : ""}
+      </h1>
+      <UserInfo revokeKnackUserToken={revokeKnackUserToken} />
     </StyledHeader>
   );
 };

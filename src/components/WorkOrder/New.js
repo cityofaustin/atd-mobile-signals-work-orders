@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import api from "../../queries/api";
 import { newWorkOrderInitialState } from "./formDataInitialState";
 import { FIELDS } from "./formConfig";
 
-import Header from "../Shared/Header";
 import FormFooter from "../Shared/FormFooter";
 import { ErrorMessage, SuccessMessage } from "./Alerts";
 import WorkTypeFields from "./WorkTypeFields";
@@ -185,8 +183,6 @@ class NewWorkOrder extends Component {
 
     return (
       <div>
-        <Header icon={faPlus} title="New Work Order" />
-
         {this.state.isSubmitted && (
           <SuccessMessage formVerb="created" formType="New Work Order" />
         )}

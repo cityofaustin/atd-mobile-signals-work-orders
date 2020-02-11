@@ -13,11 +13,7 @@ import api from "../../queries/api";
 import Autocomplete from "react-autocomplete";
 import changeCase from "change-case";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMapMarkerAlt,
-  faSpinner,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   Accordion,
   AccordionItem,
@@ -169,10 +165,6 @@ class Assets extends Component {
   render() {
     return (
       <div>
-        <h1>
-          <FontAwesomeIcon icon={faMapMarkerAlt} /> {this.state.pageHeading}
-        </h1>
-
         {this.state.assetOptions.length > 0 &&
           this.state.viewedAsset === "" && (
             <form>

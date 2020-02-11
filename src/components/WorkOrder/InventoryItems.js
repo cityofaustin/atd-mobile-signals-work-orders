@@ -120,7 +120,8 @@ class InventoryItems extends Component {
             <div className="col-6">
               <SubmitButton
                 text={`${this.renderInventoryFormVerb()} Item`}
-                buttonStyles={`btn-block`}
+                buttonStyles={`btn-block my-0`}
+                spinnerSize="lg"
                 isSubmitting={this.state.isSubmitting}
               />
             </div>

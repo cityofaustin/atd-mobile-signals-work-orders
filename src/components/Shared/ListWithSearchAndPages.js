@@ -178,7 +178,11 @@ class ListWithSearchAndPage extends Component {
           </div>
         </form>
         {this.state.loading && (
-          <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            className="atd-spinner--padded"
+          />
         )}
         <div
           className="btn-group btn-group-lg mb-3"

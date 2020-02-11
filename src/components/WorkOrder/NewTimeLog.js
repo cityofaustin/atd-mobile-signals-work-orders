@@ -218,7 +218,11 @@ class NewTimeLog extends Component {
     const timeLogToEdit = this.state.timeLogToEdit;
 
     return this.state.isLoading ? (
-      <FontAwesomeIcon icon={faSpinner} className="atd-spinner" size="2x" />
+      <FontAwesomeIcon
+        icon={faSpinner}
+        className="atd-spinner--padded"
+        size="2x"
+      />
     ) : (
       <div>
         <Header

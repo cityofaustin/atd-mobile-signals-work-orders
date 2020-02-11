@@ -52,16 +52,14 @@ class InventoryItemTable extends Component {
   };
 
   render() {
-    const { inventoryData, workOrderId } = this.props;
+    const { inventoryData } = this.props;
     return (
       <>
-        <div className="p-3">
-          <Button
-            icon={faWrench}
-            text={"New Item"}
-            linkPath={`/work-order/inventory-items/${workOrderId}`}
-            modifierClasses={""}
-          />
+        <div
+          className={`btn btn-success btn-lg mb-3`}
+          onClick={this.handleAddInventoryItemClick}
+        >
+          <FontAwesomeIcon icon={faWrench} /> Add Item
         </div>
         {inventoryData.length === 0 && <p>No data</p>}
         {inventoryData.length > 0 && (

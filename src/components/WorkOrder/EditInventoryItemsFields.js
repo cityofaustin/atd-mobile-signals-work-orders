@@ -90,9 +90,7 @@ export default class EditInventoryItemsFields extends Component {
               FIELDS.WORK_ORDER_INVENTORY_ITEMS
             )}
             required
-          />{" "}
-          // Prevent blank item from adding to DB since Knack does not require
-          these fields
+          />
         </div>
         <div className="form-group">
           <label htmlFor={FIELDS.WORK_ORDER_ITEM_QUANTITY}>Quantity</label>
@@ -106,9 +104,7 @@ export default class EditInventoryItemsFields extends Component {
               this.handleFieldChange(e, FIELDS.WORK_ORDER_ITEM_QUANTITY)
             }
             required
-          />{" "}
-          // Prevent blank item from adding to DB since Knack does not require
-          these fields
+          />
         </div>
         <div className="form-group">
           <label htmlFor={FIELDS.WORK_ORDER_ITEM_SOURCE}>Source</label>
@@ -128,9 +124,7 @@ export default class EditInventoryItemsFields extends Component {
             ])}
             onChange={this.handleSourceChange}
             required
-          />{" "}
-          // Prevent blank item from adding to DB since Knack does not require
-          these fields
+          />
         </div>
         <div className="form-group">
           <label htmlFor={FIELDS.WORK_ORDER_ITEM_COMMENT}>Comment</label>

@@ -31,7 +31,7 @@ import TimeLog from "./WorkOrder/TimeLog";
 import WorkSpecifications from "./WorkOrder/WorkSpecifications";
 import UploadImage from "./WorkOrder/UploadImage";
 import api from "../queries/api";
-import { workOrderFields } from "../queries/fields";
+import { workOrderFields as FIELDS } from "../queries/fields";
 import {
   getWorkOrderTitle,
   getWorkOrderDetailAndTimeLogs,
@@ -58,9 +58,9 @@ class WorkOrderDetail extends Component {
 
     // Split the Details fields in two so we can display them side by side and
     // save some screen real estate
-    this.halfDetails = Math.ceil(workOrderFields.details.length / 2);
-    this.detailsFirstHalf = workOrderFields.details.slice(0, this.halfDetails);
-    this.detailsSecondHalf = workOrderFields.details.slice(this.halfDetails);
+    this.halfDetails = Math.ceil(FIELDS.details.length / 2);
+    this.detailsFirstHalf = FIELDS.details.slice(0, this.halfDetails);
+    this.detailsSecondHalf = FIELDS.details.slice(this.halfDetails);
   }
 
   renderDetailItem(field) {
@@ -92,7 +92,7 @@ class WorkOrderDetail extends Component {
       this._isMounted && this.setState({ detailsData: data });
 
       // Need to retrieve ATD Work Order ID from details in order to req associated inv. items
-      const atdWorkOrderId = data.field_1209;
+      const atdWorkOrderId = data[FIELDS.details["Work Order ID"]];
       // Save atdWorkOrderId for refetching data after inventory updates
       this.setState({ atdWorkOrderId });
       setTimeout(this.requestInventory, 1500, atdWorkOrderId);
@@ -141,9 +141,7 @@ class WorkOrderDetail extends Component {
   };
 
   getAssetIdFromKnackLink = () => {
-    const assetUrlFromKnack = this.state.detailsData[
-      workOrderFields.assetIdFromDetails
-    ];
+    const assetUrlFromKnack = this.state.detailsData[FIELDS.assetIdFromDetails];
     const assetId =
       assetUrlFromKnack !== "" && assetUrlFromKnack.match(/href="#(.*?)">/)[1];
     return assetId;
@@ -200,7 +198,9 @@ class WorkOrderDetail extends Component {
 
   isWorkOrderAssignedToUserLoggedIn = () => {
     const userId = this.state.userInfo.id;
-    const usersArray = this.state.detailsData.field_1754_raw;
+    const usersArray = this.state.detailsData[
+      FIELDS.baseFields.leadTechnicianRaw
+    ];
     return usersArray && userId
       ? usersArray.find(user => user.id === userId)
       : false;
@@ -226,7 +226,7 @@ class WorkOrderDetail extends Component {
     );
 
   render() {
-    const statusField = this.state.detailsData.field_459;
+    const statusField = this.state.detailsData[FIELDS.baseFields.status];
     const workOrderId = this.props.match.params.workOrderId;
     const {
       isAddingInventoryItem,
@@ -400,7 +400,7 @@ class WorkOrderDetail extends Component {
                         <span style={{ fontStyle: "italic" }}>
                           Uploaded at:{" "}
                         </span>
-                        {image[workOrderFields.images.DATESTAMP]}
+                        {image[FIELDS.images.DATESTAMP]}
                       </div>
                     </li>
                   ))}

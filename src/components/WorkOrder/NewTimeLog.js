@@ -5,7 +5,6 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import { Redirect } from "react-router-dom";
 
-import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
 import NewTimeLogDateTimeFields from "./NewTimeLogDateTimeFields";
 import EditTimeLogDateTimeFields from "./EditTimeLogDateTimeFields";
@@ -225,11 +224,6 @@ class NewTimeLog extends Component {
       />
     ) : (
       <div>
-        <Header
-          icon={faClock}
-          title={`${this.isEditable ? "Edit" : "New"} Time Log`}
-        />
-
         {this.state.errors &&
           this.state.errors.map(error => (
             <ErrorMessage error={error} key={error.field} />

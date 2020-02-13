@@ -1,17 +1,10 @@
 import styled from "react-emotion";
 
 const StyledHeader = styled("header")`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  align-self: flex-start;
   background-color: ${props => props.theme.colorWhite};
-  margin: 0;
-  height: 66px;
-  width: 100%;
   border-bottom: 1px solid ${props => props.theme.colorBlack};
   margin-bottom: 10px;
+
   a {
     color: ${({ theme }) => theme.colorBlack};
     cursor: pointer;

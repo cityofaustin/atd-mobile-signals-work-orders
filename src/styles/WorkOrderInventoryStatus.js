@@ -6,6 +6,10 @@ export const WorkOrderInventoryStatus = styled("div")`
     font-size: 1.125rem;
   }
 
+  .badge-wrapper {
+    font-size: 1.3rem;
+  }
+
   .submitted > [class*="col"] {
     background-color: ${colors.inventoryStatusSubmitted};
   }

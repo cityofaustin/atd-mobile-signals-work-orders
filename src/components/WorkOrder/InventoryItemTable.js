@@ -10,7 +10,6 @@ import {
   faEdit,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Form/Button";
 
 class InventoryItemTable extends Component {
   constructor(props) {
@@ -66,18 +65,14 @@ class InventoryItemTable extends Component {
           <ul className="list-group list-group-flush">
             {inventoryData.map(
               (inventory, i) =>
+                // If an item is selected to cancel, show yes/no confirmation. If not, show item details
                 this.state.itemSelectedforCancel !== i ? (
-                  <WorkOrderInventoryStatus
-                    key={
-                      i // If an item is selected to cancel, show yes/no confirmation. If not, show item details
-                    }
-                  >
+                  <WorkOrderInventoryStatus key={i}>
                     <li
-                      className={`list-group-item p-0 ${
-                        this.addWorkOrderStatusClass(
-                          inventory[workOrderFields.inventory.STATUS]
-                        ) // Add classname to highlight item name by status
-                      }`}
+                      className={`list-group-item p-0 ${this.addWorkOrderStatusClass(
+                        // Add classname to highlight item name by status
+                        inventory[workOrderFields.inventory.STATUS]
+                      )}`}
                       key={i}
                     >
                       <div
@@ -85,7 +80,7 @@ class InventoryItemTable extends Component {
                           inventory[workOrderFields.inventory.STATUS]
                         )}`}
                       >
-                        <div className="col-12 col-md-6 py-2 pr-0">
+                        <div className="col-12 col-md-6 py-2 pr-0 font-weight-bold inventory-item">
                           <div
                             dangerouslySetInnerHTML={{
                               __html:

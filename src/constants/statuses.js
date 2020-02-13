@@ -57,6 +57,10 @@ export const workOrderInventoryStatuses = {
     backgroundColor: colors.white,
     textColor: colors.black,
   },
+  Cancelled: {
+    backgroundColor: colors.grey,
+    textColor: colors.black,
+  },
 };
 
 export const statusMap = {

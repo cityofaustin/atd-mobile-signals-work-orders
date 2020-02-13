@@ -162,6 +162,39 @@ class ListWithSearchAndPage extends Component {
 
     return (
       <div>
+        <form onSubmit={this.handleSearch.bind(this)}>
+          <div className="form-group row">
+            <div className="col">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter search here"
+                value={this.state.location}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="col">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary btn-lg"
+              />
+            </div>
+          </div>
+        </form>
+        <div className="text-center">
+          <div
+            className="btn-group btn-group-lg mb-3"
+            role="group"
+            aria-label="Basic example"
+          >
+            {this.renderFilterButton("All")}
+            {this.renderFilterButton("Assigned")}
+            {this.renderFilterButton("In Progress")}
+            {this.renderFilterButton("Submitted")}
+            {this.renderFilterButton("Closed")}
+          </div>
+        </div>
         {this.state.loading ? (
           <FontAwesomeIcon
             icon={faSpinner}
@@ -169,73 +202,38 @@ class ListWithSearchAndPage extends Component {
             className="atd-spinner--padded"
           />
         ) : (
-          <>
-            <form onSubmit={this.handleSearch.bind(this)}>
-              <div className="form-group row">
-                <div className="col">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter search here"
-                    value={this.state.location}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className="col">
-                  <input
-                    type="submit"
-                    value="Search"
-                    className="btn btn-primary btn-lg"
-                  />
-                </div>
-              </div>
-            </form>
-            <div className="text-center">
-              <div
-                className="btn-group btn-group-lg mb-3"
-                role="group"
-                aria-label="Basic example"
-              >
-                {this.renderFilterButton("All")}
-                {this.renderFilterButton("Assigned")}
-                {this.renderFilterButton("In Progress")}
-                {this.renderFilterButton("Submitted")}
-                {this.renderFilterButton("Closed")}
-              </div>
-            </div>
-            <ul className="list-group list-group-flush">
-              {this.state.isFiltered &&
-                this.state.filteredData.map(item => this.renderListItem(item))}
-              {isDataLoaded &&
-                !this.state.isFiltered &&
-                knackData.map(item => this.renderListItem(item))}
-            </ul>
-            <form>
-              <br />
-              <div className="form-group row justify-content-center">
-                <div className="col-auto">
-                  <button
-                    className="btn btn-primary btn-lg"
-                    onClick={this.prevPage}
-                  >
-                    Prev. Page
-                  </button>
-                </div>
-                <div className="col-auto">
-                  Page {this.state.currentPage} of {this.state.lastPage}
-                </div>
-                <div className="col-auto">
-                  <button
-                    className="btn btn-primary btn-lg"
-                    onClick={this.nextPage}
-                  >
-                    Next Page
-                  </button>
-                </div>
-              </div>
-            </form>
-          </>
+          <ul className="list-group list-group-flush">
+            {this.state.isFiltered &&
+              this.state.filteredData.map(item => this.renderListItem(item))}
+            {isDataLoaded &&
+              !this.state.isFiltered &&
+              knackData.map(item => this.renderListItem(item))}
+          </ul>
         )}
+        <form>
+          <br />
+          <div className="form-group row justify-content-center">
+            <div className="col-auto">
+              <button
+                className="btn btn-primary btn-lg"
+                onClick={this.prevPage}
+              >
+                Prev. Page
+              </button>
+            </div>
+            <div className="col-auto">
+              Page {this.state.currentPage} of {this.state.lastPage}
+            </div>
+            <div className="col-auto">
+              <button
+                className="btn btn-primary btn-lg"
+                onClick={this.nextPage}
+              >
+                Next Page
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     );
   }

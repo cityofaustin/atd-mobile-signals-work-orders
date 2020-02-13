@@ -1,6 +1,12 @@
 import styled from "react-emotion";
 import { colors } from "../constants/colors";
 
+export const addStatusClass = status => {
+  // Translate status to classname for CSS styling
+  const statusClassname = status.split(" ")[0].toLowerCase() || null;
+  return !!statusClassname ? statusClassname : "";
+};
+
 export const WorkOrderInventoryStatus = styled("div")`
   .inventory-item {
     font-size: 1.125rem;

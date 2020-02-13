@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { WorkOrderInventoryStatus } from "../../styles/WorkOrderInventoryStatus";
+import {
+  WorkOrderInventoryStatus,
+  addStatusClass,
+} from "../../styles/WorkOrderInventoryStatus";
 
 import { workOrderFields } from "../../queries/fields";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";
@@ -127,9 +130,19 @@ class ListWithSearchAndPage extends Component {
         </div>
         {/* Status Badge */}
         <div className="col-sm-12 col-md-4">
+          {/* 
+           1. Create a component that will take a config object
+           2. Component will take and set icon, color (b&w default), text
+           3. Configs set in statuses.js
+           4. Won't need classes or class generators 
+          */}
           <WorkOrderInventoryStatus key={item.id}>
             <div className="badge-wrapper">
-              <span className={`badge badge-secondary w-100 status-badge`}>
+              <span
+                className={`badge badge-secondary w-100 status-badge ${addStatusClass(
+                  item[fields.status]
+                )}`}
+              >
                 <FontAwesomeIcon
                   icon={
                     item[fields.status] && statuses[item[fields.status]].icon

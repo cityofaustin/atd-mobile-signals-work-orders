@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { WorkOrderInventoryStatus } from "../../styles/WorkOrderInventoryStatus";
 import { workOrderFields } from "../../queries/fields";
 import api from "../../queries/api";
+import { addStatusClass } from "../../styles/WorkOrderInventoryStatus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faWrench,
@@ -19,12 +20,6 @@ class InventoryItemTable extends Component {
       isCancelling: false,
     };
   }
-
-  addWorkOrderStatusClass = status => {
-    // Translate status to classname for CSS styling
-    const statusClassname = status.split(" ")[0].toLowerCase() || null;
-    return !!statusClassname ? statusClassname : "";
-  };
 
   handleConfirmCancelItemClick = (e, inventoryItemId) => {
     // Show spinner while waiting for req to complete
@@ -124,7 +119,7 @@ class InventoryItemTable extends Component {
                           <div className="col-sm-12 col-md-4 col-lg p-2">
                             <div className="badge-wrapper">
                               <span
-                                className={`badge badge-secondary w-100 status-badge ${this.addWorkOrderStatusClass(
+                                className={`badge badge-secondary w-100 status-badge ${addStatusClass(
                                   inventory[workOrderFields.inventory.STATUS]
                                 )}`}
                               >

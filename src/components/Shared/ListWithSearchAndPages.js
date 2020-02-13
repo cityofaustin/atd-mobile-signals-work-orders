@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { StatusBadge } from "../Shared/StatusBadge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -130,28 +131,13 @@ class ListWithSearchAndPage extends Component {
         </div>
         {/* Status Badge */}
         <div className="col-sm-12 col-md-4">
-          {/* 
-           1. Create a component that will take a config object
-           2. Component will take and set icon, color (b&w default), text
-           3. Configs set in statuses.js
-           4. Won't need classes or class generators 
-          */}
-          <WorkOrderInventoryStatus key={item.id}>
-            <div className="badge-wrapper">
-              <span
-                className={`badge badge-secondary w-100 status-badge ${addStatusClass(
-                  item[fields.status]
-                )}`}
-              >
-                <FontAwesomeIcon
-                  icon={
-                    item[fields.status] && statuses[item[fields.status]].icon
-                  }
-                />
-                {` ${item[fields.status]} `}
-              </span>
-            </div>
-          </WorkOrderInventoryStatus>
+          <StatusBadge
+            icon={statuses[item[fields.status]].icon}
+            text={item[fields.status]}
+            backgroundColor={statuses[item[fields.status]].backgroundColor}
+            textColor={statuses[item[fields.status]].textColor}
+            size="lg"
+          />
         </div>
         <div className="col-sm-6 col-md-4 pt-2 text-center">
           {item[fields.leadTechnicianRaw][0]

@@ -1,33 +1,40 @@
 import React from "react";
 import styled from "react-emotion";
-import { colors } from "../constants/colors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { colors } from "../../constants/colors";
 
-const StatusBadge = ({
+export const StatusBadge = ({
   icon = null,
   text = "",
-  backgroundColor = colors.white,
+  backgroundColor,
+  textColor = colors.black,
+  size = "sm",
 }) => {
-  const StyledBadge = styled.div`
+  const fontConfig = {
+    sm: `1.3rem`,
+    lg: `1.5rem`,
+  };
+
+  const StyledBadge = styled("div")`
     .badge-wrapper {
-      font-size: 1.3rem;
+      font-size: ${fontConfig[size]};
     }
 
-    color: ${backgroundColor ? colors.white : colors.black};
-    padding: 0.75em;
-    background-color: ${backgroundColor ? backgroundColor : colors.white};
-    ${!backgroundColor && `border: 1px solid ${colors.black};`};
+    .status-badge {
+      color: ${textColor};
+      padding: 0.75em;
+      background-color: ${backgroundColor ? backgroundColor : colors.white};
+      ${!backgroundColor && `border: 1px solid ${colors.black};`};
+    }
   `;
 
   return (
     <StyledBadge>
       <div className="badge-wrapper">
-        <span className="badge w-100">
-          {icon && <FontAwesomeIcon icon={icon} />}
-          {text}
+        <span className="badge badge-secondary w-100 status-badge">
+          {icon && <FontAwesomeIcon icon={icon} />} {text}
         </span>
       </div>
     </StyledBadge>
   );
 };
-
-export default StatusBadge;

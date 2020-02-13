@@ -35,7 +35,6 @@ export const signalsWorkOrderStatuses = {
   },
   Closed: {
     icon: faCheckCircle,
-    backgroundColor: colors.white,
     textColor: colors.black,
   },
 };

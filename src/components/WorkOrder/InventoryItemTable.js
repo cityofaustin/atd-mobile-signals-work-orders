@@ -68,18 +68,8 @@ class InventoryItemTable extends Component {
                 // If an item is selected to cancel, show yes/no confirmation. If not, show item details
                 this.state.itemSelectedforCancel !== i ? (
                   <WorkOrderInventoryStatus key={i}>
-                    <li
-                      className={`list-group-item p-0 ${this.addWorkOrderStatusClass(
-                        // Add classname to highlight item name by status
-                        inventory[workOrderFields.inventory.STATUS]
-                      )}`}
-                      key={i}
-                    >
-                      <div
-                        className={`row mx-0 ${this.addWorkOrderStatusClass(
-                          inventory[workOrderFields.inventory.STATUS]
-                        )}`}
-                      >
+                    <li className="list-group-item p-0" key={i}>
+                      <div className="row mx-0">
                         <div className="col-12 col-md-6 pt-3 pb-2 pr-0 font-weight-bold inventory-item">
                           <div
                             dangerouslySetInnerHTML={{
@@ -130,14 +120,14 @@ class InventoryItemTable extends Component {
 
                       <div className="col-12">
                         {/* Add classname to highlight item attributes by status */}
-                        <div
-                          className={`row px-3 py-2 ${this.addWorkOrderStatusClass(
-                            inventory[workOrderFields.inventory.STATUS]
-                          )}`}
-                        >
+                        <div className={`row px-3 py-2}`}>
                           <div className="col-sm-12 col-md-4 col-lg p-2">
                             <div className="badge-wrapper">
-                              <span className="badge badge-secondary w-100 p-2">
+                              <span
+                                className={`badge badge-secondary w-100 status-badge ${this.addWorkOrderStatusClass(
+                                  inventory[workOrderFields.inventory.STATUS]
+                                )}`}
+                              >
                                 {inventory[workOrderFields.inventory.STATUS]}
                               </span>
                             </div>

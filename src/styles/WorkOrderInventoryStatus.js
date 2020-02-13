@@ -10,15 +10,25 @@ export const WorkOrderInventoryStatus = styled("div")`
     font-size: 1.3rem;
   }
 
-  .submitted > [class*="col"] {
+  .status-badge {
+    color: ${colors.black};
+    padding: 0.75em;
+    background-color: ${colors.white};
+    border: 1px solid ${colors.black};
+  }
+
+  .submitted {
     background-color: ${colors.inventoryStatusSubmitted};
+    border: 0px;
   }
 
-  .issued > [class*="col"] {
+  .issued {
     background-color: ${colors.inventoryStatusIssued};
+    border: 0px;
   }
 
-  .returned > [class*="col"] {
+  .returned {
     background-color: ${colors.inventoryStatusReturned};
+    border: 0px;
   }
 `;

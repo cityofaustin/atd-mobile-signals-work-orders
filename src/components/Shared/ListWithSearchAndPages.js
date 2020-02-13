@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { WorkOrderInventoryStatus } from "../../styles/WorkOrderInventoryStatus";
 
 import { workOrderFields } from "../../queries/fields";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";
@@ -118,32 +119,34 @@ class ListWithSearchAndPage extends Component {
 
   renderListItem = item => (
     <Link to={`/work-orders/${item.id}`} key={item.id}>
-      <li
-        className="list-group-item d-flex row"
-        style={{
-          backgroundColor: statuses[item[fields.status]].backgroundColor,
-          color: statuses[item[fields.status]].textColor,
-        }}
-      >
+      <li className="list-group-item d-flex row">
         {/* Location */}
-        <div className="col-12">
+        <div className="col-12 pb-2">
           <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
           <span>{item[this.props.titleFieldId]}</span>
         </div>
-        {/* Status */}
-        <div className="col-6">
-          <FontAwesomeIcon
-            icon={item[fields.status] && statuses[item[fields.status]].icon}
-          />
-          <span>
-            {` ${item[fields.status]} `}
-            {item[fields.leadTechnicianRaw][0]
-              ? ` -- ${item[fields.leadTechnicianRaw][0].identifier}`
-              : ""}
-          </span>
+        {/* Status Badge */}
+        <div className="col-sm-12 col-md-4">
+          <WorkOrderInventoryStatus key={item.id}>
+            <div className="badge-wrapper">
+              <span className={`badge badge-secondary w-100 status-badge`}>
+                <FontAwesomeIcon
+                  icon={
+                    item[fields.status] && statuses[item[fields.status]].icon
+                  }
+                />
+                {` ${item[fields.status]} `}
+              </span>
+            </div>
+          </WorkOrderInventoryStatus>
+        </div>
+        <div className="col-sm-6 col-md-4 pt-2 text-center">
+          {item[fields.leadTechnicianRaw][0]
+            ? `${item[fields.leadTechnicianRaw][0].identifier}`
+            : ""}
         </div>
         {/* Modified at Datetime */}
-        <div className="col-6">
+        <div className="col-sm-6 col-md-4 pt-2 text-center">
           <span>{item[fields.modified]}</span>
         </div>
       </li>
@@ -157,75 +160,80 @@ class ListWithSearchAndPage extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSearch.bind(this)}>
-          <div className="form-group row">
-            <div className="col">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter search here"
-                value={this.state.location}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="col">
-              <input
-                type="submit"
-                value="Search"
-                className="btn btn-primary btn-lg"
-              />
-            </div>
-          </div>
-        </form>
-        {this.state.loading && (
+        {this.state.loading ? (
           <FontAwesomeIcon
             icon={faSpinner}
             size="2x"
             className="atd-spinner--padded"
           />
+        ) : (
+          <>
+            <form onSubmit={this.handleSearch.bind(this)}>
+              <div className="form-group row">
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter search here"
+                    value={this.state.location}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="col">
+                  <input
+                    type="submit"
+                    value="Search"
+                    className="btn btn-primary btn-lg"
+                  />
+                </div>
+              </div>
+            </form>
+            <div className="text-center">
+              <div
+                className="btn-group btn-group-lg mb-3"
+                role="group"
+                aria-label="Basic example"
+              >
+                {this.renderFilterButton("All")}
+                {this.renderFilterButton("Assigned")}
+                {this.renderFilterButton("In Progress")}
+                {this.renderFilterButton("Submitted")}
+                {this.renderFilterButton("Closed")}
+              </div>
+            </div>
+            <ul className="list-group list-group-flush">
+              {this.state.isFiltered &&
+                this.state.filteredData.map(item => this.renderListItem(item))}
+              {isDataLoaded &&
+                !this.state.isFiltered &&
+                knackData.map(item => this.renderListItem(item))}
+            </ul>
+            <form>
+              <br />
+              <div className="form-group row justify-content-center">
+                <div className="col-auto">
+                  <button
+                    className="btn btn-primary btn-lg"
+                    onClick={this.prevPage}
+                  >
+                    Prev. Page
+                  </button>
+                </div>
+                <div className="col-auto">
+                  Page {this.state.currentPage} of {this.state.lastPage}
+                </div>
+                <div className="col-auto">
+                  <button
+                    className="btn btn-primary btn-lg"
+                    onClick={this.nextPage}
+                  >
+                    Next Page
+                  </button>
+                </div>
+              </div>
+            </form>
+          </>
         )}
-        <div
-          className="btn-group btn-group-lg mb-3"
-          role="group"
-          aria-label="Basic example"
-        >
-          {this.renderFilterButton("All")}
-          {this.renderFilterButton("Assigned")}
-          {this.renderFilterButton("In Progress")}
-          {this.renderFilterButton("Submitted")}
-          {this.renderFilterButton("Closed")}
-        </div>
-        <ul className="list-group list-group-flush">
-          {this.state.isFiltered &&
-            this.state.filteredData.map(item => this.renderListItem(item))}
-          {isDataLoaded &&
-            !this.state.isFiltered &&
-            knackData.map(item => this.renderListItem(item))}
-        </ul>
-        <form>
-          <br />
-          <div className="form-group row justify-content-center">
-            <div className="col-auto">
-              <button
-                className="btn btn-primary btn-lg"
-                onClick={this.prevPage}
-              >
-                Prev. Page
-              </button>
-            </div>
-            <div className="col-auto">
-              Page {this.state.currentPage} of {this.state.lastPage}
-            </div>
-            <div className="col-auto">
-              <button
-                className="btn btn-primary btn-lg"
-                onClick={this.nextPage}
-              >
-                Next Page
-              </button>
-            </div>
-          </div>
-        </form>
       </div>
     );
   }

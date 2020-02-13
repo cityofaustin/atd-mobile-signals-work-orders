@@ -40,6 +40,21 @@ export const signalsWorkOrderStatuses = {
   },
 };
 
+export const workOrderInventoryStatuses = {
+  Submitted: {
+    backgroundColor: colors.inventoryStatusSubmitted,
+    textColor: colors.white,
+  },
+  Issued: {
+    backgroundColor: colors.inventoryStatusIssued,
+    textColor: colors.white,
+  },
+  Returned: {
+    backgroundColor: colors.inventoryStatusReturned,
+    textColor: colors.white,
+  },
+};
+
 export const statusMap = {
   "ON HOLD": {
     icon: faClock,

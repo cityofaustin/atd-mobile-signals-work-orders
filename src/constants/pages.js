@@ -15,6 +15,9 @@ import {
   faStreetView,
   faPlus,
   faMapMarkerAlt,
+  faEdit,
+  faClock,
+  faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 
 const pages = [
@@ -38,7 +41,6 @@ const pages = [
     mainPage: true,
     icon: faTruck,
     pageTitle: "All Work Orders",
-    icon: faTruck,
   },
   {
     path: "/work-order/new",
@@ -50,6 +52,8 @@ const pages = [
   {
     path: "/work-order/edit/:workOrderId",
     component: EditWorkOrder,
+    pageTitle: "Edit Work Order",
+    icon: faEdit,
   },
   {
     path: "/work-order/submit/:workOrderId",
@@ -59,11 +63,15 @@ const pages = [
     path: "/work-order/new-time-log/:workOrderId",
     component: NewTimeLog,
     isEditable: false,
+    pageTitle: "New Time Log",
+    icon: faClock,
   },
   {
     path: "/work-order/:workOrderId/edit-time-log/:timeLogId",
     component: NewTimeLog,
     isEditable: true,
+    pageTitle: "Edit Time Log",
+    icon: faClock,
   },
   {
     path: "/work-order/add-image/:workOrderId",
@@ -73,11 +81,15 @@ const pages = [
     path: "/work-orders/:workOrderId",
     exact: true,
     component: WorkOrderDetails,
+    pageTitle: "Work Order Details",
+    icon: faWrench,
   },
   {
     path: "/work-orders/:workOrderId/assets/:assetId",
     exact: true,
     component: Assets,
+    pageTitle: "Assets",
+    icon: faMapMarkerAlt,
   },
   {
     path: "/assets",

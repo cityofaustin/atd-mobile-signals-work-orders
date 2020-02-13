@@ -55,7 +55,7 @@ class InventoryItemTable extends Component {
     return (
       <>
         <div
-          className={`btn btn-success btn-lg mb-3`}
+          className={`btn btn-success btn-lg my-3 ml-3`}
           onClick={this.handleAddInventoryItemClick}
         >
           <FontAwesomeIcon icon={faWrench} /> Add Item
@@ -136,28 +136,30 @@ class InventoryItemTable extends Component {
                           )}`}
                         >
                           <div className="col-6 col-md-4 p-1">
-                            <span>Quantity: </span>
+                            <span className="font-weight-bold">Status: </span>
+                            {inventory[workOrderFields.inventory.STATUS]}
+                          </div>
+                          <div className="col-6 col-md-4 p-1">
+                            <span className="font-weight-bold">Quantity: </span>
                             {inventory[workOrderFields.inventory.QUANTITY]}
                           </div>
                           <div className="col-6 col-md-4 p-1">
-                            <span>Source: </span>
+                            <span className="font-weight-bold">Source: </span>
                             {inventory[workOrderFields.inventory.SOURCE]}
                           </div>
                           <div className="col-6 col-md-4 p-1">
-                            <span>Issued to: </span>
+                            <span className="font-weight-bold">
+                              Issued to:{" "}
+                            </span>
                             {inventory[workOrderFields.inventory.ISSUED_TO]}
                           </div>
                           <div className="col-6 col-md-4 p-1">
-                            <span>Comment: </span>
-                            {inventory[workOrderFields.inventory.COMMENT]}
-                          </div>
-                          <div className="col-6 col-md-4 p-1">
-                            <span>Modified: </span>
+                            <span className="font-weight-bold">Modified: </span>
                             {inventory[workOrderFields.inventory.MODIFIED]}
                           </div>
                           <div className="col-6 col-md-4 p-1">
-                            <span>Status: </span>
-                            {inventory[workOrderFields.inventory.STATUS]}
+                            <span className="font-weight-bold">Comment: </span>
+                            {inventory[workOrderFields.inventory.COMMENT]}
                           </div>
                         </div>
                       </div>

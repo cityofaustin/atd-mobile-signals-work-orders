@@ -126,7 +126,7 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <div className="container">
+        <div>
           <Script
             url={`https://loader.knack.com/${APP_ID}/dist_3/knack.js`}
             onCreate={this.handleScriptCreate}
@@ -163,13 +163,15 @@ class App extends Component {
                   </>
                 )}
               />
-              {pages.map(page => (
-                <Route
-                  component={page.component}
-                  exact={page.exact}
-                  path={page.path}
-                />
-              ))}
+              <div className="container">
+                {pages.map(page => (
+                  <Route
+                    render={props => <page.component {...props} />}
+                    path={page.path}
+                    exact={page.exact}
+                  />
+                ))}
+              </div>
             </div>
           ) : (
             <FontAwesomeIcon

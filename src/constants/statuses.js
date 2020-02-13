@@ -35,12 +35,13 @@ export const signalsWorkOrderStatuses = {
   },
   Closed: {
     icon: faCheckCircle,
+    backgroundColor: colors.white,
     textColor: colors.black,
   },
 };
 
 export const workOrderInventoryStatuses = {
-  Submitted: {
+  "Submitted to Warehouse": {
     backgroundColor: colors.inventoryStatusSubmitted,
     textColor: colors.white,
   },
@@ -51,6 +52,10 @@ export const workOrderInventoryStatuses = {
   Returned: {
     backgroundColor: colors.inventoryStatusReturned,
     textColor: colors.white,
+  },
+  "Not Requested": {
+    backgroundColor: colors.white,
+    textColor: colors.black,
   },
 };
 

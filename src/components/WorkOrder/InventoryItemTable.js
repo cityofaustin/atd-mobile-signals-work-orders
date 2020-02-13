@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { WorkOrderInventoryStatus } from "../../styles/WorkOrderInventoryStatus";
 import { workOrderFields } from "../../queries/fields";
 import api from "../../queries/api";
-import { addStatusClass } from "../../styles/WorkOrderInventoryStatus";
+import { StatusBadge } from "../Shared/StatusBadge";
+import { workOrderInventoryStatuses } from "../../constants/statuses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faWrench,
@@ -47,6 +48,7 @@ class InventoryItemTable extends Component {
 
   render() {
     const { inventoryData } = this.props;
+    const statuses = workOrderInventoryStatuses;
     return (
       <>
         <div
@@ -117,7 +119,7 @@ class InventoryItemTable extends Component {
                         {/* Add classname to highlight item attributes by status */}
                         <div className={`row px-3 py-2}`}>
                           <div className="col-sm-12 col-md-4 col-lg p-2">
-                            <div className="badge-wrapper">
+                            {/* <div className="badge-wrapper">
                               <span
                                 className={`badge badge-secondary w-100 status-badge ${addStatusClass(
                                   inventory[workOrderFields.inventory.STATUS]
@@ -125,7 +127,21 @@ class InventoryItemTable extends Component {
                               >
                                 {inventory[workOrderFields.inventory.STATUS]}
                               </span>
-                            </div>
+                            </div> */}
+                            <StatusBadge
+                              text={inventory[workOrderFields.inventory.STATUS]}
+                              backgroundColor={
+                                statuses[
+                                  inventory[workOrderFields.inventory.STATUS]
+                                ].backgroundColor
+                              }
+                              textColor={
+                                statuses[
+                                  inventory[workOrderFields.inventory.STATUS]
+                                ].textColor
+                              }
+                              size="sm"
+                            />
                           </div>
                           <div className="col-sm-6 col-md-4 col-lg p-2">
                             <span className="font-weight-bold">Quantity: </span>

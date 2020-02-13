@@ -6,7 +6,7 @@ import { colors } from "../../constants/colors";
 export const StatusBadge = ({
   icon = null,
   text = "",
-  backgroundColor,
+  backgroundColor = colors.white,
   textColor = colors.black,
   size = "sm",
 }) => {
@@ -24,7 +24,8 @@ export const StatusBadge = ({
       color: ${textColor};
       padding: 0.75em;
       background-color: ${backgroundColor ? backgroundColor : colors.white};
-      ${!backgroundColor && `border: 1px solid ${colors.black};`};
+      ${backgroundColor === colors.white &&
+        `border: 1px solid ${colors.black};`};
     }
   `;
 

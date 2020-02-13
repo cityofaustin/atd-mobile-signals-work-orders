@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 import { StatusBadge } from "../Shared/StatusBadge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import {
-  WorkOrderInventoryStatus,
-  addStatusClass,
-} from "../../styles/WorkOrderInventoryStatus";
 
 import { workOrderFields } from "../../queries/fields";
 import { signalsWorkOrderStatuses } from "../../constants/statuses";

@@ -66,15 +66,8 @@ class WorkOrderDetail extends Component {
   renderDetailItem(field) {
     const key = Object.values(field)[0];
     const label = Object.keys(field)[0];
-    // if (key === "field_909") {
-    //   debugger;
-    // }
-
     const value = this.state.detailsData[Object.values(field)[0]];
-    // console.log(value);
-    // if (!!value) {
-    //   debugger;
-    // }
+
     const detailText =
       value === undefined || typeof value === "string"
         ? value

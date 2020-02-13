@@ -20,6 +20,7 @@ export const workOrderFields = {
     { "Reported By": "field_968" },
     { "Technicians Logged": "field_1753" },
     { "Vehicles Logged": "field_1427" },
+    { "Support Tech(s)": "field_909_raw" },
   ],
   header: "field_904",
   id: "id",

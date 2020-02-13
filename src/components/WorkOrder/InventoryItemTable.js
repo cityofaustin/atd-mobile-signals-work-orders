@@ -118,16 +118,7 @@ class InventoryItemTable extends Component {
                       <div className="col-12">
                         {/* Add classname to highlight item attributes by status */}
                         <div className={`row px-3 py-2}`}>
-                          <div className="col-sm-12 col-md-4 col-lg p-2">
-                            {/* <div className="badge-wrapper">
-                              <span
-                                className={`badge badge-secondary w-100 status-badge ${addStatusClass(
-                                  inventory[workOrderFields.inventory.STATUS]
-                                )}`}
-                              >
-                                {inventory[workOrderFields.inventory.STATUS]}
-                              </span>
-                            </div> */}
+                          <div className="col-sm-12 col-md-4 p-2">
                             <StatusBadge
                               text={inventory[workOrderFields.inventory.STATUS]}
                               backgroundColor={
@@ -143,25 +134,25 @@ class InventoryItemTable extends Component {
                               size="sm"
                             />
                           </div>
-                          <div className="col-sm-6 col-md-4 col-lg p-2">
+                          <div className="col-sm-6 col-md-4 p-2">
                             <span className="font-weight-bold">Quantity: </span>
                             {inventory[workOrderFields.inventory.QUANTITY]}
                           </div>
-                          <div className="col-sm-6 col-md-4 col-lg p-2">
+                          <div className="col-sm-6 col-md-4 p-2">
                             <span className="font-weight-bold">Source: </span>
                             {inventory[workOrderFields.inventory.SOURCE]}
                           </div>
-                          <div className="col-sm-6 col-md-4 col-lg p-2">
+                          <div className="col-sm-6 col-md-4 p-2">
                             <span className="font-weight-bold">
                               Issued to:{" "}
                             </span>
                             {inventory[workOrderFields.inventory.ISSUED_TO]}
                           </div>
-                          <div className="col-sm-6 col-md-4 col-lg p-2">
+                          <div className="col-sm-6 col-md-4 p-2">
                             <span className="font-weight-bold">Modified: </span>
                             {inventory[workOrderFields.inventory.MODIFIED]}
                           </div>
-                          <div className="col-sm-6 col-md-4 col-lg p-2">
+                          <div className="col-sm-6 col-md-4 p-2">
                             <span className="font-weight-bold">Comment: </span>
                             {inventory[workOrderFields.inventory.COMMENT]}
                           </div>

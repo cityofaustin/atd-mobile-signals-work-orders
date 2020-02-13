@@ -12,7 +12,7 @@ export const StatusBadge = ({
 }) => {
   const fontConfig = {
     sm: `1.3rem`,
-    lg: `1.5rem`,
+    lg: `1.625rem`,
   };
 
   const StyledBadge = styled("div")`

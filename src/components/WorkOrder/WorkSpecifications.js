@@ -88,10 +88,12 @@ export default class WorkSpecifications extends Component {
 
   handleTaskOrderChange = selection => {
     let data = {};
-    data[FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS] = selection.map(item => ({
-      id: item.value,
-      identifier: item.label,
-    }));
+    data[FIELDS.WORK_SPECIFICATIONS.TASK_ORDERS] = [
+      {
+        id: selection ? selection.value : "",
+        identifier: selection ? selection.label : "",
+      },
+    ];
 
     const updatedFormData = Object.assign(this.state.updatedFormData, data);
     this.setState({ updatedFormData });
@@ -273,7 +275,6 @@ export default class WorkSpecifications extends Component {
                   cacheOptions
                   loadOptions={this.loadTaskOrderOptions}
                   isClearable
-                  isMulti
                   placeholder="Type to Search"
                   onInputChange={this.handleInputChange}
                   onChange={this.handleTaskOrderChange}

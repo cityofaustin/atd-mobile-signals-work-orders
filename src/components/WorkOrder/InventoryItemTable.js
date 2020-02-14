@@ -10,7 +10,6 @@ import {
   faEdit,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Form/Button";
 
 class InventoryItemTable extends Component {
   constructor(props) {

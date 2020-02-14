@@ -10,7 +10,7 @@ export const workOrderFields = {
   details: [
     { "Problem Reported": "field_976" },
     { "Lead Technician": "field_1754" },
-    { "Support Tech(s)": "field_909_raw" },
+    { "Support Technician(s)": "field_909" },
     { "Asset Type": "field_977" },
     { "Created By": "field_458" },
     { "Created Date": "field_849" },

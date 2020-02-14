@@ -68,17 +68,12 @@ class WorkOrderDetail extends Component {
     const label = Object.keys(field)[0];
     const value = this.state.detailsData[Object.values(field)[0]];
 
-    const detailText =
-      value === undefined || typeof value === "string"
-        ? value
-        : value.map(value => value.identifier).join(", ");
-
     return (
       <dl key={key}>
         <dt>{label}</dt>
         <dd
           dangerouslySetInnerHTML={{
-            __html: detailText,
+            __html: value,
           }}
         />
       </dl>

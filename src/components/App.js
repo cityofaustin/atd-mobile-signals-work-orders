@@ -22,7 +22,6 @@ import AllWorkOrders from "./AllWorkOrders";
 import NewWorkOrder from "./WorkOrder/New";
 import EditWorkOrder from "./WorkOrder/Edit";
 import SubmitWorkOrder from "./WorkOrder/Submit";
-import NewTimeLog from "./WorkOrder/NewTimeLog";
 import AddImage from "./WorkOrder/AddImage";
 import Assets from "./Assets/Assets";
 import { APP_ID } from "../constants/api";
@@ -187,18 +186,6 @@ class App extends Component {
                 path="/work-order/submit/:workOrderId"
                 component={SubmitWorkOrder}
                 knackObject={this.state.knackObject}
-              />
-              <Route
-                path="/work-order/new-time-log/:workOrderId"
-                component={NewTimeLog}
-                knackObject={this.state.knackObject}
-                isEditable={false}
-              />
-              <Route
-                path="/work-order/:workOrderId/edit-time-log/:timeLogId"
-                component={NewTimeLog}
-                knackObject={this.state.knackObject}
-                isEditable={true}
               />
               <Route
                 path="/work-order/add-image/:workOrderId"

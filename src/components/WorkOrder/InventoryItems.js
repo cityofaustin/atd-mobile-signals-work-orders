@@ -117,7 +117,7 @@ class InventoryItems extends Component {
               handleFormCancel={this.handleFormCancel}
             />
           )}
-          <div className="row">
+          <div className="row mt-3">
             <div className="col-6">
               <SubmitButton
                 text={`${this.renderInventoryFormVerb()} Item`}

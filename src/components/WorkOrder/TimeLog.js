@@ -1,12 +1,27 @@
 import React from "react";
-import Button from "../Form/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faEdit, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FIELDS } from "./formConfig";
 
-const TimeLog = ({ data, workOrderId }) => {
+const TimeLog = ({ data, handleAddTimeLog, handleEditTimeLog }) => {
+  const handleAddTimeLogClick = e => {
+    // Switch isAddingInventoryItem to show add form
+    handleAddTimeLog();
+  };
+
+  const handleEditTimeLogClick = (e, timeLogId) => {
+    // Switch isEditingInventoryItem to show edit form
+    handleEditTimeLog(timeLogId);
+  };
+
   return (
     <div>
+      <div
+        className={`btn btn-success btn-lg mb-3`}
+        onClick={handleAddTimeLogClick}
+      >
+        <FontAwesomeIcon icon={faClock} /> Add Time Log
+      </div>
       {data.length === 0 && <p>No data</p>}
       {data.length > 0 && (
         <ul className="list-group list-group-flush">
@@ -66,14 +81,12 @@ const TimeLog = ({ data, workOrderId }) => {
                 </div>
               </div>
               <div className="col-3 mt-2">
-                <Button
-                  icon={faEdit}
-                  text={"Edit"}
-                  linkPath={`/work-order/${workOrderId}/edit-time-log/${
-                    timeLog.id
-                  }`}
-                  color={"primary"}
-                />
+                <div
+                  className={`btn btn-primary btn-lg`}
+                  onClick={e => handleEditTimeLogClick(e, timeLog.id)}
+                >
+                  <FontAwesomeIcon icon={faEdit} /> Edit
+                </div>
               </div>
             </li>
           ))}

@@ -28,6 +28,7 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css";
 
 import TimeLog from "./WorkOrder/TimeLog";
+import NewTimeLog from "./WorkOrder/NewTimeLog";
 import WorkSpecifications from "./WorkOrder/WorkSpecifications";
 import UploadImage from "./WorkOrder/UploadImage";
 import api from "../queries/api";
@@ -53,7 +54,10 @@ class WorkOrderDetail extends Component {
       atdWorkOrderId: "",
       isAddingInventoryItem: false,
       isEditingInventoryItem: false,
-      itemSelectedforEdit: "",
+      itemSelectedForEdit: "",
+      isAddingTimeLog: false,
+      isEditingTimeLog: false,
+      timeLogSelectedforEdit: null,
     };
 
     // Split the Details fields in two so we can display them side by side and
@@ -61,6 +65,7 @@ class WorkOrderDetail extends Component {
     this.halfDetails = Math.ceil(workOrderFields.details.length / 2);
     this.detailsFirstHalf = workOrderFields.details.slice(0, this.halfDetails);
     this.detailsSecondHalf = workOrderFields.details.slice(this.halfDetails);
+    this.workOrderId = this.props.match.params.workOrderId;
   }
 
   renderDetailItem(field) {
@@ -84,11 +89,11 @@ class WorkOrderDetail extends Component {
     window.analytics.page("Work Order Details");
 
     this._isMounted = true;
-    const { workOrderId } = this.props.match.params;
-    getWorkOrderTitle(workOrderId).then(data => {
+
+    getWorkOrderTitle(this.workOrderId).then(data => {
       this._isMounted && this.setState({ titleData: data });
     });
-    getWorkOrderDetailAndTimeLogs(workOrderId).then(data => {
+    getWorkOrderDetailAndTimeLogs(this.workOrderId).then(data => {
       this._isMounted && this.setState({ detailsData: data });
 
       // Need to retrieve ATD Work Order ID from details in order to req associated inv. items
@@ -104,8 +109,8 @@ class WorkOrderDetail extends Component {
         this._isMounted && this.setState({ userInfo: res.data });
       });
     // Stagger the calls to Knack API so we don't get rate limited.
-    setTimeout(this.requestTimeLogs, 500, workOrderId);
-    setTimeout(this.requestImages, 1000, workOrderId);
+    setTimeout(this.requestTimeLogs, 500, this.workOrderId);
+    setTimeout(this.requestImages, 1000, this.workOrderId);
   }
 
   componentWillUnmount() {
@@ -154,7 +159,7 @@ class WorkOrderDetail extends Component {
     this.state.detailsData["field_977"] === "Signal" && (
       <Link
         to={`/work-orders/${
-          this.props.match.params.workOrderId
+          this.workOrderId
         }/assets/${this.getAssetIdFromKnackLink()}`}
       >
         <FontAwesomeIcon icon={faMapMarkedAlt} /> {"View Signal Details"}
@@ -163,7 +168,7 @@ class WorkOrderDetail extends Component {
 
   handleReopenClick = e => {
     e.preventDefault();
-    const workOrderId = this.props.match.params.workOrderId;
+    const workOrderId = this.workOrderId;
     // To reopen work order, Knack wants payload with ID
     this.setState({ isSubmitting: true });
     api
@@ -181,6 +186,34 @@ class WorkOrderDetail extends Component {
     this.setState({
       itemSelectedforEdit: inventoryItemId,
       isEditingInventoryItem: true,
+    });
+  };
+
+  handleAddTimeLog = () => this.setState({ isAddingTimeLog: true });
+
+  handleEditTimeLog = timeLogId => {
+    this.setState({
+      timeLogSelectedForEdit: timeLogId,
+      isEditingTimeLog: true,
+    });
+  };
+
+  restoreTimeLogTable = () => {
+    this.setState(
+      {
+        isEditingTimeLog: false,
+        isAddingTimeLog: false,
+      },
+      () => {
+        this.requestTimeLogs(this.workOrderId);
+      }
+    );
+  };
+
+  handleTimeLogFormCancel = () => {
+    this.setState({
+      isEditingTimeLog: false,
+      isAddingTimeLog: false,
     });
   };
 
@@ -227,11 +260,14 @@ class WorkOrderDetail extends Component {
 
   render() {
     const statusField = this.state.detailsData.field_459;
-    const workOrderId = this.props.match.params.workOrderId;
+    const workOrderId = this.workOrderId;
     const {
       isAddingInventoryItem,
       isEditingInventoryItem,
       itemSelectedforEdit,
+      isAddingTimeLog,
+      isEditingTimeLog,
+      timeLogSelectedForEdit,
     } = this.state;
     return (
       <div>
@@ -300,15 +336,26 @@ class WorkOrderDetail extends Component {
               </h3>
             </AccordionItemTitle>
             <AccordionItemBody>
-              <Button
-                icon={faClock}
-                text={"New Time Log"}
-                linkPath={`/work-order/new-time-log/${workOrderId}`}
-              />
-              <TimeLog
-                data={this.state.timeLogData}
-                workOrderId={workOrderId}
-              />
+              {!isAddingTimeLog &&
+                !isEditingTimeLog && (
+                  <TimeLog
+                    data={this.state.timeLogData}
+                    workOrderId={workOrderId}
+                    handleAddTimeLog={this.handleAddTimeLog}
+                    handleEditTimeLog={this.handleEditTimeLog}
+                  />
+                )}
+              {(isAddingTimeLog ||
+                (isEditingTimeLog && timeLogSelectedForEdit)) && (
+                <NewTimeLog
+                  workOrderId={workOrderId}
+                  isAddingTimeLog={isAddingTimeLog}
+                  isEditingTimeLog={isEditingTimeLog}
+                  restoreTimeLogTable={this.restoreTimeLogTable}
+                  handleTimeLogFormCancel={this.handleTimeLogFormCancel}
+                  timeLogSelectedForEdit={timeLogSelectedForEdit}
+                />
+              )}
             </AccordionItemBody>
           </AccordionItem>
           <AccordionItem>

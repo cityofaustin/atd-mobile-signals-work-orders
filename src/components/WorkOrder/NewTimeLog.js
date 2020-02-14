@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
-import { Redirect } from "react-router-dom";
 
 import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
@@ -20,8 +19,7 @@ class NewTimeLog extends Component {
   constructor(props) {
     super(props);
 
-    this.workOrderId = this.props.match.params.workOrderId;
-    this.isEditable = this.props.match.path.includes("edit");
+    this.workOrderId = this.props.workOrderId;
 
     this.state = {
       technicianOptions: [],
@@ -40,46 +38,36 @@ class NewTimeLog extends Component {
 
     console.log("submitting: ", this.state.updatedFormData, this.workOrderId);
 
-    !this.isEditable &&
-      api
-        .workOrder()
-        .newTimeLog(this.workOrderId, this.state.updatedFormData)
-        .then(res => {
-          this.setState({
-            isSubmitting: false,
-            isSubmitted: true,
-            successfulResponseData: res.data.record,
-          });
-        })
-        .catch(error => {
-          console.log(error.response.data.errors);
-          this.setState({
-            errors: error.response.data.errors,
-            isSubmitting: false,
-          });
-        });
-
-    this.isEditable &&
+    const postRecord = () =>
+      api.workOrder().newTimeLog(this.workOrderId, this.state.updatedFormData);
+    const putRecord = () =>
       api
         .workOrder()
         .editTimeLog(
-          this.props.match.params.timeLogId,
+          this.props.timeLogSelectedForEdit,
           this.state.updatedFormData
-        )
-        .then(res => {
-          this.setState({
-            isSubmitting: false,
-            isSubmitted: true,
-            successfulResponseData: res.data.record,
-          });
-        })
-        .catch(error => {
-          console.log(error.response.data.errors);
-          this.setState({
-            errors: error.response.data.errors,
-            isSubmitting: false,
-          });
+        );
+
+    const timeLogSubmitRequest = this.props.isEditingTimeLog
+      ? putRecord
+      : postRecord;
+
+    timeLogSubmitRequest()
+      .then(res => {
+        this.setState({
+          isSubmitting: false,
+          isSubmitted: true,
+          successfulResponseData: res.data.record,
         });
+        this.props.restoreTimeLogTable();
+      })
+      .catch(error => {
+        console.log(error.response.data.errors);
+        this.setState({
+          errors: error.response.data.errors,
+          isSubmitting: false,
+        });
+      });
   };
 
   handleChange = e => {
@@ -170,9 +158,13 @@ class NewTimeLog extends Component {
 
   setTimeLogToEdit = () => {
     const timeLogToEdit = this.state.timeLogData.filter(
-      record => record.id === this.props.match.params.timeLogId
+      record => record.id === this.props.timeLogSelectedForEdit
     )[0];
     this.setState({ timeLogToEdit });
+  };
+
+  handleFormCancelClick = () => {
+    this.props.handleTimeLogFormCancel();
   };
 
   requestTimeLogs = id => {
@@ -210,12 +202,8 @@ class NewTimeLog extends Component {
   }
 
   render() {
-    if (!!this.state.successfulResponseData) {
-      console.log(this.state.successfulResponseData);
-      return <Redirect to={`/work-orders/${this.workOrderId}`} />;
-    }
-
-    const timeLogToEdit = this.state.timeLogToEdit;
+    const { timeLogToEdit } = this.state;
+    const { isEditingTimeLog } = this.props;
 
     return this.state.isLoading ? (
       <FontAwesomeIcon
@@ -227,7 +215,7 @@ class NewTimeLog extends Component {
       <div>
         <Header
           icon={faClock}
-          title={`${this.isEditable ? "Edit" : "New"} Time Log`}
+          title={`${isEditingTimeLog ? "Edit" : "New"} Time Log`}
         />
 
         {this.state.errors &&
@@ -259,12 +247,6 @@ class NewTimeLog extends Component {
                 FIELDS.TIMELOG.TECHNICIANS
               )}
             />
-            {/* <small
-              className="form-text"
-              id={`${FIELDS.TIMELOG.TECHNICIANS}-text`}
-            >
-              Leave blank for yourself
-            </small> */}
           </div>
           <div className="form-group">
             <label htmlFor={FIELDS.TIMELOG.VEHICLES}>Vehicles(s)</label>
@@ -288,7 +270,7 @@ class NewTimeLog extends Component {
               )}
             />
           </div>
-          {!this.isEditable && (
+          {!isEditingTimeLog && (
             <NewTimeLogDateTimeFields
               data={this.state.updatedFormData}
               handleTimeChange={this.handleDateTimeFieldChange}
@@ -296,7 +278,7 @@ class NewTimeLog extends Component {
               isFormDisabled={this.state.isFormDisabled}
             />
           )}
-          {this.isEditable &&
+          {isEditingTimeLog &&
             timeLogToEdit && (
               <EditTimeLogDateTimeFields
                 data={this.state.updatedFormData}
@@ -306,11 +288,24 @@ class NewTimeLog extends Component {
                 timeLogToEdit={timeLogToEdit}
               />
             )}
-          <SubmitButton
-            text={`${this.isEditable ? "Edit" : "Add"} Log Entry`}
-            isSubmitting={this.state.isSubmitting}
-            isFormDisabled={this.state.isFormDisabled}
-          />
+          <div className="row">
+            <div className="col-6">
+              <SubmitButton
+                text={`${isEditingTimeLog ? "Edit" : "Add"} Time Log`}
+                buttonStyles={`btn-block`}
+                isSubmitting={this.state.isSubmitting}
+                isFormDisabled={this.state.isFormDisabled}
+              />
+            </div>
+            <div className="col-6">
+              <div
+                className={`btn btn-danger btn-lg btn-block`}
+                onClick={this.handleFormCancelClick}
+              >
+                Cancel
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     );

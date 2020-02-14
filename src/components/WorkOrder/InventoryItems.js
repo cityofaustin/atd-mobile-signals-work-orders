@@ -70,6 +70,7 @@ class InventoryItems extends Component {
         // Clear itemSelectedforEdit, switch view state in parent to restore table view, and refetch inventory
         this.props.restoreInventoryTable();
         this.setState({ isSubmitting: false, isSubmitted: true });
+        api.workOrder().atdKnackApiCallInventoryItem();
       })
       .catch(error => {
         console.log(error.response.data.errors);

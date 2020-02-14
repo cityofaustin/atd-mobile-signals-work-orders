@@ -95,7 +95,6 @@ class WorkOrderDetail extends Component {
     });
     getWorkOrderDetailAndTimeLogs(this.workOrderId).then(data => {
       this._isMounted && this.setState({ detailsData: data });
-
       // Need to retrieve ATD Work Order ID from details in order to req associated inv. items
       const atdWorkOrderId = data.field_1209;
       // Save atdWorkOrderId for refetching data after inventory updates

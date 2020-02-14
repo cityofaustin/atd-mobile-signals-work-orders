@@ -371,6 +371,28 @@ const api = {
           data,
           getHeaders()
         ),
+      // Fires after any inventory item form submission
+      atdKnackApiCallInventoryItem: () => {
+        // Determine url by environment => {base-url}?src={source-app-id}&dest={dest-app-id}
+        const environmentConfig = {
+          staging: {
+            baseUrl: `https://knack-api-dev.austinmobility.io/inventory`,
+            sourceId: STAGING_APP_ID,
+            destinationId: `5b422c9b13774837e54ed814`,
+          },
+          production: {
+            baseUrl: `https://knack-api.austinmobility.io/inventory/`,
+            sourceId: PRODUCTION_APP_ID,
+            destinationId: `5b422c9b13774837e54ed814`,
+          },
+        };
+        const environment = isProd ? `production` : `staging`;
+        axios.post(
+          `${environmentConfig[environment].baseUrl}` +
+            `?src=${environmentConfig[environment].sourceId}` +
+            `&dest=${environmentConfig[environment].destinationId}`
+        );
+      },
       getImages: id =>
         axios.get(
           `https://api.knack.com/v1/scenes/${keys.addImage.sceneId}/views/${

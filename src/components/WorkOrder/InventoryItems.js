@@ -70,6 +70,7 @@ class InventoryItems extends Component {
         // Clear itemSelectedforEdit, switch view state in parent to restore table view, and refetch inventory
         this.props.restoreInventoryTable();
         this.setState({ isSubmitting: false, isSubmitted: true });
+        api.workOrder().atdKnackApiCallInventoryItem();
       })
       .catch(error => {
         console.log(error.response.data.errors);
@@ -116,11 +117,12 @@ class InventoryItems extends Component {
               handleFormCancel={this.handleFormCancel}
             />
           )}
-          <div className="row">
+          <div className="row my-3">
             <div className="col-6">
               <SubmitButton
                 text={`${this.renderInventoryFormVerb()} Item`}
-                buttonStyles={`btn-block`}
+                buttonStyles={`btn-block my-0`}
+                spinnerSize="lg"
                 isSubmitting={this.state.isSubmitting}
               />
             </div>

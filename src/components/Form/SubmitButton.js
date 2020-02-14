@@ -2,25 +2,34 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export default class SubmitButton extends Component {
-  render() {
-    return (
-      <button
-        type="submit"
-        className={
-          this.props.style ||
-          `btn btn-primary btn-lg ${this.props.buttonStyles} ${
-            this.props.isFormDisabled ? "disabled" : ""
-          }`
-        }
-        disabled={this.props.isFormDisabled}
-      >
-        {this.props.isSubmitting ? (
-          <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
-        ) : (
-          this.props.text || "Submit"
-        )}
-      </button>
-    );
-  }
+export default function SubmitButton({
+  style,
+  buttonStyles,
+  isFormDisabled,
+  isSubmitting,
+  text,
+  spinnerSize = "2x",
+}) {
+  return (
+    <button
+      type="submit"
+      className={
+        style ||
+        `btn btn-primary btn-lg ${buttonStyles} ${
+          isFormDisabled ? "disabled" : ""
+        }`
+      }
+      disabled={isFormDisabled}
+    >
+      {isSubmitting ? (
+        <FontAwesomeIcon
+          icon={faSpinner}
+          size={spinnerSize}
+          className="atd-spinner"
+        />
+      ) : (
+        text || "Submit"
+      )}
+    </button>
+  );
 }

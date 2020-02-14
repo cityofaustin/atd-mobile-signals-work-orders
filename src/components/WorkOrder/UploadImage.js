@@ -31,15 +31,17 @@ class UploadImage extends Component {
 
   render() {
     return this.state.uploading ? (
-      <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
+      <FontAwesomeIcon
+        icon={faSpinner}
+        size="2x"
+        className="atd-spinner--padded"
+      />
     ) : (
       <ImagePicker
         extensions={["jpg", "jpeg", "png"]}
-        maxSize={5} // Default is 2MB so increased to 5 since tablet's images are larger
-        dims={{
-          minWidth: 100,
-          minHeight: 100,
-        }}
+        // Default is 2MB so increased to 5 since tablet's images are larger
+        maxSize={5}
+        dims={{ minWidth: 100, minHeight: 100 }}
         onChange={this.uploadImage}
         onError={errMsg => console.log(errMsg)}
       >

@@ -94,7 +94,11 @@ const TimeLog = ({ data, handleAddTimeLog, handleEditTimeLog }) => {
       )}
       {!data && (
         <div>
-          <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            className="atd-spinner--padded"
+          />
         </div>
       )}
     </div>

@@ -6,7 +6,7 @@ const Header = ({ icon, title = "" }) => (
   <h1>
     <FontAwesomeIcon icon={icon} />
     {title === "" ? (
-      <FontAwesomeIcon icon={faSpinner} className="atd-spinner" />
+      <FontAwesomeIcon icon={faSpinner} className="atd-spinner--padded" />
     ) : (
       ` ${title}`
     )}

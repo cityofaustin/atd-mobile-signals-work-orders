@@ -206,7 +206,11 @@ class Assets extends Component {
           )}
 
         {this.state.loading && (
-          <FontAwesomeIcon icon={faSpinner} size="2x" className="atd-spinner" />
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="2x"
+            className="atd-spinner--padded"
+          />
         )}
         <br />
         {this.state.selectedAsset !== "" && (

@@ -241,7 +241,11 @@ class WorkOrderDetail extends Component {
 
   displayReopenButton = () =>
     this.state.isSubmitting ? (
-      <FontAwesomeIcon icon={faSpinner} className="atd-spinner" size="2x" />
+      <FontAwesomeIcon
+        icon={faSpinner}
+        className="atd-spinner--padded"
+        size="2x"
+      />
     ) : (
       <div className="mr-2 mb-2">
         <button
@@ -375,7 +379,13 @@ class WorkOrderDetail extends Component {
                 <div className="accordion__arrow" role="presentation" />
               </h3>
             </AccordionItemTitle>
-            <AccordionItemBody>
+            <AccordionItemBody
+              style={
+                !isAddingInventoryItem && !isEditingInventoryItem
+                  ? { padding: "0px" }
+                  : {}
+              }
+            >
               {/* If editing or adding item, render InventoryItems component with child forms for either case */}
               {!isAddingInventoryItem &&
                 !isEditingInventoryItem && (
@@ -448,7 +458,7 @@ class WorkOrderDetail extends Component {
                   <FontAwesomeIcon
                     icon={faSpinner}
                     size="2x"
-                    className="atd-spinner"
+                    className="atd-spinner--padded"
                   />
                 </div>
               )}

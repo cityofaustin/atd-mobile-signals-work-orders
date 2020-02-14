@@ -10,16 +10,14 @@ export const StatusBadge = ({
   textColor = colors.black,
   size = "sm",
 }) => {
-  const fontConfig = {
-    sm: `1.3rem`,
-    lg: `1.625rem`,
+  const textSizeConfig = {
+    sm: `h6`,
+    lg: `h5`,
   };
 
-  const StyledBadge = styled("div")`
-    .badge-wrapper {
-      font-size: ${fontConfig[size]};
-    }
+  const TextTag = textSizeConfig[size];
 
+  const StyledBadge = styled("div")`
     .status-badge {
       color: ${textColor};
       padding: 0.75em;
@@ -31,11 +29,11 @@ export const StatusBadge = ({
 
   return (
     <StyledBadge>
-      <div className="badge-wrapper">
-        <span className="badge badge-secondary w-100 status-badge">
+      <span className="badge badge-secondary w-100 status-badge">
+        <TextTag className="mb-0">
           {icon && <FontAwesomeIcon icon={icon} />} {text}
-        </span>
-      </div>
+        </TextTag>
+      </span>
     </StyledBadge>
   );
 };

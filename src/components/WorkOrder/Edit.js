@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Redirect } from "react-router-dom";
 
 import FormFooter from "../Shared/FormFooter";

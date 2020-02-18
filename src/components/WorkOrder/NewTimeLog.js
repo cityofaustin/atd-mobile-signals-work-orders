@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 
-import Header from "../Shared/Header";
 import { ErrorMessage } from "./Alerts";
 import NewTimeLogDateTimeFields from "./NewTimeLogDateTimeFields";
 import EditTimeLogDateTimeFields from "./EditTimeLogDateTimeFields";
@@ -213,11 +211,6 @@ class NewTimeLog extends Component {
       />
     ) : (
       <div>
-        <Header
-          icon={faClock}
-          title={`${isEditingTimeLog ? "Edit" : "New"} Time Log`}
-        />
-
         {this.state.errors &&
           this.state.errors.map(error => (
             <ErrorMessage error={error} key={error.field} />

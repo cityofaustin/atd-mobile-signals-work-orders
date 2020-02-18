@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Redirect } from "react-router-dom";
 
-import Header from "../Shared/Header";
 import FormFooter from "../Shared/FormFooter";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
@@ -197,8 +195,6 @@ class Edit extends Component {
 
     return (
       <div>
-        <Header icon={faEdit} title="Edit Work Order" />
-
         <div className="d-flex flex-row flex-wrap">
           <Button
             icon={faClock}

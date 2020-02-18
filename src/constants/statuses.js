@@ -40,6 +40,29 @@ export const signalsWorkOrderStatuses = {
   },
 };
 
+export const workOrderInventoryStatuses = {
+  "Submitted to Warehouse": {
+    backgroundColor: colors.inventoryStatusSubmitted,
+    textColor: colors.white,
+  },
+  Issued: {
+    backgroundColor: colors.inventoryStatusIssued,
+    textColor: colors.white,
+  },
+  Returned: {
+    backgroundColor: colors.inventoryStatusReturned,
+    textColor: colors.white,
+  },
+  "Not Requested": {
+    backgroundColor: colors.white,
+    textColor: colors.black,
+  },
+  Cancelled: {
+    backgroundColor: colors.grey,
+    textColor: colors.black,
+  },
+};
+
 export const statusMap = {
   "ON HOLD": {
     icon: faClock,

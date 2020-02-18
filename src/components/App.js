@@ -15,7 +15,6 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Login from "./Login";
 import Header from "./Header";
 import NavFooter from "./Shared/NavFooter";
-
 import { APP_ID } from "../constants/api";
 
 import "../styles/App.css";

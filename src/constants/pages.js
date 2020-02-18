@@ -60,20 +60,6 @@ const pages = [
     component: SubmitWorkOrder,
   },
   {
-    path: "/work-order/new-time-log/:workOrderId",
-    component: NewTimeLog,
-    isEditable: false,
-    pageTitle: "New Time Log",
-    icon: faClock,
-  },
-  {
-    path: "/work-order/:workOrderId/edit-time-log/:timeLogId",
-    component: NewTimeLog,
-    isEditable: true,
-    pageTitle: "Edit Time Log",
-    icon: faClock,
-  },
-  {
     path: "/work-order/add-image/:workOrderId",
     component: AddImage,
   },

@@ -10,7 +10,6 @@ import {
   faEdit,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Form/Button";
 
 class InventoryItemTable extends Component {
   constructor(props) {
@@ -38,6 +37,7 @@ class InventoryItemTable extends Component {
       .then(() => {
         this.setState({ itemSelectedforCancel: "", isCancelling: false });
         this.props.requestInventory(this.props.atdWorkOrderId);
+        api.workOrder().atdKnackApiCallInventoryItem();
       });
   };
 

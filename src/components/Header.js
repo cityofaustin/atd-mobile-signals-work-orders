@@ -8,7 +8,6 @@ import StyledHeader from "../styles/Header.css.js";
 const Header = ({ location, history, revokeKnackUserToken, pages }) => {
   const isNotHomePath = location.pathname !== "/";
   let currentPage = pages.find(page => page.path === location.pathname);
-  console.log(location.pathname, currentPage);
   // If there wasn't an exact match between the location.pathname & the imported
   // pages listing...
   if (!currentPage) {
@@ -16,7 +15,6 @@ const Header = ({ location, history, revokeKnackUserToken, pages }) => {
     if (location.pathname.includes("/work-order/edit")) {
       currentPage = pages.find(page => page.pageTitle === "Edit Work Order");
     } else if (location.pathname.includes("/assets")) {
-      // Work Order Details needs to go last since many of our paths include "/work-order"
       currentPage = pages.find(page => page.pageTitle === "Assets");
     } else if (location.pathname.includes("/work-orders")) {
       // Work Order Details needs to go last since many of our paths include "/work-order"

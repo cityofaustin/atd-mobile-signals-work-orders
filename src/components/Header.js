@@ -15,12 +15,11 @@ const Header = ({ location, history, revokeKnackUserToken, pages }) => {
     // match by page title string
     if (location.pathname.includes("/work-order/edit")) {
       currentPage = pages.find(page => page.pageTitle === "Edit Work Order");
-    } else if (location.pathname.includes("/new-time-log")) {
-      currentPage = pages.find(page => page.pageTitle === "New Time Log");
-    } else if (location.pathname.includes("/edit-time-log")) {
-      currentPage = pages.find(page => page.pageTitle === "Edit Time Log");
+    } else if (location.pathname.includes("/assets")) {
+      // Work Order Details needs to go last since many of our paths include "/work-order"
+      currentPage = pages.find(page => page.pageTitle === "Assets");
     } else if (location.pathname.includes("/work-orders")) {
-      // Work Order Details needs to go last since may of our paths include "/work-order"
+      // Work Order Details needs to go last since many of our paths include "/work-order"
       currentPage = pages.find(page => page.pageTitle === "Work Order Details");
     }
   }
@@ -42,7 +41,10 @@ const Header = ({ location, history, revokeKnackUserToken, pages }) => {
           </div>
           <div className="col text-center align-items-center justify-content-center d-flex">
             <h1 className="h2 mb-0">
-              <FontAwesomeIcon icon={currentPage ? currentPage.icon : ""} />{" "}
+              {currentPage &&
+                currentPage.icon && (
+                  <FontAwesomeIcon icon={currentPage.icon} />
+                )}{" "}
               {currentPage ? currentPage.pageTitle : ""}
             </h1>
           </div>

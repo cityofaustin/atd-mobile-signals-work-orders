@@ -163,8 +163,9 @@ class App extends Component {
                 )}
               />
               <div className="container">
-                {pages.map(page => (
+                {pages.map((page, i) => (
                   <Route
+                    key={i}
                     render={props => <page.component {...props} />}
                     path={page.path}
                     exact={page.exact}

@@ -5,7 +5,6 @@ import AllWorkOrders from "../components/AllWorkOrders";
 import NewWorkOrder from "../components/WorkOrder/New";
 import EditWorkOrder from "../components/WorkOrder/Edit";
 import SubmitWorkOrder from "../components/WorkOrder/Submit";
-import NewTimeLog from "../components/WorkOrder/NewTimeLog";
 import AddImage from "../components/WorkOrder/AddImage";
 import Assets from "../components/Assets/Assets";
 
@@ -16,7 +15,6 @@ import {
   faPlus,
   faMapMarkerAlt,
   faEdit,
-  faClock,
   faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -32,7 +30,7 @@ const pages = [
     path: "/my-work-orders",
     component: MyWorkOrders,
     mainPage: true,
-    pageTitle: "My Work Orders",
+    pageTitle: "Work Orders",
     icon: faStreetView,
   },
   {
@@ -40,13 +38,13 @@ const pages = [
     component: AllWorkOrders,
     mainPage: true,
     icon: faTruck,
-    pageTitle: "All Work Orders",
+    pageTitle: "Work Orders",
   },
   {
     path: "/work-order/new",
     component: NewWorkOrder,
     mainPage: true,
-    pageTitle: "New Work Order",
+    pageTitle: "Work Order",
     icon: faPlus,
   },
   {
@@ -82,7 +80,7 @@ const pages = [
     exact: true,
     component: Assets,
     mainPage: true,
-    pageTitle: "Search Signals",
+    pageTitle: "Signals",
     icon: faMapMarkerAlt,
   },
 ];

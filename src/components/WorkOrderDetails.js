@@ -191,7 +191,7 @@ class WorkOrderDetail extends Component {
     return (
       this.state.timeLogData.length > 0 &&
       statusField !== "Submitted" &&
-      statusField === "Assigned"
+      (statusField === "Assigned" || statusField === "In Progress")
     );
   };
 

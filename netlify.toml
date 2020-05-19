@@ -4,9 +4,9 @@
 
 # Staging and feature branches uses Test DB
 [context.master]
-    environment = { REACT_APP_KNACK_APP_ID = "5d52fcde610a550010c37502"}
+    environment = { REACT_APP_KNACK_APP_ID = "5e2216f0cbf8d9001616b034"}
 [context.branch-deploy]
-    environment = { REACT_APP_KNACK_APP_ID = "5d52fcde610a550010c37502"}
+    environment = { REACT_APP_KNACK_APP_ID = "5e2216f0cbf8d9001616b034"}
 
 [[headers]]
     for = "/*"

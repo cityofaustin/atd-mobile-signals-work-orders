@@ -186,6 +186,15 @@ class WorkOrderDetail extends Component {
       </div>
     );
 
+  isWorkOrderComplete = statusField => {
+    // A complete work order has at least one time log, a status of either "Assigned" or "In Progress", and is not already submitted
+    return (
+      this.state.timeLogData.length > 0 &&
+      statusField !== "Submitted" &&
+      statusField === "Assigned"
+    );
+  };
+
   render() {
     const statusField = this.state.detailsData.field_459;
     const workOrderId = this.props.match.params.workOrderId;
@@ -210,9 +219,7 @@ class WorkOrderDetail extends Component {
                 }`}
               />
             )}
-          {this.state.timeLogData.length > 0 &&
-          statusField !== "Submitted" &&
-          statusField === "Assigned" ? (
+          {this.isWorkOrderComplete(statusField) ? (
             <Button
               icon={faFlagCheckered}
               text={"Submit"}

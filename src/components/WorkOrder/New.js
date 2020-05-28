@@ -150,24 +150,25 @@ class NewWorkOrder extends Component {
   submitForm = e => {
     e.preventDefault();
     this.setState({ errors: [], isSubmitting: true });
-    api
-      .workOrder()
-      .new(this.state.updatedFormData)
-      .then(res => {
-        this.setState({
-          isSubmitting: false,
-          isSubmitted: true,
-          newWorkOrder: res.data.record,
+    !this.state.isSubmitting &&
+      api
+        .workOrder()
+        .new(this.state.updatedFormData)
+        .then(res => {
+          this.setState({
+            isSubmitting: false,
+            isSubmitted: true,
+            newWorkOrder: res.data.record,
+          });
+        })
+        .catch(error => {
+          console.log(error.response.data.errors);
+          window.scrollTo(0, 0); // Scroll to top to see error msgs
+          this.setState({
+            errors: error.response.data.errors,
+            isSubmitting: false,
+          });
         });
-      })
-      .catch(error => {
-        console.log(error.response.data.errors);
-        window.scrollTo(0, 0); // Scroll to top to see error msgs
-        this.setState({
-          errors: error.response.data.errors,
-          isSubmitting: false,
-        });
-      });
   };
 
   componentDidMount() {

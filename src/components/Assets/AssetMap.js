@@ -14,11 +14,18 @@ const AssetMap = props => {
         parseFloat(locationData.longitude, 5),
       ]
     : null;
+
+  // See https://github.com/mariusandra/pigeon-maps/blob/4bb3d4ddf78cf1152da8c6462667e393b2b81790/demo/demo.js#L20
+  const provider = (x, y, z) => {
+    const s = String.fromCharCode(97 + ((x + y + z) % 3));
+    return `https://${s}.tile.openstreetmap.org/${z}/${x}/${y}.png`;
+  };
+
   return (
     <div className="container">
       <h3>{data[name]}</h3>
       {locationData && (
-        <Map center={coordinates} zoom={16} height={400}>
+        <Map center={coordinates} zoom={16} height={400} provider={provider}>
           <Marker anchor={coordinates} />
         </Map>
       )}

@@ -5,7 +5,6 @@ export const workOrderFields = {
     modified: "field_1074",
     status: "field_459",
     location: "field_904",
-    locationAll: "field_211_raw",
     leadTechnicianRaw: "field_1754_raw",
   },
   details: [
@@ -22,7 +21,7 @@ export const workOrderFields = {
     { "Technicians Logged": "field_1753" },
     { "Vehicles Logged": "field_1427" },
   ],
-  header: "field_211_raw",
+  header: "field_904",
   id: "id",
   assetIdFromDetails: "field_199",
   inventory: {

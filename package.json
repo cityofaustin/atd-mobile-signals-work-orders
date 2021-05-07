@@ -14,7 +14,7 @@
     "emotion": "^9.2.10",
     "emotion-theming": "^9.2.9",
     "js-cookie": "^2.2.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "pigeon-maps": "^0.13.0",
     "pigeon-marker": "^0.3.4",
